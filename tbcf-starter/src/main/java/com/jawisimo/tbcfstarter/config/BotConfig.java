@@ -24,7 +24,7 @@ public class BotConfig {
 
     @Bean
     public TelegramClient telegramClient() {
-        log.info("Telegram bot register: {}", LocalTime.now());
+        log.info("Telegram bot {} register: {}", properties.botName(), LocalTime.now());
         return new OkHttpTelegramClient(properties.token());
     }
 
@@ -34,7 +34,7 @@ public class BotConfig {
         executor.setCorePoolSize(properties.executorCorePoolSize());
         executor.setMaxPoolSize(properties.executorMaxPoolSize());
         executor.setQueueCapacity(properties.executorQueueCapacity());
-        executor.setThreadNamePrefix(properties.executorThreadNamePrefix());
+        executor.setThreadNamePrefix(properties.token());
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;

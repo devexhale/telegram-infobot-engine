@@ -1,8 +1,0 @@
-
-telegram:
-  bot:
-    buttons-per-row: 1
-    executor-core-pool-size: 10
-    executor-max-pool-size: 25
-    executor-queue-capacity: 30
-    executor-thread-name-prefix: "AsyncBot-"

@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: tg-bot-config-framework
-  profiles:
-    active: "dev"
-  config:
-    import: "optional:application-secret.yml"

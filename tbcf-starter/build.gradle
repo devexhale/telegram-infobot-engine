@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation("org.telegram:telegrambots-springboot-longpolling-starter:9.0.0")
     implementation("org.telegram:telegrambots-client:9.0.0")
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
