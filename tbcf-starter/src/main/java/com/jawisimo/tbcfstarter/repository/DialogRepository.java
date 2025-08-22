@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.jawisimo.tbcfstarter.config.BotProperties;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.exception.FileFormatException;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.parser.DialogParser;
 import lombok.RequiredArgsConstructor;
@@ -38,17 +37,30 @@ public class DialogRepository {
                     throw new DialogLoadingException("Dialog file not found: " + fileName);
                 }
 
-                DialogParser strategy = parsers.stream()
+                List<DialogParser> matchingParsers = parsers.stream()
                         .filter(s -> s.supports(fileName))
-                        .findFirst()
-                        .orElseThrow(() -> new FileFormatException(fileName));
+                        .toList();
+
+                if (matchingParsers.isEmpty()) {
+                    throw new DialogLoadingException("No suitable parser found for file: " + fileName);
+                }
+                if (matchingParsers.size() > 1) {
+                    throw new DialogLoadingException(
+                            "Multiple parsers found for file: " + fileName +
+                                    " -> " + matchingParsers.stream()
+                                    .map(p -> p.getClass().getSimpleName())
+                                    .toList()
+                    );
+                }
+
+                DialogParser strategy = matchingParsers.getFirst();
 
                 log.info("Parsing '{}' using {}", fileName, strategy.getClass().getSimpleName());
 
                 Map<String, DialogNode> dialogMap = strategy.parse(is);
 
                 if (!dialogMap.containsKey("start")) {
-                    throw new IllegalStateException("Dialog must contain 'start' node");
+                    throw new DialogLoadingException("Dialog must contain 'start' node in file: " + fileName);
                 }
 
                 return dialogMap;

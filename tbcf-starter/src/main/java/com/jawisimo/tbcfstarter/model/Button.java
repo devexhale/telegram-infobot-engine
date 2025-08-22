@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Button  {
 
-    private String text;
+    private String label;
 
     private String next;
 

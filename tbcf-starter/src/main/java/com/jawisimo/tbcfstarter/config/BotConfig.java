@@ -3,8 +3,10 @@ package com.jawisimo.tbcfstarter.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
@@ -17,6 +19,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @Slf4j
 @EnableConfigurationProperties(BotProperties.class)
+@EnableCaching
+@EnableRedisRepositories(basePackages = "com.jawisimo.tbcfstarter.repository")
 @EnableAsync
 @RequiredArgsConstructor
 public class BotConfig {
@@ -34,7 +38,7 @@ public class BotConfig {
         executor.setCorePoolSize(properties.executorCorePoolSize());
         executor.setMaxPoolSize(properties.executorMaxPoolSize());
         executor.setQueueCapacity(properties.executorQueueCapacity());
-        executor.setThreadNamePrefix(properties.token());
+        executor.setThreadNamePrefix(properties.executorThreadNamePrefix());
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;

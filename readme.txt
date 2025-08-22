@@ -1,0 +1,1 @@
+docker-compose -p template_bot_devstack -f ./docker-compose-dev.yml up --build

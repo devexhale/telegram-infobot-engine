@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DialogNode {
 
-    private String message;
+    private String text;
 
     private ButtonType buttonType;
 
