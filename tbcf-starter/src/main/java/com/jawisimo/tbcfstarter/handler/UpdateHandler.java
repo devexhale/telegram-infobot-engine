@@ -1,8 +1,8 @@
 package com.jawisimo.tbcfstarter.handler;
 
-import org.telegram.telegrambots.meta.api.objects.Update;
+import com.jawisimo.tbcfstarter.model.DialogNode;
 
 public interface UpdateHandler {
-    boolean supports(Update update);
-    void handle(Update update);
+    boolean supports(DialogNode node);
+    void handle(DialogNode node, String chatId);
 }

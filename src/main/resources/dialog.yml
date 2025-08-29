@@ -1,8 +1,8 @@
-start:
+/start:
   text: "Ласкаво просимо до вікторини! Оберіть тему:"
   media:
     type: PHOTO
-    fileName: Qstart.jpg
+    fileName: Q/start.jpg
   buttonType: INLINE
   buttons:
     - label: "🏛️ Історія"
@@ -39,7 +39,7 @@ history_q1_correct:
     - label: "Далі ➡️"
       next: "history_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q1_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -48,7 +48,7 @@ history_q1_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "history_q1"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q2:
   text: "Питання 2: Хто був першим президентом США?"
@@ -70,7 +70,7 @@ history_q2_correct:
     - label: "Далі ➡️"
       next: "history_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q2_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -79,7 +79,7 @@ history_q2_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "history_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q3:
   text: "Питання 3: Коли відбулась Французька революція?"
@@ -101,7 +101,7 @@ history_q3_correct:
     - label: "Далі ➡️"
       next: "history_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q3_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -110,7 +110,7 @@ history_q3_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "history_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q4:
   text: "Питання 4: Хто був засновником династії Романових у Росії?"
@@ -132,7 +132,7 @@ history_q4_correct:
     - label: "Далі ➡️"
       next: "history_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q4_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -141,7 +141,7 @@ history_q4_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "history_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q5:
   text: "Питання 5: Яка подія 1648 року стала початком найбільшого козацького повстання в історії Речі Посполитої?"
@@ -163,7 +163,7 @@ history_q5_correct:
     - label: "Далі ➡️"
       next: "history_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q5_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -172,7 +172,7 @@ history_q5_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "history_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q6:
   text: "Питання 6: Який імператор побудував Велику Китайську стіну?"
@@ -194,7 +194,7 @@ history_q6_correct:
     - label: "Далі ➡️"
       next: "history_end"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_q6_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -203,14 +203,14 @@ history_q6_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "history_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 history_end:
   text: "🎉 Вітаємо! Ви завершили вікторину з історії! Хочете спробувати іншу тему?"
   buttonType: INLINE
   buttons:
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 # НАУКА
 science_q1:
@@ -237,7 +237,7 @@ science_q1_correct:
     - label: "Далі ➡️"
       next: "science_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q1_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -246,7 +246,7 @@ science_q1_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "science_q1"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q2:
   text: "Питання 2: Який хімічний елемент був відкритий на Сонці раніше, ніж на Землі, завдяки спектральному аналізу?"
@@ -268,7 +268,7 @@ science_q2_correct:
     - label: "Далі ➡️"
       next: "science_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q2_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -277,7 +277,7 @@ science_q2_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "science_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q3:
   text: "Питання 3: Яке явище, відкрите в 1932 році Карлом Андерсоном, підтвердило існування антиматерії?"
@@ -299,7 +299,7 @@ science_q3_correct:
     - label: "Далі ➡️"
       next: "science_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q3_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -308,7 +308,7 @@ science_q3_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "science_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q4:
   text: "Питання 4: Який біологічний процес, відкритий у 1953 році, лежить в основі копіювання генетичної інформації в клітинах?"
@@ -330,7 +330,7 @@ science_q4_correct:
     - label: "Далі ➡️"
       next: "science_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q4_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -339,7 +339,7 @@ science_q4_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "science_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q5:
   text: "Питання 5: Яка космологічна модель, запропонована в 1927 році Жоржем Леметром, описує розширення Всесвіту?"
@@ -361,7 +361,7 @@ science_q5_correct:
     - label: "Далі ➡️"
       next: "science_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q5_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -370,7 +370,7 @@ science_q5_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "science_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q6:
   text: "Питання 6: Яке явище, передбачене Альбертом Ейнштейном у 1915 році, було вперше підтверджене спостереженнями Артура Еддінгтона в 1919 році?"
@@ -392,7 +392,7 @@ science_q6_correct:
     - label: "Далі ➡️"
       next: "science_end"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_q6_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -401,14 +401,14 @@ science_q6_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "science_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 science_end:
   text: "🎉 Вітаємо! Ви завершили вікторину з науки! Хочете спробувати іншу тему?"
   buttonType: INLINE
   buttons:
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 # ГЕОГРАФІЯ
 geography_q1:
@@ -434,7 +434,7 @@ geography_q1_correct:
     - label: "Далі ➡️"
       next: "geography_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q1_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -443,7 +443,7 @@ geography_q1_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "geography_q1"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q2:
   text: "Питання 2: Яка країна має найбільшу кількість прісноводних озер у світі?"
@@ -465,7 +465,7 @@ geography_q2_correct:
     - label: "Далі ➡️"
       next: "geography_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q2_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -474,7 +474,7 @@ geography_q2_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "geography_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q3:
   text: "Питання 3: Який геологічний розлом є причиною частих землетрусів у Каліфорнії?"
@@ -496,7 +496,7 @@ geography_q3_correct:
     - label: "Далі ➡️"
       next: "geography_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q3_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -505,7 +505,7 @@ geography_q3_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "geography_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q4:
   text: "Питання 4: Яке море, розташоване між Аравійським півостровом і Африкою, є найсолонішим у світі?"
@@ -527,7 +527,7 @@ geography_q4_correct:
     - label: "Далі ➡️"
       next: "geography_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q4_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -536,7 +536,7 @@ geography_q4_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "geography_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q5:
   text: "Питання 5: Яка країна є найбільшим експортером кави у світі?"
@@ -558,7 +558,7 @@ geography_q5_correct:
     - label: "Далі ➡️"
       next: "geography_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q5_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -567,7 +567,7 @@ geography_q5_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "geography_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q6:
   text: "Питання 6: Який архіпелаг, відкритий у 1831 році Чарльзом Дарвіном, став ключовим для його теорії еволюції?"
@@ -589,7 +589,7 @@ geography_q6_correct:
     - label: "Далі ➡️"
       next: "geography_end"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_q6_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -598,14 +598,14 @@ geography_q6_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "geography_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 geography_end:
   text: "🎉 Вітаємо! Ви завершили вікторину з географії! Хочете спробувати іншу тему?"
   buttonType: INLINE
   buttons:
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 # КІНО
 cinema_q1:
@@ -631,7 +631,7 @@ cinema_q1_correct:
     - label: "Далі ➡️"
       next: "cinema_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q1_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -640,7 +640,7 @@ cinema_q1_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "cinema_q1"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q2:
   text: "Питання 2: Який режисер отримав перший в історії 'Оскар' за найкращу режисуру в 1929 році?"
@@ -662,7 +662,7 @@ cinema_q2_correct:
     - label: "Далі ➡️"
       next: "cinema_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q2_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -671,7 +671,7 @@ cinema_q2_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "cinema_q2"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q3:
   text: "Питання 3: Який фільм 1972 року встановив стандарт для сучасного гангстерського жанру?"
@@ -693,7 +693,7 @@ cinema_q3_correct:
     - label: "Далі ➡️"
       next: "cinema_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q3_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -702,7 +702,7 @@ cinema_q3_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "cinema_q3"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q4:
   text: "Питання 4: Яка техніка монтажу, розроблена Сергієм Ейзенштейном, використовувалася для створення емоційного впливу у фільмі 'Броненосець Потьомкін' (1925)?"
@@ -724,7 +724,7 @@ cinema_q4_correct:
     - label: "Далі ➡️"
       next: "cinema_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q4_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -733,7 +733,7 @@ cinema_q4_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "cinema_q4"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q5:
   text: "Питання 5: Який фільм 1999 року популяризував концепцію 'куленосного часу' (bullet time) у кінематографі?"
@@ -755,7 +755,7 @@ cinema_q5_correct:
     - label: "Далі ➡️"
       next: "cinema_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q5_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -764,7 +764,7 @@ cinema_q5_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "cinema_q5"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q6:
   text: "Питання 6: Який режисер є єдиним, хто отримав 'Золоту пальмову гілку' Каннського кінофестивалю за два фільми поспіль?"
@@ -786,7 +786,7 @@ cinema_q6_correct:
     - label: "Далі ➡️"
       next: "cinema_end"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_q6_wrong:
   text: "❌ Неправильно! Спробуйте ще раз."
@@ -795,11 +795,11 @@ cinema_q6_wrong:
     - label: "🔄 Спробувати ще раз"
       next: "cinema_q6"
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
 
 cinema_end:
   text: "🎉 Вітаємо! Ви завершили вікторину з кіно! Хочете спробувати іншу тему?"
   buttonType: INLINE
   buttons:
     - label: "🔙 На головну"
-      next: "start"
+      next: "/start"
