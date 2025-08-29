@@ -1,19 +1,22 @@
 package com.jawisimo.tbcfstarter.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-public class DialogNode {
+public record DialogNode(
+        List<ContentNode> content,
+        String question,
+        @JsonProperty("button_type") ButtonType buttonType,
+        List<Button> buttons) {
 
-    private String text;
+    public DialogNode {
+        if (buttons == null || buttons.isEmpty()) {
+            throw new IllegalArgumentException("Buttons list cannot be null or empty");
+        }
 
-    private ButtonType buttonType;
-
-    private Media media;
-
-    private List<Button> buttons;
+        if (question == null || question.isBlank()) {
+            throw new IllegalArgumentException("Field 'question' is required and cannot be null or blank");
+        }
+    }
 }

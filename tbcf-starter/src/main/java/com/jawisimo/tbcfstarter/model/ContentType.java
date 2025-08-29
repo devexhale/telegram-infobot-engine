@@ -2,13 +2,13 @@ package com.jawisimo.tbcfstarter.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public enum ButtonType {
-    INLINE,
-    REPLY;
+public enum ContentType {
+    TEXT,
+    MEDIA;
 
     @JsonCreator
-    public static ButtonType fromString(String value) {
+    public static ContentType fromString(String value) {
         if (value == null) return null;
-        return ButtonType.valueOf(value.toUpperCase());
+        return ContentType.valueOf(value.toUpperCase());
     }
 }
