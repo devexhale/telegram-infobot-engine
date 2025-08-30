@@ -27,11 +27,7 @@ history_q1:
         file_name: History.jpg
     - type: text
       text: "Питання 1️⃣ "
-<<<<<<< HEAD
   prompt: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "
-=======
-  question: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Вбивство ерцгерцога Франца Фердинанда"
@@ -44,11 +40,7 @@ history_q1:
       next: "history_q1_wrong"
 
 history_q1_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Вбивство ерцгерцога Франца Фердинанда в Сараєво 28 червня 1914 року спричинило ланцюг подій, що призвів до початку Першої світової війни."
-=======
-  question: "✅ Правильно! Вбивство ерцгерцога Франца Фердинанда в Сараєво 28 червня 1914 року спричинило ланцюг подій, що призвів до початку Першої світової війни."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -57,11 +49,7 @@ history_q1_correct:
       next: "/start"
 
 history_q1_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -73,11 +61,7 @@ history_q2:
   content:
     - type: text
       text: "Питання 2️⃣ "
-<<<<<<< HEAD
   prompt: "Хто був першим президентом США?"
-=======
-  question: "Хто був першим президентом США?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Томас Джефферсон"
@@ -90,11 +74,7 @@ history_q2:
       next: "history_q2_wrong"
 
 history_q2_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Джордж Вашингтон був першим президентом США з 1789 по 1797 рік."
-=======
-  question: "✅ Правильно! Джордж Вашингтон був першим президентом США з 1789 по 1797 рік."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -103,11 +83,7 @@ history_q2_correct:
       next: "/start"
 
 history_q2_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -119,11 +95,7 @@ history_q3:
   content:
     - type: text
       text: "Питання 3️⃣ "
-<<<<<<< HEAD
   prompt: "Коли відбулась Французька революція?"
-=======
-  question: "Коли відбулась Французька революція?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "1789-1799"
@@ -136,11 +108,7 @@ history_q3:
       next: "history_q3_wrong"
 
 history_q3_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Французька революція тривала з 1789 по 1799 рік."
-=======
-  question: "✅ Правильно! Французька революція тривала з 1789 по 1799 рік."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -149,11 +117,7 @@ history_q3_correct:
       next: "/start"
 
 history_q3_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -165,11 +129,7 @@ history_q4:
   content:
     - type: text
       text: "Питання 4️⃣ "
-<<<<<<< HEAD
   prompt: "Хто був засновником династії Романових у Росії?"
-=======
-  question: "Хто був засновником династії Романових у Росії?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Іван Грозний"
@@ -182,11 +142,7 @@ history_q4:
       next: "history_q4_wrong"
 
 history_q4_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Михайло Федорович Романов став першим царем з династії Романових у 1613 році."
-=======
-  question: "✅ Правильно! Михайло Федорович Романов став першим царем з династії Романових у 1613 році."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -195,11 +151,7 @@ history_q4_correct:
       next: "/start"
 
 history_q4_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -211,11 +163,7 @@ history_q5:
   content:
     - type: text
       text: "Питання 5️⃣ "
-<<<<<<< HEAD
   prompt: "Яка подія 1648 року стала початком найбільшого козацького повстання в історії Речі Посполитої?"
-=======
-  question: "Яка подія 1648 року стала початком найбільшого козацького повстання в історії Речі Посполитої?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Коліївщина"
@@ -228,11 +176,7 @@ history_q5:
       next: "history_q5_wrong"
 
 history_q5_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Хмельниччина, або повстання під проводом Богдана Хмельницького, почалося в 1648 році і стало найбільшим козацьким повстанням проти Речі Посполитої."
-=======
-  question: "✅ Правильно! Хмельниччина, або повстання під проводом Богдана Хмельницького, почалося в 1648 році і стало найбільшим козацьким повстанням проти Речі Посполитої."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -241,11 +185,7 @@ history_q5_correct:
       next: "/start"
 
 history_q5_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -257,11 +197,7 @@ history_q6:
   content:
     - type: text
       text: "Питання 6️⃣ "
-<<<<<<< HEAD
   prompt: "Який імператор побудував Велику Китайську стіну?"
-=======
-  question: "Який імператор побудував Велику Китайську стіну?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Цінь Ши Хуанді"
@@ -274,11 +210,7 @@ history_q6:
       next: "history_q6_wrong"
 
 history_q6_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Цінь Ши Хуанді був першим імператором об'єднаного Китаю і розпочав будівництво Великої Китайської стіни."
-=======
-  question: "✅ Правильно! Цінь Ши Хуанді був першим імператором об'єднаного Китаю і розпочав будівництво Великої Китайської стіни."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -287,11 +219,7 @@ history_q6_correct:
       next: "/start"
 
 history_q6_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -300,11 +228,7 @@ history_q6_wrong:
       next: "/start"
 
 history_end:
-<<<<<<< HEAD
   prompt: "🎉 Вітаємо! Ви завершили вікторину з історії! Хочете спробувати іншу тему?"
-=======
-  question: "🎉 Вітаємо! Ви завершили вікторину з історії! Хочете спробувати іншу тему?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔙 На головну"
@@ -319,11 +243,7 @@ science_q1:
         file_name: Science.jpg
     - type: text
       text: "Питання 1️⃣ "
-<<<<<<< HEAD
   prompt: "Який експеримент, проведений у 1887 році, спростував існування ефіру як середовища для поширення світла?"
-=======
-  question: "Який експеримент, проведений у 1887 році, спростував існування ефіру як середовища для поширення світла?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Експеримент Резерфорда"
@@ -336,11 +256,7 @@ science_q1:
       next: "science_q1_wrong"
 
 science_q1_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Експеримент Майкельсона-Морлі в 1887 році показав, що швидкість світла не залежить від руху через гіпотетичний ефір, що підготувало ґрунт для теорії відносності."
-=======
-  question: "✅ Правильно! Експеримент Майкельсона-Морлі в 1887 році показав, що швидкість світла не залежить від руху через гіпотетичний ефір, що підготувало ґрунт для теорії відносності."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -349,11 +265,7 @@ science_q1_correct:
       next: "/start"
 
 science_q1_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -365,11 +277,7 @@ science_q2:
   content:
     - type: text
       text: "Питання 2️⃣ "
-<<<<<<< HEAD
   prompt: "Який хімічний елемент був відкритий на Сонці раніше, ніж на Землі, завдяки спектральному аналізу?"
-=======
-  question: "Який хімічний елемент був відкритий на Сонці раніше, ніж на Землі, завдяки спектральному аналізу?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Водень"
@@ -382,11 +290,7 @@ science_q2:
       next: "science_q2_wrong"
 
 science_q2_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Гелій був виявлений на Сонці в 1868 році через спектральні лінії, а на Землі його ізолювали лише в 1895 році."
-=======
-  question: "✅ Правильно! Гелій був виявлений на Сонці в 1868 році через спектральні лінії, а на Землі його ізолювали лише в 1895 році."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -395,11 +299,7 @@ science_q2_correct:
       next: "/start"
 
 science_q2_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -411,11 +311,7 @@ science_q3:
   content:
     - type: text
       text: "Питання 3️⃣ "
-<<<<<<< HEAD
   prompt: "Яке явище, відкрите в 1932 році Карлом Андерсоном, підтвердило існування антиматерії?"
-=======
-  question: "Яке явище, відкрите в 1932 році Карлом Андерсоном, підтвердило існування антиматерії?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Виявлення нейтрино"
@@ -428,7 +324,6 @@ science_q3:
       next: "science_q3_correct"
 
 science_q3_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Виявлення позитрона Карлом Андерсоном у 1932 році стало першим доказом існування антиматерії, підтверджуючи теорію Дірака."
   button_type: inline
   buttons:
@@ -439,18 +334,6 @@ science_q3_correct:
 
 science_q3_wrong:
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "✅ Правильно! Виявлення позитрона Карлом Андерсоном у 1932 році стало першим доказом існування антиматерії, підтверджуючи теорію Дірака."
-  button_type: inline
-  buttons:
-      - label: "Далі ➡️"
-        next: "science_q4"
-      - label: "🔙 На головну"
-        next: "/start"
-
-science_q3_wrong:
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -462,11 +345,7 @@ science_q4:
   content:
     - type: text
       text: "Питання 4️⃣ "
-<<<<<<< HEAD
   prompt: "Який біологічний процес, відкритий у 1953 році, лежить в основі копіювання генетичної інформації в клітинах?"
-=======
-  question: "Який біологічний процес, відкритий у 1953 році, лежить в основі копіювання генетичної інформації в клітинах?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Транскрипція РНК"
@@ -479,11 +358,7 @@ science_q4:
       next: "science_q4_wrong"
 
 science_q4_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Реплікація ДНК, модель якої запропонували Уотсон і Крік у 1953 році, забезпечує копіювання генетичної інформації під час поділу клітин."
-=======
-  question: "✅ Правильно! Реплікація ДНК, модель якої запропонували Уотсон і Крік у 1953 році, забезпечує копіювання генетичної інформації під час поділу клітин."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -492,11 +367,7 @@ science_q4_correct:
       next: "/start"
 
 science_q4_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -508,11 +379,7 @@ science_q5:
   content:
     - type: text
       text: "Питання 5️⃣ "
-<<<<<<< HEAD
   prompt: "Яка космологічна модель, запропонована в 1927 році Жоржем Леметром, описує розширення Всесвіту?"
-=======
-  question: "Яка космологічна модель, запропонована в 1927 році Жоржем Леметром, описує розширення Всесвіту?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Теорія стаціонарного Всесвіту"
@@ -525,11 +392,7 @@ science_q5:
       next: "science_q5_correct"
 
 science_q5_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Теорія Великого вибуху, запропонована Жоржем Леметром у 1927 році, пояснює розширення Всесвіту від початкової сингулярності."
-=======
-  question: "✅ Правильно! Теорія Великого вибуху, запропонована Жоржем Леметром у 1927 році, пояснює розширення Всесвіту від початкової сингулярності."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -538,11 +401,7 @@ science_q5_correct:
       next: "/start"
 
 science_q5_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -554,11 +413,7 @@ science_q6:
   content:
     - type: text
       text: "Питання 6️⃣ "
-<<<<<<< HEAD
   prompt: "Яке явище, передбачене Альбертом Ейнштейном у 1915 році, було вперше підтверджене спостереженнями Артура Еддінгтона в 1919 році?"
-=======
-  question: "Яке явище, передбачене Альбертом Ейнштейном у 1915 році, було вперше підтверджене спостереженнями Артура Еддінгтона в 1919 році?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Фотоелектричний ефект"
@@ -571,11 +426,7 @@ science_q6:
       next: "science_q6_wrong"
 
 science_q6_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Гравітаційне лінзування, передбачене загальною теорією відносності Ейнштейна, було підтверджене Еддінгтоном під час сонячного затемнення 1919 року."
-=======
-  question: "✅ Правильно! Гравітаційне лінзування, передбачене загальною теорією відносності Ейнштейна, було підтверджене Еддінгтоном під час сонячного затемнення 1919 року."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -584,11 +435,7 @@ science_q6_correct:
       next: "/start"
 
 science_q6_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -597,11 +444,7 @@ science_q6_wrong:
       next: "/start"
 
 science_end:
-<<<<<<< HEAD
   prompt: "🎉 Вітаємо! Ви завершили вікторину з науки! Хочете спробувати іншу тему?"
-=======
-  question: "🎉 Вітаємо! Ви завершили вікторину з науки! Хочете спробувати іншу тему?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔙 На головну"
@@ -616,11 +459,7 @@ geography_q1:
         file_name: Geography.jpeg
     - type: text
       text: "Питання 1️⃣ "
-<<<<<<< HEAD
   prompt: "Який географічний об’єкт є найглибшою точкою Світового океану?"
-=======
-  question: "Який географічний об’єкт є найглибшою точкою Світового океану?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Філіппінський жолоб"
@@ -633,11 +472,7 @@ geography_q1:
       next: "geography_q1_wrong"
 
 geography_q1_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Маріанська западина, розташована в Тихому океані, є найглибшою точкою Світового океану з глибиною близько 11 км."
-=======
-  question: "✅ Правильно! Маріанська западина, розташована в Тихому океані, є найглибшою точкою Світового океану з глибиною близько 11 км."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -646,11 +481,7 @@ geography_q1_correct:
       next: "/start"
 
 geography_q1_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -662,11 +493,7 @@ geography_q2:
   content:
     - type: text
       text: "Питання 2️⃣ "
-<<<<<<< HEAD
   prompt: "Яка країна має найбільшу кількість прісноводних озер у світі?"
-=======
-  question: "Яка країна має найбільшу кількість прісноводних озер у світі?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Фінляндія"
@@ -679,11 +506,7 @@ geography_q2:
       next: "geography_q2_wrong"
 
 geography_q2_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Канада має найбільшу кількість прісноводних озер у світі, включаючи Великі озера та численні менші озера."
-=======
-  question: "✅ Правильно! Канада має найбільшу кількість прісноводних озер у світі, включаючи Великі озера та численні менші озера."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -692,11 +515,7 @@ geography_q2_correct:
       next: "/start"
 
 geography_q2_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -708,11 +527,7 @@ geography_q3:
   content:
     - type: text
       text: "Питання 3️⃣ "
-<<<<<<< HEAD
   prompt: "Який геологічний розлом є причиною частих землетрусів у Каліфорнії?"
-=======
-  question: "Який геологічний розлом є причиною частих землетрусів у Каліфорнії?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Розлом Альпійський"
@@ -725,11 +540,7 @@ geography_q3:
       next: "geography_q3_wrong"
 
 geography_q3_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Розлом Сан-Андреас є тектонічним розломом, що спричиняє численні землетруси в Каліфорнії через рух плит."
-=======
-  question: "✅ Правильно! Розлом Сан-Андреас є тектонічним розломом, що спричиняє численні землетруси в Каліфорнії через рух плит."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -738,11 +549,7 @@ geography_q3_correct:
       next: "/start"
 
 geography_q3_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -754,11 +561,7 @@ geography_q4:
   content:
     - type: text
       text: "Питання 4️⃣ "
-<<<<<<< HEAD
   prompt: "Яке море, розташоване між Аравійським півостровом і Африкою, є найсолонішим у світі?"
-=======
-  question: "Яке море, розташоване між Аравійським півостровом і Африкою, є найсолонішим у світі?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Чорне море"
@@ -771,11 +574,7 @@ geography_q4:
       next: "geography_q4_wrong"
 
 geography_q4_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Червоне море має найвищу солоність серед морів Світового океану через високу температуру і випаровування."
-=======
-  question: "✅ Правильно! Червоне море має найвищу солоність серед морів Світового океану через високу температуру і випаровування."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -784,11 +583,7 @@ geography_q4_correct:
       next: "/start"
 
 geography_q4_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -800,11 +595,7 @@ geography_q5:
   content:
     - type: text
       text: "Питання 5️⃣ "
-<<<<<<< HEAD
   prompt: "Яка країна є найбільшим експортером кави у світі?"
-=======
-  question: "Яка країна є найбільшим експортером кави у світі?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Колумбія"
@@ -817,11 +608,7 @@ geography_q5:
       next: "geography_q5_correct"
 
 geography_q5_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Бразилія є найбільшим експортером кави у світі, виробляючи близько 40% світового обсягу."
-=======
-  question: "✅ Правильно! Бразилія є найбільшим експортером кави у світі, виробляючи близько 40% світового обсягу."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -830,11 +617,7 @@ geography_q5_correct:
       next: "/start"
 
 geography_q5_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -846,11 +629,7 @@ geography_q6:
   content:
     - type: text
       text: "Питання 6️⃣ "
-<<<<<<< HEAD
   prompt: "Який архіпелаг, відкритий у 1831 році Чарльзом Дарвіном, став ключовим для його теорії еволюції?"
-=======
-  question: "Який архіпелаг, відкритий у 1831 році Чарльзом Дарвіном, став ключовим для його теорії еволюції?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Гавайські острови"
@@ -863,11 +642,7 @@ geography_q6:
       next: "geography_q6_wrong"
 
 geography_q6_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Галапагоські острови, відвідані Дарвіном у 1831 році, надали унікальні дані про видоутворення, що лягли в основу його теорії еволюції."
-=======
-  question: "✅ Правильно! Галапагоські острови, відвідані Дарвіном у 1831 році, надали унікальні дані про видоутворення, що лягли в основу його теорії еволюції."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -876,11 +651,7 @@ geography_q6_correct:
       next: "/start"
 
 geography_q6_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -889,11 +660,7 @@ geography_q6_wrong:
       next: "/start"
 
 geography_end:
-<<<<<<< HEAD
   prompt: "🎉 Вітаємо! Ви завершили вікторину з географії! Хочете спробувати іншу тему?"
-=======
-  question: "🎉 Вітаємо! Ви завершили вікторину з географії! Хочете спробувати іншу тему?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔙 На головну"
@@ -908,11 +675,7 @@ cinema_q1:
         file_name: Movie.jpg
     - type: text
       text: "Питання 1️⃣ "
-<<<<<<< HEAD
   prompt: "Який фільм 1927 року вважається першим повнометражним звуковим фільмом у історії кінематографа?"
-=======
-  question: "Який фільм 1927 року вважається першим повнометражним звуковим фільмом у історії кінематографа?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Метрополіс"
@@ -925,11 +688,7 @@ cinema_q1:
       next: "cinema_q1_wrong"
 
 cinema_q1_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! 'Співак джазу' (1927) став першим повнометражним звуковим фільмом, що започаткував еру звукового кіно."
-=======
-  question: "✅ Правильно! 'Співак джазу' (1927) став першим повнометражним звуковим фільмом, що започаткував еру звукового кіно."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -938,11 +697,7 @@ cinema_q1_correct:
       next: "/start"
 
 cinema_q1_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -954,11 +709,7 @@ cinema_q2:
   content:
     - type: text
       text: "Питання 2️⃣ "
-<<<<<<< HEAD
   prompt: "Який режисер отримав перший в історії 'Оскар' за найкращу режисуру в 1929 році?"
-=======
-  question: "Який режисер отримав перший в історії 'Оскар' за найкращу режисуру в 1929 році?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Чарлі Чаплін"
@@ -971,11 +722,7 @@ cinema_q2:
       next: "cinema_q2_wrong"
 
 cinema_q2_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Френк Борзейдж отримав перший 'Оскар' за найкращу режисуру за фільм 'Сьоме небо' на церемонії 1929 року."
-=======
-  question: "✅ Правильно! Френк Борзейдж отримав перший 'Оскар' за найкращу режисуру за фільм 'Сьоме небо' на церемонії 1929 року."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -984,11 +731,7 @@ cinema_q2_correct:
       next: "/start"
 
 cinema_q2_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -1000,11 +743,7 @@ cinema_q3:
   content:
     - type: text
       text: "Питання 3️⃣ "
-<<<<<<< HEAD
   prompt: "Який фільм 1972 року встановив стандарт для сучасного гангстерського жанру?"
-=======
-  question: "Який фільм 1972 року встановив стандарт для сучасного гангстерського жанру?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Скажений бик"
@@ -1017,11 +756,7 @@ cinema_q3:
       next: "cinema_q3_wrong"
 
 cinema_q3_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! 'Хрещений батько' (1972) Френсіса Форда Копполи став культовим фільмом, що визначив сучасний гангстерський жанр."
-=======
-  question: "✅ Правильно! 'Хрещений батько' (1972) Френсіса Форда Копполи став культовим фільмом, що визначив сучасний гангстерський жанр."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -1030,11 +765,7 @@ cinema_q3_correct:
       next: "/start"
 
 cinema_q3_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -1046,11 +777,7 @@ cinema_q4:
   content:
     - type: text
       text: "Питання 4️⃣ "
-<<<<<<< HEAD
   prompt: "Яка техніка монтажу, розроблена Сергієм Ейзенштейном, використовувалася для створення емоційного впливу у фільмі 'Броненосець Потьомкін' (1925)?"
-=======
-  question: "Яка техніка монтажу, розроблена Сергієм Ейзенштейном, використовувалася для створення емоційного впливу у фільмі 'Броненосець Потьомкін' (1925)?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Паралельний монтаж"
@@ -1063,11 +790,7 @@ cinema_q4:
       next: "cinema_q4_wrong"
 
 cinema_q4_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Монтаж атракціонів, розроблений Ейзенштейном, використовував контрастні образи для створення емоційного впливу в 'Броненосці Потьомкін'."
-=======
-  question: "✅ Правильно! Монтаж атракціонів, розроблений Ейзенштейном, використовував контрастні образи для створення емоційного впливу в 'Броненосці Потьомкін'."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -1076,11 +799,7 @@ cinema_q4_correct:
       next: "/start"
 
 cinema_q4_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -1092,11 +811,7 @@ cinema_q5:
   content:
     - type: text
       text: "Питання 5️⃣ "
-<<<<<<< HEAD
   prompt: "Який фільм 1999 року популяризував концепцію 'куленосного часу' (bullet time) у кінематографі?"
-=======
-  question: "Який фільм 1999 року популяризував концепцію 'куленосного часу' (bullet time) у кінематографі?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Термінатор 2"
@@ -1109,11 +824,7 @@ cinema_q5:
       next: "cinema_q5_wrong"
 
 cinema_q5_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! 'Матриця' (1999) братів Вачовскі популяризувала техніку 'bullet time', створюючи ефект уповільненого руху."
-=======
-  question: "✅ Правильно! 'Матриця' (1999) братів Вачовскі популяризувала техніку 'bullet time', створюючи ефект уповільненого руху."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -1122,11 +833,7 @@ cinema_q5_correct:
       next: "/start"
 
 cinema_q5_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -1138,11 +845,7 @@ cinema_q6:
   content:
     - type: text
       text: "Питання 6️⃣ "
-<<<<<<< HEAD
   prompt: "Який режисер є єдиним, хто отримав 'Золоту пальмову гілку' Каннського кінофестивалю за два фільми поспіль?"
-=======
-  question: "Який режисер є єдиним, хто отримав 'Золоту пальмову гілку' Каннського кінофестивалю за два фільми поспіль?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Квентін Тарантіно"
@@ -1155,11 +858,7 @@ cinema_q6:
       next: "cinema_q6_wrong"
 
 cinema_q6_correct:
-<<<<<<< HEAD
   prompt: "✅ Правильно! Білле Аугуст отримав 'Золоту пальмову гілку' за фільми 'Пелле-завойовник' (1988) і 'Найкращі наміри' (1992) поспіль."
-=======
-  question: "✅ Правильно! Білле Аугуст отримав 'Золоту пальмову гілку' за фільми 'Пелле-завойовник' (1988) і 'Найкращі наміри' (1992) поспіль."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "Далі ➡️"
@@ -1168,11 +867,7 @@ cinema_q6_correct:
       next: "/start"
 
 cinema_q6_wrong:
-<<<<<<< HEAD
   prompt: "❌ Неправильно! Спробуйте ще раз."
-=======
-  question: "❌ Неправильно! Спробуйте ще раз."
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔄 Спробувати ще раз"
@@ -1181,11 +876,7 @@ cinema_q6_wrong:
       next: "/start"
 
 cinema_end:
-<<<<<<< HEAD
   prompt: "🎉 Вітаємо! Ви завершили вікторину з кіно! Хочете спробувати іншу тему?"
-=======
-  question: "🎉 Вітаємо! Ви завершили вікторину з кіно! Хочете спробувати іншу тему?"
->>>>>>> cdcc6aa (chore(resource): update dialog.yml)
   button_type: inline
   buttons:
     - label: "🔙 На головну"
