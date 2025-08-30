@@ -7,7 +7,6 @@ import com.jawisimo.tbcfstarter.support.InputMediaFileResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -34,20 +33,20 @@ public class PhotoMediaHandler implements ContentHandler {
 
 
     @Override
-    public void handle(ContentNode contentNode, String chatId) {
+    public Message handle(ContentNode contentNode, String chatId) {
         InputFile inputFile = mediaFileResolver.getMediaFile(contentNode.getMedia());
-        executePhotoMessage(SendPhoto.builder()
+
+        SendPhoto request = SendPhoto.builder()
                 .chatId(chatId)
                 .photo(inputFile)
                 .caption(contentNode.getMedia().getCaption())
-                .build());
-    }
+                .build();
 
-    private void executePhotoMessage(SendMediaBotMethod<Message> message)  {
         try {
-            client.execute((SendPhoto) message);
+            return client.execute(request); // тепер повертаємо Message
         } catch (TelegramApiException e) {
             log.error("Telegram API Exception: {}", e.getMessage(), e);
+            return null;
         }
     }
 }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
@@ -22,17 +23,14 @@ public class TextHandler implements ContentHandler  {
     }
 
     @Override
-    public void handle(ContentNode contentNode, String chatId)  {
+    public Message handle(ContentNode contentNode, String chatId)  {
         String text = contentNode.getText();
         SendMessage sendMessage = new SendMessage(chatId, text);
-        executeTextMessage(sendMessage);
-    }
-
-    private void executeTextMessage(SendMessage sendMessage)  {
         try {
-            client.execute(sendMessage);
+            return client.execute(sendMessage);
         } catch (TelegramApiException e) {
             log.error("Telegram API Exception: {}", e.getMessage(), e);
+            return null;
         }
     }
 }

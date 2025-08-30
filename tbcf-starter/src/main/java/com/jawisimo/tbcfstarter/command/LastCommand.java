@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 
 @Component
-@Order(1)
-public class StartCommand implements Command {
-    private static final String COMMAND_NAME = "/start";
-    private static final String COMMAND_DESCRIPTION = "Start a dialogue with the bot";
+@Order(2)
+public class LastCommand implements Command {
+    private static final String COMMAND_NAME = "/last";
+    private static final String COMMAND_DESCRIPTION = "Return to where you left off";
 
     @Override
     public BotCommand getCommand() {

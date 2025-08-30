@@ -1,10 +1,10 @@
 /start:
   content:
-    - type: TEXT
+    - type: text
       text: "Перевірте свої знання та дізнайтесь більше про світ навколо!"
-    - type: MEDIA
+    - type: media
       media:
-        type: PHOTO
+        type: photo
         fileName: Qstart.jpg
   question: "Ласкаво просимо до вікторини. Оберіть тему: "
   button_type: reply
@@ -20,10 +20,10 @@
 
 history_q1:
   content:
-    - type: TEXT
+    - type: text
       text: "Питання 1: "
   question: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "
-  button_type: INLINE
+  button_type: inline
   buttons:
     - label: "Вбивство ерцгерцога Франца Фердинанда"
       next: "history_q1_correct"

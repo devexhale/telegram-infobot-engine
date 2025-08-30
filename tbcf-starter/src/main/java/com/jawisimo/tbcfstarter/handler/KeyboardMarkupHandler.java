@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -24,7 +25,7 @@ import java.util.function.Function;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class KeyboardHandler {
+public class KeyboardMarkupHandler {
     private final BotProperties botProperties;
     private final TelegramClient client;
 
@@ -34,7 +35,7 @@ public class KeyboardHandler {
      * @param node   нода з кнопками та типом
      * @param chatId ідентифікатор чату
      */
-    public void handle(DialogNode node, String chatId) {
+    public Message handle(DialogNode node, String chatId) {
         List<Button> buttons = node.buttons();
 
         SendMessage sendMessage = SendMessage.builder()
@@ -48,7 +49,12 @@ public class KeyboardHandler {
             sendMessage.setReplyMarkup(createInlineKeyboard(buttons));
         }
 
-        executeKeyboardMarkup(sendMessage);
+        try {
+            return client.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.error("Telegram API Exception: {}", e.getMessage(), e);
+            return null;
+        }
     }
 
     private InlineKeyboardMarkup createInlineKeyboard(List<Button> buttons) {
@@ -100,14 +106,6 @@ public class KeyboardHandler {
         }
 
         return rows;
-    }
-
-    private void executeKeyboardMarkup(SendMessage message) {
-        try {
-            client.execute(message);
-        } catch (TelegramApiException e) {
-            log.error("Telegram API Exception: {}", e.getMessage(), e);
-        }
     }
 }
 
