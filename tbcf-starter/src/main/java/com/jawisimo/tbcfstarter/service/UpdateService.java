@@ -5,12 +5,14 @@ import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
+import com.jawisimo.tbcfstarter.service.command.CommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,62 +23,86 @@ public class UpdateService {
     private final DialogRepository dialogRepository;
     private final MessageCleanupService cleanupService;
     private final UserStateService userStateService;
-
-    private static final String START_NODE_KEY = "/start";
-    private static final String LAST_NODE_KEY = "/last";
+    private final List<CommandService> commandServices;
 
     @Async("asyncBotExecutor")
     public void onUpdateReceived(Update update) {
-        String chatId;
-        String userInput;
+        String chatId = extractChatId(update);
 
-        if (update.hasMessage()) {
-            Message userMessage = update.getMessage();
-            chatId = userMessage.getChatId().toString();
-            userInput = userMessage.getText();
-
-            // Завжди видаляємо вхідне повідомлення користувача
-            cleanupService.deleteRedundantMessages(userMessage);
-
-            // Якщо користувач ввів /start — завжди стартова нода
-            if (START_NODE_KEY.equals(userInput)) {
-                userInput = START_NODE_KEY;
-            } else if (LAST_NODE_KEY.equals(userInput)) {
-                // Відновлення попередньої ноди
-                userInput = userStateService.getUserStateOrDefault(chatId, START_NODE_KEY);
-            } else {
-                // Завантажуємо поточну ноду з Redis
-                String currentNodeKey = userStateService.getUserStateOrDefault(chatId, START_NODE_KEY);
-                DialogNode currentNode = dialogRepository.getDialogNode(currentNodeKey);
-
-                // Якщо кнопки reply → шукаємо відповідну next по label
-                if (currentNode != null && currentNode.buttonType() == ButtonType.REPLY && currentNode.buttons() != null) {
-                    String finalUserInput = userInput;
-                    userInput = currentNode.buttons().stream()
-                            .filter(b -> b.getLabel().equals(finalUserInput))
-                            .map(Button::getNext)
-                            .findFirst()
-                            .orElse(userInput); // fallback — залишаємо текст як є
-                }
-            }
-
-        } else if (update.hasCallbackQuery()) {
-            chatId = update.getCallbackQuery().getMessage().getChatId().toString();
-            // callback data вже містить next
-            userInput = update.getCallbackQuery().getData();
-        } else {
+        if (chatId == null) {
             log.warn("Unsupported update type: {}", update);
             return;
         }
 
-        // Отримуємо наступну ноду
+        String userInput = extractUserInput(update);
+
+        cleanupService.deleteRedundantMessage(update.getMessage());
+
+        if (handleCommandIfExists(chatId, update, userInput)) {
+            return;
+        }
+
+        userInput = resolveNextFromReplyButtons(chatId, userInput);
+        processNode(chatId, userInput);
+    }
+
+    private String extractChatId(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().getChatId().toString();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage().getChatId().toString();
+        }
+        return null;
+    }
+
+    private String extractUserInput(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().getText();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getData();
+        }
+        return null;
+    }
+
+    private boolean handleCommandIfExists(String chatId, Update update, String userInput) {
+        if (userInput == null) return false;
+
+        for (CommandService commandService : commandServices) {
+            if (userInput.equals(commandService.getCommandKey())) {
+                commandService.executeCommand(chatId, update);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String resolveNextFromReplyButtons(String chatId, String userInput) {
+        String currentNodeKey = userStateService.getUserStateOrDefault(chatId, commandServices.getFirst().getCommandKey());
+        DialogNode currentNode = dialogRepository.getDialogNode(currentNodeKey);
+
+        if (currentNode != null && currentNode.buttonType() == ButtonType.REPLY && currentNode.buttons() != null) {
+            return currentNode.buttons().stream()
+                    .filter(b -> b.getLabel().equals(userInput))
+                    .map(Button::getNext)
+                    .findFirst()
+                    .orElse(userInput);
+        }
+
+        return userInput;
+    }
+
+    private void processNode(String chatId, String userInput) {
+        if (userInput == null) {
+            log.warn("User input is null, skipping node processing for chatId={}", chatId);
+            return;
+        }
+
         DialogNode nextNode = dialogRepository.getDialogNode(userInput);
         if (nextNode == null) {
             log.warn("Could not find node for input='{}'", userInput);
             return;
         }
 
-        // Відправляємо ноду та зберігаємо стан користувача
         nodeHandler.handle(nextNode, chatId);
         userStateService.saveUserState(chatId, userInput);
     }

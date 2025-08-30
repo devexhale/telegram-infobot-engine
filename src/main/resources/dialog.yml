@@ -5,8 +5,8 @@
     - type: media
       media:
         type: photo
-        fileName: Qstart.jpg
-  question: "Ласкаво просимо до вікторини. Оберіть тему: "
+        file_name: Qstart.jpg
+  question: "Оберіть тему: "
   button_type: reply
   buttons:
     - label: "🏛️ Історія"
@@ -20,6 +20,10 @@
 
 history_q1:
   content:
+    - type: media
+      media:
+        type: photo
+        file_name: History.jpg
     - type: text
       text: "Питання 1: "
   question: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "

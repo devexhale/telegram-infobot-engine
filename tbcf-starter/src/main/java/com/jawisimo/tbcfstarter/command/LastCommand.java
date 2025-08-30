@@ -14,4 +14,10 @@ public class LastCommand implements Command {
     public BotCommand getCommand() {
         return new BotCommand(COMMAND_NAME, COMMAND_DESCRIPTION);
     }
+
+    @Override
+    public String getCommandName() {
+        return COMMAND_NAME;
+    }
+
 }

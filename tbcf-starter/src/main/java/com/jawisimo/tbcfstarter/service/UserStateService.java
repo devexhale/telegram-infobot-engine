@@ -20,4 +20,5 @@ public class UserStateService {
         UserState userState = new UserState(chatId, nextState);
         userStateRepository.save(userState);
     }
+
 }

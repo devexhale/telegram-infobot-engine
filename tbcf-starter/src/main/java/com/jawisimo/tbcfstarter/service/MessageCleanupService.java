@@ -38,7 +38,7 @@ public class MessageCleanupService {
         }
     }
 
-    public void deleteRedundantMessages(Message message) {
+    public void deleteRedundantMessage(Message message) {
         if (message == null) return;
         String chatId = message.getChatId().toString();
         Integer messageId = message.getMessageId();
