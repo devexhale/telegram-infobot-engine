@@ -7,7 +7,7 @@
         type: PHOTO
         fileName: Qstart.jpg
   question: "Ласкаво просимо до вікторини. Оберіть тему: "
-  button_type: INLINE
+  button_type: reply
   buttons:
     - label: "🏛️ Історія"
       next: "history_q1"

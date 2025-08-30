@@ -11,72 +11,37 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class NodeHandler {
-
     private final List<ContentHandler> contentHandlers;
     private final KeyboardHandler keyboardHandler;
 
-    /**
-     * Обробка ноди: спершу контент, потім кнопки.
-     */
+
     public void handle(DialogNode node, String chatId) {
-        processContent(node.content(), chatId);
-        processKeyboard(node, chatId);
-    }
+        List<ContentNode> content = node.content();
 
-    /**
-     * Обробляє всі ContentNode.
-     */
-    private void processContent(List<ContentNode> contents, String chatId) {
-        if (contents == null || contents.isEmpty()) {
-            return;
-        }
+        content.forEach(contentNode -> {
+            if (contentNode.getMedia() != null) {
+                String type = contentNode.getMedia().getType();
+                String fileName = contentNode.getMedia().getFileName();
 
-        for (ContentNode contentNode : contents) {
-            validateMedia(contentNode);
-            dispatchToHandler(contentNode, chatId);
-        }
-    }
+                if (type == null || type.isBlank()) {
+                    throw new MediaLoadingException("Media type is missing for file: " + fileName);
+                }
 
-    /**
-     * Валідує медіа і кидає виняток, якщо тип не заданий або не підтримується.
-     */
-    private void validateMedia(ContentNode contentNode) {
-        if (contentNode.getMedia() == null) {
-            return;
-        }
+                boolean supported = contentHandlers.stream()
+                        .anyMatch(h -> h.supports(contentNode));
 
-        String type = contentNode.getMedia().getType();
-        String fileName = contentNode.getMedia().getFileName();
+                if (!supported) {
+                    throw new MediaLoadingException(
+                            "No handler found for media type: " + type + " (file: " + fileName + ")"
+                    );
+                }
+            }
+            contentHandlers.stream()
+                    .filter(contentHandler -> contentHandler.supports(contentNode))
+                    .forEach(contentHandler -> contentHandler.handle(contentNode, chatId));
+        });
 
-        if (type == null || type.isBlank()) {
-            throw new MediaLoadingException("Media type is missing for file: " + fileName);
-        }
+        keyboardHandler.handle(node, chatId);
 
-        boolean supported = contentHandlers.stream()
-                .anyMatch(h -> h.supports(contentNode));
-
-        if (!supported) {
-            throw new MediaLoadingException(
-                    "No handler found for media type: " + type + " (file: " + fileName + ")"
-            );
-        }
-    }
-
-    /**
-     * Делегує обробку контенту конкретному ContentHandler.
-     */
-    private void dispatchToHandler(ContentNode contentNode, String chatId) {
-        contentHandlers.stream()
-                .filter(h -> h.supports(contentNode))
-                .forEach(h -> h.handle(contentNode, chatId));
-    }
-
-    /**
-     * Відправка клавіатури користувачу.
-     */
-    private void processKeyboard(DialogNode node, String chatId) {
-        if (node.buttons() != null && !node.buttons().isEmpty()) {
-            keyboardHandler.handle(node, chatId);
-        }
     }
 }
