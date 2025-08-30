@@ -23,6 +23,7 @@ public class UpdateService {
     private final UserStateService userStateService;
 
     private static final String START_NODE_KEY = "/start";
+    private static final String LAST_NODE_KEY = "/last";
 
     @Async("asyncBotExecutor")
     public void onUpdateReceived(Update update) {
@@ -40,6 +41,9 @@ public class UpdateService {
             // Якщо користувач ввів /start — завжди стартова нода
             if (START_NODE_KEY.equals(userInput)) {
                 userInput = START_NODE_KEY;
+            } else if (LAST_NODE_KEY.equals(userInput)) {
+                // Відновлення попередньої ноди
+                userInput = userStateService.getUserStateOrDefault(chatId, START_NODE_KEY);
             } else {
                 // Завантажуємо поточну ноду з Redis
                 String currentNodeKey = userStateService.getUserStateOrDefault(chatId, START_NODE_KEY);
@@ -71,9 +75,6 @@ public class UpdateService {
             log.warn("Could not find node for input='{}'", userInput);
             return;
         }
-
-        // Видаляємо повідомлення попередньої ноди
-        cleanupService.clearLastNode(chatId);
 
         // Відправляємо ноду та зберігаємо стан користувача
         nodeHandler.handle(nextNode, chatId);

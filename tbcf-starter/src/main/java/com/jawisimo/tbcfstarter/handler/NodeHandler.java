@@ -20,11 +20,8 @@ public class NodeHandler {
     private final MessageCleanupService cleanupService;
 
     public void handle(DialogNode node, String chatId) {
-
-        // 🔄 1. Відправляємо контент ноди
+        cleanupService.clearLastNode(chatId);
         contentProcess(node, chatId);
-
-        // 🔄 2. Відправляємо клавіатуру
         keyboardProcess(node, chatId);
     }
 
