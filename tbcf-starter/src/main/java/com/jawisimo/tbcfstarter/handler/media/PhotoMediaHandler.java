@@ -43,7 +43,7 @@ public class PhotoMediaHandler implements ContentHandler {
                 .build();
 
         try {
-            return client.execute(request); // тепер повертаємо Message
+            return client.execute(request);
         } catch (TelegramApiException e) {
             log.error("Telegram API Exception: {}", e.getMessage(), e);
             return null;

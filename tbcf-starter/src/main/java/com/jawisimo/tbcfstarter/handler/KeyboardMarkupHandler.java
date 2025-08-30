@@ -40,7 +40,7 @@ public class KeyboardMarkupHandler {
 
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
-                .text(node.question())
+                .text(node.prompt())
                 .build();
 
         if (node.buttonType() == ButtonType.REPLY) {

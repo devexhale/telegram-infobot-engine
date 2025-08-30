@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import java.util.List;
 
@@ -27,56 +28,57 @@ public class UpdateService {
 
     @Async("asyncBotExecutor")
     public void onUpdateReceived(Update update) {
-        String chatId = extractChatId(update);
-
-        if (chatId == null) {
+        if (update.hasMessage()) {
+            executeMessage(update);
+        } else if (update.hasCallbackQuery()) {
+            executeCallback(update);
+        } else {
             log.warn("Unsupported update type: {}", update);
-            return;
         }
+    }
 
-        String userInput = extractUserInput(update);
+    private void executeMessage(Update update) {
+        Message message = update.getMessage();
+        String chatId = message.getChatId().toString();
+        String userInput = message.getText();
 
-        cleanupService.deleteRedundantMessage(update.getMessage());
+        // Завжди видаляємо вхідне повідомлення користувача
+        cleanupService.deleteRedundantMessage(message);
 
-        if (handleCommandIfExists(chatId, update, userInput)) {
-            return;
-        }
+        // Перевіряємо команди
+        if (executeCommandIfExists(chatId, userInput)) return;
 
-        userInput = resolveNextFromReplyButtons(chatId, userInput);
+        // Визначаємо наступну ноду через кнопки Reply
+        userInput = getNextNodeKeyFromReply(chatId, userInput);
+
+        // Обробка ноди
         processNode(chatId, userInput);
     }
 
-    private String extractChatId(Update update) {
-        if (update.hasMessage()) {
-            return update.getMessage().getChatId().toString();
-        } else if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getMessage().getChatId().toString();
-        }
-        return null;
+    private void executeCallback(Update update) {
+        String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
+        String userInput = update.getCallbackQuery().getData();
+
+        // Перевіряємо команди (callback також може містити команду)
+        if (executeCommandIfExists(chatId, userInput)) return;
+
+        // Обробка ноди напряму, бо callback вже містить next
+        processNode(chatId, userInput);
     }
 
-    private String extractUserInput(Update update) {
-        if (update.hasMessage()) {
-            return update.getMessage().getText();
-        } else if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getData();
-        }
-        return null;
-    }
-
-    private boolean handleCommandIfExists(String chatId, Update update, String userInput) {
+    private boolean executeCommandIfExists(String chatId, String userInput) {
         if (userInput == null) return false;
 
         for (CommandService commandService : commandServices) {
             if (userInput.equals(commandService.getCommandKey())) {
-                commandService.executeCommand(chatId, update);
+                commandService.execute(chatId);
                 return true;
             }
         }
         return false;
     }
 
-    private String resolveNextFromReplyButtons(String chatId, String userInput) {
+    private String getNextNodeKeyFromReply(String chatId, String userInput) {
         String currentNodeKey = userStateService.getUserStateOrDefault(chatId, commandServices.getFirst().getCommandKey());
         DialogNode currentNode = dialogRepository.getDialogNode(currentNodeKey);
 

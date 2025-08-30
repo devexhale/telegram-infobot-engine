@@ -27,7 +27,7 @@ public class LastCommandService implements CommandService {
     }
 
     @Override
-    public void executeCommand(String chatId, Update update) {
+    public void execute(String chatId) {
         // Отримуємо попередню ноду користувача
         String previousNodeKey = userStateService.getUserStateOrDefault(chatId, startCommand.getCommandName());
 

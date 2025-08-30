@@ -8,7 +8,6 @@ import com.jawisimo.tbcfstarter.service.UserStateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class StartCommandService implements CommandService {
     }
 
     @Override
-    public void executeCommand(String chatId, Update update) {
+    public void execute(String chatId) {
         // Завжди стартова нода
         DialogNode startNode = dialogRepository.getDialogNode(getCommandKey());
         if (startNode == null) {
