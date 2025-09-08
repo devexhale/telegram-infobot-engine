@@ -21,6 +21,8 @@
       next: "geography_q1"
     - label: "🎬 Кіно"
       next: "cinema_q1"
+    - label: "🔗 GitHub"
+      url: "https://github.com/jawisimo/tg-bot-config-framework"
 
 # ІСТОРІЯ
 history_q1:
@@ -133,20 +135,20 @@ history_q4:
   content:
     - type: text
       text: "Питання 4️⃣ "
-  prompt: "Хто був засновником династії Романових у Росії?"
+  prompt: "Хто був засновником династії Цін у Китаї?"
   button_type: inline
   buttons:
-    - label: "Іван Грозний"
+    - label: "Куньлунь"
       next: "history_q4_wrong"
-    - label: "Петро I"
-      next: "history_q4_wrong"
-    - label: "Михайло Федорович"
+    - label: "Нурхаці"
       next: "history_q4_correct"
-    - label: "Олександр I"
+    - label: "Конфуцій"
+      next: "history_q4_wrong"
+    - label: "Цинь Шихуан"
       next: "history_q4_wrong"
 
 history_q4_correct:
-  prompt: "✅ Правильно! Михайло Федорович Романов став першим царем з династії Романових у 1613 році."
+  prompt: "✅ Правильно! Нурхаці заснував династію Цін у Китаї на початку XVII століття."
   button_type: inline
   buttons:
     - label: "Далі ➡️"

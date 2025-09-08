@@ -28,20 +28,20 @@ public class NodeHandler {
     private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
     private final TelegramClient client;
 
-    public void handle(DialogNode node, String chatId) {
+    public void handle(DialogNode dialogNode, String chatId) {
         Object lock = chatLocks.computeIfAbsent(chatId, k -> new Object());
         synchronized (lock) {
             cleanupService.clearLastNode(chatId);
-            processContent(node, chatId);
-            processKeyboard(node, chatId);
+            processContent(dialogNode, chatId);
+            processKeyboard(dialogNode, chatId);
         }
     }
 
-    private void processContent(DialogNode node, String chatId) {
-        if (node.content() == null) return;
+    private void processContent(DialogNode dialogNode, String chatId) {
+        if (dialogNode.content() == null) return;
 
-        for (ContentNode contentNode : node.content()) {
-            contentValidator.validate(contentNode);
+        for (ContentNode contentNode : dialogNode.content()) {
+            contentValidator.validateContentNode(contentNode);
             handleContentNode(contentNode, chatId);
         }
     }
@@ -66,8 +66,9 @@ public class NodeHandler {
         }
     }
 
-    private void processKeyboard(DialogNode node, String chatId) {
-        Message keyboardMsg = keyboardHandler.handle(node, chatId);
+    private void processKeyboard(DialogNode dialogNode, String chatId) {
+        contentValidator.validateButtons(dialogNode);
+        Message keyboardMsg = keyboardHandler.handle(dialogNode, chatId);
         if (keyboardMsg != null) {
             cleanupService.registerMessage(chatId, keyboardMsg.getMessageId());
         }

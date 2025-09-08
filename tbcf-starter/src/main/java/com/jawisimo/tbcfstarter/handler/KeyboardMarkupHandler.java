@@ -29,12 +29,6 @@ public class KeyboardMarkupHandler {
     private final BotProperties botProperties;
     private final TelegramClient client;
 
-    /**
-     * Виконує клавіатуру: будує і одразу відправляє в чат.
-     *
-     * @param node   нода з кнопками та типом
-     * @param chatId ідентифікатор чату
-     */
     public Message handle(DialogNode node, String chatId) {
         List<Button> buttons = node.buttons();
 
@@ -62,6 +56,7 @@ public class KeyboardMarkupHandler {
                 buttons,
                 btn -> InlineKeyboardButton.builder()
                         .text(btn.getLabel())
+                        .url(btn.getUrl())
                         .callbackData(btn.getNext())
                         .build(),
                 InlineKeyboardRow::new
@@ -107,6 +102,4 @@ public class KeyboardMarkupHandler {
 
         return rows;
     }
-
 }
-
