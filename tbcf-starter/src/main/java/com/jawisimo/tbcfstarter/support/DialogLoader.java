@@ -57,4 +57,5 @@ public class DialogLoader {
             throw new DialogLoadingException("Failed to load dialog file: " + dialogFileName, e);
         }
     }
+
 }

@@ -1,43 +1,68 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.5.5'
+    id 'java-library'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'maven-publish'
 }
 
 group = 'com.github.jawisimo'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 description = 'tbcf-starter'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation("org.telegram:telegrambots-springboot-longpolling-starter:9.0.0")
-    implementation("org.telegram:telegrambots-client:9.0.0")
-    compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
-    implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.5"
+    }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+dependencies {
+    // Spring Boot core dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    // Telegram dependencies
+    implementation "org.telegram:telegrambots-springboot-longpolling-starter:9.0.0"
+    implementation "org.telegram:telegrambots-client:9.0.0"
+
+    // Optional dependencies
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
+    compileOnly 'org.projectlombok:lombok'
+
+    // Utilities
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+
+    // Annotation processors
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('jar') {
+    archiveBaseName.set('tbcf-starter')
+    archiveVersion.set(version)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }
