@@ -6,6 +6,10 @@
       media:
         type: photo
         file_name: Qstart.jpg
+    - type: media
+      media:
+        type: audio
+        file_name: quest.mp3
   prompt: "Почнемо нашу подорож. Оберіть тему: "
   button_type: inline
   buttons:

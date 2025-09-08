@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MessageCleanupService {
     private final TelegramClient client;
 
-    // chatId -> messageIds
     private final ConcurrentHashMap<String, List<Integer>> storage = new ConcurrentHashMap<>();
 
     public void registerMessage(String chatId, Integer messageId) {
@@ -45,7 +44,7 @@ public class MessageCleanupService {
         deleteMessage(chatId, messageId);
     }
 
-    private void deleteMessage(String chatId, Integer messageId) {
+    public void deleteMessage(String chatId, Integer messageId) {
         try {
             client.executeAsync(DeleteMessage.builder()
                     .chatId(chatId)

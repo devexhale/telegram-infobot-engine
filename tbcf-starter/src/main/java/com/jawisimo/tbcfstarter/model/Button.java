@@ -12,4 +12,5 @@ public class Button  {
     private String next;
 
     private String url;
+
 }

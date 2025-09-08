@@ -3,31 +3,30 @@ package com.jawisimo.tbcfstarter.handler.media;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.support.InputMediaFileResolver;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Component
-public class PhotoMediaHandler extends AbstractMediaHandler {
+public class AudioMediaHandler extends AbstractMediaHandler {
 
-    public PhotoMediaHandler(TelegramClient client, InputMediaFileResolver mediaFileResolver) {
+    public AudioMediaHandler(TelegramClient client, InputMediaFileResolver mediaFileResolver) {
         super(client, mediaFileResolver);
     }
 
     @Override
     protected String getMediaType() {
-        return "PHOTO";
+        return "AUDIO";
     }
 
     @Override
     protected Message execute(ContentNode contentNode, String chatId) throws TelegramApiException {
-        SendPhoto request = SendPhoto.builder()
+        SendAudio request = SendAudio.builder()
                 .chatId(chatId)
-                .photo(mediaFileResolver.getMediaFile(contentNode.getMedia()))
+                .audio(mediaFileResolver.getMediaFile(contentNode.getMedia()))
                 .caption(contentNode.getMedia().getCaption())
                 .build();
         return client.execute(request);
     }
-
 }
