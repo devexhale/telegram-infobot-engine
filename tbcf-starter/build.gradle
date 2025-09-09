@@ -56,13 +56,21 @@ tasks.named('jar') {
     archiveVersion.set(version)
 }
 
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
         }
     }
+
     repositories {
         mavenLocal()
     }
 }
+

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.github.jawisimo'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 description = 'tg-bot-config-framework'
 
 java {
@@ -16,16 +16,6 @@ java {
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation(project(":tbcf-starter"))
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {

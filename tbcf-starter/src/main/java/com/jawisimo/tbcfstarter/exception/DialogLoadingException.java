@@ -9,4 +9,5 @@ public class DialogLoadingException extends RuntimeException {
     public DialogLoadingException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

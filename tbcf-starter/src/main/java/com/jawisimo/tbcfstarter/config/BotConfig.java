@@ -28,7 +28,7 @@ public class BotConfig {
 
     @Bean
     public TelegramClient telegramClient() {
-        log.info("Telegram bot {} register: {}", properties.botName(), LocalTime.now());
+        log.info("Telegram bot {} register: {}", properties.name(), LocalTime.now());
         return new OkHttpTelegramClient(properties.token());
     }
 

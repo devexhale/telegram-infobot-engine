@@ -8,4 +8,5 @@ public class MediaLoadingException extends RuntimeException {
     public MediaLoadingException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

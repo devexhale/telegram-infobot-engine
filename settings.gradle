@@ -1,2 +1,3 @@
 rootProject.name = 'tg-bot-config-framework'
+include 'bot-template'
 include 'tbcf-starter'
