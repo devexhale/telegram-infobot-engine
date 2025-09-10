@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.service;
+package com.jawisimo.tbcfstarter.service.state;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;

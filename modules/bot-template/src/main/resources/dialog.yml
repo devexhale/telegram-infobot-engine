@@ -1,0 +1,889 @@
+/start:
+  content:
+    - type: text
+      text: "Перевірте свої знання та дізнайтесь більше про світ навколо!"
+    - type: media
+      media:
+        type: photo
+        file_name: Qstart.jpg
+    - type: media
+      media:
+        type: audio
+        file_name: quest.mp3
+  prompt: "Почнемо нашу подорож. Оберіть тему: "
+  button_type: inline
+  buttons:
+    - label: "🏛️ Історія"
+      next: "history_q1"
+    - label: "🔬 Наука"
+      next: "science_q1"
+    - label: "🌎 Географія"
+      next: "geography_q1"
+    - label: "🎬 Кіно"
+      next: "cinema_q1"
+    - label: "🔗 GitHub"
+      url: "https://github.com/jawisimo/tg-bot-config-framework"
+
+# ІСТОРІЯ
+history_q1:
+  content:
+    - type: media
+      media:
+        type: photo
+        file_name: History.jpg
+    - type: text
+      text: "Питання 1️⃣ "
+  prompt: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "
+  button_type: inline
+  buttons:
+    - label: "Вбивство ерцгерцога Франца Фердинанда"
+      next: "history_q1_correct"
+    - label: "Підписання Версальського договору"
+      next: "history_q1_wrong"
+    - label: "Вторгнення Німеччини в Бельгію"
+      next: "history_q1_wrong"
+    - label: "Битва на Соммі"
+      next: "history_q1_wrong"
+
+history_q1_correct:
+  prompt: "✅ Правильно! Вбивство ерцгерцога Франца Фердинанда в Сараєво 28 червня 1914 року спричинило ланцюг подій, що призвів до початку Першої світової війни."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "history_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q1_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "history_q1"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q2:
+  content:
+    - type: text
+      text: "Питання 2️⃣ "
+  prompt: "Хто був першим президентом США?"
+  button_type: inline
+  buttons:
+    - label: "Томас Джефферсон"
+      next: "history_q2_wrong"
+    - label: "Авраам Лінкольн"
+      next: "history_q2_wrong"
+    - label: "Джордж Вашингтон"
+      next: "history_q2_correct"
+    - label: "Джон Адамс"
+      next: "history_q2_wrong"
+
+history_q2_correct:
+  prompt: "✅ Правильно! Джордж Вашингтон був першим президентом США з 1789 по 1797 рік."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "history_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q2_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "history_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q3:
+  content:
+    - type: text
+      text: "Питання 3️⃣ "
+  prompt: "Коли відбулась Французька революція?"
+  button_type: inline
+  buttons:
+    - label: "1789-1799"
+      next: "history_q3_correct"
+    - label: "1776-1783"
+      next: "history_q3_wrong"
+    - label: "1803-1815"
+      next: "history_q3_wrong"
+    - label: "1812-1815"
+      next: "history_q3_wrong"
+
+history_q3_correct:
+  prompt: "✅ Правильно! Французька революція тривала з 1789 по 1799 рік."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "history_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q3_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "history_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q4:
+  content:
+    - type: text
+      text: "Питання 4️⃣ "
+  prompt: "Хто був засновником династії Цін у Китаї?"
+  button_type: inline
+  buttons:
+    - label: "Куньлунь"
+      next: "history_q4_wrong"
+    - label: "Нурхаці"
+      next: "history_q4_correct"
+    - label: "Конфуцій"
+      next: "history_q4_wrong"
+    - label: "Цинь Шихуан"
+      next: "history_q4_wrong"
+
+history_q4_correct:
+  prompt: "✅ Правильно! Нурхаці заснував династію Цін у Китаї на початку XVII століття."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "history_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q4_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "history_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q5:
+  content:
+    - type: text
+      text: "Питання 5️⃣ "
+  prompt: "Яка подія 1648 року стала початком найбільшого козацького повстання в історії Речі Посполитої?"
+  button_type: inline
+  buttons:
+    - label: "Коліївщина"
+      next: "history_q5_wrong"
+    - label: "Хмельниччина"
+      next: "history_q5_correct"
+    - label: "Повстання Наливайка"
+      next: "history_q5_wrong"
+    - label: "Повстання Косинського"
+      next: "history_q5_wrong"
+
+history_q5_correct:
+  prompt: "✅ Правильно! Хмельниччина, або повстання під проводом Богдана Хмельницького, почалося в 1648 році і стало найбільшим козацьким повстанням проти Речі Посполитої."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "history_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q5_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "history_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q6:
+  content:
+    - type: text
+      text: "Питання 6️⃣ "
+  prompt: "Який імператор побудував Велику Китайську стіну?"
+  button_type: inline
+  buttons:
+    - label: "Цінь Ши Хуанді"
+      next: "history_q6_correct"
+    - label: "Конфуцій"
+      next: "history_q6_wrong"
+    - label: "Мао Цзедун"
+      next: "history_q6_wrong"
+    - label: "Сунь Ятсен"
+      next: "history_q6_wrong"
+
+history_q6_correct:
+  prompt: "✅ Правильно! Цінь Ши Хуанді був першим імператором об'єднаного Китаю і розпочав будівництво Великої Китайської стіни."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "history_end"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_q6_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "history_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+history_end:
+  prompt: "🎉 Вітаємо! Ви завершили вікторину з історії! Хочете спробувати іншу тему?"
+  button_type: inline
+  buttons:
+    - label: "🔙 На головну"
+      next: "/start"
+
+# НАУКА
+science_q1:
+  content:
+    - type: media
+      media:
+        type: photo
+        file_name: Science.jpg
+    - type: text
+      text: "Питання 1️⃣ "
+  prompt: "Який експеримент, проведений у 1887 році, спростував існування ефіру як середовища для поширення світла?"
+  button_type: inline
+  buttons:
+    - label: "Експеримент Резерфорда"
+      next: "science_q1_wrong"
+    - label: "Експеримент Майкельсона-Морлі"
+      next: "science_q1_correct"
+    - label: "Експеримент Томсона"
+      next: "science_q1_wrong"
+    - label: "Експеримент Міллікена"
+      next: "science_q1_wrong"
+
+science_q1_correct:
+  prompt: "✅ Правильно! Експеримент Майкельсона-Морлі в 1887 році показав, що швидкість світла не залежить від руху через гіпотетичний ефір, що підготувало ґрунт для теорії відносності."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "science_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q1_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "science_q1"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q2:
+  content:
+    - type: text
+      text: "Питання 2️⃣ "
+  prompt: "Який хімічний елемент був відкритий на Сонці раніше, ніж на Землі, завдяки спектральному аналізу?"
+  button_type: inline
+  buttons:
+    - label: "Водень"
+      next: "science_q2_wrong"
+    - label: "Кисень"
+      next: "science_q2_wrong"
+    - label: "Гелій"
+      next: "science_q2_correct"
+    - label: "Азот"
+      next: "science_q2_wrong"
+
+science_q2_correct:
+  prompt: "✅ Правильно! Гелій був виявлений на Сонці в 1868 році через спектральні лінії, а на Землі його ізолювали лише в 1895 році."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "science_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q2_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "science_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q3:
+  content:
+    - type: text
+      text: "Питання 3️⃣ "
+  prompt: "Яке явище, відкрите в 1932 році Карлом Андерсоном, підтвердило існування антиматерії?"
+  button_type: inline
+  buttons:
+    - label: "Виявлення нейтрино"
+      next: "science_q3_wrong"
+    - label: "Виявлення протона"
+      next: "science_q3_wrong"
+    - label: "Виявлення кварка"
+      next: "science_q3_wrong"
+    - label: "Виявлення позитрона"
+      next: "science_q3_correct"
+
+science_q3_correct:
+  prompt: "✅ Правильно! Виявлення позитрона Карлом Андерсоном у 1932 році стало першим доказом існування антиматерії, підтверджуючи теорію Дірака."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "science_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q3_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "science_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q4:
+  content:
+    - type: text
+      text: "Питання 4️⃣ "
+  prompt: "Який біологічний процес, відкритий у 1953 році, лежить в основі копіювання генетичної інформації в клітинах?"
+  button_type: inline
+  buttons:
+    - label: "Транскрипція РНК"
+      next: "science_q4_wrong"
+    - label: "Трансляція білків"
+      next: "science_q4_wrong"
+    - label: "Реплікація ДНК"
+      next: "science_q4_correct"
+    - label: "Мейоз"
+      next: "science_q4_wrong"
+
+science_q4_correct:
+  prompt: "✅ Правильно! Реплікація ДНК, модель якої запропонували Уотсон і Крік у 1953 році, забезпечує копіювання генетичної інформації під час поділу клітин."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "science_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q4_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "science_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q5:
+  content:
+    - type: text
+      text: "Питання 5️⃣ "
+  prompt: "Яка космологічна модель, запропонована в 1927 році Жоржем Леметром, описує розширення Всесвіту?"
+  button_type: inline
+  buttons:
+    - label: "Теорія стаціонарного Всесвіту"
+      next: "science_q5_wrong"
+    - label: "Теорія струн"
+      next: "science_q5_wrong"
+    - label: "Теорія темної енергії"
+      next: "science_q5_wrong"
+    - label: "Теорія Великого вибуху"
+      next: "science_q5_correct"
+
+science_q5_correct:
+  prompt: "✅ Правильно! Теорія Великого вибуху, запропонована Жоржем Леметром у 1927 році, пояснює розширення Всесвіту від початкової сингулярності."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "science_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q5_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "science_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q6:
+  content:
+    - type: text
+      text: "Питання 6️⃣ "
+  prompt: "Яке явище, передбачене Альбертом Ейнштейном у 1915 році, було вперше підтверджене спостереженнями Артура Еддінгтона в 1919 році?"
+  button_type: inline
+  buttons:
+    - label: "Фотоелектричний ефект"
+      next: "science_q6_wrong"
+    - label: "Ефект Доплера"
+      next: "science_q6_wrong"
+    - label: "Гравітаційне лінзування"
+      next: "science_q6_correct"
+    - label: "Квантова заплутаність"
+      next: "science_q6_wrong"
+
+science_q6_correct:
+  prompt: "✅ Правильно! Гравітаційне лінзування, передбачене загальною теорією відносності Ейнштейна, було підтверджене Еддінгтоном під час сонячного затемнення 1919 року."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "science_end"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_q6_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "science_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+science_end:
+  prompt: "🎉 Вітаємо! Ви завершили вікторину з науки! Хочете спробувати іншу тему?"
+  button_type: inline
+  buttons:
+    - label: "🔙 На головну"
+      next: "/start"
+
+# ГЕОГРАФІЯ
+geography_q1:
+  content:
+    - type: media
+      media:
+        type: photo
+        file_name: Geography.jpeg
+    - type: text
+      text: "Питання 1️⃣ "
+  prompt: "Який географічний об’єкт є найглибшою точкою Світового океану?"
+  button_type: inline
+  buttons:
+    - label: "Філіппінський жолоб"
+      next: "geography_q1_wrong"
+    - label: "Маріанська западина"
+      next: "geography_q1_correct"
+    - label: "Пуерто-Рицький жолоб"
+      next: "geography_q1_wrong"
+    - label: "Яванський жолоб"
+      next: "geography_q1_wrong"
+
+geography_q1_correct:
+  prompt: "✅ Правильно! Маріанська западина, розташована в Тихому океані, є найглибшою точкою Світового океану з глибиною близько 11 км."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "geography_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q1_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "geography_q1"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q2:
+  content:
+    - type: text
+      text: "Питання 2️⃣ "
+  prompt: "Яка країна має найбільшу кількість прісноводних озер у світі?"
+  button_type: inline
+  buttons:
+    - label: "Фінляндія"
+      next: "geography_q2_wrong"
+    - label: "Росія"
+      next: "geography_q2_wrong"
+    - label: "Канада"
+      next: "geography_q2_correct"
+    - label: "Бразилія"
+      next: "geography_q2_wrong"
+
+geography_q2_correct:
+  prompt: "✅ Правильно! Канада має найбільшу кількість прісноводних озер у світі, включаючи Великі озера та численні менші озера."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "geography_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q2_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "geography_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q3:
+  content:
+    - type: text
+      text: "Питання 3️⃣ "
+  prompt: "Який геологічний розлом є причиною частих землетрусів у Каліфорнії?"
+  button_type: inline
+  buttons:
+    - label: "Розлом Альпійський"
+      next: "geography_q3_wrong"
+    - label: "Розлом Сан-Андреас"
+      next: "geography_q3_correct"
+    - label: "Розлом Гімалайський"
+      next: "geography_q3_wrong"
+    - label: "Розлом Мід-Океанічний"
+      next: "geography_q3_wrong"
+
+geography_q3_correct:
+  prompt: "✅ Правильно! Розлом Сан-Андреас є тектонічним розломом, що спричиняє численні землетруси в Каліфорнії через рух плит."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "geography_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q3_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "geography_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q4:
+  content:
+    - type: text
+      text: "Питання 4️⃣ "
+  prompt: "Яке море, розташоване між Аравійським півостровом і Африкою, є найсолонішим у світі?"
+  button_type: inline
+  buttons:
+    - label: "Чорне море"
+      next: "geography_q4_wrong"
+    - label: "Мертве море"
+      next: "geography_q4_wrong"
+    - label: "Червоне море"
+      next: "geography_q4_correct"
+    - label: "Каспійське море"
+      next: "geography_q4_wrong"
+
+geography_q4_correct:
+  prompt: "✅ Правильно! Червоне море має найвищу солоність серед морів Світового океану через високу температуру і випаровування."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "geography_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q4_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "geography_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q5:
+  content:
+    - type: text
+      text: "Питання 5️⃣ "
+  prompt: "Яка країна є найбільшим експортером кави у світі?"
+  button_type: inline
+  buttons:
+    - label: "Колумбія"
+      next: "geography_q5_wrong"
+    - label: "Ефіопія"
+      next: "geography_q5_wrong"
+    - label: "В’єтнам"
+      next: "geography_q5_wrong"
+    - label: "Бразилія"
+      next: "geography_q5_correct"
+
+geography_q5_correct:
+  prompt: "✅ Правильно! Бразилія є найбільшим експортером кави у світі, виробляючи близько 40% світового обсягу."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "geography_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q5_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "geography_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q6:
+  content:
+    - type: text
+      text: "Питання 6️⃣ "
+  prompt: "Який архіпелаг, відкритий у 1831 році Чарльзом Дарвіном, став ключовим для його теорії еволюції?"
+  button_type: inline
+  buttons:
+    - label: "Гавайські острови"
+      next: "geography_q6_wrong"
+    - label: "Філіппінські острови"
+      next: "geography_q6_wrong"
+    - label: "Галапагоські острови"
+      next: "geography_q6_correct"
+    - label: "Мальдіви"
+      next: "geography_q6_wrong"
+
+geography_q6_correct:
+  prompt: "✅ Правильно! Галапагоські острови, відвідані Дарвіном у 1831 році, надали унікальні дані про видоутворення, що лягли в основу його теорії еволюції."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "geography_end"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_q6_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "geography_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+geography_end:
+  prompt: "🎉 Вітаємо! Ви завершили вікторину з географії! Хочете спробувати іншу тему?"
+  button_type: inline
+  buttons:
+    - label: "🔙 На головну"
+      next: "/start"
+
+# КІНО
+cinema_q1:
+  content:
+    - type: media
+      media:
+        type: photo
+        file_name: Movie.jpg
+    - type: text
+      text: "Питання 1️⃣ "
+  prompt: "Який фільм 1927 року вважається першим повнометражним звуковим фільмом у історії кінематографа?"
+  button_type: inline
+  buttons:
+    - label: "Метрополіс"
+      next: "cinema_q1_wrong"
+    - label: "Співак джазу"
+      next: "cinema_q1_correct"
+    - label: "Світанок"
+      next: "cinema_q1_wrong"
+    - label: "Великий парад"
+      next: "cinema_q1_wrong"
+
+cinema_q1_correct:
+  prompt: "✅ Правильно! 'Співак джазу' (1927) став першим повнометражним звуковим фільмом, що започаткував еру звукового кіно."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "cinema_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q1_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "cinema_q1"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q2:
+  content:
+    - type: text
+      text: "Питання 2️⃣ "
+  prompt: "Який режисер отримав перший в історії 'Оскар' за найкращу режисуру в 1929 році?"
+  button_type: inline
+  buttons:
+    - label: "Чарлі Чаплін"
+      next: "cinema_q2_wrong"
+    - label: "Д. В. Гріффіт"
+      next: "cinema_q2_wrong"
+    - label: "Френк Борзейдж"
+      next: "cinema_q2_correct"
+    - label: "Бастер Кітон"
+      next: "cinema_q2_wrong"
+
+cinema_q2_correct:
+  prompt: "✅ Правильно! Френк Борзейдж отримав перший 'Оскар' за найкращу режисуру за фільм 'Сьоме небо' на церемонії 1929 року."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "cinema_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q2_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "cinema_q2"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q3:
+  content:
+    - type: text
+      text: "Питання 3️⃣ "
+  prompt: "Який фільм 1972 року встановив стандарт для сучасного гангстерського жанру?"
+  button_type: inline
+  buttons:
+    - label: "Скажений бик"
+      next: "cinema_q3_wrong"
+    - label: "Хрещений батько"
+      next: "cinema_q3_correct"
+    - label: "Таксист"
+      next: "cinema_q3_wrong"
+    - label: "Одного разу в Америці"
+      next: "cinema_q3_wrong"
+
+cinema_q3_correct:
+  prompt: "✅ Правильно! 'Хрещений батько' (1972) Френсіса Форда Копполи став культовим фільмом, що визначив сучасний гангстерський жанр."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "cinema_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q3_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "cinema_q3"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q4:
+  content:
+    - type: text
+      text: "Питання 4️⃣ "
+  prompt: "Яка техніка монтажу, розроблена Сергієм Ейзенштейном, використовувалася для створення емоційного впливу у фільмі 'Броненосець Потьомкін' (1925)?"
+  button_type: inline
+  buttons:
+    - label: "Паралельний монтаж"
+      next: "cinema_q4_wrong"
+    - label: "Монтаж атракціонів"
+      next: "cinema_q4_correct"
+    - label: "Континуїтетний монтаж"
+      next: "cinema_q4_wrong"
+    - label: "Нелінійний монтаж"
+      next: "cinema_q4_wrong"
+
+cinema_q4_correct:
+  prompt: "✅ Правильно! Монтаж атракціонів, розроблений Ейзенштейном, використовував контрастні образи для створення емоційного впливу в 'Броненосці Потьомкін'."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "cinema_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q4_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "cinema_q4"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q5:
+  content:
+    - type: text
+      text: "Питання 5️⃣ "
+  prompt: "Який фільм 1999 року популяризував концепцію 'куленосного часу' (bullet time) у кінематографі?"
+  button_type: inline
+  buttons:
+    - label: "Термінатор 2"
+      next: "cinema_q5_wrong"
+    - label: "Матриця"
+      next: "cinema_q5_correct"
+    - label: "Бійцівський клуб"
+      next: "cinema_q5_wrong"
+    - label: "Швидкість"
+      next: "cinema_q5_wrong"
+
+cinema_q5_correct:
+  prompt: "✅ Правильно! 'Матриця' (1999) братів Вачовскі популяризувала техніку 'bullet time', створюючи ефект уповільненого руху."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "cinema_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q5_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "cinema_q5"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q6:
+  content:
+    - type: text
+      text: "Питання 6️⃣ "
+  prompt: "Який режисер є єдиним, хто отримав 'Золоту пальмову гілку' Каннського кінофестивалю за два фільми поспіль?"
+  button_type: inline
+  buttons:
+    - label: "Квентін Тарантіно"
+      next: "cinema_q6_wrong"
+    - label: "Мартін Скорсезе"
+      next: "cinema_q6_wrong"
+    - label: "Білле Аугуст"
+      next: "cinema_q6_correct"
+    - label: "Акіра Куросава"
+      next: "cinema_q6_wrong"
+
+cinema_q6_correct:
+  prompt: "✅ Правильно! Білле Аугуст отримав 'Золоту пальмову гілку' за фільми 'Пелле-завойовник' (1988) і 'Найкращі наміри' (1992) поспіль."
+  button_type: inline
+  buttons:
+    - label: "Далі ➡️"
+      next: "cinema_end"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_q6_wrong:
+  prompt: "❌ Неправильно! Спробуйте ще раз."
+  button_type: inline
+  buttons:
+    - label: "🔄 Спробувати ще раз"
+      next: "cinema_q6"
+    - label: "🔙 На головну"
+      next: "/start"
+
+cinema_end:
+  prompt: "🎉 Вітаємо! Ви завершили вікторину з кіно! Хочете спробувати іншу тему?"
+  button_type: inline
+  buttons:
+    - label: "🔙 На головну"
+      next: "/start"

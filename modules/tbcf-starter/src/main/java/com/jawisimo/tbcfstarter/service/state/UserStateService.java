@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.service;
+package com.jawisimo.tbcfstarter.service.state;
 
 public interface UserStateService {
     String getUserStateOrDefault(String chatId, String defaultState);
