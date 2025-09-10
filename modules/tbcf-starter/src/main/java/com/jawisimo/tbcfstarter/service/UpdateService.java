@@ -25,8 +25,6 @@ public class UpdateService {
     private final DialogRepository dialogRepository;
     private final MessageCleanupService cleanupService;
     private final List<CommandService> commandServices;
-
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final UserStateService userStateService;
 
     @Async("asyncBotExecutor")
@@ -104,7 +102,7 @@ public class UpdateService {
 
         DialogNode nextNode = dialogRepository.getDialogNode(userInput);
         if (nextNode == null) {
-            log.warn("Could not find node for input='{}'", userInput);
+            log.warn("Could not find node for input='{}'. Message deleted from chat={}", userInput, chatId);
             return;
         }
 

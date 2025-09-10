@@ -17,8 +17,6 @@ public class StartCommandService implements CommandService {
     private final StartCommand startCommand;
     private final NodeHandler nodeHandler;
     private final DialogRepository dialogRepository;
-
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final UserStateService userStateService;
 
     @Override

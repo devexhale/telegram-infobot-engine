@@ -9,7 +9,7 @@
     - type: media
       media:
         type: audio
-        file_name: quest.mp3
+        file_name: start_quest.mp3
   prompt: "Почнемо нашу подорож. Оберіть тему: "
   button_type: inline
   buttons:

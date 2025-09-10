@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.validator;
 
+
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.exception.MediaLoadingException;
 import com.jawisimo.tbcfstarter.handler.ContentHandler;
 import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
@@ -25,14 +25,14 @@ public class ContentValidator {
         String fileName = contentNode.getMedia().getFileName();
 
         if (type == null || type.isBlank()) {
-            throw new MediaLoadingException("Media type is missing for file: " + fileName);
+            throw new DialogLoadingException("Media type is missing for file: " + fileName);
         }
 
         boolean supported = contentHandlers.stream()
                 .anyMatch(h -> h.supports(contentNode));
 
         if (!supported) {
-            throw new MediaLoadingException(
+            throw new DialogLoadingException(
                     "No handler found for media type: " + type + " (file: " + fileName + ")"
             );
         }

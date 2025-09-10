@@ -20,8 +20,6 @@ public class LastCommandService implements CommandService {
     private final LastCommand lastCommand;
     private final NodeHandler nodeHandler;
     private final DialogRepository dialogRepository;
-
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final UserStateService userStateService;
 
     @Override

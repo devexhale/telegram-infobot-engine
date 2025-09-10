@@ -13,7 +13,7 @@ public class RedisFailFastConfig {
             "(spring.redis.*) or Java configuration.";
 
     @Bean
-    @ConditionalOnProperty(prefix = "telegram.bot.last-command", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "telegram.bot", name = "enable-last-command", havingValue = "true")
     public static BeanFactoryPostProcessor redisCheckPostProcessor() {
         return beanFactory -> {
             if (!beanFactory.containsBeanDefinition("redisConnectionFactory")) {
