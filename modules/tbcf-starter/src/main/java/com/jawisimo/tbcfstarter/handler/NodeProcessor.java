@@ -3,9 +3,7 @@ package com.jawisimo.tbcfstarter.handler;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
-import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
-import com.jawisimo.tbcfstarter.service.state.UserStateService;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,37 +19,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class NodeHandler {
+public class NodeProcessor {
     private final List<ContentHandler> contentHandlers;
     private final KeyboardMarkupHandler keyboardHandler;
     private final MessageCleanupService cleanupService;
     private final DialogValidator dialogValidator;
-
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    private final UserStateService userStateService;
-
-    private final DialogRepository dialogRepository;
-    private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
     private final TelegramClient client;
+
+    private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
 
     private static final String UPLOADING_MESSAGE = "Uploading media. Wait...";
 
-    public void handle(String chatId, String userInput) {
-        if (userInput == null) {
-            log.warn("User input is null. Message deleted from chatId={}", chatId);
-            return;
-        }
-
-        DialogNode nextNode = dialogRepository.getDialogNode(userInput);
-        if (nextNode != null) {
-            handle(nextNode, chatId);
-            userStateService.saveUserState(chatId, userInput);
-        } else {
-            log.warn("No dialog node found for input='{}'. Message deleted from chatId={}", userInput, chatId);
-        }
-    }
-
-    public void handle(DialogNode dialogNode, String chatId) {
+    public void processNode(DialogNode dialogNode, String chatId) {
         Object lock = chatLocks.computeIfAbsent(chatId, k -> new Object());
         synchronized (lock) {
             cleanupService.clearLastNode(chatId);
@@ -65,11 +44,11 @@ public class NodeHandler {
 
         for (ContentNode contentNode : dialogNode.content()) {
             dialogValidator.validateContentNode(contentNode, contentHandlers);
-            handleContentNode(contentNode, chatId);
+            processContentNode(contentNode, chatId);
         }
     }
 
-    private void handleContentNode(ContentNode contentNode, String chatId) {
+    private void processContentNode(ContentNode contentNode, String chatId) {
         for (ContentHandler handler : contentHandlers) {
             if (!handler.supports(contentNode)) continue;
 

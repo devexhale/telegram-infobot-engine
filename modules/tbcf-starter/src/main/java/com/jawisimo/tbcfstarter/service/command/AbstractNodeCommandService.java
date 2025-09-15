@@ -1,9 +1,9 @@
 package com.jawisimo.tbcfstarter.service.command;
 
 import com.jawisimo.tbcfstarter.command.StartCommand;
-import com.jawisimo.tbcfstarter.handler.NodeHandler;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
+import com.jawisimo.tbcfstarter.handler.NodeProcessor;
 import com.jawisimo.tbcfstarter.service.state.UserStateService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Getter(AccessLevel.PROTECTED)
-public abstract class AbstractNodeCommandService  implements CommandService {
+public abstract class AbstractNodeCommandService implements CommandService {
     private final StartCommand startCommand;
-    private final NodeHandler nodeHandler;
     private final DialogRepository dialogRepository;
     private final UserStateService userStateService;
+    private final NodeProcessor nodeProcessor;
 
     @Override
     public void execute(String chatId) {
@@ -29,7 +29,7 @@ public abstract class AbstractNodeCommandService  implements CommandService {
             return;
         }
 
-        nodeHandler.handle(node, chatId);
+        nodeProcessor.processNode(node, chatId);
         userStateService.saveUserState(chatId, nodeKey);
     }
 
