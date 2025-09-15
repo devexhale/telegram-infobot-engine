@@ -3,6 +3,7 @@ package com.jawisimo.tbcfstarter.support;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.parser.DialogParser;
+import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,42 +16,22 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class DialogLoader {
-    private static final String START_NOTE_ID = "/start";
-
+    private final DialogValidator validator;
     private final List<DialogParser> parsers;
 
     public Map<String, DialogNode> loadDialog(String dialogFileName) {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
-            if (is == null) {
-                throw new DialogLoadingException("Dialog file not found: " + dialogFileName);
-            }
+            validator.validateDialogFile(is, dialogFileName);
 
             List<DialogParser> matchingParsers = parsers.stream()
                     .filter(s -> s.supports(dialogFileName))
                     .toList();
 
-            if (matchingParsers.isEmpty()) {
-                throw new DialogLoadingException("No suitable parser found for file: " + dialogFileName);
-            }
-            if (matchingParsers.size() > 1) {
-                throw new DialogLoadingException(
-                        "Multiple parsers found for file: " + dialogFileName +
-                                " -> " + matchingParsers.stream()
-                                .map(p -> p.getClass().getSimpleName())
-                                .toList()
-                );
-            }
-
+            validator.validateParsers(matchingParsers, dialogFileName);
             DialogParser strategy = matchingParsers.getFirst();
-
             log.info("Parsing '{}' using {}", dialogFileName, strategy.getClass().getSimpleName());
-
             Map<String, DialogNode> dialogMap = strategy.parse(is);
-
-            if (!dialogMap.containsKey(START_NOTE_ID)) {
-                throw new DialogLoadingException("Dialog must contain '/start' node in file: " + dialogFileName);
-            }
-
+            validator.validateStartNode(dialogMap, dialogFileName);
             return dialogMap;
 
         } catch (Exception e) {

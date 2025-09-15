@@ -2,6 +2,8 @@ package com.jawisimo.tbcfstarter.support;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.model.Media;
+import com.jawisimo.tbcfstarter.validator.DialogValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
@@ -9,28 +11,29 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class MediaFileLoader {
     private static final String MEDIA_FOLDER = "media";
+    private final DialogValidator validator;
 
     public InputFile loadMedia(Media media) {
         String fileName = media.getFileName();
         String resourcePath = Paths.get(MEDIA_FOLDER, fileName).toString().replace('\\', '/');
-
         URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
-        if (resourceUrl == null) {
-            throw new DialogLoadingException("Media file not found: " + fileName);
-        }
+        validator.validateMediaResource(resourceUrl, fileName);
+        File file = convertUrlToFile(Objects.requireNonNull(resourceUrl), fileName);
+        return new InputFile(file);
+    }
 
-        File file;
+    private File convertUrlToFile(URL resourceUrl, String fileName) {
         try {
-            file = new File(resourceUrl.toURI());
+            return new File(resourceUrl.toURI());
         } catch (URISyntaxException e) {
             throw new DialogLoadingException("Invalid URI for media file: " + fileName, e);
         }
-
-        return new InputFile(file);
     }
 
 }

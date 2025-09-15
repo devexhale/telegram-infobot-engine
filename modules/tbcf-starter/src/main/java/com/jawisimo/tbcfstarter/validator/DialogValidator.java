@@ -1,24 +1,27 @@
 package com.jawisimo.tbcfstarter.validator;
 
-
+import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.handler.ContentHandler;
 import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.DialogNode;
+import com.jawisimo.tbcfstarter.parser.DialogParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ContentValidator {
+public class DialogValidator {
+    private final StartCommand startCommand;
 
-    private final List<ContentHandler> contentHandlers;
-
-    public void validateContentNode(ContentNode contentNode) {
+    public void validateContentNode(ContentNode contentNode, List<ContentHandler> contentHandlers) {
         if (contentNode.getMedia() == null) return;
 
         String type = contentNode.getMedia().getType();
@@ -35,6 +38,38 @@ public class ContentValidator {
             throw new DialogLoadingException(
                     "No handler found for media type: " + type + " (file: " + fileName + ")"
             );
+        }
+    }
+
+    public void validateDialogFile(InputStream is, String fileName) {
+        if (is == null) {
+            throw new DialogLoadingException("Dialog file not found: " + fileName);
+        }
+    }
+
+    public void validateParsers(List<DialogParser> matchingParsers, String fileName) {
+        if (matchingParsers.isEmpty()) {
+            throw new DialogLoadingException("No suitable parser found for file: " + fileName);
+        }
+        if (matchingParsers.size() > 1) {
+            throw new DialogLoadingException(
+                    "Multiple parsers found for file: " + fileName +
+                            " -> " + matchingParsers.stream()
+                            .map(p -> p.getClass().getSimpleName())
+                            .toList()
+            );
+        }
+    }
+
+    public void validateStartNode(Map<String, DialogNode> dialogMap, String fileName) {
+        if (!dialogMap.containsKey(startCommand.getCommandName())) {
+            throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
+        }
+    }
+
+    public void validateMediaResource(URL resourceUrl, String fileName) {
+        if (resourceUrl == null) {
+            throw new DialogLoadingException("Media file not found: " + fileName);
         }
     }
 
@@ -55,7 +90,7 @@ public class ContentValidator {
 
         if (type == ButtonType.REPLY) {
             validateReplyButton(hasUrl, hasNext);
-        } else { // INLINE
+        } else {
             validateInlineButton(hasUrl, hasNext);
         }
     }
@@ -64,6 +99,7 @@ public class ContentValidator {
         if (hasUrl) {
             throw new DialogLoadingException("Reply button cannot have a URL");
         }
+
         if (!hasNext) {
             throw new DialogLoadingException("Reply button must have a next (callback text)");
         }
@@ -78,4 +114,5 @@ public class ContentValidator {
             throw new DialogLoadingException("Inline button cannot have both URL and next");
         }
     }
+
 }

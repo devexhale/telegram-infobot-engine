@@ -25,9 +25,11 @@ public class UpdateService {
     private final DialogRepository dialogRepository;
     private final MessageCleanupService cleanupService;
     private final List<CommandService> commandServices;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final UserStateService userStateService;
 
-    @Async("asyncBotExecutor")
+    @Async("asyncBotVirtualExecutor")
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             executeMessage(update);
@@ -42,28 +44,16 @@ public class UpdateService {
         Message message = update.getMessage();
         String chatId = message.getChatId().toString();
         String userInput = message.getText();
-
-        // Завжди видаляємо вхідне повідомлення користувача
         cleanupService.deleteRedundantMessage(message);
-
-        // Перевіряємо команди
         if (executeCommandIfExists(chatId, userInput)) return;
-
-        // Визначаємо наступну ноду через кнопки Reply
         userInput = getNextNodeKeyFromReply(chatId, userInput);
-
-        // Обробка ноди
         processNode(chatId, userInput);
     }
 
     private void executeCallback(Update update) {
         String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
         String userInput = update.getCallbackQuery().getData();
-
-        // Перевіряємо команди (callback також може містити команду)
         if (executeCommandIfExists(chatId, userInput)) return;
-
-        // Обробка ноди напряму, бо callback вже містить next
         processNode(chatId, userInput);
     }
 
@@ -76,6 +66,7 @@ public class UpdateService {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -96,7 +87,7 @@ public class UpdateService {
 
     private void processNode(String chatId, String userInput) {
         if (userInput == null) {
-            log.warn("User input is null, skipping node processing for chatId={}", chatId);
+            log.warn("User input is null, skipping node processing. Message deleted from chat={}", chatId);
             return;
         }
 

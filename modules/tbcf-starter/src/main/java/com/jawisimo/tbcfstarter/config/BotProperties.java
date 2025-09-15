@@ -8,10 +8,6 @@ public record BotProperties(String token,
                             String name,
                             String dialogFileName,
                             int buttonsPerRow,
-                            int executorCorePoolSize,
-                            int executorMaxPoolSize,
-                            int executorQueueCapacity,
-                            String executorThreadNamePrefix,
                             String enableLastCommand) {
 
     private static final String TELEGRAM_BOT_TOKEN_PROPERTY = "telegram.bot.token";

@@ -4,7 +4,7 @@ import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
-import com.jawisimo.tbcfstarter.validator.ContentValidator;
+import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class NodeHandler {
     private final List<ContentHandler> contentHandlers;
     private final KeyboardMarkupHandler keyboardHandler;
     private final MessageCleanupService cleanupService;
-    private final ContentValidator contentValidator;
+    private final DialogValidator dialogValidator;
     private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
     private final TelegramClient client;
 
@@ -41,7 +41,7 @@ public class NodeHandler {
         if (dialogNode.content() == null) return;
 
         for (ContentNode contentNode : dialogNode.content()) {
-            contentValidator.validateContentNode(contentNode);
+            dialogValidator.validateContentNode(contentNode, contentHandlers);
             handleContentNode(contentNode, chatId);
         }
     }
@@ -67,7 +67,7 @@ public class NodeHandler {
     }
 
     private void processKeyboard(DialogNode dialogNode, String chatId) {
-        contentValidator.validateButtons(dialogNode);
+        dialogValidator.validateButtons(dialogNode);
         Message keyboardMsg = keyboardHandler.handle(dialogNode, chatId);
         if (keyboardMsg != null) {
             cleanupService.registerMessage(chatId, keyboardMsg.getMessageId());
