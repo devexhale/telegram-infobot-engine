@@ -3,24 +3,29 @@ package com.jawisimo.tbcfstarter.service.command;
 import com.jawisimo.tbcfstarter.command.LastCommand;
 import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.handler.NodeHandler;
-import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.state.UserStateService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
 @ConditionalOnProperty(prefix = "telegram.bot", name = "enable-last-command", havingValue = "true")
-@RequiredArgsConstructor
 @Slf4j
-public class LastCommandService implements CommandService {
-    private final StartCommand startCommand;
+public class LastCommandService extends AbstractNodeCommandService {
     private final LastCommand lastCommand;
-    private final NodeHandler nodeHandler;
-    private final DialogRepository dialogRepository;
-    private final UserStateService userStateService;
+
+    public LastCommandService(
+            StartCommand startCommand,
+            LastCommand lastCommand,
+            NodeHandler nodeHandler,
+            DialogRepository dialogRepository,
+            @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+            UserStateService userStateService) {
+        super(startCommand, nodeHandler, dialogRepository, userStateService); // передаємо startCommand сюди
+        this.lastCommand = lastCommand;
+    }
+
 
     @Override
     public String getCommandKey() {
@@ -28,21 +33,8 @@ public class LastCommandService implements CommandService {
     }
 
     @Override
-    public void execute(String chatId) {
-        // Отримуємо попередню ноду користувача
-        String previousNodeKey = userStateService.getUserStateOrDefault(chatId, startCommand.getCommandName());
-
-        DialogNode previousNode = dialogRepository.getDialogNode(previousNodeKey);
-        if (previousNode == null) {
-            log.warn("Previous node '{}' not found for chat {}", previousNodeKey, chatId);
-            return;
-        }
-
-        // Відправляємо попередню ноду
-        nodeHandler.handle(previousNode, chatId);
-
-        // Оновлюємо стан користувача на попередню ноду
-        userStateService.saveUserState(chatId, previousNodeKey);
+    protected String resolveNodeKey(String chatId) {
+        return getUserStateService().getUserStateOrDefault(chatId, getStartCommand().getCommandName());
     }
 
 }

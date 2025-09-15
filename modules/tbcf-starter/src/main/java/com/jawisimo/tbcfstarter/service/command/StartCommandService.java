@@ -2,41 +2,29 @@ package com.jawisimo.tbcfstarter.service.command;
 
 import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.handler.NodeHandler;
-import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.state.UserStateService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
-public class StartCommandService implements CommandService {
+public class StartCommandService extends AbstractNodeCommandService {
 
-    private final StartCommand startCommand;
-    private final NodeHandler nodeHandler;
-    private final DialogRepository dialogRepository;
-    private final UserStateService userStateService;
+    public StartCommandService(StartCommand startCommand,
+                               NodeHandler nodeHandler,
+                               DialogRepository dialogRepository,
+                               @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+                               UserStateService userStateService) {
+        super(startCommand, nodeHandler, dialogRepository, userStateService);
+    }
 
     @Override
     public String getCommandKey() {
-        return startCommand.getCommandName();
+        return getStartCommand().getCommandName();
     }
 
     @Override
-    public void execute(String chatId) {
-        // Завжди стартова нода
-        DialogNode startNode = dialogRepository.getDialogNode(getCommandKey());
-        if (startNode == null) {
-            log.error("Start node not found in repository ");
-            return;
-        }
-
-        // Відправляємо стартову ноду
-        nodeHandler.handle(startNode, chatId);
-
-        // Зберігаємо стан користувача
-        userStateService.saveUserState(chatId, getCommandKey());
+    protected String resolveNodeKey(String chatId) {
+        return getCommandKey();
     }
+
 }
