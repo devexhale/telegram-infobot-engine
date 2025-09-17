@@ -19,7 +19,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class DialogValidator {
-    private final StartCommand startCommand;
 
     public void validateContentNode(ContentNode contentNode, List<ContentHandler> contentHandlers) {
         if (contentNode.getMedia() == null) return;
@@ -62,7 +61,7 @@ public class DialogValidator {
     }
 
     public void validateStartNode(Map<String, DialogNode> dialogMap, String fileName) {
-        if (!dialogMap.containsKey(startCommand.getCommandName())) {
+        if (!dialogMap.containsKey(StartCommand.COMMAND_NAME)) {
             throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
         }
     }
