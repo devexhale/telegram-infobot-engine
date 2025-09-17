@@ -8,7 +8,7 @@ public record BotProperties(String token,
                             String name,
                             String dialogFileName,
                             int buttonsPerRow,
-                            String enableLastCommand) {
+                            boolean userStatePersistent) {
 
     private static final String TELEGRAM_BOT_TOKEN_PROPERTY = "telegram.bot.token";
     private static final String TELEGRAM_BOT_NAME_PROPERTY = "telegram.bot.name";

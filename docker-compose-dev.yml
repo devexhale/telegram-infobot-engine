@@ -3,7 +3,7 @@ version: '3.8'
 services:
   redis:
     image: redis:latest
-    container_name: bot_template_redis_dev
+    container_name: bot_template_dev_redis
     ports:
       - "6380:6379"
     volumes:

@@ -1,12 +1,13 @@
 package com.jawisimo.tbcfstarter.handler;
 
+import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
+import com.jawisimo.tbcfstarter.service.UserStateService;
 import com.jawisimo.tbcfstarter.service.command.CommandService;
-import com.jawisimo.tbcfstarter.service.state.UserStateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,6 @@ import java.util.List;
 @Slf4j
 public class DialogHandler {
     private final MessageCleanupService cleanupService;
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final UserStateService userStateService;
     private final DialogRepository dialogRepository;
     private final NodeProcessor nodeProcessor;
@@ -32,48 +32,46 @@ public class DialogHandler {
         cleanupService.deleteRedundantMessage(message);
         String chatId = message.getChatId().toString();
         String userInput = message.getText();
-
         if (executeCommandIfExists(chatId, userInput)) return;
-
-        userInput = getNextNodeKeyFromReply(chatId, userInput);
-        handleNodeByKey(chatId, userInput);
+        String nextNodeKey = resolveNextNodeKey(chatId, userInput);
+        handleNodeByKey(chatId, nextNodeKey);
+        userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
     }
 
     public void handleCallback(CallbackQuery callbackQuery) {
         String chatId = callbackQuery.getMessage().getChatId().toString();
         String callbackData = callbackQuery.getData();
-
         cleanupService.clearLastNode(chatId);
-
         if (executeCommandIfExists(chatId, callbackData)) return;
-
         handleNodeByKey(chatId, callbackData);
-        userStateService.saveUserState(chatId, callbackData);
+        userStateService.saveUserStateIfPersist(chatId, callbackData);
     }
 
     // ================== INTERNAL NODE HANDLING ==================
 
     private void handleNodeByKey(String chatId, String nodeKey) {
         if (nodeKey == null) {
-            log.warn("User input is null. Message deleted from chatId={}", chatId);
+            log.warn("User input is null. Message deleted from chat: {}", chatId);
             return;
         }
 
         DialogNode node = dialogRepository.getDialogNode(nodeKey);
+
         if (node != null) {
             nodeProcessor.processNode(node, chatId);
-            userStateService.saveUserState(chatId, nodeKey);
         } else {
-            log.warn("No dialog node found for input='{}'. Message deleted from chatId={}", nodeKey, chatId);
+            log.warn("No dialog node found for input: {}. Message deleted from chat: {}", nodeKey, chatId);
         }
     }
 
     // ================== HELPERS ==================
 
-    private String getNextNodeKeyFromReply(String chatId, String userInput) {
+    private String resolveNextNodeKey(String chatId, String userInput) {
         DialogNode currentNode = getCurrentNode(chatId);
 
-        if (currentNode != null && currentNode.buttonType() == ButtonType.REPLY && currentNode.buttons() != null) {
+        if (currentNode != null
+                && currentNode.buttonType() == ButtonType.REPLY
+                && currentNode.buttons() != null) {
             return currentNode.buttons().stream()
                     .filter(b -> b.getLabel().equals(userInput))
                     .map(Button::getNext)
@@ -85,7 +83,10 @@ public class DialogHandler {
     }
 
     private DialogNode getCurrentNode(String chatId) {
-        String currentNodeKey = userStateService.getUserStateOrDefault(chatId, commandServices.getFirst().getCommandKey());
+        String currentNodeKey = userStateService.getUserStateOrDefault(
+                chatId,
+                StartCommand.COMMAND_NAME
+        );
         return dialogRepository.getDialogNode(currentNodeKey);
     }
 
@@ -98,6 +99,7 @@ public class DialogHandler {
                 return true;
             }
         }
+
         return false;
     }
 

@@ -13,7 +13,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class UpdateService {
     private final DialogHandler handler;
 
-
     @Async("asyncBotVirtualExecutor")
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {

@@ -26,10 +26,11 @@ public class TextHandler implements ContentHandler  {
     public Message handle(ContentNode contentNode, String chatId)  {
         String text = contentNode.getText();
         SendMessage sendMessage = new SendMessage(chatId, text);
+
         try {
             return client.execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("Telegram API Exception: {}", e.getMessage(), e);
+            log.error("Failed to handle text in chat: {}", chatId, e);
             return null;
         }
     }

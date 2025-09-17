@@ -1,10 +1,10 @@
 package com.jawisimo.tbcfstarter.service.command;
 
-import com.jawisimo.tbcfstarter.command.StartCommand;
+import com.jawisimo.tbcfstarter.command.Command;
+import com.jawisimo.tbcfstarter.handler.NodeProcessor;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
-import com.jawisimo.tbcfstarter.handler.NodeProcessor;
-import com.jawisimo.tbcfstarter.service.state.UserStateService;
+import com.jawisimo.tbcfstarter.service.UserStateService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Getter(AccessLevel.PROTECTED)
-public abstract class AbstractNodeCommandService implements CommandService {
-    private final StartCommand startCommand;
+public abstract class AbstractCommandService implements CommandService {
+    private final Command command;
     private final DialogRepository dialogRepository;
     private final UserStateService userStateService;
     private final NodeProcessor nodeProcessor;
@@ -30,7 +30,7 @@ public abstract class AbstractNodeCommandService implements CommandService {
         }
 
         nodeProcessor.processNode(node, chatId);
-        userStateService.saveUserState(chatId, nodeKey);
+        userStateService.saveUserStateIfPersist(chatId, nodeKey);
     }
 
     protected abstract String resolveNodeKey(String chatId);

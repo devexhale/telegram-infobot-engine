@@ -58,6 +58,7 @@ public class NodeProcessor {
             }
 
             Message sent = handler.handle(contentNode, chatId);
+
             if (sent != null) {
                 cleanupService.registerMessage(chatId, sent.getMessageId());
             }
@@ -71,6 +72,7 @@ public class NodeProcessor {
     private void processKeyboard(DialogNode dialogNode, String chatId) {
         dialogValidator.validateButtons(dialogNode);
         Message keyboardMsg = keyboardHandler.handle(dialogNode, chatId);
+
         if (keyboardMsg != null) {
             cleanupService.registerMessage(chatId, keyboardMsg.getMessageId());
         }
@@ -88,8 +90,10 @@ public class NodeProcessor {
                             .text(UPLOADING_MESSAGE)
                             .build()
             );
+
             cleanupService.registerMessage(chatId, msg.getMessageId());
             return msg;
+
         } catch (TelegramApiException e) {
             log.error("Failed to send temp message: {}", e.getMessage(), e);
             return null;

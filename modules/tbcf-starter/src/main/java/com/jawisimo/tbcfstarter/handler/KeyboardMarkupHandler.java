@@ -46,7 +46,7 @@ public class KeyboardMarkupHandler {
         try {
             return client.execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("Telegram API Exception: {}", e.getMessage(), e);
+            log.error("Failed to handle keyboard markup in chat: {}", chatId, e);
             return null;
         }
     }

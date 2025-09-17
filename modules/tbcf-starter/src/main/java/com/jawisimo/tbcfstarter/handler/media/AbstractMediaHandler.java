@@ -43,7 +43,7 @@ public abstract class AbstractMediaHandler implements ContentHandler {
         try {
             return execute(contentNode, chatId);
         } catch (TelegramApiException e) {
-            log.error("Telegram API Exception: {}", e.getMessage(), e);
+            log.error("Failed to handle media in chat: {}", chatId, e);
             return null;
         }
     }

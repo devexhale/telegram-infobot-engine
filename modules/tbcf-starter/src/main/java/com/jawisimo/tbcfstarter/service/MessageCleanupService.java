@@ -37,13 +37,6 @@ public class MessageCleanupService {
         }
     }
 
-    public void deleteRedundantMessage(Message message) {
-        if (message == null) return;
-        String chatId = message.getChatId().toString();
-        Integer messageId = message.getMessageId();
-        deleteMessage(chatId, messageId);
-    }
-
     public void deleteMessage(String chatId, Integer messageId) {
         try {
             client.executeAsync(DeleteMessage.builder()
@@ -51,8 +44,15 @@ public class MessageCleanupService {
                     .messageId(messageId)
                     .build());
         } catch (TelegramApiException e) {
-            log.warn("Failed to delete message {} in chat {}: {}", messageId, chatId, e.getMessage());
+            log.warn("Failed to delete message: {} from chat: {}", messageId, chatId, e);
         }
+    }
+
+    public void deleteRedundantMessage(Message message) {
+        if (message == null) return;
+        String chatId = message.getChatId().toString();
+        Integer messageId = message.getMessageId();
+        deleteMessage(chatId, messageId);
     }
 
 }
