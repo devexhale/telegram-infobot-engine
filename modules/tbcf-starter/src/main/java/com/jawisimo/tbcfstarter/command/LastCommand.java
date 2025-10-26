@@ -3,7 +3,6 @@ package com.jawisimo.tbcfstarter.command;
 import com.jawisimo.tbcfstarter.annotation.UserStatePersistent;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 
 @Component
 @UserStatePersistent
@@ -13,13 +12,13 @@ public class LastCommand implements Command {
     private static final String COMMAND_DESCRIPTION = "Return to where you left off";
 
     @Override
-    public BotCommand getCommand() {
-        return new BotCommand(COMMAND_NAME, COMMAND_DESCRIPTION);
+    public String getCommandName() {
+        return COMMAND_NAME;
     }
 
     @Override
-    public String getCommandName() {
-        return COMMAND_NAME;
+    public String getDescription() {
+        return COMMAND_DESCRIPTION;
     }
 
 }

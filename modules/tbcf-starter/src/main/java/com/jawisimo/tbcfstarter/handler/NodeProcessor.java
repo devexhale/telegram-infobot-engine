@@ -32,6 +32,7 @@ public class NodeProcessor {
 
     public void processNode(DialogNode dialogNode, String chatId) {
         Object lock = chatLocks.computeIfAbsent(chatId, k -> new Object());
+
         synchronized (lock) {
             cleanupService.clearLastNode(chatId);
             processContent(dialogNode, chatId);
