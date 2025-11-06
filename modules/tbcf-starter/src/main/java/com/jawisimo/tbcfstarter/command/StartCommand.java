@@ -18,5 +18,4 @@ public class StartCommand implements Command {
     public String getDescription() {
         return COMMAND_DESCRIPTION;
     }
-
 }

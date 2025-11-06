@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContentNode {
-
     private ContentType type;
     private String text;
     private Media media;

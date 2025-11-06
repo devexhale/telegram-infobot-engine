@@ -15,4 +15,5 @@ public class UserState {
     private String chatId;
 
     private String nodeId;
+
 }

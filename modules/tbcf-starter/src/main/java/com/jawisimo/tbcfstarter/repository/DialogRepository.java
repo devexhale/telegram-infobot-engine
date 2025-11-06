@@ -4,7 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.jawisimo.tbcfstarter.config.BotProperties;
 import com.jawisimo.tbcfstarter.model.DialogNode;
-import com.jawisimo.tbcfstarter.support.DialogLoader;
+import com.jawisimo.tbcfstarter.loader.DialogLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -29,5 +29,4 @@ public class DialogRepository {
     private Map<String, DialogNode> getCachedDialogMap() {
         return dialogCache.get(properties.dialogFileName(), dialogLoader::loadDialog);
     }
-
 }

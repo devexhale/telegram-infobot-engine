@@ -26,16 +26,20 @@ public class DialogHandler {
     private final NodeProcessor nodeProcessor;
     private final List<CommandService> commandServices;
 
-    // ================== PUBLIC HANDLERS ==================
-
     public void handleMessage(Message message) {
         cleanupService.deleteRedundantMessage(message);
         String chatId = message.getChatId().toString();
         String userInput = message.getText();
         if (executeCommandIfExists(chatId, userInput)) return;
         String nextNodeKey = resolveNextNodeKey(chatId, userInput);
-        handleNodeByKey(chatId, nextNodeKey);
-        userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
+        DialogNode node = dialogRepository.getDialogNode(nextNodeKey);
+
+        if (node != null) {
+            nodeProcessor.processNode(node, chatId);
+            userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
+        } else {
+            log.warn("Irrelevant message sent: \"{}\". Message deleted from chat: {}", nextNodeKey, chatId);
+        }
     }
 
     public void handleCallback(CallbackQuery callbackQuery) {
@@ -47,7 +51,6 @@ public class DialogHandler {
         userStateService.saveUserStateIfPersist(chatId, callbackData);
     }
 
-    // ================== INTERNAL NODE HANDLING ==================
 
     private void handleNodeByKey(String chatId, String nodeKey) {
         if (nodeKey == null) {
@@ -87,6 +90,7 @@ public class DialogHandler {
                 chatId,
                 StartCommand.COMMAND_NAME
         );
+
         return dialogRepository.getDialogNode(currentNodeKey);
     }
 
@@ -102,5 +106,4 @@ public class DialogHandler {
 
         return false;
     }
-
 }

@@ -33,6 +33,10 @@ public abstract class AbstractCommandService implements CommandService {
         userStateService.saveUserStateIfPersist(chatId, nodeKey);
     }
 
-    protected abstract String resolveNodeKey(String chatId);
+    @Override
+    public String getCommandKey() {
+        return getCommand().getCommandName();
+    }
 
+    protected abstract String resolveNodeKey(String chatId);
 }

@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.handler.media;
 
 import com.jawisimo.tbcfstarter.model.ContentNode;
-import com.jawisimo.tbcfstarter.support.MediaFileLoader;
+import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -29,5 +29,4 @@ public class AudioMediaHandler extends AbstractMediaHandler {
                 .build();
         return getTelegramClient().execute(request);
     }
-
 }

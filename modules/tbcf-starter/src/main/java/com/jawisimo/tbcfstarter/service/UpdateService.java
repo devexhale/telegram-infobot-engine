@@ -15,13 +15,16 @@ public class UpdateService {
 
     @Async("asyncBotVirtualExecutor")
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage()) {
-            handler.handleMessage(update.getMessage());
-        } else if (update.hasCallbackQuery()) {
-            handler.handleCallback(update.getCallbackQuery());
-        } else {
-            log.warn("Unsupported update type: {}", update);
+        try {
+            if (update.hasMessage()) {
+                handler.handleMessage(update.getMessage());
+            } else if (update.hasCallbackQuery()) {
+                handler.handleCallback(update.getCallbackQuery());
+            } else {
+                log.warn("Unsupported update type: {}", update);
+            }
+        } catch (Exception e) {
+            log.error("Unhandled exception during update processing: {}", e.getMessage(), e);
         }
     }
-
 }

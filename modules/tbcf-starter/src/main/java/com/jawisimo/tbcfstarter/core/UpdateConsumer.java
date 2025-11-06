@@ -25,5 +25,4 @@ public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
     public void consume(Update update) {
         updateService.onUpdateReceived(update);
     }
-
 }

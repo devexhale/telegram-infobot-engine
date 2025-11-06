@@ -32,5 +32,4 @@ public class CommandsInitializer {
             log.error("Failed to set bot commands: {}", e.getMessage());
         }
     }
-
 }

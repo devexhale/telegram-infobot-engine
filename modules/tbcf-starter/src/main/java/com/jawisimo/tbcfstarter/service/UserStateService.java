@@ -39,5 +39,4 @@ public class UserStateService {
     private boolean userStatePersistent() {
         return properties.userStatePersistent() && userStateRepository != null;
     }
-
 }

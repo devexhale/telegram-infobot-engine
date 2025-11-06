@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.support;
+package com.jawisimo.tbcfstarter.loader;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.model.Media;
@@ -21,6 +21,7 @@ public class MediaFileLoader {
 
     public InputFile loadMedia(Media media) {
         String fileName = media.getFileName();
+        validator.validateMediaFileName(fileName);
         String resourcePath = Paths.get(MEDIA_FOLDER, fileName).toString().replace('\\', '/');
         URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
         validator.validateMediaResource(resourceUrl, fileName);
@@ -35,5 +36,4 @@ public class MediaFileLoader {
             throw new DialogLoadingException("Invalid URI for media file: " + fileName, e);
         }
     }
-
 }

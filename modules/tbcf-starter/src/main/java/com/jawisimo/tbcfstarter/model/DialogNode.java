@@ -1,6 +1,7 @@
 package com.jawisimo.tbcfstarter.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 
 import java.util.List;
 
@@ -13,11 +14,11 @@ public record DialogNode(
 
     public DialogNode {
         if (buttons == null || buttons.isEmpty()) {
-            throw new IllegalArgumentException("Buttons list cannot be null or empty");
+            throw new DialogLoadingException("Buttons list are required and cannot be null or empty");
         }
 
         if (prompt == null || prompt.isBlank()) {
-            throw new IllegalArgumentException("Field 'prompt' is required and cannot be null or blank");
+            throw new DialogLoadingException("Field 'prompt' is required and cannot be null or blank");
         }
     }
 }

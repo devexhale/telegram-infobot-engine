@@ -3,10 +3,7 @@ package com.jawisimo.tbcfstarter.validator;
 import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.handler.ContentHandler;
-import com.jawisimo.tbcfstarter.model.Button;
-import com.jawisimo.tbcfstarter.model.ButtonType;
-import com.jawisimo.tbcfstarter.model.ContentNode;
-import com.jawisimo.tbcfstarter.model.DialogNode;
+import com.jawisimo.tbcfstarter.model.*;
 import com.jawisimo.tbcfstarter.parser.DialogParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,22 +18,10 @@ import java.util.Map;
 public class DialogValidator {
 
     public void validateContentNode(ContentNode contentNode, List<ContentHandler> contentHandlers) {
-        if (contentNode.getMedia() == null) return;
+        validateContentType(contentNode);
 
-        String type = contentNode.getMedia().getType();
-        String fileName = contentNode.getMedia().getFileName();
-
-        if (type == null || type.isBlank()) {
-            throw new DialogLoadingException("Media type is missing for file: " + fileName);
-        }
-
-        boolean supported = contentHandlers.stream()
-                .anyMatch(h -> h.supports(contentNode));
-
-        if (!supported) {
-            throw new DialogLoadingException(
-                    "No handler found for media type: " + type + " (file: " + fileName + ")"
-            );
+        if (contentNode.getMedia() != null) {
+            validateMedia(contentNode.getMedia(), contentNode, contentHandlers);
         }
     }
 
@@ -50,6 +35,7 @@ public class DialogValidator {
         if (matchingParsers.isEmpty()) {
             throw new DialogLoadingException("No suitable parser found for file: " + fileName);
         }
+
         if (matchingParsers.size() > 1) {
             throw new DialogLoadingException(
                     "Multiple parsers found for file: " + fileName +
@@ -66,6 +52,12 @@ public class DialogValidator {
         }
     }
 
+    public void validateMediaFileName(String fileName) {
+        if (fileName == null || fileName.isBlank()) {
+            throw new DialogLoadingException("Media file_name is missing or blank");
+        }
+    }
+
     public void validateMediaResource(URL resourceUrl, String fileName) {
         if (resourceUrl == null) {
             throw new DialogLoadingException("Media file not found: " + fileName);
@@ -73,18 +65,63 @@ public class DialogValidator {
     }
 
     public void validateButtons(DialogNode node) {
-        if (node.buttons() == null || node.buttons().isEmpty()) return;
+        if ((node.buttons() == null || node.buttons().isEmpty())) {
+            throw new DialogLoadingException("Buttons are missing");
+        }
 
         ButtonType type = node.buttonType();
+
         for (Button button : node.buttons()) {
             validateButton(button, type);
         }
     }
 
+    // Приватний метод для перевірки обов'язкового типу
+    private void validateContentType(ContentNode contentNode) {
+        if (contentNode.getType() == null) {
+            throw new DialogLoadingException("Content type is missing or not valid");
+        }
+    }
+
+    // Приватний метод для перевірки медіа
+    private void validateMedia(Media media, ContentNode contentNode, List<ContentHandler> contentHandlers) {
+        validateMediaType(media);
+        validateMediaSupported(media, contentNode, contentHandlers);
+    }
+
+    // Перевірка, що тип медіа заданий
+    private void validateMediaType(Media media) {
+        String type = media.getType();
+        String fileName = media.getFileName();
+
+        if (type == null || type.isBlank()) {
+            throw new DialogLoadingException("Media type is missing for file: " + fileName);
+        }
+    }
+
+    // Перевірка, що медіа підтримується ContentHandler
+    private void validateMediaSupported(Media media, ContentNode contentNode, List<ContentHandler> contentHandlers) {
+        String type = media.getType();
+        String fileName = media.getFileName();
+        boolean supported = contentHandlers.stream().anyMatch(h -> h.supports(contentNode));
+
+        if (!supported) {
+            throw new DialogLoadingException(
+                    "No handler found for media type: " + type + " (file: " + fileName + ")"
+            );
+        }
+    }
+
     private void validateButton(Button button, ButtonType type) {
-        String url  = button.getUrl();
+        String label = button.getLabel();
+
+        if (label == null || label.isBlank()) {
+            throw new DialogLoadingException("Button label is missing or blank");
+        }
+
+        String url = button.getUrl();
         String next = button.getNext();
-        boolean hasUrl  = url != null && !url.isBlank();
+        boolean hasUrl = url != null && !url.isBlank();
         boolean hasNext = next != null && !next.isBlank();
 
         if (type == ButtonType.REPLY) {
@@ -113,5 +150,4 @@ public class DialogValidator {
             throw new DialogLoadingException("Inline button cannot have both URL and next");
         }
     }
-
 }

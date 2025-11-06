@@ -12,7 +12,6 @@ public class TelegramBot implements SpringLongPollingBot {
     private final BotProperties properties;
     private final UpdateConsumer updateConsumer;
 
-
     @Override
     public String getBotToken() {
         return properties.token();

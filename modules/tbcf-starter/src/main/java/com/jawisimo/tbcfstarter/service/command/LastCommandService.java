@@ -22,15 +22,8 @@ public class LastCommandService extends AbstractCommandService {
         super(lastCommand, dialogRepository, userStateService, nodeProcessor);
     }
 
-
-    @Override
-    public String getCommandKey() {
-        return getCommand().getCommandName();
-    }
-
     @Override
     protected String resolveNodeKey(String chatId) {
         return getUserStateService().getUserStateOrDefault(chatId, StartCommand.COMMAND_NAME);
     }
-
 }

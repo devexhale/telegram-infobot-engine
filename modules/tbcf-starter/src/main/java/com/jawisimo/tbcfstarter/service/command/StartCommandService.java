@@ -17,13 +17,7 @@ public class StartCommandService extends AbstractCommandService {
     }
 
     @Override
-    public String getCommandKey() {
-        return getCommand().getCommandName();
-    }
-
-    @Override
     protected String resolveNodeKey(String chatId) {
-        return getCommandKey();
+        return StartCommand.COMMAND_NAME;
     }
-
 }

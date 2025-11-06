@@ -3,7 +3,7 @@ package com.jawisimo.tbcfstarter.handler.media;
 import com.jawisimo.tbcfstarter.handler.ContentHandler;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;
-import com.jawisimo.tbcfstarter.support.MediaFileLoader;
+import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -47,5 +47,4 @@ public abstract class AbstractMediaHandler implements ContentHandler {
             return null;
         }
     }
-
 }

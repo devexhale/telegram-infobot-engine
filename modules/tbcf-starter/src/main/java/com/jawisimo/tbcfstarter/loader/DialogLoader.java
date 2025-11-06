@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.support;
+package com.jawisimo.tbcfstarter.loader;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.model.DialogNode;
@@ -38,5 +38,4 @@ public class DialogLoader {
             throw new DialogLoadingException("Failed to load dialog file: " + dialogFileName, e);
         }
     }
-
 }
