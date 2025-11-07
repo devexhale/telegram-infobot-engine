@@ -3,6 +3,7 @@ package com.jawisimo.tbcfstarter.loader;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.model.Media;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
+import com.jawisimo.tbcfstarter.validator.ResourceValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -17,14 +18,15 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MediaFileLoader {
     private static final String MEDIA_FOLDER = "media";
-    private final DialogValidator validator;
+    private final DialogValidator dialogValidator;
+    private final ResourceValidator resourceValidator;
 
     public InputFile loadMedia(Media media) {
         String fileName = media.getFileName();
-        validator.validateMediaFileName(fileName);
+        dialogValidator.validateMediaFileName(fileName);
         String resourcePath = Paths.get(MEDIA_FOLDER, fileName).toString().replace('\\', '/');
         URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
-        validator.validateMediaResource(resourceUrl, fileName);
+        resourceValidator.validateMediaResource(resourceUrl, fileName);
         File file = convertUrlToFile(Objects.requireNonNull(resourceUrl), fileName);
         return new InputFile(file);
     }

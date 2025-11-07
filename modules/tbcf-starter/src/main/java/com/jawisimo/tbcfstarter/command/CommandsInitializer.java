@@ -19,15 +19,15 @@ public class CommandsInitializer {
     private final List<Command> commands;
 
     public void setUpCommands() {
-        List<BotCommand> telegramCommands = commands.stream()
+        List<BotCommand> botCommands = commands.stream()
                 .map(Command::getCommand)
                 .toList();
-        SetMyCommands setMyCommands = new SetMyCommands(telegramCommands);
+        SetMyCommands setMyCommands = new SetMyCommands(botCommands);
         setMyCommands.setScope(new BotCommandScopeDefault());
 
         try {
             client.execute(setMyCommands);
-            log.info("Bot commands successfully set: {}", telegramCommands);
+            log.info("Bot commands successfully set: {}", botCommands);
         } catch (TelegramApiException e) {
             log.error("Failed to set bot commands: {}", e.getMessage());
         }

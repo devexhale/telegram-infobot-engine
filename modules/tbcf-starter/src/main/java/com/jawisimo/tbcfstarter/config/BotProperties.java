@@ -10,16 +10,21 @@ public record BotProperties(String token,
                             int buttonsPerRow,
                             boolean userStatePersistent) {
 
-    private static final String TELEGRAM_BOT_TOKEN_PROPERTY = "telegram.bot.token";
-    private static final String TELEGRAM_BOT_NAME_PROPERTY = "telegram.bot.name";
+    private static final String BOT_TOKEN = "telegram.bot.token";
+    private static final String BOT_NAME = "telegram.bot.name";
+    private static final String BOT_BUTTONS_PER_ROW = "telegram.bot.buttons-per-row";
 
     public BotProperties {
         if (token == null || token.isBlank()) {
-            throw new MissingPropertyException(TELEGRAM_BOT_TOKEN_PROPERTY);
+            throw new MissingPropertyException(BOT_TOKEN);
         }
+
         if (dialogFileName == null || dialogFileName.isBlank()) {
-            throw new MissingPropertyException(TELEGRAM_BOT_NAME_PROPERTY);
+            throw new MissingPropertyException(BOT_NAME);
+        }
+
+        if (buttonsPerRow <= 0 || buttonsPerRow > 100) {
+            throw new IllegalArgumentException(BOT_BUTTONS_PER_ROW + " must be a positive integer");
         }
     }
-
 }

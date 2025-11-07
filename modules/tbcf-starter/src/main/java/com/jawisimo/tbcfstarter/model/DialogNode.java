@@ -5,7 +5,6 @@ import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 
 import java.util.List;
 
-
 public record DialogNode(
         List<ContentNode> content,
         String prompt,

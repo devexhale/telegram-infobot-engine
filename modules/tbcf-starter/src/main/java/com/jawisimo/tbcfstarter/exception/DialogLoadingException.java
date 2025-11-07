@@ -1,6 +1,5 @@
 package com.jawisimo.tbcfstarter.exception;
 
-
 public class DialogLoadingException extends RuntimeException {
 
     public DialogLoadingException(String message) {

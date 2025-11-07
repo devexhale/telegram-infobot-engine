@@ -11,5 +11,6 @@ public class Media {
 
     @JsonProperty("file_name")
     private String fileName;
+
     private String caption;
 }

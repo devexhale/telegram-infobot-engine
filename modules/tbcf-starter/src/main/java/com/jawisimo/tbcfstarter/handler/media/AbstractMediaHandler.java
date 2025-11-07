@@ -1,19 +1,17 @@
 package com.jawisimo.tbcfstarter.handler.media;
 
 import com.jawisimo.tbcfstarter.handler.ContentHandler;
+import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;
-import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Slf4j
 @RequiredArgsConstructor
 public abstract class AbstractMediaHandler implements ContentHandler {
-
     private final TelegramClient client;
     private final MediaFileLoader mediaFileLoader;
 
@@ -27,10 +25,7 @@ public abstract class AbstractMediaHandler implements ContentHandler {
 
     protected abstract String getMediaType();
 
-    /**
-     * Повертає надіслане повідомлення
-     */
-    protected abstract Message execute(ContentNode contentNode, String chatId) throws TelegramApiException;
+    protected abstract Message executeMedia(ContentNode contentNode, String chatId);
 
     @Override
     public boolean supports(ContentNode contentNode) {
@@ -40,11 +35,6 @@ public abstract class AbstractMediaHandler implements ContentHandler {
 
     @Override
     public Message handle(ContentNode contentNode, String chatId) {
-        try {
-            return execute(contentNode, chatId);
-        } catch (TelegramApiException e) {
-            log.error("Failed to handle media in chat: {}", chatId, e);
-            return null;
-        }
+        return executeMedia(contentNode, chatId);
     }
 }

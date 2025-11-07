@@ -7,7 +7,7 @@ import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import com.jawisimo.tbcfstarter.service.UserStateService;
-import com.jawisimo.tbcfstarter.service.command.CommandService;
+import com.jawisimo.tbcfstarter.handler.command.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,13 +24,13 @@ public class DialogHandler {
     private final UserStateService userStateService;
     private final DialogRepository dialogRepository;
     private final NodeProcessor nodeProcessor;
-    private final List<CommandService> commandServices;
+    private final List<CommandHandler> commandServices;
 
     public void handleMessage(Message message) {
         cleanupService.deleteRedundantMessage(message);
         String chatId = message.getChatId().toString();
         String userInput = message.getText();
-        if (executeCommandIfExists(chatId, userInput)) return;
+        if (handleCommandIfExists(chatId, userInput)) return;
         String nextNodeKey = resolveNextNodeKey(chatId, userInput);
         DialogNode node = dialogRepository.getDialogNode(nextNodeKey);
 
@@ -46,7 +46,7 @@ public class DialogHandler {
         String chatId = callbackQuery.getMessage().getChatId().toString();
         String callbackData = callbackQuery.getData();
         cleanupService.clearLastNode(chatId);
-        if (executeCommandIfExists(chatId, callbackData)) return;
+        if (handleCommandIfExists(chatId, callbackData)) return;
         handleNodeByKey(chatId, callbackData);
         userStateService.saveUserStateIfPersist(chatId, callbackData);
     }
@@ -94,12 +94,12 @@ public class DialogHandler {
         return dialogRepository.getDialogNode(currentNodeKey);
     }
 
-    private boolean executeCommandIfExists(String chatId, String userInput) {
+    private boolean handleCommandIfExists(String chatId, String userInput) {
         if (userInput == null) return false;
 
-        for (CommandService commandService : commandServices) {
+        for (CommandHandler commandService : commandServices) {
             if (userInput.equals(commandService.getCommandKey())) {
-                commandService.execute(chatId);
+                commandService.handle(chatId);
                 return true;
             }
         }

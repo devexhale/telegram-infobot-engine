@@ -1,15 +1,15 @@
-package com.jawisimo.tbcfstarter.service.command;
+package com.jawisimo.tbcfstarter.handler.command;
 
 import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.handler.NodeProcessor;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.UserStateService;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class StartCommandService extends AbstractCommandService {
+@Component
+public class StartCommandHandler extends AbstractCommandHandler {
 
-    public StartCommandService(StartCommand startCommand,
+    public StartCommandHandler(StartCommand startCommand,
                                DialogRepository dialogRepository,
                                UserStateService userStateService,
                                NodeProcessor nodeProcessor) {

@@ -4,18 +4,19 @@ import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.handler.ContentHandler;
 import com.jawisimo.tbcfstarter.model.*;
-import com.jawisimo.tbcfstarter.parser.DialogParser;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class DialogValidator {
+
+    public void validateStartNode(Map<String, DialogNode> dialogMap, String fileName) {
+        if (!dialogMap.containsKey(StartCommand.COMMAND_NAME)) {
+            throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
+        }
+    }
 
     public void validateContentNode(ContentNode contentNode, List<ContentHandler> contentHandlers) {
         validateContentType(contentNode);
@@ -25,42 +26,9 @@ public class DialogValidator {
         }
     }
 
-    public void validateDialogFile(InputStream is, String fileName) {
-        if (is == null) {
-            throw new DialogLoadingException("Dialog file not found: " + fileName);
-        }
-    }
-
-    public void validateParsers(List<DialogParser> matchingParsers, String fileName) {
-        if (matchingParsers.isEmpty()) {
-            throw new DialogLoadingException("No suitable parser found for file: " + fileName);
-        }
-
-        if (matchingParsers.size() > 1) {
-            throw new DialogLoadingException(
-                    "Multiple parsers found for file: " + fileName +
-                            " -> " + matchingParsers.stream()
-                            .map(p -> p.getClass().getSimpleName())
-                            .toList()
-            );
-        }
-    }
-
-    public void validateStartNode(Map<String, DialogNode> dialogMap, String fileName) {
-        if (!dialogMap.containsKey(StartCommand.COMMAND_NAME)) {
-            throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
-        }
-    }
-
     public void validateMediaFileName(String fileName) {
         if (fileName == null || fileName.isBlank()) {
             throw new DialogLoadingException("Media file_name is missing or blank");
-        }
-    }
-
-    public void validateMediaResource(URL resourceUrl, String fileName) {
-        if (resourceUrl == null) {
-            throw new DialogLoadingException("Media file not found: " + fileName);
         }
     }
 

@@ -9,5 +9,4 @@ public class BotTemplateApplication {
     public static void main(String[] args) {
         SpringApplication.run(BotTemplateApplication.class, args);
     }
-
 }

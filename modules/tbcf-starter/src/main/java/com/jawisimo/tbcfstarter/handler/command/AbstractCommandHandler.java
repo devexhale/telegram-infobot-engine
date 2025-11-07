@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.service.command;
+package com.jawisimo.tbcfstarter.handler.command;
 
 import com.jawisimo.tbcfstarter.command.Command;
 import com.jawisimo.tbcfstarter.handler.NodeProcessor;
@@ -13,14 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Getter(AccessLevel.PROTECTED)
-public abstract class AbstractCommandService implements CommandService {
+public abstract class AbstractCommandHandler implements CommandHandler {
     private final Command command;
     private final DialogRepository dialogRepository;
     private final UserStateService userStateService;
     private final NodeProcessor nodeProcessor;
 
     @Override
-    public void execute(String chatId) {
+    public void handle(String chatId) {
         String nodeKey = resolveNodeKey(chatId);
         DialogNode node = dialogRepository.getDialogNode(nodeKey);
 
