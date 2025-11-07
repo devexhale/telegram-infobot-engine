@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
+import com.jawisimo.tbcfstarter.model.DialogMap;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +25,11 @@ public class YamlDialogParser implements DialogParser {
     }
 
     @Override
-    public Map<String, DialogNode> parse(InputStream is) {
+    public DialogMap parse(InputStream is) {
         try {
             TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {
             };
-            return yamlMapper.readValue(is, typeRef);
+            return new DialogMap(yamlMapper.readValue(is, typeRef));
         } catch (IOException e) {
             throw new DialogLoadingException("Failed to parse YAML dialog", e);
         }

@@ -7,12 +7,11 @@ import com.jawisimo.tbcfstarter.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DialogValidator {
 
-    public void validateStartNode(Map<String, DialogNode> dialogMap, String fileName) {
+    public void validateStartNode(DialogMap dialogMap, String fileName) {
         if (!dialogMap.containsKey(StartCommand.COMMAND_NAME)) {
             throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
         }

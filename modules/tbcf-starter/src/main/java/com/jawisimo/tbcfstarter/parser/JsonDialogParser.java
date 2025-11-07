@@ -3,6 +3,7 @@ package com.jawisimo.tbcfstarter.parser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
+import com.jawisimo.tbcfstarter.model.DialogMap;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +23,11 @@ public class JsonDialogParser implements DialogParser {
     }
 
     @Override
-    public Map<String, DialogNode> parse(InputStream is) {
+    public DialogMap parse(InputStream is) {
         try {
-            TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
-            return jsonMapper.readValue(is, typeRef);
+            TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {
+            };
+            return new DialogMap(jsonMapper.readValue(is, typeRef));
         } catch (IOException e) {
             throw new DialogLoadingException("Failed to parse JSON dialog", e);
         }

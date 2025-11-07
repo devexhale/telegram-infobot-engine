@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.loader;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.model.DialogNode;
+import com.jawisimo.tbcfstarter.model.DialogMap;
 import com.jawisimo.tbcfstarter.parser.DialogParser;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import com.jawisimo.tbcfstarter.validator.ResourceValidator;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @Slf4j
@@ -21,7 +20,7 @@ public class DialogLoader {
     private final ResourceValidator resourceValidator;
     private final List<DialogParser> parsers;
 
-    public Map<String, DialogNode> loadDialog(String dialogFileName) {
+    public DialogMap loadDialog(String dialogFileName) {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
             resourceValidator.validateDialogFile(is, dialogFileName);
 
@@ -29,10 +28,10 @@ public class DialogLoader {
                     .filter(s -> s.supports(dialogFileName))
                     .toList();
 
-            resourceValidator.validateParserForFile(parsers, dialogFileName);
+            resourceValidator.validateParserForFile(matchingParsers, dialogFileName);
             DialogParser strategy = matchingParsers.getFirst();
             log.info("Parsing '{}' using {}", dialogFileName, strategy.getClass().getSimpleName());
-            Map<String, DialogNode> dialogMap = strategy.parse(is);
+            DialogMap dialogMap = strategy.parse(is);
             dialogValidator.validateStartNode(dialogMap, dialogFileName);
             return dialogMap;
 

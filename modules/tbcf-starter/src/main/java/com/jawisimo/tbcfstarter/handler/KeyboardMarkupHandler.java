@@ -79,7 +79,7 @@ public class KeyboardMarkupHandler {
         return ReplyKeyboardMarkup.builder()
                 .keyboard(rows)
                 .resizeKeyboard(true)
-                .oneTimeKeyboard(false)
+                .oneTimeKeyboard(true)
                 .isPersistent(true)
                 .build();
     }

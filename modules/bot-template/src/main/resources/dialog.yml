@@ -11,7 +11,7 @@
         type: audio
         file_name: start_quest.mp3
   prompt: "Почнемо нашу подорож. Оберіть тему: "
-#  button_type: reply
+  button_type: inline
   buttons:
     - label: "🏛️ Історія"
       next: "history_q1"
