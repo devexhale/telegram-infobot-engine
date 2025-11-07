@@ -1,5 +1,6 @@
 package com.jawisimo.tbcfstarter.service;
 
+import com.jawisimo.tbcfstarter.command.StartCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,7 @@ public class MessageCleanupService {
 
     public void deleteMessage(String chatId, Integer messageId) {
         try {
-            client.executeAsync(DeleteMessage.builder()
-                    .chatId(chatId)
-                    .messageId(messageId)
-                    .build());
+            client.executeAsync(DeleteMessage.builder().chatId(chatId).messageId(messageId).build());
         } catch (TelegramApiException e) {
             log.warn("Failed to delete message: {} from chat: {}", messageId, chatId, e);
         }
@@ -49,6 +47,8 @@ public class MessageCleanupService {
 
     public void deleteRedundantMessage(Message message) {
         if (message == null) return;
+        String text = message.getText();
+        if (text != null && text.equals(StartCommand.COMMAND_NAME)) return ;
         String chatId = message.getChatId().toString();
         Integer messageId = message.getMessageId();
         deleteMessage(chatId, messageId);

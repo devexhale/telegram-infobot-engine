@@ -12,7 +12,7 @@ import java.util.List;
 public class DialogValidator {
 
     public void validateStartNode(DialogMap dialogMap, String fileName) {
-        if (!dialogMap.containsKey(StartCommand.COMMAND_NAME)) {
+        if (!dialogMap.containsNodeKey(StartCommand.COMMAND_NAME)) {
             throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
         }
     }
