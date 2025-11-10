@@ -16,7 +16,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 public class TextHandler implements ContentHandler  {
     private final TelegramClient client;
 
-
     @Override
     public boolean supports(ContentNode contentNode) {
         return contentNode.getType() == ContentType.TEXT;

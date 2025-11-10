@@ -29,6 +29,7 @@ public class PhotoMediaHandler extends AbstractMediaHandler {
                 .photo(getMediaFileLoader().loadMedia(contentNode.getMedia()))
                 .caption(contentNode.getMedia().getCaption())
                 .build();
+
         try {
             return getTelegramClient().execute(request);
         } catch (TelegramApiException e) {

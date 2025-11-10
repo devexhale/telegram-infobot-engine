@@ -7,7 +7,7 @@ import java.util.List;
 
 public record DialogNode(
         List<ContentNode> content,
-        String prompt,
+        String message,
         @JsonProperty("button_type") ButtonType buttonType,
         List<Button> buttons) {
 
@@ -16,8 +16,8 @@ public record DialogNode(
             throw new DialogLoadingException("Buttons list are required and cannot be null or empty");
         }
 
-        if (prompt == null || prompt.isBlank()) {
-            throw new DialogLoadingException("Field 'prompt' is required and cannot be null or blank");
+        if (message == null || message.isBlank()) {
+            throw new DialogLoadingException("Field 'message' is required and cannot be null or blank");
         }
     }
 }
