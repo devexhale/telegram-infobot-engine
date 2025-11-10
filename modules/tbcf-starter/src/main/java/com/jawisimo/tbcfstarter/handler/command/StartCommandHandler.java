@@ -2,7 +2,7 @@ package com.jawisimo.tbcfstarter.handler.command;
 
 import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.handler.NodeProcessor;
-import com.jawisimo.tbcfstarter.repository.DialogRepository;
+import com.jawisimo.tbcfstarter.repository.CaffeineMessageRepository;
 import com.jawisimo.tbcfstarter.service.UserStateService;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 public class StartCommandHandler extends AbstractCommandHandler {
 
     public StartCommandHandler(StartCommand startCommand,
-                               DialogRepository dialogRepository,
+                               CaffeineMessageRepository caffeineMessageRepository,
                                UserStateService userStateService,
                                NodeProcessor nodeProcessor) {
-        super(startCommand, dialogRepository, userStateService, nodeProcessor);
+        super(startCommand, caffeineMessageRepository, userStateService, nodeProcessor);
     }
 
     @Override

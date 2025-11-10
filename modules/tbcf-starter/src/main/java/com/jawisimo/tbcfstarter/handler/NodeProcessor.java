@@ -3,6 +3,7 @@ package com.jawisimo.tbcfstarter.handler;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
+import com.jawisimo.tbcfstarter.repository.MessageRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NodeProcessor {
     private final List<ContentHandler> contentHandlers;
     private final KeyboardMarkupHandler keyboardHandler;
+    private final MessageRepository messageRepository;
     private final MessageCleanupService cleanupService;
     private final DialogValidator dialogValidator;
     private final TelegramClient client;
@@ -61,7 +63,7 @@ public class NodeProcessor {
             Message sent = handler.handle(contentNode, chatId);
 
             if (sent != null) {
-                cleanupService.registerMessage(chatId, sent.getMessageId());
+                messageRepository.save(chatId, sent.getMessageId());
             }
 
             if (tempMsg != null) {
@@ -75,7 +77,7 @@ public class NodeProcessor {
         Message keyboardMsg = keyboardHandler.handle(dialogNode, chatId);
 
         if (keyboardMsg != null) {
-            cleanupService.registerMessage(chatId, keyboardMsg.getMessageId());
+            messageRepository.save(chatId, keyboardMsg.getMessageId());
         }
     }
 
@@ -92,7 +94,7 @@ public class NodeProcessor {
                             .build()
             );
 
-            cleanupService.registerMessage(chatId, msg.getMessageId());
+            messageRepository.save(chatId, msg.getMessageId());
             return msg;
 
         } catch (TelegramApiException e) {

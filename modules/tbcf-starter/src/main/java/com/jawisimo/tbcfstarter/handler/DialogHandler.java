@@ -4,7 +4,7 @@ import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
-import com.jawisimo.tbcfstarter.repository.DialogRepository;
+import com.jawisimo.tbcfstarter.repository.CaffeineMessageRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import com.jawisimo.tbcfstarter.service.UserStateService;
 import com.jawisimo.tbcfstarter.handler.command.CommandHandler;
@@ -22,7 +22,7 @@ import java.util.List;
 public class DialogHandler {
     private final MessageCleanupService cleanupService;
     private final UserStateService userStateService;
-    private final DialogRepository dialogRepository;
+    private final CaffeineMessageRepository caffeineMessageRepository;
     private final NodeProcessor nodeProcessor;
     private final List<CommandHandler> commandServices;
 
@@ -32,7 +32,7 @@ public class DialogHandler {
         String userInput = message.getText();
         if (handleCommandIfExists(chatId, userInput)) return;
         String nextNodeKey = resolveNextNodeKey(chatId, userInput);
-        DialogNode node = dialogRepository.getDialogNode(nextNodeKey);
+        DialogNode node = caffeineMessageRepository.getDialogNode(nextNodeKey);
 
         if (node != null) {
             nodeProcessor.processNode(node, chatId);
@@ -58,7 +58,7 @@ public class DialogHandler {
             return;
         }
 
-        DialogNode node = dialogRepository.getDialogNode(nodeKey);
+        DialogNode node = caffeineMessageRepository.getDialogNode(nodeKey);
 
         if (node != null) {
             nodeProcessor.processNode(node, chatId);
@@ -91,7 +91,7 @@ public class DialogHandler {
                 StartCommand.COMMAND_NAME
         );
 
-        return dialogRepository.getDialogNode(currentNodeKey);
+        return caffeineMessageRepository.getDialogNode(currentNodeKey);
     }
 
     private boolean handleCommandIfExists(String chatId, String userInput) {
