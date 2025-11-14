@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.handler.keyboard;
+package com.jawisimo.tbcfstarter.keyboard;
 
 import com.jawisimo.tbcfstarter.config.BotProperties;
 import com.jawisimo.tbcfstarter.model.Button;

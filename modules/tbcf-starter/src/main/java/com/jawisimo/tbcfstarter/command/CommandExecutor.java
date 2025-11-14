@@ -1,5 +1,6 @@
-package com.jawisimo.tbcfstarter.handler.command;
+package com.jawisimo.tbcfstarter.command;
 
+import com.jawisimo.tbcfstarter.command.handler.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
-package com.jawisimo.tbcfstarter.handler.command;
+package com.jawisimo.tbcfstarter.command.handler;
 
-import com.jawisimo.tbcfstarter.command.StartCommand;
+import com.jawisimo.tbcfstarter.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.handler.NodeProcessor;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.UserStateService;

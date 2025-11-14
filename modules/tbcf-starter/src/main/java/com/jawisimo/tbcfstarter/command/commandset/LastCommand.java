@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.command;
+package com.jawisimo.tbcfstarter.command.commandset;
 
 import com.jawisimo.tbcfstarter.annotation.UserStatePersistent;
 import org.springframework.core.annotation.Order;

@@ -1,8 +1,8 @@
 package com.jawisimo.tbcfstarter.validator;
 
-import com.jawisimo.tbcfstarter.command.StartCommand;
+import com.jawisimo.tbcfstarter.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.handler.content.ContentHandler;
+import com.jawisimo.tbcfstarter.content.handler.ContentHandler;
 import com.jawisimo.tbcfstarter.model.*;
 import org.springframework.stereotype.Service;
 

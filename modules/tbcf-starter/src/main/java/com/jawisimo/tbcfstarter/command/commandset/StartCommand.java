@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.command;
+package com.jawisimo.tbcfstarter.command.commandset;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

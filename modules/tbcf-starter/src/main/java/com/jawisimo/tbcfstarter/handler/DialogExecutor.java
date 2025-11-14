@@ -1,13 +1,13 @@
 package com.jawisimo.tbcfstarter.handler;
 
-import com.jawisimo.tbcfstarter.command.StartCommand;
+import com.jawisimo.tbcfstarter.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import com.jawisimo.tbcfstarter.service.UserStateService;
-import com.jawisimo.tbcfstarter.handler.command.CommandExecutor;
+import com.jawisimo.tbcfstarter.command.CommandExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

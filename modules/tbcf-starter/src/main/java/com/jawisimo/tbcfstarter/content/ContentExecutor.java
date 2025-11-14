@@ -1,5 +1,6 @@
-package com.jawisimo.tbcfstarter.handler.content;
+package com.jawisimo.tbcfstarter.content;
 
+import com.jawisimo.tbcfstarter.content.handler.ContentHandler;
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.MessageRepository;

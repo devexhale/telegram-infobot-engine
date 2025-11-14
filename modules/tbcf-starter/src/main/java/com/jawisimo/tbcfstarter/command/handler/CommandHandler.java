@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.handler.command;
+package com.jawisimo.tbcfstarter.command.handler;
 
 public interface CommandHandler {
 

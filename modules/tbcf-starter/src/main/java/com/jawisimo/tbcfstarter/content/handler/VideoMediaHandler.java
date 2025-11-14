@@ -1,42 +1,39 @@
-package com.jawisimo.tbcfstarter.handler.content;
+package com.jawisimo.tbcfstarter.content.handler;
 
 import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import com.jawisimo.tbcfstarter.model.ContentNode;
-import com.jawisimo.tbcfstarter.model.Media;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Component
 @Slf4j
-class DocumentMediaHandler extends MediaHandler {
+class VideoMediaHandler extends MediaHandler {
 
-    DocumentMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+    public VideoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
         super(client, mediaFileLoader);
     }
 
     @Override
     String getMediaType() {
-        return "DOCUMENT";
+        return "VIDEO";
     }
 
     @Override
     public Message handle(ContentNode contentNode, String chatId) {
-        Media media = contentNode.getMedia();
-        SendDocument request = SendDocument.builder()
+        SendVideo request = SendVideo.builder()
                 .chatId(chatId)
-                .document(getMediaFile(media))
-                .caption(media.getCaption())
+                .video(getMediaFile(getMedia(contentNode)))
+                .caption(getMedia(contentNode).getCaption())
                 .build();
 
         try {
             return getClient().execute(request);
         } catch (TelegramApiException e) {
-            log.error("Failed to handle document in chat: {}", chatId, e);
+            log.error("Failed to handle video in chat: {}", chatId, e);
             return null;
         }
     }

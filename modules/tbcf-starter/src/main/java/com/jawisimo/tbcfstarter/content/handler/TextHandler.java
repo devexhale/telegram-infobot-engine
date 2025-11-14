@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.handler.content;
+package com.jawisimo.tbcfstarter.content.handler;
 
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;

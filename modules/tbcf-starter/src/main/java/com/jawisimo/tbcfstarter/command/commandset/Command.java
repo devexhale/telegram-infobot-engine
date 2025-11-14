@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.command;
+package com.jawisimo.tbcfstarter.command.commandset;
 
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 

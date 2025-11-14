@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.handler;
 
-import com.jawisimo.tbcfstarter.handler.content.ContentExecutor;
-import com.jawisimo.tbcfstarter.handler.keyboard.KeyboardExecutor;
+import com.jawisimo.tbcfstarter.content.ContentExecutor;
+import com.jawisimo.tbcfstarter.keyboard.KeyboardExecutor;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import lombok.RequiredArgsConstructor;
