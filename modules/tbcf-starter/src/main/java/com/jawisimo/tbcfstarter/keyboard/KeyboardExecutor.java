@@ -4,6 +4,7 @@ import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.MessageRepository;
+import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,10 +21,13 @@ import java.util.List;
 public class KeyboardExecutor {
     private final TelegramClient client;
     private final KeyboardMarkupBuilder keyboardBuilder;
+    private final DialogValidator dialogValidator;
     private final MessageRepository messageRepository;
 
     public void execute(DialogNode node, String chatId) {
         List<Button> buttons = node.buttons();
+
+        dialogValidator.validateButtons(node);
 
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
