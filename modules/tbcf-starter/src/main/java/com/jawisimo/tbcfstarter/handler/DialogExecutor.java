@@ -4,35 +4,35 @@ import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.model.Button;
 import com.jawisimo.tbcfstarter.model.ButtonType;
 import com.jawisimo.tbcfstarter.model.DialogNode;
-import com.jawisimo.tbcfstarter.repository.CaffeineMessageRepository;
+import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import com.jawisimo.tbcfstarter.service.UserStateService;
-import com.jawisimo.tbcfstarter.handler.command.CommandHandler;
+import com.jawisimo.tbcfstarter.handler.command.CommandExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DialogHandler {
+public class DialogExecutor {
     private final MessageCleanupService cleanupService;
     private final UserStateService userStateService;
-    private final CaffeineMessageRepository caffeineMessageRepository;
+    private final DialogRepository dialogRepository;
     private final NodeProcessor nodeProcessor;
-    private final List<CommandHandler> commandServices;
+    private final CommandExecutor commandExecutor;
 
-    public void handleMessage(Message message) {
+    public void executeMessage(Message message) {
         cleanupService.deleteRedundantMessage(message);
         String chatId = message.getChatId().toString();
         String userInput = message.getText();
-        if (handleCommandIfExists(chatId, userInput)) return;
+
+        if (commandExecutor.executeIfExists(chatId, userInput)) return;
+
         String nextNodeKey = resolveNextNodeKey(chatId, userInput);
-        DialogNode node = caffeineMessageRepository.getDialogNode(nextNodeKey);
+        DialogNode node = dialogRepository.getDialogNode(nextNodeKey);
 
         if (node != null) {
             nodeProcessor.processNode(node, chatId);
@@ -42,15 +42,16 @@ public class DialogHandler {
         }
     }
 
-    public void handleCallback(CallbackQuery callbackQuery) {
+    public void executeCallback(CallbackQuery callbackQuery) {
         String chatId = callbackQuery.getMessage().getChatId().toString();
         String callbackData = callbackQuery.getData();
         cleanupService.clearLastNode(chatId);
-        if (handleCommandIfExists(chatId, callbackData)) return;
+
+        if (commandExecutor.executeIfExists(chatId, callbackData)) return;
+
         handleNodeByKey(chatId, callbackData);
         userStateService.saveUserStateIfPersist(chatId, callbackData);
     }
-
 
     private void handleNodeByKey(String chatId, String nodeKey) {
         if (nodeKey == null) {
@@ -58,16 +59,13 @@ public class DialogHandler {
             return;
         }
 
-        DialogNode node = caffeineMessageRepository.getDialogNode(nodeKey);
-
+        DialogNode node = dialogRepository.getDialogNode(nodeKey);
         if (node != null) {
             nodeProcessor.processNode(node, chatId);
         } else {
             log.warn("No dialog node found for input: {}. Message deleted from chat: {}", nodeKey, chatId);
         }
     }
-
-    // ================== HELPERS ==================
 
     private String resolveNextNodeKey(String chatId, String userInput) {
         DialogNode currentNode = getCurrentNode(chatId);
@@ -86,24 +84,7 @@ public class DialogHandler {
     }
 
     private DialogNode getCurrentNode(String chatId) {
-        String currentNodeKey = userStateService.getUserStateOrDefault(
-                chatId,
-                StartCommand.COMMAND_NAME
-        );
-
-        return caffeineMessageRepository.getDialogNode(currentNodeKey);
-    }
-
-    private boolean handleCommandIfExists(String chatId, String userInput) {
-        if (userInput == null) return false;
-
-        for (CommandHandler commandService : commandServices) {
-            if (userInput.equals(commandService.getCommandKey())) {
-                commandService.handle(chatId);
-                return true;
-            }
-        }
-
-        return false;
+        String currentNodeKey = userStateService.getUserStateOrDefault(chatId, StartCommand.COMMAND_NAME);
+        return dialogRepository.getDialogNode(currentNodeKey);
     }
 }

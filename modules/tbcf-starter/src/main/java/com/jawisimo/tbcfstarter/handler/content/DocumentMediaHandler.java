@@ -1,37 +1,40 @@
-package com.jawisimo.tbcfstarter.handler.media;
+package com.jawisimo.tbcfstarter.handler.content;
 
-import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
+import com.jawisimo.tbcfstarter.model.ContentNode;
+import com.jawisimo.tbcfstarter.model.Media;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-@Slf4j
 @Component
-public class DocumentMediaHandler extends AbstractMediaHandler {
+@Slf4j
+class DocumentMediaHandler extends MediaHandler {
 
-    public DocumentMediaHandler(TelegramClient client, MediaFileLoader mediaFileResolver) {
-        super(client, mediaFileResolver);
+    DocumentMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+        super(client, mediaFileLoader);
     }
 
     @Override
-    protected String getMediaType() {
+    String getMediaType() {
         return "DOCUMENT";
     }
 
     @Override
-    protected Message executeMedia(ContentNode contentNode, String chatId) {
+    public Message handle(ContentNode contentNode, String chatId) {
+        Media media = contentNode.getMedia();
         SendDocument request = SendDocument.builder()
                 .chatId(chatId)
-                .document(getMediaFileLoader().loadMedia(contentNode.getMedia()))
-                .caption(contentNode.getMedia().getCaption())
+                .document(getMediaFile(media))
+                .caption(media.getCaption())
                 .build();
 
         try {
-            return getTelegramClient().execute(request);
+            return getClient().execute(request);
         } catch (TelegramApiException e) {
             log.error("Failed to handle document in chat: {}", chatId, e);
             return null;

@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.handler;
+package com.jawisimo.tbcfstarter.handler.content;
 
 import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.model.ContentType;
@@ -13,11 +13,11 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class TextHandler implements ContentHandler  {
+class TextHandler implements ContentHandler {
     private final TelegramClient client;
 
     @Override
-    public boolean supports(ContentNode contentNode) {
+    public boolean canHandle(ContentNode contentNode) {
         return contentNode.getType() == ContentType.TEXT;
     }
 

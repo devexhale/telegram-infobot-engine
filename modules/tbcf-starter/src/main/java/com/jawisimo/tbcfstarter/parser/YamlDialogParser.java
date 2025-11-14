@@ -20,7 +20,7 @@ public class YamlDialogParser implements DialogParser {
     private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 
     @Override
-    public boolean supports(String fileName) {
+    public boolean canParse(String fileName) {
         return fileName.endsWith(FORMAT_YAML) || fileName.endsWith(FORMAT_YML);
     }
 

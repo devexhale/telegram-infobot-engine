@@ -25,7 +25,7 @@ public class DialogLoader {
             resourceValidator.validateDialogFile(is, dialogFileName);
 
             List<DialogParser> matchingParsers = parsers.stream()
-                    .filter(s -> s.supports(dialogFileName))
+                    .filter(s -> s.canParse(dialogFileName))
                     .toList();
 
             resourceValidator.validateParserForFile(matchingParsers, dialogFileName);

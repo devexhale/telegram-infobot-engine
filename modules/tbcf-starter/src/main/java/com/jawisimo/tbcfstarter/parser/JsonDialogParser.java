@@ -18,7 +18,7 @@ public class JsonDialogParser implements DialogParser {
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     @Override
-    public boolean supports(String fileName) {
+    public boolean canParse(String fileName) {
         return fileName.endsWith(FORMAT_JSON);
     }
 

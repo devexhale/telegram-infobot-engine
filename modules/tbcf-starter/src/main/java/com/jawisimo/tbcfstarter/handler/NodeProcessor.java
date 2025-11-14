@@ -1,105 +1,28 @@
 package com.jawisimo.tbcfstarter.handler;
 
-import com.jawisimo.tbcfstarter.model.ContentNode;
-import com.jawisimo.tbcfstarter.model.ContentType;
+import com.jawisimo.tbcfstarter.handler.content.ContentExecutor;
+import com.jawisimo.tbcfstarter.handler.keyboard.KeyboardExecutor;
 import com.jawisimo.tbcfstarter.model.DialogNode;
-import com.jawisimo.tbcfstarter.repository.MessageRepository;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
-import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class NodeProcessor {
-    private final List<ContentHandler> contentHandlers;
-    private final KeyboardMarkupHandler keyboardHandler;
-    private final MessageRepository messageRepository;
+    private final ContentExecutor contentExecutor;
+    private final KeyboardExecutor keyboardExecutor;
     private final MessageCleanupService cleanupService;
-    private final DialogValidator dialogValidator;
-    private final TelegramClient client;
-
     private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
 
-    private static final String UPLOADING_MESSAGE = "Uploading media. Wait...";
-
-    public void processNode(DialogNode dialogNode, String chatId) {
+    public void processNode(DialogNode node, String chatId) {
         Object lock = chatLocks.computeIfAbsent(chatId, k -> new Object());
-
         synchronized (lock) {
             cleanupService.clearLastNode(chatId);
-            processContent(dialogNode, chatId);
-            processKeyboard(dialogNode, chatId);
-        }
-    }
-
-    private void processContent(DialogNode dialogNode, String chatId) {
-        if (dialogNode.content() == null) return;
-
-        for (ContentNode contentNode : dialogNode.content()) {
-            dialogValidator.validateContentNode(contentNode, contentHandlers);
-            processContentNode(contentNode, chatId);
-        }
-    }
-
-    private void processContentNode(ContentNode contentNode, String chatId) {
-        for (ContentHandler handler : contentHandlers) {
-            if (!handler.supports(contentNode)) continue;
-
-            Message tempMsg = null;
-            if (isSlowMedia(contentNode)) {
-                tempMsg = sendTempMessage(chatId);
-            }
-
-            Message sent = handler.handle(contentNode, chatId);
-
-            if (sent != null) {
-                messageRepository.save(chatId, sent.getMessageId());
-            }
-
-            if (tempMsg != null) {
-                cleanupService.deleteMessage(chatId, tempMsg.getMessageId());
-            }
-        }
-    }
-
-    private void processKeyboard(DialogNode dialogNode, String chatId) {
-        dialogValidator.validateButtons(dialogNode);
-        Message keyboardMsg = keyboardHandler.handle(dialogNode, chatId);
-
-        if (keyboardMsg != null) {
-            messageRepository.save(chatId, keyboardMsg.getMessageId());
-        }
-    }
-
-    private boolean isSlowMedia(ContentNode node) {
-        return node.getType() == ContentType.MEDIA && node.getMedia() != null;
-    }
-
-    private Message sendTempMessage(String chatId) {
-        try {
-            Message msg = client.execute(
-                    SendMessage.builder()
-                            .chatId(chatId)
-                            .text(UPLOADING_MESSAGE)
-                            .build()
-            );
-
-            messageRepository.save(chatId, msg.getMessageId());
-            return msg;
-
-        } catch (TelegramApiException e) {
-            log.error("Failed to send temp message: {}", e.getMessage(), e);
-            return null;
+            contentExecutor.execute(node, chatId);
+            keyboardExecutor.execute(node, chatId);
         }
     }
 }

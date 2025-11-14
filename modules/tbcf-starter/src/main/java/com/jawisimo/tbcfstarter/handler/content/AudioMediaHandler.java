@@ -1,7 +1,8 @@
-package com.jawisimo.tbcfstarter.handler.media;
+package com.jawisimo.tbcfstarter.handler.content;
 
-import com.jawisimo.tbcfstarter.model.ContentNode;
 import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
+import com.jawisimo.tbcfstarter.model.ContentNode;
+import com.jawisimo.tbcfstarter.model.Media;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
@@ -11,27 +12,28 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Component
 @Slf4j
-public class AudioMediaHandler extends AbstractMediaHandler {
+class AudioMediaHandler extends MediaHandler {
 
-    public AudioMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+    AudioMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
         super(client, mediaFileLoader);
     }
 
     @Override
-    protected String getMediaType() {
+    String getMediaType() {
         return "AUDIO";
     }
 
     @Override
-    protected Message executeMedia(ContentNode contentNode, String chatId) {
+    public Message handle(ContentNode contentNode, String chatId) {
+        Media media = contentNode.getMedia();
         SendAudio request = SendAudio.builder()
                 .chatId(chatId)
-                .audio(getMediaFileLoader().loadMedia(contentNode.getMedia()))
-                .caption(contentNode.getMedia().getCaption())
+                .audio(getMediaFile(media))
+                .caption(media.getCaption())
                 .build();
 
         try {
-            return getTelegramClient().execute(request);
+            return getClient().execute(request);
         } catch (TelegramApiException e) {
             log.error("Failed to handle audio in chat: {}", chatId, e);
             return null;

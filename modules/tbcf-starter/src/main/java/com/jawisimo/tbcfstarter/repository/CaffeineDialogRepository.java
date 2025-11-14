@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class CaffeineMessageRepository implements DialogRepository {
+public class CaffeineDialogRepository implements DialogRepository {
     private final BotProperties properties;
     private final DialogLoader dialogLoader;
 

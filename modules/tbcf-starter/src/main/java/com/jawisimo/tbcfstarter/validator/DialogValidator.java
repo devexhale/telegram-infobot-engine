@@ -2,7 +2,7 @@ package com.jawisimo.tbcfstarter.validator;
 
 import com.jawisimo.tbcfstarter.command.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.handler.ContentHandler;
+import com.jawisimo.tbcfstarter.handler.content.ContentHandler;
 import com.jawisimo.tbcfstarter.model.*;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +70,7 @@ public class DialogValidator {
     private void validateMediaSupported(Media media, ContentNode contentNode, List<ContentHandler> contentHandlers) {
         String type = media.getType();
         String fileName = media.getFileName();
-        boolean supported = contentHandlers.stream().anyMatch(h -> h.supports(contentNode));
+        boolean supported = contentHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
 
         if (!supported) {
             throw new DialogLoadingException(
