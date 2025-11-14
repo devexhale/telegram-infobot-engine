@@ -18,12 +18,6 @@ abstract class MediaHandler implements ContentHandler {
     private final TelegramClient client;
     private final MediaFileLoader mediaFileLoader;
 
-    InputFile getMediaFile(Media media) {
-        return mediaFileLoader.loadMedia(media);
-    }
-
-    abstract String getMediaType();
-
     @Override
     public boolean canHandle(ContentNode contentNode) {
         if (contentNode.getType() != ContentType.MEDIA) return false;
@@ -34,8 +28,13 @@ abstract class MediaHandler implements ContentHandler {
     @Override
     public abstract Message handle(ContentNode contentNode, String chatId);
 
+    InputFile getMediaFile(Media media) {
+        return mediaFileLoader.loadMedia(media);
+    }
+
     Media getMedia(ContentNode contentNode) {
         return contentNode.getMedia();
     }
 
+    abstract String getMediaType();
 }

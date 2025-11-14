@@ -19,11 +19,6 @@ class StartCommandHandler extends AbstractCommandHandler {
     }
 
     @Override
-    public void handle(String chatId) {
-        super.handle(chatId);
-    }
-
-    @Override
     String getNodeKey(String chatId) {
         return getCommandKey();
     }

@@ -21,7 +21,6 @@ public class ContentExecutor {
     public void execute(DialogNode node, String chatId) {
         if (node.content() == null) return;
 
-
         for (ContentNode contentNode : node.content()) {
             dialogValidator.validateContentNode(contentNode, contentHandlers);
             for (ContentHandler handler : contentHandlers) {

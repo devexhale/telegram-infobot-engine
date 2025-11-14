@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Slf4j
 class VideoMediaHandler extends MediaHandler {
 
-    public VideoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+    VideoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
         super(client, mediaFileLoader);
     }
 
