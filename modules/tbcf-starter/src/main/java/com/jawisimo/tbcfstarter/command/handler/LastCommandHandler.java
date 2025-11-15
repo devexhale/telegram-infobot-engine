@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 class LastCommandHandler extends AbstractCommandHandler {
 
-    public LastCommandHandler(DialogRepository dialogRepository, UserStateService userStateService, NodeExecutor nodeExecutor) {
+    LastCommandHandler(DialogRepository dialogRepository, UserStateService userStateService, NodeExecutor nodeExecutor) {
         super(dialogRepository, userStateService, nodeExecutor);
     }
 

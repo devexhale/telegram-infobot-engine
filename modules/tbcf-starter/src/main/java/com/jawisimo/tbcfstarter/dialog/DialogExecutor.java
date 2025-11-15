@@ -24,13 +24,10 @@ public class DialogExecutor {
         String chatId = message.getChatId().toString();
         String userInput = message.getText();
 
-        // Виконання команди, якщо існує
         if (commandExecutor.executeIfExists(chatId, userInput)) return;
 
-        // Визначаємо ключ наступної ноди
         String nextNodeKey = nodeNavigator.getNextNodeKey(chatId, userInput);
 
-        // Перехід до ноди
         if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
             userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
         } else {

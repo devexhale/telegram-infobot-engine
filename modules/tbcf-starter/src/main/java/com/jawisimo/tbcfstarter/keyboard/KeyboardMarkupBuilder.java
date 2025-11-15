@@ -20,7 +20,7 @@ import java.util.function.Function;
 class KeyboardMarkupBuilder {
     private final BotProperties botProperties;
 
-    public ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
+    ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
         List<KeyboardRow> rows = splitButtons(
                 buttons,
                 btn -> KeyboardButton.builder().text(btn.getLabel()).build(),
@@ -35,7 +35,7 @@ class KeyboardMarkupBuilder {
                 .build();
     }
 
-    public InlineKeyboardMarkup buildInlineKeyboard(List<Button> buttons) {
+    InlineKeyboardMarkup buildInlineKeyboard(List<Button> buttons) {
         List<InlineKeyboardRow> rows = splitButtons(
                 buttons,
                 btn -> InlineKeyboardButton.builder()
