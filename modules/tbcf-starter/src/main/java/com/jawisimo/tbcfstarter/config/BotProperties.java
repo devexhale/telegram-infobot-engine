@@ -12,7 +12,9 @@ public record BotProperties(String token,
 
     private static final String BOT_TOKEN = "telegram.bot.token";
     private static final String BOT_NAME = "telegram.bot.name";
-    private static final String BOT_BUTTONS_PER_ROW = "telegram.bot.buttons-per-row";
+    private static final String BUTTONS_PER_ROW = "telegram.bot.buttons-per-row";
+    private static final int BUTTONS_PER_ROW_MIN_VALUE = 1;
+    private static final int BUTTONS_PER_ROW_MAX_VALUE = 10;
 
     public BotProperties {
         if (token == null || token.isBlank()) {
@@ -23,8 +25,11 @@ public record BotProperties(String token,
             throw new MissingPropertyException(BOT_NAME);
         }
 
-        if (buttonsPerRow <= 0 || buttonsPerRow > 100) {
-            throw new IllegalArgumentException(BOT_BUTTONS_PER_ROW + " must be a positive integer");
+        if (buttonsPerRow < BUTTONS_PER_ROW_MIN_VALUE || buttonsPerRow > BUTTONS_PER_ROW_MAX_VALUE) {
+            throw new IllegalArgumentException(
+                    BUTTONS_PER_ROW + " must be between " + BUTTONS_PER_ROW_MIN_VALUE +
+                            " and " + BUTTONS_PER_ROW_MAX_VALUE
+            );
         }
     }
 }

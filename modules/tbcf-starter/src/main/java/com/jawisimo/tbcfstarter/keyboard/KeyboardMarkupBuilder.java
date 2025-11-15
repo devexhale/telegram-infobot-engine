@@ -2,6 +2,7 @@ package com.jawisimo.tbcfstarter.keyboard;
 
 import com.jawisimo.tbcfstarter.config.BotProperties;
 import com.jawisimo.tbcfstarter.model.Button;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -15,13 +16,9 @@ import java.util.List;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 class KeyboardMarkupBuilder {
-
     private final BotProperties botProperties;
-
-    KeyboardMarkupBuilder(BotProperties botProperties) {
-        this.botProperties = botProperties;
-    }
 
     public ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
         List<KeyboardRow> rows = splitButtons(

@@ -18,10 +18,7 @@ public class NodeNavigator {
     private final DialogRepository dialogRepository;
     private final NodeExecutor nodeExecutor;
 
-    /**
-     * Визначає ключ наступної ноди на основі вводу користувача та поточної ноди
-     */
-    public String getNextNodeKey(String chatId, String userInput) {
+    String getNextNodeKey(String chatId, String userInput) {
         DialogNode currentNode = getCurrentNode(chatId);
 
         if (currentNode != null
@@ -38,21 +35,15 @@ public class NodeNavigator {
         return userInput;
     }
 
-    /**
-     * Повертає поточну ноду користувача
-     */
-    public DialogNode getCurrentNode(String chatId) {
+
+    DialogNode getCurrentNode(String chatId) {
         String currentNodeKey =
                 userStateService.getUserStateOrDefault(chatId, StartCommand.COMMAND_NAME);
 
         return dialogRepository.getDialogNode(currentNodeKey);
     }
 
-    /**
-     * Завантажує ноду за ключем та обробляє її
-     * @return true, якщо нода існує та оброблена
-     */
-    public boolean navigateToNode(String chatId, String nodeKey) {
+    boolean navigateToNode(String chatId, String nodeKey) {
         if (nodeKey == null) {
             log.warn("Node key is null for chat {}", chatId);
             return false;
