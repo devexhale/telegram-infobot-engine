@@ -1,6 +1,6 @@
 package com.jawisimo.tbcfstarter.command.handler;
 
-import com.jawisimo.tbcfstarter.handler.NodeProcessor;
+import com.jawisimo.tbcfstarter.dialog.NodeExecutor;
 import com.jawisimo.tbcfstarter.model.DialogNode;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.UserStateService;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 abstract class AbstractCommandHandler implements CommandHandler{
     private final DialogRepository dialogRepository;
     private final UserStateService userStateService;
-    private final NodeProcessor nodeProcessor;
+    private final NodeExecutor nodeExecutor;
 
     @Override
     public void handle(String chatId) {
@@ -28,7 +28,7 @@ abstract class AbstractCommandHandler implements CommandHandler{
             return;
         }
 
-        nodeProcessor.processNode(node, chatId);
+        nodeExecutor.execute(node, chatId);
         userStateService.saveUserStateIfPersist(chatId, getNodeKey(chatId));
     }
 

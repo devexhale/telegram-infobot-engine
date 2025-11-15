@@ -3,7 +3,7 @@ package com.jawisimo.tbcfstarter.command.handler;
 import com.jawisimo.tbcfstarter.annotation.UserStatePersistent;
 import com.jawisimo.tbcfstarter.command.commandset.LastCommand;
 import com.jawisimo.tbcfstarter.command.commandset.StartCommand;
-import com.jawisimo.tbcfstarter.handler.NodeProcessor;
+import com.jawisimo.tbcfstarter.dialog.NodeExecutor;
 import com.jawisimo.tbcfstarter.repository.DialogRepository;
 import com.jawisimo.tbcfstarter.service.UserStateService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 class LastCommandHandler extends AbstractCommandHandler {
 
-    public LastCommandHandler(DialogRepository dialogRepository, UserStateService userStateService, NodeProcessor nodeProcessor) {
-        super(dialogRepository, userStateService, nodeProcessor);
+    public LastCommandHandler(DialogRepository dialogRepository, UserStateService userStateService, NodeExecutor nodeExecutor) {
+        super(dialogRepository, userStateService, nodeExecutor);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.jawisimo.tbcfstarter.handler;
+package com.jawisimo.tbcfstarter.dialog;
 
 import com.jawisimo.tbcfstarter.content.ContentExecutor;
 import com.jawisimo.tbcfstarter.keyboard.KeyboardExecutor;
@@ -11,13 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
-public class NodeProcessor {
+public class NodeExecutor {
     private final ContentExecutor contentExecutor;
     private final KeyboardExecutor keyboardExecutor;
     private final MessageCleanupService cleanupService;
     private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
 
-    public void processNode(DialogNode node, String chatId) {
+    public void execute(DialogNode node, String chatId) {
         Object lock = chatLocks.computeIfAbsent(chatId, k -> new Object());
         synchronized (lock) {
             cleanupService.clearLastNode(chatId);

@@ -1,0 +1,55 @@
+package com.jawisimo.tbcfstarter.dialog;
+
+import com.jawisimo.tbcfstarter.command.CommandExecutor;
+import com.jawisimo.tbcfstarter.service.MessageCleanupService;
+import com.jawisimo.tbcfstarter.service.UserStateService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class DialogExecutor {
+    private final MessageCleanupService cleanupService;
+    private final UserStateService userStateService;
+    private final NodeNavigator nodeNavigator;
+    private final CommandExecutor commandExecutor;
+
+    public void executeMessage(Message message) {
+        cleanupService.deleteRedundantMessage(message);
+
+        String chatId = message.getChatId().toString();
+        String userInput = message.getText();
+
+        // Виконання команди, якщо існує
+        if (commandExecutor.executeIfExists(chatId, userInput)) return;
+
+        // Визначаємо ключ наступної ноди
+        String nextNodeKey = nodeNavigator.getNextNodeKey(chatId, userInput);
+
+        // Перехід до ноди
+        if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
+            userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
+        } else {
+            log.warn("Irrelevant message sent: \"{}\". Message deleted from chat: {}", nextNodeKey, chatId);
+        }
+    }
+
+    public void executeCallback(CallbackQuery callbackQuery) {
+        String chatId = callbackQuery.getMessage().getChatId().toString();
+        String callbackData = callbackQuery.getData();
+
+        cleanupService.clearLastNode(chatId);
+
+        if (commandExecutor.executeIfExists(chatId, callbackData)) return;
+
+        if (nodeNavigator.navigateToNode(chatId, callbackData)) {
+            userStateService.saveUserStateIfPersist(chatId, callbackData);
+        } else {
+            log.warn("No dialog node found for input: {}. Message deleted from chat: {}", callbackData, chatId);
+        }
+    }
+}
