@@ -17,8 +17,10 @@ public class CaffeineDialogRepository implements DialogRepository {
     private final BotProperties properties;
     private final DialogLoader dialogLoader;
 
+    private static final int CACHE_SIZE_MAX = 1;
+
     private final Cache<String, DialogMap> dialogCache = Caffeine.newBuilder()
-            .maximumSize(1)
+            .maximumSize(CACHE_SIZE_MAX)
             .build();
 
     @Override

@@ -2,7 +2,6 @@ package com.jawisimo.tbcfstarter.content.handler;
 
 import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import com.jawisimo.tbcfstarter.model.ContentNode;
-import com.jawisimo.tbcfstarter.model.Media;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -25,11 +24,10 @@ class PhotoMediaHandler extends MediaHandler {
 
     @Override
     public Message handle(ContentNode contentNode, String chatId) {
-        Media media = contentNode.getMedia();
         SendPhoto request = SendPhoto.builder()
                 .chatId(chatId)
-                .photo(getMediaFile(media))
-                .caption(media.getCaption())
+                .photo(getMediaFile(getMedia(contentNode)))
+                .caption(getMedia(contentNode).getCaption())
                 .build();
 
         try {

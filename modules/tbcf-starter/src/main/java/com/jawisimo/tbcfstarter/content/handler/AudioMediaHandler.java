@@ -25,7 +25,7 @@ class AudioMediaHandler extends MediaHandler {
 
     @Override
     public Message handle(ContentNode contentNode, String chatId) {
-        Media media = contentNode.getMedia();
+        Media media = getMedia(contentNode);
         SendAudio request = SendAudio.builder()
                 .chatId(chatId)
                 .audio(getMediaFile(media))

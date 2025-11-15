@@ -18,6 +18,8 @@ public class DialogExecutor {
     private final NodeNavigator nodeNavigator;
     private final CommandExecutor commandExecutor;
 
+    private static final String DELETE_MESSAGE =  "Message deleted from chat";
+
     public void executeMessage(Message message) {
         cleanupService.deleteRedundantMessage(message);
 
@@ -31,7 +33,7 @@ public class DialogExecutor {
         if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
             userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
         } else {
-            log.warn("Irrelevant message sent: \"{}\". Message deleted from chat: {}", nextNodeKey, chatId);
+            log.warn("Irrelevant message sent: \"{}\". {}: {}", nextNodeKey, chatId, DELETE_MESSAGE);
         }
     }
 
@@ -46,7 +48,7 @@ public class DialogExecutor {
         if (nodeNavigator.navigateToNode(chatId, callbackData)) {
             userStateService.saveUserStateIfPersist(chatId, callbackData);
         } else {
-            log.warn("No dialog node found for input: {}. Message deleted from chat: {}", callbackData, chatId);
+            log.warn("No dialog node found for input: {}. {}: {}", callbackData, chatId, DELETE_MESSAGE);
         }
     }
 }

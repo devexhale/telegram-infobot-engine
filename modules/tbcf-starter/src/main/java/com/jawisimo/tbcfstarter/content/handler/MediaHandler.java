@@ -28,11 +28,11 @@ abstract class MediaHandler implements ContentHandler {
     @Override
     public abstract Message handle(ContentNode contentNode, String chatId);
 
-    InputFile getMediaFile(Media media) {
+    final InputFile getMediaFile(Media media) {
         return mediaFileLoader.loadMedia(media);
     }
 
-    Media getMedia(ContentNode contentNode) {
+    final Media getMedia(ContentNode contentNode) {
         return contentNode.getMedia();
     }
 

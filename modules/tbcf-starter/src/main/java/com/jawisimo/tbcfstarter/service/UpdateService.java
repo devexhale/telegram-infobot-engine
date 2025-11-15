@@ -11,15 +11,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @RequiredArgsConstructor
 public class UpdateService {
-    private final DialogExecutor handler;
+    private final DialogExecutor executor;
 
     @Async("asyncBotVirtualExecutor")
     public void onUpdateReceived(Update update) {
         try {
             if (update.hasMessage()) {
-                handler.executeMessage(update.getMessage());
+                executor.executeMessage(update.getMessage());
             } else if (update.hasCallbackQuery()) {
-                handler.executeCallback(update.getCallbackQuery());
+                executor.executeCallback(update.getCallbackQuery());
             } else {
                 log.warn("Unsupported update type: {}", update);
             }
