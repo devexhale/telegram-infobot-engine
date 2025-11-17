@@ -35,14 +35,6 @@ public class NodeNavigator {
         return userInput;
     }
 
-
-    DialogNode getCurrentNode(String chatId) {
-        String currentNodeKey =
-                userStateService.getUserStateOrDefault(chatId, StartCommand.COMMAND_NAME);
-
-        return dialogRepository.getDialogNode(currentNodeKey);
-    }
-
     public boolean navigateToNode(String chatId, String nodeKey) {
         if (nodeKey == null) {
             return false;
@@ -56,5 +48,12 @@ public class NodeNavigator {
 
         nodeExecutor.execute(node, chatId);
         return true;
+    }
+
+    private DialogNode getCurrentNode(String chatId) {
+        String currentNodeKey =
+                userStateService.getUserStateOrDefault(chatId, StartCommand.COMMAND_NAME);
+
+        return dialogRepository.getDialogNode(currentNodeKey);
     }
 }

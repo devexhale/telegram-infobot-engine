@@ -34,7 +34,7 @@ public class DialogExecutor {
         if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
             userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
         } else {
-            log.warn("Irrelevant message sent: \"{}\". {}: {}", nextNodeKey, DELETE_MESSAGE, chatId);
+            log.warn("Irrelevant message sent: \"{}\". {}: {}", userInput, DELETE_MESSAGE, chatId);
         }
     }
 
