@@ -34,7 +34,7 @@ public class DialogExecutor {
         if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
             userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
         } else {
-            log.warn("Irrelevant message sent: \"{}\". {}: {}", nextNodeKey, chatId, DELETE_MESSAGE);
+            log.warn("Irrelevant message sent: \"{}\". {}: {}", nextNodeKey, DELETE_MESSAGE, chatId);
         }
     }
 
@@ -49,7 +49,7 @@ public class DialogExecutor {
         if (nodeNavigator.navigateToNode(chatId, callbackData)) {
             userStateService.saveUserStateIfPersist(chatId, callbackData);
         } else {
-            log.warn("No dialog node found for input: {}. {}: {}", callbackData, chatId, DELETE_MESSAGE);
+            log.warn("No dialog node found for input: {}. {}: {}", callbackData, DELETE_MESSAGE, chatId);
         }
     }
 }

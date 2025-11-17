@@ -45,14 +45,12 @@ public class NodeNavigator {
 
     public boolean navigateToNode(String chatId, String nodeKey) {
         if (nodeKey == null) {
-            log.warn("Node key is null for chat {}", chatId);
             return false;
         }
 
         DialogNode node = dialogRepository.getDialogNode(nodeKey);
 
         if (node == null) {
-            log.warn("Node '{}' not found for chat {}", nodeKey, chatId);
             return false;
         }
 
