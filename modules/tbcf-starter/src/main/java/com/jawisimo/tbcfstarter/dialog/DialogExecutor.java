@@ -1,6 +1,7 @@
 package com.jawisimo.tbcfstarter.dialog;
 
-import com.jawisimo.tbcfstarter.command.CommandExecutor;
+import com.jawisimo.tbcfstarter.dialog.command.CommandExecutor;
+import com.jawisimo.tbcfstarter.dialog.node.NodeNavigator;
 import com.jawisimo.tbcfstarter.service.MessageCleanupService;
 import com.jawisimo.tbcfstarter.service.UserStateService;
 import lombok.RequiredArgsConstructor;

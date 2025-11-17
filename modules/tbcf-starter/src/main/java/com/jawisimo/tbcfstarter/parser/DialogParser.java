@@ -1,6 +1,6 @@
 package com.jawisimo.tbcfstarter.parser;
 
-import com.jawisimo.tbcfstarter.model.DialogMap;
+import com.jawisimo.tbcfstarter.dialog.node.model.DialogMap;
 
 import java.io.InputStream;
 

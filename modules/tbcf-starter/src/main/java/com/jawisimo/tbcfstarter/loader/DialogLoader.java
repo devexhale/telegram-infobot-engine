@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.loader;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.model.DialogMap;
+import com.jawisimo.tbcfstarter.dialog.node.model.DialogMap;
 import com.jawisimo.tbcfstarter.parser.DialogParser;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import com.jawisimo.tbcfstarter.validator.ResourceValidator;

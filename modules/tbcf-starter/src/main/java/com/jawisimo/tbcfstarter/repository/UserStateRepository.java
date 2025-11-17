@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.repository;
 
 import com.jawisimo.tbcfstarter.config.BotProperties;
-import com.jawisimo.tbcfstarter.model.UserState;
+import com.jawisimo.tbcfstarter.dialog.node.model.UserState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

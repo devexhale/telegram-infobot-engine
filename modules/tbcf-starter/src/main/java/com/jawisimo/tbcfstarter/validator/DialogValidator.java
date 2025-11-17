@@ -1,9 +1,9 @@
 package com.jawisimo.tbcfstarter.validator;
 
-import com.jawisimo.tbcfstarter.command.commandset.StartCommand;
+import com.jawisimo.tbcfstarter.dialog.command.commandset.StartCommand;
+import com.jawisimo.tbcfstarter.dialog.node.model.*;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.content.handler.ContentHandler;
-import com.jawisimo.tbcfstarter.model.*;
+import com.jawisimo.tbcfstarter.dialog.media.handler.MediaHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +17,11 @@ public class DialogValidator {
         }
     }
 
-    public void validateContentNode(ContentNode contentNode, List<ContentHandler> contentHandlers) {
+    public void validateContentNode(ContentNode contentNode, List<MediaHandler> mediaHandlers) {
         validateContentType(contentNode);
 
         if (contentNode.getMedia() != null) {
-            validateMedia(contentNode.getMedia(), contentNode, contentHandlers);
+            validateMedia(contentNode.getMedia(), contentNode, mediaHandlers);
         }
     }
 
@@ -51,9 +51,9 @@ public class DialogValidator {
     }
 
     // Приватний метод для перевірки медіа
-    private void validateMedia(Media media, ContentNode contentNode, List<ContentHandler> contentHandlers) {
+    private void validateMedia(Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
         validateMediaType(media);
-        validateMediaSupported(media, contentNode, contentHandlers);
+        validateMediaSupported(media, contentNode, mediaHandlers);
     }
 
     // Перевірка, що тип медіа заданий
@@ -67,10 +67,10 @@ public class DialogValidator {
     }
 
     // Перевірка, що медіа підтримується ContentHandler
-    private void validateMediaSupported(Media media, ContentNode contentNode, List<ContentHandler> contentHandlers) {
+    private void validateMediaSupported(Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
         String type = media.getType();
         String fileName = media.getFileName();
-        boolean supported = contentHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
+        boolean supported = mediaHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
 
         if (!supported) {
             throw new DialogLoadingException(

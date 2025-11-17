@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.model.DialogMap;
-import com.jawisimo.tbcfstarter.model.DialogNode;
+import com.jawisimo.tbcfstarter.dialog.node.model.DialogMap;
+import com.jawisimo.tbcfstarter.dialog.node.model.DialogNode;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

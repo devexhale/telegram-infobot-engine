@@ -1,0 +1,40 @@
+package com.jawisimo.tbcfstarter.dialog.media.handler;
+
+import com.jawisimo.tbcfstarter.loader.MediaFileLoader;
+import com.jawisimo.tbcfstarter.dialog.node.model.ContentNode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
+
+@Component
+@Slf4j
+public class PhotoMediaHandler extends AbstractMediaHandler {
+
+    PhotoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+        super(client, mediaFileLoader);
+    }
+
+    @Override
+    public Message handle(ContentNode contentNode, String chatId) {
+        SendPhoto request = SendPhoto.builder()
+                .chatId(chatId)
+                .photo(getMediaFile(getMedia(contentNode)))
+                .caption(getMedia(contentNode).getCaption())
+                .build();
+
+        try {
+            return getClient().execute(request);
+        } catch (TelegramApiException e) {
+            log.error("Failed to photo in chat: {}", chatId, e);
+            return null;
+        }
+    }
+
+    @Override
+    String getMediaType() {
+        return "PHOTO";
+    }
+}

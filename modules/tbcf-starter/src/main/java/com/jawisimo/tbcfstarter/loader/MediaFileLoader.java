@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.loader;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.model.Media;
+import com.jawisimo.tbcfstarter.dialog.node.model.Media;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import com.jawisimo.tbcfstarter.validator.ResourceValidator;
 import lombok.RequiredArgsConstructor;
