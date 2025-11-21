@@ -1,7 +1,7 @@
 package com.jawisimo.tbcfstarter.repository;
 
-import com.jawisimo.tbcfstarter.dialog.node.model.DialogNode;
+import com.jawisimo.tbcfstarter.interaction.node.model.DialogNode;
 
 public interface DialogRepository {
-    DialogNode getDialogNode(String nodeId);
+    DialogNode getNode(String nodeId);
 }

@@ -5,7 +5,6 @@ import com.jawisimo.tbcfstarter.parser.DialogParser;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 @Component
@@ -17,8 +16,8 @@ public class ResourceValidator {
         }
     }
 
-    public void validateMediaResource(URL resourceUrl, String fileName) {
-        if (resourceUrl == null) {
+    public void validateMediaFile(InputStream is, String fileName) {
+        if (is == null) {
             throw new DialogLoadingException("Media file not found: " + fileName);
         }
     }

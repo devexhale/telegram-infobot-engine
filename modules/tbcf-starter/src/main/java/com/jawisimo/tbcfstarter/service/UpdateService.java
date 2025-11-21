@@ -1,6 +1,6 @@
 package com.jawisimo.tbcfstarter.service;
 
-import com.jawisimo.tbcfstarter.dialog.DialogExecutor;
+import com.jawisimo.tbcfstarter.interaction.DialogExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;

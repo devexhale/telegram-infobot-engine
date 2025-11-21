@@ -1,6 +1,6 @@
 package com.jawisimo.tbcfstarter.service;
 
-import com.jawisimo.tbcfstarter.dialog.node.model.UserState;
+import com.jawisimo.tbcfstarter.interaction.node.model.UserState;
 import com.jawisimo.tbcfstarter.repository.UserStateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

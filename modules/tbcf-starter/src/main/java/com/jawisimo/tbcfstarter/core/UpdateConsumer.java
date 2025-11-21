@@ -1,6 +1,6 @@
 package com.jawisimo.tbcfstarter.core;
 
-import com.jawisimo.tbcfstarter.dialog.command.CommandsInitializer;
+import com.jawisimo.tbcfstarter.interaction.command.CommandsInitializer;
 import com.jawisimo.tbcfstarter.service.UpdateService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

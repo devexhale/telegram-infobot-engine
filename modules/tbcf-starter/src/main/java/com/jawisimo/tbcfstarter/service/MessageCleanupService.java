@@ -1,6 +1,6 @@
 package com.jawisimo.tbcfstarter.service;
 
-import com.jawisimo.tbcfstarter.dialog.command.commandset.StartCommand;
+import com.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

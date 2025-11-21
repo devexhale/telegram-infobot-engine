@@ -1,9 +1,9 @@
 package com.jawisimo.tbcfstarter.validator;
 
-import com.jawisimo.tbcfstarter.dialog.command.commandset.StartCommand;
-import com.jawisimo.tbcfstarter.dialog.node.model.*;
+import com.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.dialog.media.handler.MediaHandler;
+import com.jawisimo.tbcfstarter.interaction.media.handler.MediaHandler;
+import com.jawisimo.tbcfstarter.interaction.node.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class DialogValidator {
         }
     }
 
-    public void validateMediaFileName(String fileName) {
-        if (fileName == null || fileName.isBlank()) {
+    public void validateMediaFileName(String mediaFileName) {
+        if (mediaFileName == null || mediaFileName.isBlank()) {
             throw new DialogLoadingException("Media file_name is missing or blank");
         }
     }
@@ -66,7 +66,7 @@ public class DialogValidator {
         }
     }
 
-    // Перевірка, що медіа підтримується ContentHandler
+
     private void validateMediaSupported(Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
         String type = media.getType();
         String fileName = media.getFileName();
