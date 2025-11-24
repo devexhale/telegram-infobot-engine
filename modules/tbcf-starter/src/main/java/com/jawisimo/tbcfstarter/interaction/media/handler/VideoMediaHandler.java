@@ -23,8 +23,8 @@ public class VideoMediaHandler extends AbstractMediaHandler {
         Media media = getMedia(contentNode);
         SendVideo request = SendVideo.builder()
                 .chatId(chatId)
-                .video(getMediaFile(media.getFileName()))
-                .caption(media.getCaption())
+                .video(getMediaFile(media.fileName()))
+                .caption(media.caption())
                 .build();
 
         try {

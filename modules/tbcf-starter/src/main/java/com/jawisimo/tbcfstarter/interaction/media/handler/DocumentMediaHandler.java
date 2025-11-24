@@ -23,8 +23,8 @@ public class DocumentMediaHandler extends AbstractMediaHandler {
         Media media = getMedia(contentNode);
         SendDocument request = SendDocument.builder()
                 .chatId(chatId)
-                .document(getMediaFile(media.getFileName()))
-                .caption(media.getCaption())
+                .document(getMediaFile(media.fileName()))
+                .caption(media.caption())
                 .build();
 
         try {

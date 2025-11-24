@@ -22,9 +22,8 @@ public abstract class AbstractMediaHandler implements MediaHandler {
 
     @Override
     public boolean canHandle(ContentNode contentNode) {
-        if (contentNode.getType() != ContentType.MEDIA) return false;
-        return contentNode.getMedia() != null
-                && contentNode.getMedia().getType().equalsIgnoreCase(getMediaType());
+        if (contentNode.type() != ContentType.MEDIA) return false;
+        return contentNode.media().type().equalsIgnoreCase(getMediaType());
     }
 
     @Override
@@ -35,7 +34,7 @@ public abstract class AbstractMediaHandler implements MediaHandler {
     }
 
     final Media getMedia(ContentNode contentNode) {
-        return contentNode.getMedia();
+        return contentNode.media();
     }
 
     abstract String getMediaType();

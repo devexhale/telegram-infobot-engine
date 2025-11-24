@@ -18,12 +18,12 @@ public class TextMediaHandler implements MediaHandler {
 
     @Override
     public boolean canHandle(ContentNode contentNode) {
-        return contentNode.getType() == ContentType.TEXT;
+        return contentNode.type()== ContentType.TEXT;
     }
 
     @Override
     public Message handle(ContentNode contentNode, String chatId)  {
-        String text = contentNode.getText();
+        String text = contentNode.text();
         SendMessage sendMessage = new SendMessage(chatId, text);
 
         try {

@@ -24,7 +24,7 @@ public class DialogLoader {
         try (InputStream is = loadResource(dialogFileName)) {
             DialogParser parser = selectParser(dialogFileName);
             DialogMap dialogMap = parseDialog(is, parser);
-            validateDialog(dialogMap, dialogFileName);
+            dialogValidator.validateStartNode(dialogMap, dialogFileName);
             return dialogMap;
         } catch (Exception e) {
             throw new DialogLoadingException("Failed to load dialog file: " + dialogFileName, e);
@@ -48,10 +48,6 @@ public class DialogLoader {
     private DialogMap parseDialog(InputStream is, DialogParser parser) {
         log.info("Parsing dialog using {}", parser.getClass().getSimpleName());
         return parser.parse(is);
-    }
-
-    private void validateDialog(DialogMap dialogMap, String dialogFileName) {
-        dialogValidator.validateStartNode(dialogMap, dialogFileName);
     }
 }
 

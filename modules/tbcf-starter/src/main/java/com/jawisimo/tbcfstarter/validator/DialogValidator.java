@@ -20,8 +20,8 @@ public class DialogValidator {
     public void validateContentNode(ContentNode contentNode, List<MediaHandler> mediaHandlers) {
         validateContentType(contentNode);
 
-        if (contentNode.getMedia() != null) {
-            validateMedia(contentNode.getMedia(), contentNode, mediaHandlers);
+        if (contentNode.media() != null) {
+            validateMedia(contentNode.media(), contentNode, mediaHandlers);
         }
     }
 
@@ -45,7 +45,7 @@ public class DialogValidator {
 
     // Приватний метод для перевірки обов'язкового типу
     private void validateContentType(ContentNode contentNode) {
-        if (contentNode.getType() == null) {
+        if (contentNode.type() == null) {
             throw new DialogLoadingException("Content type is missing or not valid");
         }
     }
@@ -58,8 +58,8 @@ public class DialogValidator {
 
     // Перевірка, що тип медіа заданий
     private void validateMediaType(Media media) {
-        String type = media.getType();
-        String fileName = media.getFileName();
+        String type = media.type();
+        String fileName = media.fileName();
 
         if (type == null || type.isBlank()) {
             throw new DialogLoadingException("Media type is missing for file: " + fileName);
@@ -68,8 +68,8 @@ public class DialogValidator {
 
 
     private void validateMediaSupported(Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
-        String type = media.getType();
-        String fileName = media.getFileName();
+        String type = media.type();
+        String fileName = media.fileName();
         boolean supported = mediaHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
 
         if (!supported) {
@@ -80,14 +80,14 @@ public class DialogValidator {
     }
 
     private void validateButton(Button button, ButtonType type) {
-        String label = button.getLabel();
+        String label = button.label();
 
         if (label == null || label.isBlank()) {
             throw new DialogLoadingException("Button label is missing or blank");
         }
 
-        String url = button.getUrl();
-        String next = button.getNext();
+        String url = button.url();
+        String next = button.next();
         boolean hasUrl = url != null && !url.isBlank();
         boolean hasNext = next != null && !next.isBlank();
 

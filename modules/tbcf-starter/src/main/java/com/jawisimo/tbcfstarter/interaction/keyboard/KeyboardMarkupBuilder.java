@@ -23,7 +23,7 @@ public class KeyboardMarkupBuilder {
     ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
         List<KeyboardRow> rows = splitButtons(
                 buttons,
-                btn -> KeyboardButton.builder().text(btn.getLabel()).build(),
+                btn -> KeyboardButton.builder().text(btn.label()).build(),
                 KeyboardRow::new
         );
 
@@ -39,9 +39,9 @@ public class KeyboardMarkupBuilder {
         List<InlineKeyboardRow> rows = splitButtons(
                 buttons,
                 btn -> InlineKeyboardButton.builder()
-                        .text(btn.getLabel())
-                        .url(btn.getUrl())
-                        .callbackData(btn.getNext())
+                        .text(btn.label())
+                        .url(btn.url())
+                        .callbackData(btn.next())
                         .build(),
                 InlineKeyboardRow::new
         );

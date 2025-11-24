@@ -1,12 +1,4 @@
 package com.jawisimo.tbcfstarter.interaction.node.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-public class ContentNode {
-    private ContentType type;
-    private String text;
-    private Media media;
+public record ContentNode(ContentType type, String text, Media media) {
 }

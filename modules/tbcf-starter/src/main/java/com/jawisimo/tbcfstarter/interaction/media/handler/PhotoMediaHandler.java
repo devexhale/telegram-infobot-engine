@@ -23,8 +23,8 @@ public class PhotoMediaHandler extends AbstractMediaHandler {
         Media media = getMedia(contentNode);
         SendPhoto request = SendPhoto.builder()
                 .chatId(chatId)
-                .photo(getMediaFile(media.getFileName()))
-                .caption(media.getCaption())
+                .photo(getMediaFile(media.fileName()))
+                .caption(media.caption())
                 .build();
 
         try {

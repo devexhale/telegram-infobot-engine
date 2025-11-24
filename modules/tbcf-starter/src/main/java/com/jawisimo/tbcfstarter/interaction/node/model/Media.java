@@ -1,16 +1,8 @@
 package com.jawisimo.tbcfstarter.interaction.node.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-public class Media {
-    private String type;
-
-    @JsonProperty("file_name")
-    private String fileName;
-
-    private String caption;
+public record Media(String type,
+                    @JsonProperty("file_name") String fileName,
+                    String caption) {
 }

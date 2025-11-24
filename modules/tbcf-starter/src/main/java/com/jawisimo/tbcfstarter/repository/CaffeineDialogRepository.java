@@ -3,8 +3,8 @@ package com.jawisimo.tbcfstarter.repository;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.jawisimo.tbcfstarter.config.BotProperties;
-import com.jawisimo.tbcfstarter.loader.DialogLoader;
 import com.jawisimo.tbcfstarter.interaction.node.model.DialogMap;
+import com.jawisimo.tbcfstarter.loader.DialogLoader;
 import com.jawisimo.tbcfstarter.interaction.node.model.DialogNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class CaffeineDialogRepository implements DialogRepository {
 
     @Override
     public DialogNode getNode(String nodeId) {
-        return getCachedDialogMap().nodes().get(nodeId);
+        return getCachedDialogMap().getDialogNode(nodeId);
     }
 
     private DialogMap getCachedDialogMap() {

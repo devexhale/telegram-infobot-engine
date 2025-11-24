@@ -26,8 +26,8 @@ public class NodeNavigator {
                 && currentNode.buttons() != null) {
 
             return currentNode.buttons().stream()
-                    .filter(btn -> btn.getLabel().equals(userInput))
-                    .map(Button::getNext)
+                    .filter(btn -> btn.label().equals(userInput))
+                    .map(Button::next)
                     .findFirst()
                     .orElse(userInput);
         }

@@ -23,8 +23,8 @@ public class AudioMediaHandler extends AbstractMediaHandler {
         Media media = getMedia(contentNode);
         SendAudio request = SendAudio.builder()
                 .chatId(chatId)
-                .audio(getMediaFile(media.getFileName()))
-                .caption(media.getCaption())
+                .audio(getMediaFile(media.fileName()))
+                .caption(media.caption())
                 .build();
 
         try {
