@@ -8,7 +8,7 @@ import java.util.Map;
 public final class DialogMap {
     private Map<String, DialogNode> nodes;
 
-    public DialogNode getDialogNode(String nodeId) {
+    public DialogNode getNode(String nodeId) {
         return nodes.get(nodeId);
     }
 

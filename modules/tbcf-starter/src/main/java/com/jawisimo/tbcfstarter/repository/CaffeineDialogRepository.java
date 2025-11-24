@@ -25,7 +25,7 @@ public class CaffeineDialogRepository implements DialogRepository {
 
     @Override
     public DialogNode getNode(String nodeId) {
-        return getCachedDialogMap().getDialogNode(nodeId);
+        return getCachedDialogMap().getNode(nodeId);
     }
 
     private DialogMap getCachedDialogMap() {
