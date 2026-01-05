@@ -1,9 +1,11 @@
 package com.jawisimo.tbcfstarter.config;
 
 import com.jawisimo.tbcfstarter.exception.MissingPropertyException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "telegram.bot")
+@Slf4j
 public record BotProperties(String token,
                             String name,
                             String dialogFileName,

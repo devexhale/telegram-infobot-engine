@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
 @ConditionalOnProperty(
         prefix = "telegram.bot",
         name = "user-state-persistent",
-        havingValue = "true")
+        havingValue = "true"
+)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UserStatePersistent {
