@@ -1,7 +1,6 @@
 package com.jawisimo.tbcfstarter.loader;
 
-import com.jawisimo.tbcfstarter.validator.DialogValidator;
-import com.jawisimo.tbcfstarter.validator.ResourceValidator;
+import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,14 +14,19 @@ import java.nio.file.Paths;
 @Slf4j
 public class MediaFileLoader {
     private static final String MEDIA_FOLDER = "media";
-    private final DialogValidator dialogValidator;
-    private final ResourceValidator resourceValidator;
 
     public InputFile load(String mediaFileName) {
-        dialogValidator.validateMediaFileName(mediaFileName);
+        if (mediaFileName == null || mediaFileName.isBlank()) {
+            throw new DialogLoadingException("Media file_name is missing or blank");
+        }
+
         String resourcePath = Paths.get(MEDIA_FOLDER, mediaFileName).toString();
         InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath);
-        resourceValidator.validateMediaFile(is, mediaFileName);
+
+        if (is == null) {
+            throw new DialogLoadingException("Media file not found: " + mediaFileName);
+        }
+
         return new InputFile(is, mediaFileName);
     }
 }

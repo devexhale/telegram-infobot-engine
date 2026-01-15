@@ -3,9 +3,9 @@ package com.jawisimo.tbcfstarter.service;
 import com.jawisimo.tbcfstarter.interaction.node.model.UserState;
 import com.jawisimo.tbcfstarter.repository.UserStateRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class UserStateService {
     private final UserStateRepository userStateRepository;

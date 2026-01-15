@@ -25,12 +25,6 @@ public class DialogValidator {
         }
     }
 
-    public void validateMediaFileName(String mediaFileName) {
-        if (mediaFileName == null || mediaFileName.isBlank()) {
-            throw new DialogLoadingException("Media file_name is missing or blank");
-        }
-    }
-
     public void validateButtons(DialogNode node) {
         if ((node.buttons() == null || node.buttons().isEmpty())) {
             throw new DialogLoadingException("Buttons are missing");
