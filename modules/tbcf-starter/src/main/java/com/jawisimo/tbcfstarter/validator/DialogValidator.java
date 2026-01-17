@@ -1,24 +1,32 @@
 package com.jawisimo.tbcfstarter.validator;
 
-import com.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
+import com.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
 import com.jawisimo.tbcfstarter.interaction.media.handler.MediaHandler;
 import com.jawisimo.tbcfstarter.interaction.node.model.*;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
+@Slf4j
 public class DialogValidator {
 
     public void validateStartNode(DialogMap dialogMap, String fileName) {
         if (!dialogMap.containsNodeKey(StartCommand.COMMAND_NAME)) {
-            throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
+            String errorMessage = "Dialog must contain '/start' node in file: " + fileName;
+            log.error(errorMessage);
+            throw new DialogLoadingException(errorMessage);
         }
     }
 
-    public void validateContentNode(ContentNode contentNode, List<MediaHandler> mediaHandlers) {
-        validateContentType(contentNode);
+    public void validateContent(ContentNode contentNode, List<MediaHandler> mediaHandlers) {
+        if (contentNode.type() == ContentType.TEXT && (contentNode.text() == null || contentNode.text().isEmpty())) {
+            String errorMessage = "Content text is null or empty, but content type is TEXT";
+            log.error(errorMessage);
+            throw new DialogLoadingException(errorMessage);
+        }
 
         if (contentNode.media() != null) {
             validateMedia(contentNode.media(), contentNode, mediaHandlers);
@@ -26,10 +34,6 @@ public class DialogValidator {
     }
 
     public void validateButtons(DialogNode node) {
-        if ((node.buttons() == null || node.buttons().isEmpty())) {
-            throw new DialogLoadingException("Buttons are missing");
-        }
-
         ButtonType type = node.buttonType();
 
         for (Button button : node.buttons()) {
@@ -37,49 +41,22 @@ public class DialogValidator {
         }
     }
 
-    // Приватний метод для перевірки обов'язкового типу
-    private void validateContentType(ContentNode contentNode) {
-        if (contentNode.type() == null) {
-            throw new DialogLoadingException("Content type is missing or not valid");
-        }
-    }
-
-    // Приватний метод для перевірки медіа
     private void validateMedia(Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
-        validateMediaType(media);
-        validateMediaSupported(media, contentNode, mediaHandlers);
-    }
-
-    // Перевірка, що тип медіа заданий
-    private void validateMediaType(Media media) {
         String type = media.type();
         String fileName = media.fileName();
 
-        if (type == null || type.isBlank()) {
-            throw new DialogLoadingException("Media type is missing for file: " + fileName);
-        }
-    }
-
-
-    private void validateMediaSupported(Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
-        String type = media.type();
-        String fileName = media.fileName();
         boolean supported = mediaHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
 
         if (!supported) {
+            String errorMessage =  "No handler found for media type: " + type + " (file: " + fileName + ")";
+            log.error(errorMessage);
             throw new DialogLoadingException(
-                    "No handler found for media type: " + type + " (file: " + fileName + ")"
+                    errorMessage
             );
         }
     }
 
     private void validateButton(Button button, ButtonType type) {
-        String label = button.label();
-
-        if (label == null || label.isBlank()) {
-            throw new DialogLoadingException("Button label is missing or blank");
-        }
-
         String url = button.url();
         String next = button.next();
         boolean hasUrl = url != null && !url.isBlank();
@@ -94,21 +71,29 @@ public class DialogValidator {
 
     private void validateReplyButton(boolean hasUrl, boolean hasNext) {
         if (hasUrl) {
-            throw new DialogLoadingException("Reply button cannot have a URL");
+            String errorMessage = "Reply button cannot have a URL";
+            log.error(errorMessage);
+            throw new DialogLoadingException(errorMessage);
         }
 
         if (!hasNext) {
-            throw new DialogLoadingException("Reply button must have a next (callback text)");
+            String errorMessage = "Reply button must have a next (callback text)";
+            log.error(errorMessage);
+            throw new DialogLoadingException(errorMessage);
         }
     }
 
     private void validateInlineButton(boolean hasUrl, boolean hasNext) {
         if (!hasUrl && !hasNext) {
-            throw new DialogLoadingException("Inline button must have either URL or next");
+            String errorMessage = "Inline button must have either URL or next";
+            log.error(errorMessage);
+            throw new DialogLoadingException(errorMessage);
         }
 
         if (hasUrl && hasNext) {
-            throw new DialogLoadingException("Inline button cannot have both URL and next");
+            String errorMessage = "Inline button cannot have both URL and next";
+            log.error(errorMessage);
+            throw new DialogLoadingException(errorMessage);
         }
     }
 }

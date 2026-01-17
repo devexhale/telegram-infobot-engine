@@ -20,8 +20,11 @@ public class DialogLoader {
 
     public DialogMap load(String dialogFileName) {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
+            if (is == null) {
+                throw new DialogLoadingException("Dialog file not found: " + dialogFileName);
+            }
+
             DialogParser parser = parserProvider.get(dialogFileName);
-            log.info("Parsing dialog using {}", parser.getClass().getSimpleName());
             DialogMap dialogMap = parser.parse(is);
             dialogValidator.validateStartNode(dialogMap, dialogFileName);
             return dialogMap;

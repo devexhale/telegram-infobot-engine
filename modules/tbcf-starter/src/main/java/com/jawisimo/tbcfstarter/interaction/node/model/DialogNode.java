@@ -2,7 +2,9 @@ package com.jawisimo.tbcfstarter.interaction.node.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
+import com.jawisimo.tbcfstarter.validator.ValidationErrorFormatter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record DialogNode(
@@ -12,12 +14,21 @@ public record DialogNode(
         List<Button> buttons) {
 
     public DialogNode {
+        List<String> errors = new ArrayList<>();
+
         if (buttons == null || buttons.isEmpty()) {
-            throw new DialogLoadingException("Buttons list are required and cannot be null or empty");
+            errors.add("Buttons list is missing or empty, but it is required");
         }
 
         if (message == null || message.isBlank()) {
-            throw new DialogLoadingException("Field 'message' is required and cannot be null or blank");
+            errors.add("Field 'message' is missing or blank, but it is required");
+        }
+
+        if (!errors.isEmpty()) {
+            String errorMessage = ValidationErrorFormatter.format(
+                    "Dialog node loading failed", errors
+            );
+            throw new DialogLoadingException(errorMessage);
         }
     }
 }

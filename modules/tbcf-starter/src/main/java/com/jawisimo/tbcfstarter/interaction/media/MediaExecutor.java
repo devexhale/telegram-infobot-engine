@@ -22,7 +22,7 @@ public class MediaExecutor {
         if (node.content() == null) return;
 
         for (ContentNode contentNode : node.content()) {
-            dialogValidator.validateContentNode(contentNode, mediaHandlers);
+            dialogValidator.validateContent(contentNode, mediaHandlers);
             for (MediaHandler handler : mediaHandlers) {
                 if (handler.canHandle(contentNode)) {
                     Message sent = handler.handle(contentNode, chatId);

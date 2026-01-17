@@ -2,12 +2,14 @@ package com.jawisimo.tbcfstarter.parser;
 
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ParserProvider {
     private final List<DialogParser> parsers;
 
@@ -29,7 +31,8 @@ public class ParserProvider {
             );
         }
 
-
+        DialogParser parser = matchingParsers.getFirst();
+        log.info("Parsing dialog using {}", parser.getClass().getSimpleName());
         return matchingParsers.getFirst();
     }
 }
