@@ -3,7 +3,7 @@ package com.jawisimo.tbcfstarter.loader;
 import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.jawisimo.tbcfstarter.interaction.node.model.DialogMap;
 import com.jawisimo.tbcfstarter.parser.DialogParser;
-import com.jawisimo.tbcfstarter.parser.ParserProvider;
+import com.jawisimo.tbcfstarter.parser.DialogParserProvider;
 import com.jawisimo.tbcfstarter.validator.DialogValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 @Slf4j
 public class DialogLoader {
     private final DialogValidator dialogValidator;
-    private final ParserProvider parserProvider;
+    private final DialogParserProvider dialogParserProvider;
 
     public DialogMap load(String dialogFileName) {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
@@ -24,7 +24,7 @@ public class DialogLoader {
                 throw new DialogLoadingException("Dialog file not found: " + dialogFileName);
             }
 
-            DialogParser parser = parserProvider.get(dialogFileName);
+            DialogParser parser = dialogParserProvider.getParser(dialogFileName);
             DialogMap dialogMap = parser.parse(is);
             dialogValidator.validateStartNode(dialogMap, dialogFileName);
             return dialogMap;

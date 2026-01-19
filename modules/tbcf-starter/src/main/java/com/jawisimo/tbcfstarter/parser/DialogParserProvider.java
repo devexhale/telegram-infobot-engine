@@ -10,10 +10,10 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ParserProvider {
+public class DialogParserProvider {
     private final List<DialogParser> parsers;
 
-    public DialogParser get(String dialogFileName) {
+    public DialogParser getParser(String dialogFileName) {
         List<DialogParser> matchingParsers = parsers.stream()
                 .filter(p -> p.canParse(dialogFileName))
                 .toList();
