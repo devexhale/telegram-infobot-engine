@@ -15,17 +15,13 @@ public class DialogValidator {
 
     public void validateStartNode(DialogMap dialogMap, String fileName) {
         if (!dialogMap.containsNodeKey(StartCommand.COMMAND_NAME)) {
-            String errorMessage = "Dialog must contain '/start' node in file: " + fileName;
-            log.error(errorMessage);
-            throw new DialogLoadingException(errorMessage);
+            throw new DialogLoadingException("Dialog must contain '/start' node in file: " + fileName);
         }
     }
 
     public void validateContent(ContentNode contentNode, List<MediaHandler> mediaHandlers) {
         if (contentNode.type() == ContentType.TEXT && (contentNode.text() == null || contentNode.text().isEmpty())) {
-            String errorMessage = "Content text is null or empty, but content type is TEXT";
-            log.error(errorMessage);
-            throw new DialogLoadingException(errorMessage);
+            throw new DialogLoadingException("Content text is null or empty, but content type is TEXT");
         }
 
         if (contentNode.media() != null) {
@@ -48,10 +44,8 @@ public class DialogValidator {
         boolean supported = mediaHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
 
         if (!supported) {
-            String errorMessage =  "No handler found for media type: " + type + " (file: " + fileName + ")";
-            log.error(errorMessage);
             throw new DialogLoadingException(
-                    errorMessage
+                    "No handler found for media type: " + type + " (file: " + fileName + ")"
             );
         }
     }
@@ -71,29 +65,21 @@ public class DialogValidator {
 
     private void validateReplyButton(boolean hasUrl, boolean hasNext) {
         if (hasUrl) {
-            String errorMessage = "Reply button cannot have a URL";
-            log.error(errorMessage);
-            throw new DialogLoadingException(errorMessage);
+            throw new DialogLoadingException("Reply button cannot have a URL");
         }
 
         if (!hasNext) {
-            String errorMessage = "Reply button must have a next (callback text)";
-            log.error(errorMessage);
-            throw new DialogLoadingException(errorMessage);
+            throw new DialogLoadingException("Reply button must have a next (callback text)");
         }
     }
 
     private void validateInlineButton(boolean hasUrl, boolean hasNext) {
         if (!hasUrl && !hasNext) {
-            String errorMessage = "Inline button must have either URL or next";
-            log.error(errorMessage);
-            throw new DialogLoadingException(errorMessage);
+            throw new DialogLoadingException("Inline button must have either URL or next");
         }
 
         if (hasUrl && hasNext) {
-            String errorMessage = "Inline button cannot have both URL and next";
-            log.error(errorMessage);
-            throw new DialogLoadingException(errorMessage);
+            throw new DialogLoadingException("Inline button cannot have both URL and next");
         }
     }
 }
