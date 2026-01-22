@@ -16,12 +16,12 @@ public record DialogNode(
     public DialogNode {
         List<String> errors = new ArrayList<>();
 
-        if (buttons == null || buttons.isEmpty()) {
-            errors.add("Buttons list is missing or empty, but it is required");
-        }
-
         if (message == null || message.isBlank()) {
             errors.add("Field 'message' is missing or blank, but it is required");
+        }
+
+        if (buttons == null || buttons.isEmpty()) {
+            errors.add("Buttons list is missing or empty, but it is required");
         }
 
         if (!errors.isEmpty()) {
