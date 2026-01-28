@@ -1,8 +1,12 @@
 package com.jawisimo.tbcfstarter.config;
 
 import com.jawisimo.tbcfstarter.exception.MissingPropertyException;
+import com.jawisimo.tbcfstarter.validator.ValidationErrorFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ConfigurationProperties(prefix = "telegram.bot")
 @Slf4j
@@ -19,12 +23,21 @@ public record BotProperties(String token,
     private static final int BUTTONS_PER_ROW_MAX_VALUE = 10;
 
     public BotProperties {
+        List<String> errors = new ArrayList<>();
+
         if (token == null || token.isBlank()) {
-            throw new MissingPropertyException(BOT_TOKEN);
+            errors.add(BOT_TOKEN);
         }
 
         if (dialogFileName == null || dialogFileName.isBlank()) {
-            throw new MissingPropertyException(BOT_DIALOG_FILE_NAME);
+            errors.add(BOT_DIALOG_FILE_NAME);
+        }
+
+        if (!errors.isEmpty()) {
+            String errorMessage = ValidationErrorFormatter.format(
+                    "Bot properties loading failed", errors
+            );
+            throw new MissingPropertyException(errorMessage);
         }
 
         if (buttonsPerRow < BUTTONS_PER_ROW_MIN_VALUE || buttonsPerRow > BUTTONS_PER_ROW_MAX_VALUE) {

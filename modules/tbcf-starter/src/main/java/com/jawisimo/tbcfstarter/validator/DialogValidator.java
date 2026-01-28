@@ -65,21 +65,21 @@ public class DialogValidator {
 
     private void validateReplyButton(boolean hasUrl, boolean hasNext) {
         if (hasUrl) {
-            throw new DialogLoadingException("Reply button cannot have a URL");
+            throw new DialogLoadingException("Reply button cannot have a 'URL'");
         }
 
         if (!hasNext) {
-            throw new DialogLoadingException("Reply button must have a next (callback text)");
+            throw new DialogLoadingException("Reply button must have a 'next' (callback text)");
         }
     }
 
     private void validateInlineButton(boolean hasUrl, boolean hasNext) {
         if (!hasUrl && !hasNext) {
-            throw new DialogLoadingException("Inline button must have either URL or next");
+            throw new DialogLoadingException("Inline button must have either 'next' or 'URL'");
         }
 
         if (hasUrl && hasNext) {
-            throw new DialogLoadingException("Inline button cannot have both URL and next");
+            throw new DialogLoadingException("Inline button cannot have both 'next' and 'URL'");
         }
     }
 }

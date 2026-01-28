@@ -21,8 +21,8 @@ public class RedisCheckConfig {
                     "Please add spring-boot-starter-data-redis " +
                     "and configure spring.data.redis.*properties.";
 
-    private static final String REDIS_CONNECT_FAIL_MESSAGE = "❌ Redis is enabled but cannot connect";
-    private static final String REDIS_PING_FAIL_MESSAGE = "❌ Redis is enabled but cannot ping";
+    private static final String REDIS_CONNECT_FAIL_MESSAGE = "❌ Redis dependency is present, but connection failed";
+    private static final String REDIS_PING_FAIL_MESSAGE = "❌ Redis dependency is present, but cannot ping";
     private static final String REDIS_PONG = "PONG";
 
     private final BotProperties properties;
