@@ -14,23 +14,23 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Slf4j
 @RequiredArgsConstructor
 public class TextMediaHandler implements MediaHandler {
-    private final TelegramClient client;
+  private final TelegramClient client;
 
-    @Override
-    public boolean canHandle(ContentNode contentNode) {
-        return contentNode.type()== ContentType.TEXT;
+  @Override
+  public boolean canHandle(ContentNode contentNode) {
+    return contentNode.type() == ContentType.TEXT;
+  }
+
+  @Override
+  public Message handle(ContentNode contentNode, String chatId) {
+    String text = contentNode.text();
+    SendMessage sendMessage = new SendMessage(chatId, text);
+
+    try {
+      return client.execute(sendMessage);
+    } catch (TelegramApiException e) {
+      log.error("Failed to handle text in chat: {}", chatId, e);
+      return null;
     }
-
-    @Override
-    public Message handle(ContentNode contentNode, String chatId)  {
-        String text = contentNode.text();
-        SendMessage sendMessage = new SendMessage(chatId, text);
-
-        try {
-            return client.execute(sendMessage);
-        } catch (TelegramApiException e) {
-            log.error("Failed to handle text in chat: {}", chatId, e);
-            return null;
-        }
-    }
+  }
 }

@@ -11,9 +11,6 @@ import org.springframework.data.redis.core.RedisHash;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserState {
-
-    @Id
-    private String chatId;
-
-    private String nodeId;
+  @Id private String chatId;
+  private String nodeId;
 }

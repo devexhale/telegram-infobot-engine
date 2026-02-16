@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 public interface DialogParser {
 
-    boolean canParse(String fileName);
+  boolean canParse(String fileName);
 
-    DialogMap parse(InputStream is);
+  DialogMap parse(InputStream is);
 }

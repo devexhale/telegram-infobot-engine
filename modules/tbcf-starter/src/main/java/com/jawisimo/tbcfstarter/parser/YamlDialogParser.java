@@ -14,24 +14,23 @@ import java.util.Map;
 
 @Component
 public class YamlDialogParser implements DialogParser {
-    private static final String FORMAT_YAML = ".yaml";
-    private static final String FORMAT_YML = ".yml";
+  private static final String FORMAT_YAML = ".yaml";
+  private static final String FORMAT_YML = ".yml";
 
-    private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+  private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 
-    @Override
-    public boolean canParse(String fileName) {
-        return fileName.endsWith(FORMAT_YAML) || fileName.endsWith(FORMAT_YML);
+  @Override
+  public boolean canParse(String fileName) {
+    return fileName.endsWith(FORMAT_YAML) || fileName.endsWith(FORMAT_YML);
+  }
+
+  @Override
+  public DialogMap parse(InputStream is) {
+    try {
+      TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
+      return new DialogMap(yamlMapper.readValue(is, typeRef));
+    } catch (IOException e) {
+      throw new DialogLoadingException("Failed to parse YAML dialog", e);
     }
-
-    @Override
-    public DialogMap parse(InputStream is) {
-        try {
-            TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {
-            };
-            return new DialogMap(yamlMapper.readValue(is, typeRef));
-        } catch (IOException e) {
-            throw new DialogLoadingException("Failed to parse YAML dialog", e);
-        }
-    }
+  }
 }

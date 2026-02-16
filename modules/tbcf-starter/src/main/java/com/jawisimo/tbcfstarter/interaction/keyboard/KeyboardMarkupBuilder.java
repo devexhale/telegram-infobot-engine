@@ -18,55 +18,49 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class KeyboardMarkupBuilder {
-    private final BotProperties botProperties;
+  private final BotProperties botProperties;
 
-    ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
-        List<KeyboardRow> rows = splitButtons(
-                buttons,
-                btn -> KeyboardButton.builder().text(btn.label()).build(),
-                KeyboardRow::new
-        );
+  ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
+    List<KeyboardRow> rows =
+        splitButtons(
+            buttons, btn -> KeyboardButton.builder().text(btn.label()).build(), KeyboardRow::new);
 
-        return ReplyKeyboardMarkup.builder()
-                .keyboard(rows)
-                .resizeKeyboard(true)
-                .oneTimeKeyboard(true)
-                .isPersistent(true)
-                .build();
+    return ReplyKeyboardMarkup.builder()
+        .keyboard(rows)
+        .resizeKeyboard(true)
+        .oneTimeKeyboard(true)
+        .isPersistent(true)
+        .build();
+  }
+
+  InlineKeyboardMarkup buildInlineKeyboard(List<Button> buttons) {
+    List<InlineKeyboardRow> rows =
+        splitButtons(
+            buttons,
+            btn ->
+                InlineKeyboardButton.builder()
+                    .text(btn.label())
+                    .url(btn.url())
+                    .callbackData(btn.next())
+                    .build(),
+            InlineKeyboardRow::new);
+
+    return InlineKeyboardMarkup.builder().keyboard(rows).build();
+  }
+
+  private <T, R extends List<T>> List<R> splitButtons(
+      List<Button> buttons, Function<Button, T> buttonMapper, Function<List<T>, R> rowSupplier) {
+    List<R> rows = new ArrayList<>();
+    int buttonsPerRow = botProperties.buttonsPerRow();
+
+    for (int i = 0; i < buttons.size(); i += buttonsPerRow) {
+      List<T> rowButtons = new ArrayList<>();
+      for (int j = 0; j < buttonsPerRow && (i + j) < buttons.size(); j++) {
+        rowButtons.add(buttonMapper.apply(buttons.get(i + j)));
+      }
+      rows.add(rowSupplier.apply(rowButtons));
     }
 
-    InlineKeyboardMarkup buildInlineKeyboard(List<Button> buttons) {
-        List<InlineKeyboardRow> rows = splitButtons(
-                buttons,
-                btn -> InlineKeyboardButton.builder()
-                        .text(btn.label())
-                        .url(btn.url())
-                        .callbackData(btn.next())
-                        .build(),
-                InlineKeyboardRow::new
-        );
-
-        return InlineKeyboardMarkup.builder()
-                .keyboard(rows)
-                .build();
-    }
-
-    private <T, R extends List<T>> List<R> splitButtons(
-            List<Button> buttons,
-            Function<Button, T> buttonMapper,
-            Function<List<T>, R> rowSupplier
-    ) {
-        List<R> rows = new ArrayList<>();
-        int buttonsPerRow = botProperties.buttonsPerRow();
-
-        for (int i = 0; i < buttons.size(); i += buttonsPerRow) {
-            List<T> rowButtons = new ArrayList<>();
-            for (int j = 0; j < buttonsPerRow && (i + j) < buttons.size(); j++) {
-                rowButtons.add(buttonMapper.apply(buttons.get(i + j)));
-            }
-            rows.add(rowSupplier.apply(rowButtons));
-        }
-
-        return rows;
-    }
+    return rows;
+  }
 }

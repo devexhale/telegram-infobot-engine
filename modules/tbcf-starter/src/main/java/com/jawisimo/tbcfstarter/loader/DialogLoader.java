@@ -15,22 +15,21 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 @Slf4j
 public class DialogLoader {
-    private final DialogValidator dialogValidator;
-    private final DialogParserProvider dialogParserProvider;
+  private final DialogValidator dialogValidator;
+  private final DialogParserProvider dialogParserProvider;
 
-    public DialogMap load(String dialogFileName) {
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
-            if (is == null) {
-                throw new DialogLoadingException("Dialog file not found: " + dialogFileName);
-            }
+  public DialogMap load(String dialogFileName) {
+    try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
+      if (is == null) {
+        throw new DialogLoadingException("Dialog file not found: " + dialogFileName);
+      }
 
-            DialogParser parser = dialogParserProvider.getParser(dialogFileName);
-            DialogMap dialogMap = parser.parse(is);
-            dialogValidator.validateStartNode(dialogMap, dialogFileName);
-            return dialogMap;
-        } catch (Exception e) {
-            throw new DialogLoadingException("Failed to load dialog file: " + dialogFileName, e);
-        }
+      DialogParser parser = dialogParserProvider.getParser(dialogFileName);
+      DialogMap dialogMap = parser.parse(is);
+      dialogValidator.validateStartNode(dialogMap, dialogFileName);
+      return dialogMap;
+    } catch (Exception e) {
+      throw new DialogLoadingException("Failed to load dialog file: " + dialogFileName, e);
     }
+  }
 }
-

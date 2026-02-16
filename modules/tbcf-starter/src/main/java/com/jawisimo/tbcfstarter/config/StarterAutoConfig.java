@@ -7,5 +7,4 @@ import org.springframework.context.annotation.PropertySource;
 @AutoConfiguration
 @ComponentScan(basePackages = "com.jawisimo.tbcfstarter")
 @PropertySource("classpath:application-starter.properties")
-public class StarterAutoConfig {
-}
+public class StarterAutoConfig {}

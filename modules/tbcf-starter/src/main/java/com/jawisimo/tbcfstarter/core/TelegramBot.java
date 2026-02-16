@@ -9,16 +9,16 @@ import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 @Component
 @RequiredArgsConstructor
 public class TelegramBot implements SpringLongPollingBot {
-    private final BotProperties properties;
-    private final UpdateConsumer updateConsumer;
+  private final BotProperties properties;
+  private final UpdateConsumer updateConsumer;
 
-    @Override
-    public String getBotToken() {
-        return properties.token();
-    }
+  @Override
+  public String getBotToken() {
+    return properties.token();
+  }
 
-    @Override
-    public LongPollingUpdateConsumer getUpdatesConsumer() {
-        return updateConsumer;
-    }
+  @Override
+  public LongPollingUpdateConsumer getUpdatesConsumer() {
+    return updateConsumer;
+  }
 }

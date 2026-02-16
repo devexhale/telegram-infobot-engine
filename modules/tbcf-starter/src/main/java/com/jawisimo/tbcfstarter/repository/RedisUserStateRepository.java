@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @UserStatePersistent
-public interface RedisUserStateRepository extends CrudRepository<UserState, String> {
-}
+public interface RedisUserStateRepository extends CrudRepository<UserState, String> {}

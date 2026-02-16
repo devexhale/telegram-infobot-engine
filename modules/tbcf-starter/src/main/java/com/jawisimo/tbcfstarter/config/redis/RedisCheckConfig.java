@@ -16,43 +16,48 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 @RequiredArgsConstructor
 public class RedisCheckConfig {
 
-    private static final String REDIS_DEPENDENCY_FAIL_MESSAGE =
-            "❌ Redis is required but not found in the application context. " +
-                    "Please add spring-boot-starter-data-redis " +
-                    "and configure spring.data.redis.*properties.";
+  private static final String REDIS_DEPENDENCY_FAIL_MESSAGE =
+      "❌ Redis is required but not found in the application context. "
+          + "Please add spring-boot-starter-data-redis "
+          + "and configure spring.data.redis.*properties.";
 
-    private static final String REDIS_CONNECT_FAIL_MESSAGE = "❌ Redis dependency is present, but connection failed";
-    private static final String REDIS_PING_FAIL_MESSAGE = "❌ Redis dependency is present, but cannot ping";
-    private static final String REDIS_PONG = "PONG";
+  private static final String REDIS_CONNECT_FAIL_MESSAGE =
+      "❌ Redis dependency is present, but connection failed";
 
-    private final BotProperties properties;
-    private final ApplicationContext context;
+  private static final String REDIS_PING_FAIL_MESSAGE =
+      "❌ Redis dependency is present, but cannot ping";
 
-    @Bean
-    public ApplicationRunner redisCheckRunner() {
-        return args -> {
-            if (!properties.userStatePersistent()) {
-                return;
-            }
+  private static final String REDIS_PONG = "PONG";
 
-            if (!context.containsBean("redisConnectionFactory")) {
-                log.error(REDIS_DEPENDENCY_FAIL_MESSAGE);
-                throw new RedisConnectionException(REDIS_DEPENDENCY_FAIL_MESSAGE);
-            }
+  private final BotProperties properties;
+  private final ApplicationContext context;
 
-            LettuceConnectionFactory redisConnectionFactory = context.getBean(LettuceConnectionFactory.class);
+  @Bean
+  public ApplicationRunner redisCheckRunner() {
+    return args -> {
+      if (!properties.userStatePersistent()) {
+        return;
+      }
 
-            try (RedisConnection redisConnection = redisConnectionFactory.getConnection()) {
-                String pongResponse = redisConnection.ping();
+      if (!context.containsBean("redisConnectionFactory")) {
+        log.error(REDIS_DEPENDENCY_FAIL_MESSAGE);
+        throw new RedisConnectionException(REDIS_DEPENDENCY_FAIL_MESSAGE);
+      }
 
-                if (!REDIS_PONG.equalsIgnoreCase(pongResponse)) {
-                    log.error(REDIS_PING_FAIL_MESSAGE);
-                    throw new RedisConnectionException(REDIS_PING_FAIL_MESSAGE);
-                }
-            } catch (Exception e) {
-                log.error(REDIS_CONNECT_FAIL_MESSAGE, e);
-                throw new RedisConnectionException(REDIS_CONNECT_FAIL_MESSAGE, e);
-            }
-        };
-    }
+      LettuceConnectionFactory redisConnectionFactory =
+          context.getBean(LettuceConnectionFactory.class);
+
+      try (RedisConnection redisConnection = redisConnectionFactory.getConnection()) {
+        String pongResponse = redisConnection.ping();
+
+        if (!REDIS_PONG.equalsIgnoreCase(pongResponse)) {
+          log.error(REDIS_PING_FAIL_MESSAGE);
+          throw new RedisConnectionException(REDIS_PING_FAIL_MESSAGE);
+        }
+      } catch (Exception e) {
+        log.error(REDIS_CONNECT_FAIL_MESSAGE, e);
+        throw new RedisConnectionException(REDIS_CONNECT_FAIL_MESSAGE, e);
+      }
+    };
+  }
 }

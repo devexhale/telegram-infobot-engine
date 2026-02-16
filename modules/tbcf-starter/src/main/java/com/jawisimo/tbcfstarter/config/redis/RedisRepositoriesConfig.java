@@ -9,6 +9,4 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @UserStatePersistent
 @ConditionalOnClass(name = "org.springframework.data.redis.connection.RedisConnectionFactory")
 @EnableRedisRepositories(basePackages = "com.jawisimo.tbcfstarter.repository")
-public class RedisRepositoriesConfig {
-}
-
+public class RedisRepositoriesConfig {}

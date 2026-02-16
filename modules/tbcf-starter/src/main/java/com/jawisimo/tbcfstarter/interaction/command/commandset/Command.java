@@ -4,11 +4,11 @@ import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 
 public interface Command {
 
-    default BotCommand getCommand() {
-        return new BotCommand(getCommandName(), getDescription());
-    }
+  default BotCommand getCommand() {
+    return new BotCommand(getCommandName(), getDescription());
+  }
 
-    String getCommandName();
+  String getCommandName();
 
-    String getDescription();
+  String getDescription();
 }

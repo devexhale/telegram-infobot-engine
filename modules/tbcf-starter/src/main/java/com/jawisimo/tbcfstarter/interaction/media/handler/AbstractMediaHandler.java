@@ -16,26 +16,27 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @RequiredArgsConstructor
 public abstract class AbstractMediaHandler implements MediaHandler {
 
-    @Getter(AccessLevel.PACKAGE)
-    private final TelegramClient client;
-    private final MediaFileLoader mediaFileLoader;
+  @Getter(AccessLevel.PACKAGE)
+  private final TelegramClient client;
 
-    @Override
-    public boolean canHandle(ContentNode contentNode) {
-        if (contentNode.type() != ContentType.MEDIA) return false;
-        return contentNode.media().type().equalsIgnoreCase(getMediaType());
-    }
+  private final MediaFileLoader mediaFileLoader;
 
-    @Override
-    public abstract Message handle(ContentNode contentNode, String chatId);
+  @Override
+  public boolean canHandle(ContentNode contentNode) {
+    if (contentNode.type() != ContentType.MEDIA) return false;
+    return contentNode.media().type().equalsIgnoreCase(getMediaType());
+  }
 
-    final InputFile getMediaFile(String mediaFileName) {
-        return mediaFileLoader.load(mediaFileName);
-    }
+  @Override
+  public abstract Message handle(ContentNode contentNode, String chatId);
 
-    final Media getMedia(ContentNode contentNode) {
-        return contentNode.media();
-    }
+  final InputFile getMediaFile(String mediaFileName) {
+    return mediaFileLoader.load(mediaFileName);
+  }
 
-    abstract String getMediaType();
+  final Media getMedia(ContentNode contentNode) {
+    return contentNode.media();
+  }
+
+  abstract String getMediaType();
 }

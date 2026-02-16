@@ -14,29 +14,30 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Slf4j
 public class AudioMediaHandler extends AbstractMediaHandler {
 
-    AudioMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
-        super(client, mediaFileLoader);
-    }
+  AudioMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+    super(client, mediaFileLoader);
+  }
 
-    @Override
-    public Message handle(ContentNode contentNode, String chatId) {
-        Media media = getMedia(contentNode);
-        SendAudio request = SendAudio.builder()
-                .chatId(chatId)
-                .audio(getMediaFile(media.fileName()))
-                .caption(media.caption())
-                .build();
+  @Override
+  public Message handle(ContentNode contentNode, String chatId) {
+    Media media = getMedia(contentNode);
+    SendAudio request =
+        SendAudio.builder()
+            .chatId(chatId)
+            .audio(getMediaFile(media.fileName()))
+            .caption(media.caption())
+            .build();
 
-        try {
-            return getClient().execute(request);
-        } catch (TelegramApiException e) {
-            log.error("Failed to handle audio in chat: {}", chatId, e);
-            return null;
-        }
+    try {
+      return getClient().execute(request);
+    } catch (TelegramApiException e) {
+      log.error("Failed to handle audio in chat: {}", chatId, e);
+      return null;
     }
+  }
 
-    @Override
-    String getMediaType() {
-        return "AUDIO";
-    }
+  @Override
+  String getMediaType() {
+    return "AUDIO";
+  }
 }

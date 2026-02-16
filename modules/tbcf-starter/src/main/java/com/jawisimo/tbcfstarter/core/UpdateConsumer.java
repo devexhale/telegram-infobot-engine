@@ -13,16 +13,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @RequiredArgsConstructor
 public class UpdateConsumer implements LongPollingSingleThreadUpdateConsumer {
-    private final CommandsInitializer commandsInitializer;
-    private final UpdateService updateService;
+  private final CommandsInitializer commandsInitializer;
+  private final UpdateService updateService;
 
-    @PostConstruct
-    public void init() {
-        commandsInitializer.setUpCommands();
-    }
+  @PostConstruct
+  public void init() {
+    commandsInitializer.setUpCommands();
+  }
 
-    @Override
-    public void consume(Update update) {
-        updateService.onUpdateReceived(update);
-    }
+  @Override
+  public void consume(Update update) {
+    updateService.onUpdateReceived(update);
+  }
 }

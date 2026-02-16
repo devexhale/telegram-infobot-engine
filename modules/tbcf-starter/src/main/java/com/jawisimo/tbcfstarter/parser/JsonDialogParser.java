@@ -13,23 +13,22 @@ import java.util.Map;
 
 @Component
 public class JsonDialogParser implements DialogParser {
-    private static final String FORMAT_JSON = ".json";
+  private static final String FORMAT_JSON = ".json";
 
-    private final ObjectMapper jsonMapper = new ObjectMapper();
+  private final ObjectMapper jsonMapper = new ObjectMapper();
 
-    @Override
-    public boolean canParse(String fileName) {
-        return fileName.endsWith(FORMAT_JSON);
+  @Override
+  public boolean canParse(String fileName) {
+    return fileName.endsWith(FORMAT_JSON);
+  }
+
+  @Override
+  public DialogMap parse(InputStream is) {
+    try {
+      TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
+      return new DialogMap(jsonMapper.readValue(is, typeRef));
+    } catch (IOException e) {
+      throw new DialogLoadingException("Failed to parse JSON dialog", e);
     }
-
-    @Override
-    public DialogMap parse(InputStream is) {
-        try {
-            TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {
-            };
-            return new DialogMap(jsonMapper.readValue(is, typeRef));
-        } catch (IOException e) {
-            throw new DialogLoadingException("Failed to parse JSON dialog", e);
-        }
-    }
+  }
 }

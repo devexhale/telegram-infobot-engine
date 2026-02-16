@@ -14,29 +14,30 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Slf4j
 public class VideoMediaHandler extends AbstractMediaHandler {
 
-    VideoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
-        super(client, mediaFileLoader);
-    }
+  VideoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+    super(client, mediaFileLoader);
+  }
 
-    @Override
-    public Message handle(ContentNode contentNode, String chatId) {
-        Media media = getMedia(contentNode);
-        SendVideo request = SendVideo.builder()
-                .chatId(chatId)
-                .video(getMediaFile(media.fileName()))
-                .caption(media.caption())
-                .build();
+  @Override
+  public Message handle(ContentNode contentNode, String chatId) {
+    Media media = getMedia(contentNode);
+    SendVideo request =
+        SendVideo.builder()
+            .chatId(chatId)
+            .video(getMediaFile(media.fileName()))
+            .caption(media.caption())
+            .build();
 
-        try {
-            return getClient().execute(request);
-        } catch (TelegramApiException e) {
-            log.error("Failed to handle video in chat: {}", chatId, e);
-            return null;
-        }
+    try {
+      return getClient().execute(request);
+    } catch (TelegramApiException e) {
+      log.error("Failed to handle video in chat: {}", chatId, e);
+      return null;
     }
+  }
 
-    @Override
-    String getMediaType() {
-        return "VIDEO";
-    }
+  @Override
+  String getMediaType() {
+    return "VIDEO";
+  }
 }

@@ -8,19 +8,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryMessageRepository implements MessageRepository {
-    private final ConcurrentHashMap<String, List<Integer>> storage = new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<String, List<Integer>> storage = new ConcurrentHashMap<>();
 
-    @Override
-    public void save(String chatId, Integer messageId) {
-        storage.compute(chatId, (k, v) -> {
-            if (v == null) return new ArrayList<>(List.of(messageId));
-            v.add(messageId);
-            return v;
+  @Override
+  public void save(String chatId, Integer messageId) {
+    storage.compute(
+        chatId,
+        (k, v) -> {
+          if (v == null) return new ArrayList<>(List.of(messageId));
+          v.add(messageId);
+          return v;
         });
-    }
+  }
 
-    @Override
-    public List<Integer> removeAll(String chatId) {
-        return storage.remove(chatId);
-    }
+  @Override
+  public List<Integer> removeAll(String chatId) {
+    return storage.remove(chatId);
+  }
 }

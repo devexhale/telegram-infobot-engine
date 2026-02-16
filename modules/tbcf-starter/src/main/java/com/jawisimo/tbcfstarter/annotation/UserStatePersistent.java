@@ -8,11 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @ConditionalOnProperty(
-        prefix = "telegram.bot",
-        name = "user-state-persistent",
-        havingValue = "true"
-)
+    prefix = "telegram.bot",
+    name = "user-state-persistent",
+    havingValue = "true")
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UserStatePersistent {
-}
+public @interface UserStatePersistent {}

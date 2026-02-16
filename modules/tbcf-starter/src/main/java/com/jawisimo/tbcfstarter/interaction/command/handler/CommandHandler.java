@@ -2,7 +2,7 @@ package com.jawisimo.tbcfstarter.interaction.command.handler;
 
 public interface CommandHandler {
 
-    String getCommandKey();
+  String getCommandKey();
 
-    void handle(String chatId);
+  void handle(String chatId);
 }

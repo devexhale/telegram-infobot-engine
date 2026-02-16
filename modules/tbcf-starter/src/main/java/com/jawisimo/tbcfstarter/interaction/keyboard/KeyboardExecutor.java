@@ -19,31 +19,28 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class KeyboardExecutor {
-    private final TelegramClient client;
-    private final KeyboardMarkupBuilder keyboardBuilder;
-    private final DialogValidator dialogValidator;
-    private final MessageRepository messageRepository;
+  private final TelegramClient client;
+  private final KeyboardMarkupBuilder keyboardBuilder;
+  private final DialogValidator dialogValidator;
+  private final MessageRepository messageRepository;
 
-    public void execute(DialogNode node, String chatId) {
-        List<Button> buttons = node.buttons();
-        dialogValidator.validateButtons(node);
+  public void execute(DialogNode node, String chatId) {
+    List<Button> buttons = node.buttons();
+    dialogValidator.validateButtons(node);
 
-        SendMessage sendMessage = SendMessage.builder()
-                .chatId(chatId)
-                .text(node.message())
-                .build();
+    SendMessage sendMessage = SendMessage.builder().chatId(chatId).text(node.message()).build();
 
-        if (node.buttonType() == ButtonType.REPLY) {
-            sendMessage.setReplyMarkup(keyboardBuilder.buildReplyKeyboard(buttons));
-        } else {
-            sendMessage.setReplyMarkup(keyboardBuilder.buildInlineKeyboard(buttons));
-        }
-
-        try {
-            Message sent = client.execute(sendMessage);
-            messageRepository.save(chatId, sent.getMessageId());
-        } catch (TelegramApiException e) {
-            log.error("Failed to handle keyboard markup in chat: {}", chatId, e);
-        }
+    if (node.buttonType() == ButtonType.REPLY) {
+      sendMessage.setReplyMarkup(keyboardBuilder.buildReplyKeyboard(buttons));
+    } else {
+      sendMessage.setReplyMarkup(keyboardBuilder.buildInlineKeyboard(buttons));
     }
+
+    try {
+      Message sent = client.execute(sendMessage);
+      messageRepository.save(chatId, sent.getMessageId());
+    } catch (TelegramApiException e) {
+      log.error("Failed to handle keyboard markup in chat: {}", chatId, e);
+    }
+  }
 }

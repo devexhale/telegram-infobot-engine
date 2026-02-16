@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserStateService {
-    private final UserStateRepository userStateRepository;
+  private final UserStateRepository userStateRepository;
 
-    public String getUserStateOrDefault(String chatId, String defaultState) {
-        return userStateRepository.findById(chatId)
-                .map(UserState::getNodeId)
-                .orElse(defaultState);
-    }
+  public String getUserStateOrDefault(String chatId, String defaultState) {
+    return userStateRepository.findById(chatId).map(UserState::getNodeId).orElse(defaultState);
+  }
 
-    public void saveUserStateIfPersist(String chatId, String nextState) {
-        userStateRepository.save(new UserState(chatId, nextState));
-    }
+  public void saveUserStateIfPersist(String chatId, String nextState) {
+    userStateRepository.save(new UserState(chatId, nextState));
+  }
 }

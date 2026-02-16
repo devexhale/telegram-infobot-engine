@@ -8,13 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryUserStateRepository {
-    private final ConcurrentHashMap<String, UserState> userStates = new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<String, UserState> userStates = new ConcurrentHashMap<>();
 
-    public Optional<UserState> findById(String id) {
-        return Optional.ofNullable(userStates.get(id));
-    }
+  public Optional<UserState> findById(String id) {
+    return Optional.ofNullable(userStates.get(id));
+  }
 
-    public void save(UserState userState) {
-        userStates.put(userState.getChatId(), userState);
-    }
+  public void save(UserState userState) {
+    userStates.put(userState.getChatId(), userState);
+  }
 }

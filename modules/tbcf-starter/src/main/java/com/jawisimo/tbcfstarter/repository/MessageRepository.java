@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MessageRepository {
 
-    void save(String chatId, Integer messageId);
+  void save(String chatId, Integer messageId);
 
-    List<Integer> removeAll(String chatId);
+  List<Integer> removeAll(String chatId);
 }

@@ -14,29 +14,30 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Slf4j
 public class PhotoMediaHandler extends AbstractMediaHandler {
 
-    PhotoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
-        super(client, mediaFileLoader);
-    }
+  PhotoMediaHandler(TelegramClient client, MediaFileLoader mediaFileLoader) {
+    super(client, mediaFileLoader);
+  }
 
-    @Override
-    public Message handle(ContentNode contentNode, String chatId) {
-        Media media = getMedia(contentNode);
-        SendPhoto request = SendPhoto.builder()
-                .chatId(chatId)
-                .photo(getMediaFile(media.fileName()))
-                .caption(media.caption())
-                .build();
+  @Override
+  public Message handle(ContentNode contentNode, String chatId) {
+    Media media = getMedia(contentNode);
+    SendPhoto request =
+        SendPhoto.builder()
+            .chatId(chatId)
+            .photo(getMediaFile(media.fileName()))
+            .caption(media.caption())
+            .build();
 
-        try {
-            return getClient().execute(request);
-        } catch (TelegramApiException e) {
-            log.error("Failed to photo in chat: {}", chatId, e);
-            return null;
-        }
+    try {
+      return getClient().execute(request);
+    } catch (TelegramApiException e) {
+      log.error("Failed to photo in chat: {}", chatId, e);
+      return null;
     }
+  }
 
-    @Override
-    String getMediaType() {
-        return "PHOTO";
-    }
+  @Override
+  String getMediaType() {
+    return "PHOTO";
+  }
 }

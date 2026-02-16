@@ -21,16 +21,16 @@ import java.util.concurrent.Executors;
 @EnableAsync
 @RequiredArgsConstructor
 public class BotConfig {
-    private final BotProperties properties;
+  private final BotProperties properties;
 
-    @Bean
-    public TelegramClient telegramClient() {
-        log.info("Telegram bot {} register: {}", properties.name(), LocalTime.now());
-        return new OkHttpTelegramClient(properties.token());
-    }
+  @Bean
+  public TelegramClient telegramClient() {
+    log.info("Telegram bot {} register: {}", properties.name(), LocalTime.now());
+    return new OkHttpTelegramClient(properties.token());
+  }
 
-    @Bean
-    public Executor asyncBotVirtualExecutor() {
-        return Executors.newVirtualThreadPerTaskExecutor();
-    }
+  @Bean
+  public Executor asyncBotVirtualExecutor() {
+    return Executors.newVirtualThreadPerTaskExecutor();
+  }
 }

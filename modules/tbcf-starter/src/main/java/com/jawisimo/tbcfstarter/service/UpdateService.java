@@ -11,20 +11,20 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @RequiredArgsConstructor
 public class UpdateService {
-    private final DialogExecutor executor;
+  private final DialogExecutor executor;
 
-    @Async("asyncBotVirtualExecutor")
-    public void onUpdateReceived(Update update) {
-        try {
-            if (update.hasMessage()) {
-                executor.executeMessage(update.getMessage());
-            } else if (update.hasCallbackQuery()) {
-                executor.executeCallback(update.getCallbackQuery());
-            } else {
-                log.warn("Unsupported update type: {}", update);
-            }
-        } catch (Exception e) {
-            log.error("An error occurred during update processing: {}", e.getMessage(), e);
-        }
+  @Async("asyncBotVirtualExecutor")
+  public void onUpdateReceived(Update update) {
+    try {
+      if (update.hasMessage()) {
+        executor.executeMessage(update.getMessage());
+      } else if (update.hasCallbackQuery()) {
+        executor.executeCallback(update.getCallbackQuery());
+      } else {
+        log.warn("Unsupported update type: {}", update);
+      }
+    } catch (Exception e) {
+      log.error("An error occurred during update processing: {}", e.getMessage(), e);
     }
+  }
 }

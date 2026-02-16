@@ -15,22 +15,22 @@ import org.springframework.stereotype.Component;
 @Getter(AccessLevel.PACKAGE)
 @Slf4j
 public abstract class AbstractCommandHandler implements CommandHandler {
-    private final DialogRepository dialogRepository;
-    private final UserStateService userStateService;
-    private final NodeExecutor nodeExecutor;
+  private final DialogRepository dialogRepository;
+  private final UserStateService userStateService;
+  private final NodeExecutor nodeExecutor;
 
-    @Override
-    public void handle(String chatId) {
-        DialogNode node = dialogRepository.getNode(getNodeKey(chatId));
+  @Override
+  public void handle(String chatId) {
+    DialogNode node = dialogRepository.getNode(getNodeKey(chatId));
 
-        if (node == null) {
-            log.warn("Node '{}' not found for chat {}", getNodeKey(chatId), chatId);
-            return;
-        }
-
-        nodeExecutor.execute(node, chatId);
-        userStateService.saveUserStateIfPersist(chatId, getNodeKey(chatId));
+    if (node == null) {
+      log.warn("Node '{}' not found for chat {}", getNodeKey(chatId), chatId);
+      return;
     }
 
-    abstract String getNodeKey(String chatId);
+    nodeExecutor.execute(node, chatId);
+    userStateService.saveUserStateIfPersist(chatId, getNodeKey(chatId));
+  }
+
+  abstract String getNodeKey(String chatId);
 }

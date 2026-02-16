@@ -11,28 +11,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class DialogParserProvider {
-    private final List<DialogParser> parsers;
+  private final List<DialogParser> parsers;
 
-    public DialogParser getParser(String dialogFileName) {
-        List<DialogParser> matchingParsers = parsers.stream()
-                .filter(p -> p.canParse(dialogFileName))
-                .toList();
+  public DialogParser getParser(String dialogFileName) {
+    List<DialogParser> matchingParsers =
+        parsers.stream().filter(p -> p.canParse(dialogFileName)).toList();
 
-        if (matchingParsers.isEmpty()) {
-            throw new DialogLoadingException("No suitable parser found for file: " + dialogFileName);
-        }
-
-        if (matchingParsers.size() > 1) {
-            throw new DialogLoadingException(
-                    "Multiple parsers found for file: " + dialogFileName +
-                            " -> " + matchingParsers.stream()
-                            .map(p -> p.getClass().getSimpleName())
-                            .toList()
-            );
-        }
-
-        DialogParser parser = matchingParsers.getFirst();
-        log.info("Parsing dialog using {}", parser.getClass().getSimpleName());
-        return matchingParsers.getFirst();
+    if (matchingParsers.isEmpty()) {
+      throw new DialogLoadingException("No suitable parser found for file: " + dialogFileName);
     }
+
+    if (matchingParsers.size() > 1) {
+      throw new DialogLoadingException(
+          "Multiple parsers found for file: "
+              + dialogFileName
+              + " -> "
+              + matchingParsers.stream().map(p -> p.getClass().getSimpleName()).toList());
+    }
+
+    DialogParser parser = matchingParsers.getFirst();
+    log.info("Parsing dialog using {}", parser.getClass().getSimpleName());
+    return matchingParsers.getFirst();
+  }
 }

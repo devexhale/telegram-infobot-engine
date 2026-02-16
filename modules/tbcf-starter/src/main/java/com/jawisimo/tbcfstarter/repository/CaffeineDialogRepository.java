@@ -14,21 +14,20 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 @Slf4j
 public class CaffeineDialogRepository implements DialogRepository {
-    private final BotProperties properties;
-    private final DialogLoader dialogLoader;
+  private final BotProperties properties;
+  private final DialogLoader dialogLoader;
 
-    private static final int CACHE_SIZE_MAX = 1;
+  private static final int CACHE_SIZE_MAX = 1;
 
-    private final Cache<String, DialogMap> dialogCache = Caffeine.newBuilder()
-            .maximumSize(CACHE_SIZE_MAX)
-            .build();
+  private final Cache<String, DialogMap> dialogCache =
+      Caffeine.newBuilder().maximumSize(CACHE_SIZE_MAX).build();
 
-    @Override
-    public DialogNode getNode(String nodeId) {
-        return getCachedDialogMap().getNode(nodeId);
-    }
+  @Override
+  public DialogNode getNode(String nodeId) {
+    return getCachedDialogMap().getNode(nodeId);
+  }
 
-    private DialogMap getCachedDialogMap() {
-        return dialogCache.get(properties.dialogFileName(), dialogLoader::load);
-    }
+  private DialogMap getCachedDialogMap() {
+    return dialogCache.get(properties.dialogFileName(), dialogLoader::load);
+  }
 }
