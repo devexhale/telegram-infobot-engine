@@ -1,8 +1,12 @@
 package com.jawisimo.tbcfstarter.validator;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidationErrorFormatter {
 
   public static String format(String header, List<String> errors) {
