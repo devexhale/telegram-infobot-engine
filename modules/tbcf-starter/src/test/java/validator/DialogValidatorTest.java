@@ -1,10 +1,10 @@
 package validator;
 
-import com.jawisimo.tbcfstarter.exception.DialogLoadingException;
-import com.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
-import com.jawisimo.tbcfstarter.interaction.media.handler.MediaHandler;
-import com.jawisimo.tbcfstarter.interaction.node.model.*;
-import com.jawisimo.tbcfstarter.validator.DialogValidator;
+import com.github.jawisimo.tbcfstarter.exception.DialogLoadingException;
+import com.github.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
+import com.github.jawisimo.tbcfstarter.interaction.media.handler.MediaHandler;
+import com.github.jawisimo.tbcfstarter.interaction.node.model.*;
+import com.github.jawisimo.tbcfstarter.validator.DialogValidator;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

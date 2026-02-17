@@ -2,7 +2,7 @@ package validator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jawisimo.tbcfstarter.validator.ValidationErrorFormatter;
+import com.github.jawisimo.tbcfstarter.validator.ValidationErrorFormatter;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

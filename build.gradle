@@ -23,5 +23,5 @@ tasks.named('test') {
 }
 
 springBoot {
-    mainClass = 'com.jawisimo.bottemplate.BotTemplateApplication'
+    mainClass = 'com.github.jawisimo.bottemplate.BotTemplateApplication'
 }
