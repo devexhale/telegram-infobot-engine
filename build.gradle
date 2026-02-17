@@ -21,3 +21,7 @@ repositories {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClass = 'com.jawisimo.bottemplate.BotTemplateApplication'
+}
