@@ -24,7 +24,9 @@ class ButtonTest {
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> new Button(null, "next", null));
 
-    assertEquals("Button label is missing or blank", exception.getMessage());
+    String expected = "Button label is missing or blank";
+
+    assertEquals(expected, exception.getMessage());
   }
 
   @Test
