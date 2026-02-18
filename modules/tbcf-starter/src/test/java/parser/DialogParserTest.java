@@ -16,8 +16,8 @@ class DialogParserTest {
   private YamlDialogParser yamlParser;
   private JsonDialogParser jsonParser;
 
-  private final String correctYaml = "dialog-test.yml";
-  private final String correctJson = "dialog-test.json";
+  private static final String CORRECT_YAML_FILE = "test-dialog.yml";
+  private static final String CORRECT_JSON_FILE = "test-dialog.json";
 
   @BeforeEach
   void init() {
@@ -27,58 +27,57 @@ class DialogParserTest {
 
   @Test
   void canParse_shouldReturnTrue_forCorrectExtensions() {
-    assertTrue(yamlParser.canParse(correctYaml));
-    assertTrue(jsonParser.canParse(correctJson));
+    assertTrue(yamlParser.canParse(CORRECT_YAML_FILE));
+    assertTrue(jsonParser.canParse(CORRECT_JSON_FILE));
   }
 
   @Test
   void canParse_shouldReturnFalse_forIncorrectExtensions() {
-    assertFalse(yamlParser.canParse("dialog-test.txt"));
-    assertFalse(jsonParser.canParse("dialog-test.txt"));
+    String unsupportedFile = "dialog-test.txt";
+
+    assertFalse(yamlParser.canParse(unsupportedFile));
+    assertFalse(jsonParser.canParse(unsupportedFile));
   }
 
   @Test
   void parse_shouldParseCorrectFilesSuccessfully() {
-    InputStream yamlStream = getClass().getClassLoader().getResourceAsStream(correctYaml);
-    InputStream jsonStream = getClass().getClassLoader().getResourceAsStream(correctJson);
-
-    assertNotNull(yamlStream, "Test YAML file should exist");
-    assertNotNull(jsonStream, "Test JSON file should exist");
-
+    InputStream yamlStream = getClass().getClassLoader().getResourceAsStream(CORRECT_YAML_FILE);
+    InputStream jsonStream = getClass().getClassLoader().getResourceAsStream(CORRECT_JSON_FILE);
     DialogMap yamlMap = yamlParser.parse(yamlStream);
     DialogMap jsonMap = jsonParser.parse(jsonStream);
 
-    assertNotNull(yamlMap, "DialogMap from YAML should not be null");
-    assertNotNull(jsonMap, "DialogMap from JSON should not be null");
+    assertNotNull(yamlStream);
+    assertNotNull(jsonStream);
+    assertNotNull(yamlMap);
+    assertNotNull(jsonMap);
   }
 
   @Test
   void parse_shouldThrowDialogLoadingException_whenYamlSyntaxIsIncorrect() {
     String incorrectSyntaxYaml = "incorrect-syntax-dialog.yml";
     InputStream is = getClass().getClassLoader().getResourceAsStream(incorrectSyntaxYaml);
-    assertNotNull(is, "Incorrect syntax YAML file should exist");
-
     String expected = "Failed to parse YAML dialog";
 
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> yamlParser.parse(is));
 
+    assertNotNull(is);
     assertEquals(expected, exception.getMessage());
-    assertNotNull(exception.getCause(), "Cause should be set by underlying IOException");
+    assertNotNull(exception.getCause());
   }
 
   @Test
   void parse_shouldThrowDialogLoadingException_whenJsonSyntaxIsIncorrect() {
     String incorrectSyntaxJson = "incorrect-syntax-dialog.json";
-    InputStream is = getClass().getClassLoader().getResourceAsStream(incorrectSyntaxJson);
-    assertNotNull(is, "Incorrect syntax JSON file should exist");
-
     String expected = "Failed to parse JSON dialog";
+
+    InputStream is = getClass().getClassLoader().getResourceAsStream(incorrectSyntaxJson);
 
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> jsonParser.parse(is));
 
+    assertNotNull(is);
     assertEquals(expected, exception.getMessage());
-    assertNotNull(exception.getCause(), "Cause should be set by underlying IOException");
+    assertNotNull(exception.getCause());
   }
 }

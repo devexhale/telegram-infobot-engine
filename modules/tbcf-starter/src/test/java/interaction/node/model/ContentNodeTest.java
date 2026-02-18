@@ -24,11 +24,10 @@ class ContentNodeTest {
   @Test
   void constructor_shouldThrowException_whenTypeIsNull() {
     String text = "Some text";
+    String expected = "Content type is missing or not valid";
 
     DialogLoadingException ex =
         assertThrows(DialogLoadingException.class, () -> new ContentNode(null, text, null));
-
-    String expected = "Content type is missing or not valid";
 
     assertEquals(expected, ex.getMessage());
   }
