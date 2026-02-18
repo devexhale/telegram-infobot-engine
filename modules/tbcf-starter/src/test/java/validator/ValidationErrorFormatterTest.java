@@ -1,10 +1,11 @@
 package validator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.github.jawisimo.tbcfstarter.validator.ValidationErrorFormatter;
-import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationErrorFormatterTest {
 
@@ -12,7 +13,7 @@ class ValidationErrorFormatterTest {
   void format_shouldReturnEmptyString_whenErrorsListIsEmpty() {
     String result = ValidationErrorFormatter.format("Header", List.of());
 
-    assertThat(result).isEmpty();
+    assertEquals("", result);
   }
 
   @Test
@@ -21,7 +22,7 @@ class ValidationErrorFormatterTest {
 
     String result = ValidationErrorFormatter.format("Header", List.of(error));
 
-    assertThat(result).isEqualTo(error);
+    assertEquals(error, result);
   }
 
   @Test
@@ -37,7 +38,7 @@ class ValidationErrorFormatterTest {
                   - Node A is missing
                   - Button B has no target""";
 
-    assertThat(result).isEqualTo(expected);
+    assertEquals(expected, result);
   }
 
   @Test
@@ -47,7 +48,7 @@ class ValidationErrorFormatterTest {
 
     String result = ValidationErrorFormatter.format(header, errors);
 
-    assertThat(result).contains("3 error(s)");
+    assertTrue(result.contains("3 error(s)"));
   }
 
   @Test
@@ -56,6 +57,6 @@ class ValidationErrorFormatterTest {
 
     String result = ValidationErrorFormatter.format(null, errors);
 
-    assertThat(result).startsWith("null with 2 error(s):");
+    assertTrue(result.startsWith("null with 2 error(s):"));
   }
 }

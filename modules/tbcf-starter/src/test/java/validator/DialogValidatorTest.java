@@ -5,7 +5,6 @@ import com.github.jawisimo.tbcfstarter.interaction.command.commandset.StartComma
 import com.github.jawisimo.tbcfstarter.interaction.media.handler.MediaHandler;
 import com.github.jawisimo.tbcfstarter.interaction.node.model.*;
 import com.github.jawisimo.tbcfstarter.validator.DialogValidator;
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,17 +34,18 @@ class DialogValidatorTest {
   void validateStartNode_shouldNotThrow_whenStartNodeExists() {
     when(dialogMap.containsNodeKey(StartCommand.COMMAND_NAME)).thenReturn(true);
 
-    assertThatCode(() -> validator.validateStartNode(dialogMap, "file.yml"))
-        .doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateStartNode(dialogMap, "file.yml"));
   }
 
   @Test
   void validateStartNode_shouldThrowException_whenStartNodeMissing() {
     when(dialogMap.containsNodeKey(StartCommand.COMMAND_NAME)).thenReturn(false);
 
-    assertThatThrownBy(() -> validator.validateStartNode(dialogMap, "file.yml"))
-        .isInstanceOf(DialogLoadingException.class)
-        .hasMessageContaining("/start");
+    DialogLoadingException ex =
+        assertThrows(
+            DialogLoadingException.class, () -> validator.validateStartNode(dialogMap, "file.yml"));
+
+    assertTrue(ex.getMessage().contains("/start"));
   }
 
   @Test
@@ -54,9 +54,9 @@ class DialogValidatorTest {
     when(node.type()).thenReturn(ContentType.TEXT);
     when(node.text()).thenReturn(null);
 
-    ThrowableAssert.ThrowingCallable action = () -> validator.validateContent(node, List.of());
+    List<MediaHandler> handlers = List.of();
 
-    assertThatThrownBy(action).isInstanceOf(DialogLoadingException.class);
+    assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
   }
 
   @Test
@@ -65,9 +65,9 @@ class DialogValidatorTest {
     when(node.type()).thenReturn(ContentType.TEXT);
     when(node.text()).thenReturn("");
 
-    ThrowableAssert.ThrowingCallable action = () -> validator.validateContent(node, List.of());
+    List<MediaHandler> handlers = List.of();
 
-    assertThatThrownBy(action).isInstanceOf(DialogLoadingException.class);
+    assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
   }
 
   @Test
@@ -76,7 +76,7 @@ class DialogValidatorTest {
     when(node.type()).thenReturn(ContentType.TEXT);
     when(node.text()).thenReturn("Hello");
 
-    assertThatCode(() -> validator.validateContent(node, List.of())).doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
   }
 
   @Test
@@ -86,7 +86,7 @@ class DialogValidatorTest {
     when(node.text()).thenReturn("Hello");
     when(node.media()).thenReturn(null);
 
-    assertThatCode(() -> validator.validateContent(node, List.of())).doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
   }
 
   @Test
@@ -99,12 +99,12 @@ class DialogValidatorTest {
     when(media.fileName()).thenReturn("image.jpg");
     when(mediaHandler.canHandle(node)).thenReturn(false);
 
-    ThrowableAssert.ThrowingCallable action =
-        () -> validator.validateContent(node, List.of(mediaHandler));
+    List<MediaHandler> handlers = List.of(mediaHandler);
 
-    assertThatThrownBy(action)
-        .isInstanceOf(DialogLoadingException.class)
-        .hasMessageContaining("No handler found");
+    DialogLoadingException ex =
+        assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
+
+    assertTrue(ex.getMessage().contains("No handler found"));
   }
 
   @Test
@@ -115,8 +115,7 @@ class DialogValidatorTest {
     when(node.media()).thenReturn(media);
     when(mediaHandler.canHandle(node)).thenReturn(true);
 
-    assertThatCode(() -> validator.validateContent(node, List.of(mediaHandler)))
-        .doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateContent(node, List.of(mediaHandler)));
   }
 
   @Test
@@ -129,8 +128,7 @@ class DialogValidatorTest {
     when(button.url()).thenReturn("http://test");
     when(button.next()).thenReturn("next");
 
-    assertThatThrownBy(() -> validator.validateButtons(node))
-        .isInstanceOf(DialogLoadingException.class);
+    assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
   }
 
   @Test
@@ -143,8 +141,7 @@ class DialogValidatorTest {
     when(button.url()).thenReturn(null);
     when(button.next()).thenReturn(null);
 
-    assertThatThrownBy(() -> validator.validateButtons(node))
-        .isInstanceOf(DialogLoadingException.class);
+    assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
   }
 
   @Test
@@ -157,7 +154,7 @@ class DialogValidatorTest {
     when(button.url()).thenReturn(null);
     when(button.next()).thenReturn("next");
 
-    assertThatCode(() -> validator.validateButtons(node)).doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateButtons(node));
   }
 
   @Test
@@ -170,8 +167,7 @@ class DialogValidatorTest {
     when(button.url()).thenReturn(null);
     when(button.next()).thenReturn(null);
 
-    assertThatThrownBy(() -> validator.validateButtons(node))
-        .isInstanceOf(DialogLoadingException.class);
+    assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
   }
 
   @Test
@@ -184,8 +180,7 @@ class DialogValidatorTest {
     when(button.url()).thenReturn("http://test");
     when(button.next()).thenReturn("next");
 
-    assertThatThrownBy(() -> validator.validateButtons(node))
-        .isInstanceOf(DialogLoadingException.class);
+    assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
   }
 
   @Test
@@ -198,7 +193,7 @@ class DialogValidatorTest {
     when(button.url()).thenReturn("http://test");
     when(button.next()).thenReturn(null);
 
-    assertThatCode(() -> validator.validateButtons(node)).doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateButtons(node));
   }
 
   @Test
@@ -211,6 +206,6 @@ class DialogValidatorTest {
     when(button.url()).thenReturn(null);
     when(button.next()).thenReturn("next");
 
-    assertThatCode(() -> validator.validateButtons(node)).doesNotThrowAnyException();
+    assertDoesNotThrow(() -> validator.validateButtons(node));
   }
 }
