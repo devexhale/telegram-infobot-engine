@@ -11,10 +11,15 @@ permissions:
   checks: write
   id-token: write
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TESTCONTAINERS_RYUK_DISABLED: "true"       
+      DOCKER_HOST: unix:///var/run/docker.sock
+     
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

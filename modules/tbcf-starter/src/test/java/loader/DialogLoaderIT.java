@@ -25,14 +25,14 @@ import org.springframework.boot.test.context.SpringBootTest;
       YamlDialogParser.class,
       DialogParserProvider.class
     })
-class DialogLoaderIntegrationTest {
+class DialogLoaderIT {
 
   @Autowired private DialogLoader dialogLoader;
 
   private static final String FAIL_LOAD_MESSAGE_PREFIX = "Failed to load dialog file: ";
 
   @ParameterizedTest
-  @ValueSource(strings = {"test-dialog.yml", "test-dialog.json"})
+  @ValueSource(strings = {"dialog-test.yml", "dialog-test.json"})
   void load_shouldSuccessfullyLoadValidDialog(String fileName) {
     String startNodeId = "/start";
     String message = "Почнемо нашу подорож. Оберіть тему: ";

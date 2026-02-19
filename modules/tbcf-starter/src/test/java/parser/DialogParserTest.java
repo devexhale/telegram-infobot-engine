@@ -16,8 +16,8 @@ class DialogParserTest {
   private YamlDialogParser yamlParser;
   private JsonDialogParser jsonParser;
 
-  private static final String CORRECT_YAML_FILE = "test-dialog.yml";
-  private static final String CORRECT_JSON_FILE = "test-dialog.json";
+  private static final String CORRECT_YAML_FILE = "dialog-test.yml";
+  private static final String CORRECT_JSON_FILE = "dialog-test.json";
 
   @BeforeEach
   void init() {

@@ -11,11 +11,11 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
-class MediaFileLoaderIntegrationTest {
+class MediaFileLoaderIT {
 
   private MediaFileLoader mediaFileLoader;
 
-  private static final String CORRECT_MEDIA_FILE = "test-photo.jpg";
+  private static final String CORRECT_MEDIA_FILE = "photo-test.jpg";
 
   @BeforeEach
   void init() {
@@ -24,7 +24,7 @@ class MediaFileLoaderIntegrationTest {
 
   @Test
   void load_shouldReturnInputFile_whenMediaFileExists() {
-    String fileName = "test-photo.jpg";
+    String fileName = "photo-test.jpg";
 
     InputFile inputFile = mediaFileLoader.load(fileName);
 
@@ -57,7 +57,7 @@ class MediaFileLoaderIntegrationTest {
 
   @Test
   void load_shouldPreserveOriginalFileName() {
-    String fileName = "test-photo.jpg";
+    String fileName = "photo-test.jpg";
 
     InputFile inputFile = mediaFileLoader.load(CORRECT_MEDIA_FILE);
 
