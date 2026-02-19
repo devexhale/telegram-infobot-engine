@@ -40,6 +40,7 @@ class DialogParserProviderTest {
     DialogParser result = provider.getParser(CORRECT_YAML_FILE);
 
     assertSame(yamlParser, result);
+
     verify(yamlParser).canParse(CORRECT_YAML_FILE);
     verify(jsonParser).canParse(CORRECT_YAML_FILE);
   }
