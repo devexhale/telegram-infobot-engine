@@ -29,8 +29,11 @@ public class MessageCleanupService {
 
   public void deleteRedundantMessage(Message message) {
     if (message == null) return;
+
     String text = message.getText();
+
     if (text != null && text.equals(StartCommand.COMMAND_NAME)) return;
+
     String chatId = message.getChatId().toString();
     Integer messageId = message.getMessageId();
     deleteMessage(chatId, messageId);
@@ -38,6 +41,7 @@ public class MessageCleanupService {
 
   public void clearLastNode(String chatId) {
     List<Integer> messageIds = messageRepository.removeAll(chatId);
+
     if (messageIds == null || messageIds.isEmpty()) return;
 
     for (Integer messageId : messageIds) {

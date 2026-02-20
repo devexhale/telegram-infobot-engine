@@ -30,13 +30,13 @@ class ValidationErrorFormatterTest {
     String header = "Dialog validation failed";
     List<String> errors = List.of("Node A is missing", "Button B has no target");
 
-    String result = ValidationErrorFormatter.format(header, errors);
-
     String expected =
         """
-                Dialog validation failed with 2 error(s):
-                  - Node A is missing
-                  - Button B has no target""";
+                    Dialog validation failed with 2 error(s):
+                      - Node A is missing
+                      - Button B has no target""";
+
+    String result = ValidationErrorFormatter.format(header, errors);
 
     assertEquals(expected, result);
   }

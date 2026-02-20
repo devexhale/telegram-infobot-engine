@@ -1,15 +1,14 @@
 package com.github.jawisimo.tbcfstarter.interaction.media.handler;
 
-import com.github.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import com.github.jawisimo.tbcfstarter.interaction.node.model.ContentNode;
 import com.github.jawisimo.tbcfstarter.interaction.node.model.ContentType;
 import com.github.jawisimo.tbcfstarter.interaction.node.model.Media;
+import com.github.jawisimo.tbcfstarter.loader.MediaFileLoader;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Component
@@ -26,9 +25,6 @@ public abstract class AbstractMediaHandler implements MediaHandler {
     if (contentNode.type() != ContentType.MEDIA) return false;
     return contentNode.media().type().equalsIgnoreCase(getMediaType());
   }
-
-  @Override
-  public abstract Message handle(ContentNode contentNode, String chatId);
 
   final InputFile getMediaFile(String mediaFileName) {
     return mediaFileLoader.load(mediaFileName);
