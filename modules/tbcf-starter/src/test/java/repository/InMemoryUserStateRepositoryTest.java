@@ -21,7 +21,7 @@ class InMemoryUserStateRepositoryTest {
 
   @Test
   void findById_shouldReturnEmptyOptional_whenUserStateDoesNotExist() {
-    String chatId = "chat-1";
+    String chatId = "chat-15";
 
     Optional<UserState> result = repository.findById(chatId);
 
@@ -31,7 +31,7 @@ class InMemoryUserStateRepositoryTest {
   @Test
   void findById_shouldReturnSavedUserState_whenUserStateWasSaved() {
     UserState userState = mock(UserState.class);
-    String chatId = "chat-1";
+    String chatId = "chat-18";
 
     when(userState.getChatId()).thenReturn(chatId);
 
@@ -47,7 +47,7 @@ class InMemoryUserStateRepositoryTest {
   void findById_shouldReturnLastSavedUserState_whenUserStateWasSavedTwiceForSameChat() {
     UserState firstUserState = mock(UserState.class);
     UserState secondUserState = mock(UserState.class);
-    String chatId = "chat-1";
+    String chatId = "chat-25";
 
     when(firstUserState.getChatId()).thenReturn(chatId);
     when(secondUserState.getChatId()).thenReturn(chatId);
@@ -65,8 +65,8 @@ class InMemoryUserStateRepositoryTest {
   void shouldKeepIndependentStates_whenUserStatesSavedForDifferentChats() {
     UserState firstUserState = mock(UserState.class);
     UserState secondUserState = mock(UserState.class);
-    String firstChatId = "chat-1";
-    String secondChatId = "chat-2";
+    String firstChatId = "chat-14576";
+    String secondChatId = "chat-22345";
 
     when(firstUserState.getChatId()).thenReturn(firstChatId);
     when(secondUserState.getChatId()).thenReturn(secondChatId);

@@ -19,6 +19,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class DialogValidatorTest {
 
+  private static final String NEXT = "next";
+  private static final String URL = "http://test";
+  private static final String SOME_MSG = "Some message...";
+
   private DialogValidator validator;
 
   @Mock private DialogMap dialogMap;
@@ -74,7 +78,7 @@ class DialogValidatorTest {
   void validateContent_shouldNotThrow_whenTextTypeAndTextIsValid() {
     ContentNode node = mock(ContentNode.class);
     when(node.type()).thenReturn(ContentType.TEXT);
-    when(node.text()).thenReturn("Hello");
+    when(node.text()).thenReturn(SOME_MSG);
 
     assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
   }
@@ -83,7 +87,7 @@ class DialogValidatorTest {
   void validateContent_shouldNotThrow_whenMediaIsNull() {
     ContentNode node = mock(ContentNode.class);
     when(node.type()).thenReturn(ContentType.TEXT);
-    when(node.text()).thenReturn("Hello");
+    when(node.text()).thenReturn(SOME_MSG);
     when(node.media()).thenReturn(null);
 
     assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
@@ -125,8 +129,8 @@ class DialogValidatorTest {
 
     when(node.buttonType()).thenReturn(ButtonType.REPLY);
     when(node.buttons()).thenReturn(List.of(button));
-    when(button.url()).thenReturn("http://test");
-    when(button.next()).thenReturn("next");
+    when(button.url()).thenReturn(URL);
+    when(button.next()).thenReturn(NEXT);
 
     assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
   }
@@ -152,7 +156,7 @@ class DialogValidatorTest {
     when(node.buttonType()).thenReturn(ButtonType.REPLY);
     when(node.buttons()).thenReturn(List.of(button));
     when(button.url()).thenReturn(null);
-    when(button.next()).thenReturn("next");
+    when(button.next()).thenReturn(NEXT);
 
     assertDoesNotThrow(() -> validator.validateButtons(node));
   }
@@ -177,8 +181,8 @@ class DialogValidatorTest {
 
     when(node.buttonType()).thenReturn(ButtonType.INLINE);
     when(node.buttons()).thenReturn(List.of(button));
-    when(button.url()).thenReturn("http://test");
-    when(button.next()).thenReturn("next");
+    when(button.url()).thenReturn(URL);
+    when(button.next()).thenReturn(NEXT);
 
     assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
   }
@@ -190,7 +194,7 @@ class DialogValidatorTest {
 
     when(node.buttonType()).thenReturn(ButtonType.INLINE);
     when(node.buttons()).thenReturn(List.of(button));
-    when(button.url()).thenReturn("http://test");
+    when(button.url()).thenReturn(URL);
     when(button.next()).thenReturn(null);
 
     assertDoesNotThrow(() -> validator.validateButtons(node));
@@ -204,7 +208,7 @@ class DialogValidatorTest {
     when(node.buttonType()).thenReturn(ButtonType.INLINE);
     when(node.buttons()).thenReturn(List.of(button));
     when(button.url()).thenReturn(null);
-    when(button.next()).thenReturn("next");
+    when(button.next()).thenReturn(NEXT);
 
     assertDoesNotThrow(() -> validator.validateButtons(node));
   }

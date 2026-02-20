@@ -9,9 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationErrorFormatterTest {
 
+  private static final String HEADER = "Header";
+
   @Test
   void format_shouldReturnEmptyString_whenErrorsListIsEmpty() {
-    String result = ValidationErrorFormatter.format("Header", List.of());
+    String result = ValidationErrorFormatter.format(HEADER, List.of());
 
     assertEquals("", result);
   }
@@ -20,7 +22,7 @@ class ValidationErrorFormatterTest {
   void format_shouldReturnSingleErrorWithoutHeader_whenOnlyOneErrorProvided() {
     String error = "Some validation error";
 
-    String result = ValidationErrorFormatter.format("Header", List.of(error));
+    String result = ValidationErrorFormatter.format(HEADER, List.of(error));
 
     assertEquals(error, result);
   }

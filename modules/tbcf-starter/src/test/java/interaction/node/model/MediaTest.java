@@ -8,77 +8,65 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MediaTest {
 
+  private static final String MEDIA_TYPE = "photo";
+  private static final String FILE_NAME = "image.jpg";
+  private static final String CAPTION = "Some caption...";
+  private static final String MEDIA_TYPE_MISSING_MSG = "Media type is missing or blank";
+  private static final String MEDIA_FILE_NAME_MISSING_MSG = "Media file name is missing or blank";
+
   @Test
   void constructor_shouldCreateMedia_whenAllFieldsValid() {
-    String type = "PHOTO";
-    String fileName = "image.jpg";
-    String caption = "Some caption";
+    Media media = new Media(MEDIA_TYPE, FILE_NAME, CAPTION);
 
-    Media media = new Media(type, fileName, caption);
-
-    assertEquals(type, media.type());
-    assertEquals(fileName, media.fileName());
-    assertEquals(caption, media.caption());
+    assertEquals(MEDIA_TYPE, media.type());
+    assertEquals(FILE_NAME, media.fileName());
+    assertEquals(CAPTION, media.caption());
   }
 
   @Test
   void constructor_shouldThrowException_whenTypeIsNull() {
-    String fileName = "image.jpg";
-    String caption = "Caption";
-
-    String expected = "Media type is missing or blank";
 
     DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> new Media(null, fileName, caption));
+        assertThrows(DialogLoadingException.class, () -> new Media(null, FILE_NAME, CAPTION));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(MEDIA_TYPE_MISSING_MSG, ex.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenTypeIsBlank() {
-    String type = "  ";
-    String fileName = "image.jpg";
-    String caption = "Caption";
-
-    String expected = "Media type is missing or blank";
+    String type = " ";
 
     DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> new Media(type, fileName, caption));
+        assertThrows(DialogLoadingException.class, () -> new Media(type, MEDIA_TYPE, CAPTION));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(MEDIA_TYPE_MISSING_MSG, ex.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenFileNameIsNull() {
     String type = "PHOTO";
-    String caption = "Caption";
-
-    String expected = "Media file name is missing or blank";
 
     DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> new Media(type, null, caption));
+        assertThrows(DialogLoadingException.class, () -> new Media(type, null, CAPTION));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(MEDIA_FILE_NAME_MISSING_MSG, ex.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenFileNameIsBlank() {
-    String type = "PHOTO";
     String fileName = "   ";
-    String caption = "Caption";
-
-    String expected = "Media file name is missing or blank";
 
     DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> new Media(type, fileName, caption));
+        assertThrows(
+            DialogLoadingException.class,
+            () -> new Media(MEDIA_TYPE_MISSING_MSG, fileName, CAPTION));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(MEDIA_FILE_NAME_MISSING_MSG, ex.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenTypeAndFileNameInvalid() {
     String fileName = "  ";
-    String caption = "Caption";
 
     String expected =
         """
@@ -87,7 +75,7 @@ class MediaTest {
                   - Media file name is missing or blank""";
 
     DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> new Media(null, fileName, caption));
+        assertThrows(DialogLoadingException.class, () -> new Media(null, fileName, CAPTION));
 
     assertEquals(expected, ex.getMessage());
   }

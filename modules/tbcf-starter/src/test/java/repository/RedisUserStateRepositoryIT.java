@@ -57,8 +57,8 @@ class RedisUserStateRepositoryIT {
 
   @Test
   void shouldOverwriteUserState_whenSavedTwiceWithSameChatId() {
-    String firstNodeId = "node-1";
-    String secondNodeId = "node-2";
+    String firstNodeId = "node-26";
+    String secondNodeId = "node-89";
 
     UserState first = new UserState(chatId, firstNodeId);
     UserState second = new UserState(chatId, secondNodeId);

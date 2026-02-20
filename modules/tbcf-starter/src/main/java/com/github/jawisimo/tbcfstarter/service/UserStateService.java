@@ -14,7 +14,7 @@ public class UserStateService {
     return userStateRepository.findById(chatId).map(UserState::getNodeId).orElse(defaultState);
   }
 
-  public void saveUserStateIfPersist(String chatId, String nextState) {
+  public void saveUserState(String chatId, String nextState) {
     userStateRepository.save(new UserState(chatId, nextState));
   }
 }

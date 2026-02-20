@@ -40,7 +40,7 @@ class BotConfigIT {
   void context_shouldLoadPropertiesFromTestProfile_andCreateBeans() throws Exception {
     String token = "109846:shjf:test:token:telegram";
     String name = "TestBot";
-    String dialogFileName = "test.yml";
+    String dialogFileName = "dialog-test.yml";
     int buttonsPerRow = 1;
     boolean userStatePersistent = true;
 

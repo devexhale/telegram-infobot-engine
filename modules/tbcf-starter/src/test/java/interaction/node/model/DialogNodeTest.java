@@ -13,17 +13,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DialogNodeTest {
 
+  private static final String MESSAGE_MISSING_MSG =
+      "Field 'message' is missing or blank, but it is required";
+
+  private static final String BUTTON_LIST_BLANK_MSG =
+      "Buttons list is missing or empty, but it is required";
+
+  private static final String HELLO_MSG = "Hello!!";
+
+  private static final String LABEL = "Next";
+  private static final String NEXT = "callback";
+
   @Test
   void constructor_shouldCreateDialogNode_whenAllFieldsValid() {
     List<ContentNode> content = List.of();
-    String message = "Hello";
     ButtonType buttonType = ButtonType.REPLY;
-    List<Button> buttons = List.of(new Button("Next", "callback", null));
+    List<Button> buttons = List.of(new Button(LABEL, NEXT, null));
 
-    DialogNode node = new DialogNode(content, message, buttonType, buttons);
+    DialogNode node = new DialogNode(content, HELLO_MSG, buttonType, buttons);
 
     assertEquals(content, node.content());
-    assertEquals(message, node.message());
+    assertEquals(HELLO_MSG, node.message());
     assertEquals(buttonType, node.buttonType());
     assertEquals(buttons, node.buttons());
   }
@@ -32,15 +42,13 @@ class DialogNodeTest {
   void constructor_shouldThrowException_whenMessageIsNull() {
     List<ContentNode> content = List.of();
     ButtonType buttonType = ButtonType.REPLY;
-    List<Button> buttons = List.of(new Button("Next", "callback", null));
-
-    String expected = "Field 'message' is missing or blank, but it is required";
+    List<Button> buttons = List.of(new Button(LABEL, NEXT, null));
 
     DialogLoadingException ex =
         assertThrows(
             DialogLoadingException.class, () -> new DialogNode(content, null, buttonType, buttons));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(MESSAGE_MISSING_MSG, ex.getMessage());
   }
 
   @Test
@@ -48,48 +56,41 @@ class DialogNodeTest {
     List<ContentNode> content = List.of();
     String message = "   ";
     ButtonType buttonType = ButtonType.REPLY;
-    List<Button> buttons = List.of(new Button("Next", "callback", null));
-
-    String expected = "Field 'message' is missing or blank, but it is required";
+    List<Button> buttons = List.of(new Button(LABEL, NEXT, null));
 
     DialogLoadingException ex =
         assertThrows(
             DialogLoadingException.class,
             () -> new DialogNode(content, message, buttonType, buttons));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(MESSAGE_MISSING_MSG, ex.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenButtonsIsNull() {
     List<ContentNode> content = List.of();
-    String message = "Hello";
     ButtonType buttonType = ButtonType.REPLY;
-
-    String expected = "Buttons list is missing or empty, but it is required";
 
     DialogLoadingException ex =
         assertThrows(
-            DialogLoadingException.class, () -> new DialogNode(content, message, buttonType, null));
+            DialogLoadingException.class,
+            () -> new DialogNode(content, HELLO_MSG, buttonType, null));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(BUTTON_LIST_BLANK_MSG, ex.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenButtonsIsEmpty() {
     List<ContentNode> content = List.of();
-    String message = "Hello";
     ButtonType buttonType = ButtonType.REPLY;
     List<Button> buttons = List.of();
-
-    String expected = "Buttons list is missing or empty, but it is required";
 
     DialogLoadingException ex =
         assertThrows(
             DialogLoadingException.class,
-            () -> new DialogNode(content, message, buttonType, buttons));
+            () -> new DialogNode(content, HELLO_MSG, buttonType, buttons));
 
-    assertEquals(expected, ex.getMessage());
+    assertEquals(BUTTON_LIST_BLANK_MSG, ex.getMessage());
   }
 
   @Test

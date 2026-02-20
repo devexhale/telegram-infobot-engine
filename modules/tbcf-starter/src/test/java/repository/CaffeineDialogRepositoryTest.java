@@ -54,7 +54,7 @@ class CaffeineDialogRepositoryTest {
     DialogMap dialogMap = mock(DialogMap.class);
 
     String dialogFileName = "dialog.json";
-    String nodeId = "node-1";
+    String nodeId = "node-87";
     DialogNode node = mock(DialogNode.class);
 
     when(properties.dialogFileName()).thenReturn(dialogFileName);

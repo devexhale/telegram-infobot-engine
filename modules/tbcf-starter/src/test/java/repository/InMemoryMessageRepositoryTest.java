@@ -50,10 +50,10 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldReturnOnlyMessagesOfRequestedChat_whenMultipleChatsExist() {
-    String firstChatId = "chat-1";
-    String secondChatId = "chat-2";
-    Integer firstChatMessageId = 10;
-    Integer secondChatFirstMessageId = 20;
+    String firstChatId = "chat-12";
+    String secondChatId = "chat-23";
+    Integer firstChatMessageId = 14;
+    Integer secondChatFirstMessageId = 26;
     Integer secondChatSecondMessageId = 21;
 
     repository.save(firstChatId, firstChatMessageId);
@@ -80,8 +80,8 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldRemoveMessagesAfterFirstCall_whenCalledTwice() {
-    String chatId = "chat-1";
-    Integer messageId = 10;
+    String chatId = "chat-15";
+    Integer messageId = 12;
 
     repository.save(chatId, messageId);
 

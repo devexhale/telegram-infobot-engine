@@ -1,10 +1,15 @@
 package repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 import com.github.jawisimo.tbcfstarter.config.BotProperties;
 import com.github.jawisimo.tbcfstarter.interaction.node.model.UserState;
 import com.github.jawisimo.tbcfstarter.repository.InMemoryUserStateRepository;
 import com.github.jawisimo.tbcfstarter.repository.RedisUserStateRepository;
 import com.github.jawisimo.tbcfstarter.repository.UserStateRepository;
+import java.lang.reflect.Method;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,12 +17,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.lang.reflect.Method;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserStateRepositoryTest {
@@ -30,15 +29,15 @@ class UserStateRepositoryTest {
 
   private String chatId;
   private UserState userState;
-  private Optional<UserState> expected;
+  private UserState expected;
 
   @BeforeEach
   void setUp() {
     repository = new UserStateRepository(properties);
 
-    chatId = "chat-1";
+    chatId = "chat-95";
     userState = mock(UserState.class);
-    expected = Optional.of(mock(UserState.class));
+    expected = mock(UserState.class);
   }
 
   @ParameterizedTest
@@ -48,16 +47,16 @@ class UserStateRepositoryTest {
     when(properties.userStatePersistent()).thenReturn(persistent);
 
     if (persistent) {
-      when(redisRepository.findById(chatId)).thenReturn(expected);
+      when(redisRepository.findById(chatId)).thenReturn(Optional.of(expected));
     } else {
-      when(inMemoryRepository.findById(chatId)).thenReturn(expected);
+      when(inMemoryRepository.findById(chatId)).thenReturn(Optional.of(expected));
     }
 
     injectRepositories();
 
     Optional<UserState> result = repository.findById(chatId);
 
-    assertSame(expected, result);
+    assertEquals(Optional.of(expected), result);
 
     if (persistent) {
       verify(redisRepository).findById(chatId);
@@ -90,13 +89,13 @@ class UserStateRepositoryTest {
   @Test
   void shouldAssignOnlyRedisRepository_whenUserStatePersistentIsTrue() {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(redisRepository.findById(chatId)).thenReturn(expected);
+    when(redisRepository.findById(chatId)).thenReturn(Optional.of(expected));
 
     injectRepositories();
 
     Optional<UserState> result = repository.findById(chatId);
 
-    assertSame(expected, result);
+    assertEquals(Optional.of(expected), result);
     verify(redisRepository).findById(chatId);
     verifyNoInteractions(inMemoryRepository);
   }
@@ -104,13 +103,13 @@ class UserStateRepositoryTest {
   @Test
   void shouldAssignOnlyInMemoryRepository_whenUserStatePersistentIsFalse() {
     when(properties.userStatePersistent()).thenReturn(false);
-    when(inMemoryRepository.findById(chatId)).thenReturn(expected);
+    when(inMemoryRepository.findById(chatId)).thenReturn(Optional.of(expected));
 
     injectRepositories();
 
     Optional<UserState> result = repository.findById(chatId);
 
-    assertSame(expected, result);
+    assertEquals(Optional.of(expected), result);
     verify(inMemoryRepository).findById(chatId);
     verifyNoInteractions(redisRepository);
   }

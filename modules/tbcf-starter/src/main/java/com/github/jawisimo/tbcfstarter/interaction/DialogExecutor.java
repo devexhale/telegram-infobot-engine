@@ -32,7 +32,7 @@ public class DialogExecutor {
     String nextNodeKey = nodeNavigator.getNextNodeKey(chatId, userInput);
 
     if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
-      userStateService.saveUserStateIfPersist(chatId, nextNodeKey);
+      userStateService.saveUserState(chatId, nextNodeKey);
     } else {
       log.warn("Irrelevant message sent: \"{}\". {}: {}", userInput, DELETE_MESSAGE, chatId);
     }
@@ -47,7 +47,7 @@ public class DialogExecutor {
     if (commandExecutor.executeIfExists(chatId, callbackData)) return;
 
     if (nodeNavigator.navigateToNode(chatId, callbackData)) {
-      userStateService.saveUserStateIfPersist(chatId, callbackData);
+      userStateService.saveUserState(chatId, callbackData);
     } else {
       log.warn(
           "No dialog node found for input: \"{}\". {}: {}", callbackData, DELETE_MESSAGE, chatId);

@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ButtonTest {
 
+  private static final String BUTON_LABEL_MISSING_MSG = "Button label is missing or blank";
+
   @Test
   void constructor_shouldCreateButton_whenLabelIsValid() {
     String label = "Click me";
@@ -21,21 +23,17 @@ class ButtonTest {
 
   @Test
   void constructor_shouldThrowException_whenLabelIsNull() {
-    String expected = "Button label is missing or blank";
-
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> new Button(null, "next", null));
 
-    assertEquals(expected, exception.getMessage());
+    assertEquals(BUTON_LABEL_MISSING_MSG, exception.getMessage());
   }
 
   @Test
   void constructor_shouldThrowException_whenLabelIsBlank() {
-    String expected = "Button label is missing or blank";
-
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> new Button("   ", null, "url"));
 
-    assertEquals(expected, exception.getMessage());
+    assertEquals(BUTON_LABEL_MISSING_MSG, exception.getMessage());
   }
 }

@@ -29,7 +29,7 @@ public abstract class AbstractCommandHandler implements CommandHandler {
     }
 
     nodeExecutor.execute(node, chatId);
-    userStateService.saveUserStateIfPersist(chatId, getNodeKey(chatId));
+    userStateService.saveUserState(chatId, getNodeKey(chatId));
   }
 
   abstract String getNodeKey(String chatId);
