@@ -1,4 +1,4 @@
-rootProject.name = 'tg-bot-config-framework'
+rootProject.name = 'telegram-bots-config-framework'
 
 include 'tbcf-starter'
 project(':tbcf-starter').projectDir = file('modules/tbcf-starter')

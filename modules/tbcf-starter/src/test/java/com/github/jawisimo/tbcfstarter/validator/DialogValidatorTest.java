@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class DialogValidatorTest {
 
   private static final String NEXT = "next";
-  private static final String URL = "http://test.com";
+  private static final String URL = "https://test.com";
   private static final String SOME_MSG = "Some message...";
   private static final String BUTTON_LABEL = "Button Label";
   private static final String MEDIA_TYPE = "PHOTO";

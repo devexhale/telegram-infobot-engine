@@ -18,27 +18,27 @@ abstract class BaseUserStateRepositoryTest {
   }
 
   @Test
-  void findById_shouldReturnEmptyOptional_whenUserStateDoesNotExist() {
+  void findByChatId_shouldReturnEmptyOptional_whenUserStateDoesNotExist() {
     String chatId = "chat-45";
-    Optional<UserState> result = getRepository().findById(chatId);
+    Optional<UserState> result = getRepository().findByChatId(chatId);
     assertTrue(result.isEmpty());
   }
 
   @Test
-  void findById_shouldReturnSavedUserState_whenUserStateWasSaved() {
+  void findByChatId_shouldReturnSavedUserState_whenUserStateWasSaved() {
     String chatId = "chat-24";
     String nodeId = "history";
     UserState userState = new UserState(chatId, nodeId);
 
     getRepository().save(userState);
-    Optional<UserState> result = getRepository().findById(chatId);
+    Optional<UserState> result = getRepository().findByChatId(chatId);
 
     assertTrue(result.isPresent());
     assertEquals(userState, result.get());
   }
 
   @Test
-  void findById_shouldReturnLastSavedUserState_whenUserStateWasOverwritten() {
+  void findByChatId_shouldReturnLastSavedUserState_whenUserStateWasOverwritten() {
     String chatId = "chat-25";
 
     UserState first = new UserState(chatId, "history");
@@ -47,7 +47,7 @@ abstract class BaseUserStateRepositoryTest {
     getRepository().save(first);
     getRepository().save(second);
 
-    Optional<UserState> result = getRepository().findById(chatId);
+    Optional<UserState> result = getRepository().findByChatId(chatId);
 
     assertTrue(result.isPresent());
     assertEquals(second, result.get());
@@ -66,8 +66,8 @@ abstract class BaseUserStateRepositoryTest {
     getRepository().save(firstUserState);
     getRepository().save(secondUserState);
 
-    Optional<UserState> firstResult = getRepository().findById(firstChatId);
-    Optional<UserState> secondResult = getRepository().findById(secondChatId);
+    Optional<UserState> firstResult = getRepository().findByChatId(firstChatId);
+    Optional<UserState> secondResult = getRepository().findByChatId(secondChatId);
 
     assertTrue(firstResult.isPresent());
     assertEquals(firstUserState, firstResult.get());

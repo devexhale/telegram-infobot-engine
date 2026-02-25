@@ -15,7 +15,7 @@ public class CommandExecutor {
     if (userInput == null) return false;
 
     for (CommandHandler handler : commandHandlers) {
-      if (userInput.equals(handler.getCommandKey())) {
+      if (userInput.equalsIgnoreCase(handler.getCommandKey())) {
         handler.handle(chatId);
         return true;
       }

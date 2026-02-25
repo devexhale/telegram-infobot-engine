@@ -36,12 +36,12 @@ class UserStateServiceTest {
 
     String chatId = "chat-1";
     Optional<UserState> repositoryResult = Optional.ofNullable(repositoryState);
-    when(userStateRepositoryFacade.findById(chatId)).thenReturn(repositoryResult);
+    when(userStateRepositoryFacade.findByChatId(chatId)).thenReturn(repositoryResult);
 
     String actualResult = service.getUserStateOrDefault(chatId, defaultState);
 
     assertEquals(expectedResult, actualResult);
-    verify(userStateRepositoryFacade).findById(chatId);
+    verify(userStateRepositoryFacade).findByChatId(chatId);
   }
 
   @Test
@@ -61,13 +61,13 @@ class UserStateServiceTest {
     String defaultState = START;
     int expectedInvocations = 2;
 
-    when(userStateRepositoryFacade.findById(CHAT_ID))
+    when(userStateRepositoryFacade.findByChatId(CHAT_ID))
         .thenReturn(Optional.of(new UserState(CHAT_ID, MENU)));
 
     service.getUserStateOrDefault(CHAT_ID, defaultState);
     service.getUserStateOrDefault(CHAT_ID, defaultState);
 
-    verify(userStateRepositoryFacade, times(expectedInvocations)).findById(CHAT_ID);
+    verify(userStateRepositoryFacade, times(expectedInvocations)).findByChatId(CHAT_ID);
   }
 
   static Stream<Arguments> provideUserStateScenarios() {

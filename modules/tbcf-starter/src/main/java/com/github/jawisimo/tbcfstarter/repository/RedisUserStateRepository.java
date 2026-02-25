@@ -15,7 +15,7 @@ public interface RedisUserStateRepository
 
   @NotNull
   @Override
-  Optional<UserState> findById(@NotNull String id);
+  Optional<UserState> findByChatId(@NotNull String chatId);
 
   @NotNull
   <S extends UserState> S save(@NotNull S userState);

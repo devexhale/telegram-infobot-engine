@@ -12,7 +12,7 @@ public class UserStateService {
 
   public String getUserStateOrDefault(String chatId, String defaultState) {
     return userStateRepositoryFacade
-        .findById(chatId)
+        .findByChatId(chatId)
         .map(UserState::getNodeId)
         .orElse(defaultState);
   }

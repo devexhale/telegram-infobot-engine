@@ -11,8 +11,8 @@ public class InMemoryUserStateRepository implements UserStateRepository {
   private final ConcurrentHashMap<String, UserState> userStates = new ConcurrentHashMap<>();
 
   @Override
-  public Optional<UserState> findById(String id) {
-    return Optional.ofNullable(userStates.get(id));
+  public Optional<UserState> findByChatId(String chatId) {
+    return Optional.ofNullable(userStates.get(chatId));
   }
 
   @Override

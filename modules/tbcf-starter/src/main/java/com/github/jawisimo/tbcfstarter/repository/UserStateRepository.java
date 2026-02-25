@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserStateRepository {
 
-  Optional<UserState> findById(String id);
+  Optional<UserState> findByChatId(String chatId);
 
   <S extends UserState> S save(S userState);
 }

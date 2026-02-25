@@ -41,27 +41,27 @@ class UserStateRepositoryFacadeTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
-  void shouldDelegateFindByIdToProperRepository_whenUserStatePersistentPropertyIsEvaluated(
+  void shouldDelegateFindByChatIdToProperRepository_whenUserStatePersistentPropertyIsEvaluated(
       boolean persistent) {
     when(properties.userStatePersistent()).thenReturn(persistent);
 
     if (persistent) {
-      when(redisRepository.findById(CHAT_ID)).thenReturn(Optional.of(expected));
+      when(redisRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
     } else {
-      when(inMemoryRepository.findById(CHAT_ID)).thenReturn(Optional.of(expected));
+      when(inMemoryRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
     }
 
     injectRepositories();
 
-    Optional<UserState> result = repository.findById(CHAT_ID);
+    Optional<UserState> result = repository.findByChatId(CHAT_ID);
 
     assertEquals(Optional.of(expected), result);
 
     if (persistent) {
-      verify(redisRepository).findById(CHAT_ID);
+      verify(redisRepository).findByChatId(CHAT_ID);
       verifyNoInteractions(inMemoryRepository);
     } else {
-      verify(inMemoryRepository).findById(CHAT_ID);
+      verify(inMemoryRepository).findByChatId(CHAT_ID);
       verifyNoInteractions(redisRepository);
     }
   }
@@ -88,28 +88,28 @@ class UserStateRepositoryFacadeTest {
   @Test
   void shouldAssignOnlyRedisRepository_whenUserStatePersistentIsTrue() {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(redisRepository.findById(CHAT_ID)).thenReturn(Optional.of(expected));
+    when(redisRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
 
     injectRepositories();
 
-    Optional<UserState> result = repository.findById(CHAT_ID);
+    Optional<UserState> result = repository.findByChatId(CHAT_ID);
 
     assertEquals(Optional.of(expected), result);
-    verify(redisRepository).findById(CHAT_ID);
+    verify(redisRepository).findByChatId(CHAT_ID);
     verifyNoInteractions(inMemoryRepository);
   }
 
   @Test
   void shouldAssignOnlyInMemoryRepository_whenUserStatePersistentIsFalse() {
     when(properties.userStatePersistent()).thenReturn(false);
-    when(inMemoryRepository.findById(CHAT_ID)).thenReturn(Optional.of(expected));
+    when(inMemoryRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
 
     injectRepositories();
 
-    Optional<UserState> result = repository.findById(CHAT_ID);
+    Optional<UserState> result = repository.findByChatId(CHAT_ID);
 
     assertEquals(Optional.of(expected), result);
-    verify(inMemoryRepository).findById(CHAT_ID);
+    verify(inMemoryRepository).findByChatId(CHAT_ID);
     verifyNoInteractions(redisRepository);
   }
 

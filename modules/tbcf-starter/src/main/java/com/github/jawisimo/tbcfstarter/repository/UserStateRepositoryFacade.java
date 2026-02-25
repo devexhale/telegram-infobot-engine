@@ -30,12 +30,12 @@ public class UserStateRepositoryFacade {
     }
   }
 
-  public Optional<UserState> findById(String id) {
+  public Optional<UserState> findByChatId(String chatId) {
     if (properties.userStatePersistent()) {
-      return redisUserStateRepository.findById(id);
+      return redisUserStateRepository.findByChatId(chatId);
     }
 
-    return inMemoryUserStateRepository.findById(id);
+    return inMemoryUserStateRepository.findByChatId(chatId);
   }
 
   public void save(UserState userState) {

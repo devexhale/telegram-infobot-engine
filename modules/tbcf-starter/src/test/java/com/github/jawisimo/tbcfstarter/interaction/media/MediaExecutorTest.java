@@ -71,12 +71,10 @@ class MediaExecutorTest {
     when(textHandler.canHandle(textNode)).thenReturn(true);
     when(textHandler.handle(textNode, CHAT_ID)).thenReturn(sentMessage1);
     when(sentMessage1.getMessageId()).thenReturn(MESSAGE_ID);
-
     when(photoHandler.canHandle(any())).thenReturn(false);
     when(photoHandler.canHandle(photoNode)).thenReturn(true);
     when(photoHandler.handle(photoNode, CHAT_ID)).thenReturn(sentMessage2);
     when(sentMessage2.getMessageId()).thenReturn(MESSAGE_ID + 1);
-
     when(audioHandler.canHandle(any())).thenReturn(false);
     when(videoHandler.canHandle(any())).thenReturn(false);
 
@@ -85,15 +83,12 @@ class MediaExecutorTest {
     verify(textHandler).canHandle(textNode);
     verify(textHandler).handle(textNode, CHAT_ID);
     verify(messageRepository).save(CHAT_ID, MESSAGE_ID);
-
     verify(photoHandler).canHandle(photoNode);
     verify(photoHandler).handle(photoNode, CHAT_ID);
     verify(messageRepository).save(CHAT_ID, MESSAGE_ID + 1);
-
     verify(audioHandler).canHandle(textNode);
     verify(audioHandler).canHandle(photoNode);
     verify(audioHandler, never()).handle(any(), any());
-
     verify(videoHandler).canHandle(textNode);
     verify(videoHandler).canHandle(photoNode);
     verify(videoHandler, never()).handle(any(), any());
@@ -122,7 +117,6 @@ class MediaExecutorTest {
     inOrder.verify(messageRepository).save(CHAT_ID, MESSAGE_ID);
     inOrder.verify(audioHandler).canHandle(contentNode);
     inOrder.verify(videoHandler).canHandle(contentNode);
-
     verify(audioHandler, never()).handle(any(), any());
     verify(videoHandler, never()).handle(any(), any());
   }
@@ -165,7 +159,6 @@ class MediaExecutorTest {
     when(photoHandler.canHandle(unsupportedNode)).thenReturn(false);
     when(audioHandler.canHandle(unsupportedNode)).thenReturn(false);
     when(videoHandler.canHandle(unsupportedNode)).thenReturn(false);
-
     when(textHandler.canHandle(textNode)).thenReturn(true);
     when(textHandler.handle(textNode, CHAT_ID)).thenReturn(mock(Message.class));
 
@@ -175,10 +168,8 @@ class MediaExecutorTest {
     verify(photoHandler).canHandle(unsupportedNode);
     verify(audioHandler).canHandle(unsupportedNode);
     verify(videoHandler).canHandle(unsupportedNode);
-
     verify(textHandler).canHandle(textNode);
     verify(textHandler).handle(textNode, CHAT_ID);
-
     verify(textHandler, never()).handle(unsupportedNode, CHAT_ID);
     verify(photoHandler, never()).handle(any(), any());
     verify(audioHandler, never()).handle(any(), any());
@@ -213,7 +204,6 @@ class MediaExecutorTest {
             contentNode, List.of(textHandler, photoHandler, audioHandler, videoHandler));
 
     assertThrows(DialogLoadingException.class, () -> mediaExecutor.execute(node, CHAT_ID));
-
     verifyNoInteractions(textHandler, photoHandler, audioHandler, videoHandler, messageRepository);
   }
 
@@ -235,7 +225,6 @@ class MediaExecutorTest {
     verify(audioHandler).canHandle(contentNode);
     verify(videoHandler).canHandle(contentNode);
     verify(textHandler).handle(contentNode, CHAT_ID);
-
     verify(photoHandler, never()).handle(any(), any());
     verify(audioHandler, never()).handle(any(), any());
     verify(videoHandler, never()).handle(any(), any());
