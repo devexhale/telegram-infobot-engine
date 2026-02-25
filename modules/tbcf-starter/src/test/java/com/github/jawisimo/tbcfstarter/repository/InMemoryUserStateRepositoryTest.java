@@ -1,6 +1,6 @@
 package com.github.jawisimo.tbcfstarter.repository;
 
-class InMemoryUserStateRepositoryTest extends AbstractUserStateRepositoryTest {
+class InMemoryUserStateRepositoryTest extends BaseUserStateRepositoryTest {
 
   private InMemoryUserStateRepository repository;
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
-abstract class AbstractUserStateRepositoryTest {
+abstract class BaseUserStateRepositoryTest {
 
   protected abstract UserStateRepository getRepository();
 
