@@ -115,7 +115,7 @@ class KeyboardExecutorTest {
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, buttons);
 
     InlineKeyboardMarkup inlineMarkup = InlineKeyboardMarkup.builder().build();
-    TelegramApiException exception = new TelegramApiException("boom");
+    TelegramApiException exception = new TelegramApiException("Some Telegram API error...");
 
     when(keyboardBuilder.buildInlineKeyboard(buttons)).thenReturn(inlineMarkup);
     when(client.execute(any(SendMessage.class))).thenThrow(exception);

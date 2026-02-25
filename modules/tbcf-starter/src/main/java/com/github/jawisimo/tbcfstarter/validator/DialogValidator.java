@@ -4,13 +4,10 @@ import com.github.jawisimo.tbcfstarter.exception.DialogLoadingException;
 import com.github.jawisimo.tbcfstarter.interaction.command.commandset.StartCommand;
 import com.github.jawisimo.tbcfstarter.interaction.media.handler.MediaHandler;
 import com.github.jawisimo.tbcfstarter.interaction.node.model.*;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-@Slf4j
 public class DialogValidator {
 
   public void validateStartNode(DialogMap dialogMap, String fileName) {
