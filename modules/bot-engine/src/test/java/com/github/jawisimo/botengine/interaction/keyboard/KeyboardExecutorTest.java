@@ -64,14 +64,11 @@ class KeyboardExecutorTest {
     verify(dialogValidator).validateButtons(node);
     verify(keyboardBuilder).buildReplyKeyboard(buttons);
     verify(keyboardBuilder, never()).buildInlineKeyboard(anyList());
-
     verify(client).execute(sendMessageCaptor.capture());
     SendMessage actual = sendMessageCaptor.getValue();
-
     assertEquals(CHAT_ID, actual.getChatId());
     assertEquals(NODE_MESSAGE, actual.getText());
     assertEquals(replyMarkup, actual.getReplyMarkup());
-
     verify(messageRepository).save(CHAT_ID, MESSAGE_ID);
   }
 
@@ -95,14 +92,11 @@ class KeyboardExecutorTest {
     verify(dialogValidator).validateButtons(node);
     verify(keyboardBuilder).buildInlineKeyboard(buttons);
     verify(keyboardBuilder, never()).buildReplyKeyboard(anyList());
-
     verify(client).execute(sendMessageCaptor.capture());
     SendMessage actual = sendMessageCaptor.getValue();
-
     assertEquals(CHAT_ID, actual.getChatId());
     assertEquals(NODE_MESSAGE, actual.getText());
     assertEquals(inlineMarkup, actual.getReplyMarkup());
-
     verify(messageRepository).save(CHAT_ID, MESSAGE_ID);
   }
 
