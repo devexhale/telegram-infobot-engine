@@ -1,4 +1,4 @@
-package com.github.jawisimo.botengine.interaction.media.handler;
+package com.github.jawisimo.botengine.interaction.content.handler;
 
 import static org.mockito.Mockito.lenient;
 
@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @ExtendWith(MockitoExtension.class)
-abstract class BaseMediaHandlerTest<T extends MediaHandler> {
+abstract class BaseMediaHandlerTest<T extends ContentHandler> {
 
   protected static final String CHAT_ID = "123456789";
   protected static final String FILE_NAME = "test-file.mp3";

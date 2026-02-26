@@ -25,7 +25,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @ExtendWith(MockitoExtension.class)
 class MessageCleanupServiceTest {
-
   private static final String CHAT_ID = "chat-12";
   private static final Integer MESSAGE_ID = 59;
 

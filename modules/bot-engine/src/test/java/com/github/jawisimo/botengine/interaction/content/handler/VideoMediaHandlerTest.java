@@ -1,4 +1,4 @@
-package com.github.jawisimo.botengine.interaction.media.handler;
+package com.github.jawisimo.botengine.interaction.content.handler;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

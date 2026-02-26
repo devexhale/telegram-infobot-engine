@@ -32,7 +32,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 @ActiveProfiles("test")
 @TestPropertySource(properties = {"telegram.bot.user-state-persistent=false"})
 class NodeNavigatorIT {
-
   private static final String CHAT_ID = "123456789";
   private static final String START_NODE = "/start";
   private static final String HISTORY_Q1 = "history_q1";

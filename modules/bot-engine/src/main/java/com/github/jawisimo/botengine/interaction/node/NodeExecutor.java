@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.interaction.node;
 
-import com.github.jawisimo.botengine.interaction.media.MediaExecutor;
+import com.github.jawisimo.botengine.interaction.content.ContentExecutor;
 import com.github.jawisimo.botengine.interaction.keyboard.KeyboardExecutor;
 import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
 import com.github.jawisimo.botengine.service.MessageCleanupService;
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequiredArgsConstructor
 public class NodeExecutor {
-  private final MediaExecutor mediaExecutor;
+  private final ContentExecutor contentExecutor;
   private final KeyboardExecutor keyboardExecutor;
   private final MessageCleanupService cleanupService;
   private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
@@ -22,7 +22,7 @@ public class NodeExecutor {
 
     synchronized (lock) {
       cleanupService.clearLastNode(chatId);
-      mediaExecutor.execute(node, chatId);
+      contentExecutor.execute(node, chatId);
       keyboardExecutor.execute(node, chatId);
     }
   }

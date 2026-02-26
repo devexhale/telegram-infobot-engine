@@ -2,7 +2,7 @@ package com.github.jawisimo.botengine.validator;
 
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
-import com.github.jawisimo.botengine.interaction.media.handler.MediaHandler;
+import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
 import java.util.List;
 
 import com.github.jawisimo.botengine.interaction.node.model.*;
@@ -17,14 +17,14 @@ public class DialogValidator {
     }
   }
 
-  public void validateContent(ContentNode contentNode, List<MediaHandler> mediaHandlers) {
+  public void validateContent(ContentNode contentNode, List<ContentHandler> contentHandlers) {
     if (contentNode.type() == ContentType.TEXT
         && (contentNode.text() == null || contentNode.text().isEmpty())) {
       throw new DialogLoadingException("Content text is null or empty, but content type is TEXT");
     }
 
     if (contentNode.media() != null) {
-      validateMedia(contentNode.media(), contentNode, mediaHandlers);
+      validateMedia(contentNode.media(), contentNode, contentHandlers);
     }
   }
 
@@ -37,11 +37,11 @@ public class DialogValidator {
   }
 
   private void validateMedia(
-      Media media, ContentNode contentNode, List<MediaHandler> mediaHandlers) {
+      Media media, ContentNode contentNode, List<ContentHandler> contentHandlers) {
     String type = media.type();
     String fileName = media.fileName();
 
-    boolean supported = mediaHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
+    boolean supported = contentHandlers.stream().anyMatch(h -> h.canHandle(contentNode));
 
     if (!supported) {
       throw new DialogLoadingException(

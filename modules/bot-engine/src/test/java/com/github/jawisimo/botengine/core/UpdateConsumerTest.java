@@ -12,7 +12,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateConsumerTest {
-
   @Mock private CommandsInitializer commandsInitializer;
   @Mock private UpdateService updateService;
 

@@ -21,15 +21,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @SpringBootTest(classes = {BotConfig.class, BotConfigIT.TestCacheConfig.class})
 @ActiveProfiles("test")
 class BotConfigIT {
-
-  @Configuration
-  static class TestCacheConfig {
-    @Bean
-    CacheManager cacheManager() {
-      return new ConcurrentMapCacheManager();
-    }
-  }
-
   @Autowired private ApplicationContext context;
   @Autowired private BotProperties properties;
   @Autowired private TelegramClient telegramClient;
@@ -83,5 +74,13 @@ class BotConfigIT {
 
     assertNotNull(cacheManager);
     assertInstanceOf(ConcurrentMapCacheManager.class, cacheManager);
+  }
+
+  @Configuration
+  static class TestCacheConfig {
+    @Bean
+    CacheManager cacheManager() {
+      return new ConcurrentMapCacheManager();
+    }
   }
 }

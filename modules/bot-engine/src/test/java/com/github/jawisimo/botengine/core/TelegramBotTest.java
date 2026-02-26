@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TelegramBotTest {
-
   private static final String TOKEN = "token";
 
   @Mock private BotProperties properties;

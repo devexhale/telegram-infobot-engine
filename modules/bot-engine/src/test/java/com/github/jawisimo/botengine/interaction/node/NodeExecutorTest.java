@@ -1,7 +1,7 @@
 package com.github.jawisimo.botengine.interaction.node;
 
 import com.github.jawisimo.botengine.interaction.keyboard.KeyboardExecutor;
-import com.github.jawisimo.botengine.interaction.media.MediaExecutor;
+import com.github.jawisimo.botengine.interaction.content.ContentExecutor;
 import com.github.jawisimo.botengine.interaction.node.model.Button;
 import com.github.jawisimo.botengine.interaction.node.model.ButtonType;
 import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class NodeExecutorTest {
-
   private static final String CHAT_ID = "123";
   private static final String CHAT_ID_2 = "456";
 
@@ -36,28 +35,28 @@ class NodeExecutorTest {
   private static final int EXECUTIONS_COUNT = 2;
   private static final long TIMEOUT_SECONDS = 2L;
 
-  @Mock private MediaExecutor mediaExecutor;
+  @Mock private ContentExecutor contentExecutor;
   @Mock private KeyboardExecutor keyboardExecutor;
   @Mock private MessageCleanupService cleanupService;
 
   @Test
   void execute_shouldCallCleanupThenMediaThenKeyboard_whenInvoked() {
-    NodeExecutor nodeExecutor = new NodeExecutor(mediaExecutor, keyboardExecutor, cleanupService);
+    NodeExecutor nodeExecutor = new NodeExecutor(contentExecutor, keyboardExecutor, cleanupService);
 
     Button button = new Button(BTN_LABEL, BTN_NEXT, BTN_URL);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, List.of(button));
 
     nodeExecutor.execute(node, CHAT_ID);
 
-    InOrder inOrder = inOrder(cleanupService, mediaExecutor, keyboardExecutor);
+    InOrder inOrder = inOrder(cleanupService, contentExecutor, keyboardExecutor);
     inOrder.verify(cleanupService).clearLastNode(CHAT_ID);
-    inOrder.verify(mediaExecutor).execute(node, CHAT_ID);
+    inOrder.verify(contentExecutor).execute(node, CHAT_ID);
     inOrder.verify(keyboardExecutor).execute(node, CHAT_ID);
   }
 
   @Test
   void execute_shouldSerializeCallsForSameChatId_whenCalledConcurrently() throws Exception {
-    NodeExecutor nodeExecutor = new NodeExecutor(mediaExecutor, keyboardExecutor, cleanupService);
+    NodeExecutor nodeExecutor = new NodeExecutor(contentExecutor, keyboardExecutor, cleanupService);
 
     Button button = new Button(BTN_LABEL, BTN_NEXT, BTN_URL);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, List.of(button));
@@ -101,13 +100,13 @@ class NodeExecutorTest {
     assertTrue(entered);
     assertEquals(EXPECTED_SINGLE_THREAD_INSIDE_LOCK, maxConcurrentInside.get());
     verify(cleanupService, times(EXECUTIONS_COUNT)).clearLastNode(CHAT_ID);
-    verify(mediaExecutor, times(EXECUTIONS_COUNT)).execute(node, CHAT_ID);
+    verify(contentExecutor, times(EXECUTIONS_COUNT)).execute(node, CHAT_ID);
     verify(keyboardExecutor, times(EXECUTIONS_COUNT)).execute(node, CHAT_ID);
   }
 
   @Test
   void execute_shouldNotBlockDifferentChatIds_whenCalledConcurrently() throws Exception {
-    NodeExecutor nodeExecutor = new NodeExecutor(mediaExecutor, keyboardExecutor, cleanupService);
+    NodeExecutor nodeExecutor = new NodeExecutor(contentExecutor, keyboardExecutor, cleanupService);
 
     Button button = new Button(BTN_LABEL, BTN_NEXT, BTN_URL);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, List.of(button));
@@ -157,8 +156,8 @@ class NodeExecutorTest {
     assertTrue(entered2);
     verify(cleanupService).clearLastNode(CHAT_ID);
     verify(cleanupService).clearLastNode(CHAT_ID_2);
-    verify(mediaExecutor).execute(node, CHAT_ID);
-    verify(mediaExecutor).execute(node, CHAT_ID_2);
+    verify(contentExecutor).execute(node, CHAT_ID);
+    verify(contentExecutor).execute(node, CHAT_ID_2);
     verify(keyboardExecutor).execute(node, CHAT_ID);
     verify(keyboardExecutor).execute(node, CHAT_ID_2);
   }

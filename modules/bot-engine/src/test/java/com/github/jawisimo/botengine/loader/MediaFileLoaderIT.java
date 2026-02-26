@@ -11,10 +11,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 class MediaFileLoaderIT {
+  private static final String CORRECT_MEDIA_FILE = "photo-test.jpg";
 
   private MediaFileLoader mediaFileLoader;
-
-  private static final String CORRECT_MEDIA_FILE = "photo-test.jpg";
 
   @BeforeEach
   void init() {

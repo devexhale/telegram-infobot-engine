@@ -1,7 +1,6 @@
 package com.github.jawisimo.botengine.repository;
 
 class InMemoryUserStateRepositoryTest extends BaseUserStateRepositoryTest {
-
   private InMemoryUserStateRepository repository;
 
   @Override

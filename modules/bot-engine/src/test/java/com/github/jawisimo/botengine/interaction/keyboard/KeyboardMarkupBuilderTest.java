@@ -25,7 +25,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 @ExtendWith(MockitoExtension.class)
 class KeyboardMarkupBuilderTest {
-
   @Mock private BotProperties botProperties;
 
   @InjectMocks private KeyboardMarkupBuilder keyboardMarkupBuilder;

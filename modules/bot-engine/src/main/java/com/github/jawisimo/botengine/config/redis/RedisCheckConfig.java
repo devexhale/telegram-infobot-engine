@@ -15,7 +15,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 @Configuration
 @RequiredArgsConstructor
 public class RedisCheckConfig {
-
   private static final String REDIS_DEPENDENCY_FAIL_MSG =
       "❌ Redis is required but not found in the application context. "
           + "Please add spring-boot-starter-data-redis "

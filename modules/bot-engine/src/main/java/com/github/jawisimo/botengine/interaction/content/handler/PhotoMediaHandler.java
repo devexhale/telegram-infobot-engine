@@ -1,4 +1,4 @@
-package com.github.jawisimo.botengine.interaction.media.handler;
+package com.github.jawisimo.botengine.interaction.content.handler;
 
 import com.github.jawisimo.botengine.interaction.node.model.Media;
 import com.github.jawisimo.botengine.loader.MediaFileLoader;

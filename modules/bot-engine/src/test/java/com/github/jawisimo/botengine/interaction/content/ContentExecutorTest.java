@@ -1,10 +1,10 @@
-package com.github.jawisimo.botengine.interaction.media;
+package com.github.jawisimo.botengine.interaction.content;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
-import com.github.jawisimo.botengine.interaction.media.handler.MediaHandler;
+import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
 import com.github.jawisimo.botengine.interaction.node.model.Button;
 import com.github.jawisimo.botengine.interaction.node.model.ButtonType;
 import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
@@ -22,27 +22,26 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class MediaExecutorTest {
-
+class ContentExecutorTest {
   private static final String CHAT_ID = "123456789";
   private static final Integer MESSAGE_ID = 42;
   private static final String MESSAGE_TEXT = "Test message";
   private static final ButtonType BUTTON_TYPE = ButtonType.INLINE;
   private static final List<Button> BUTTONS = List.of(mock(Button.class));
 
-  @Mock private MediaHandler textHandler;
-  @Mock private MediaHandler photoHandler;
-  @Mock private MediaHandler audioHandler;
-  @Mock private MediaHandler videoHandler;
+  @Mock private ContentHandler textHandler;
+  @Mock private ContentHandler photoHandler;
+  @Mock private ContentHandler audioHandler;
+  @Mock private ContentHandler videoHandler;
   @Mock private MessageRepository messageRepository;
   @Mock private DialogValidator dialogValidator;
 
-  private MediaExecutor mediaExecutor;
+  private ContentExecutor contentExecutor;
 
   @BeforeEach
   void setUp() {
-    mediaExecutor =
-        new MediaExecutor(
+    contentExecutor =
+        new ContentExecutor(
             List.of(textHandler, photoHandler, audioHandler, videoHandler),
             messageRepository,
             dialogValidator);
@@ -52,7 +51,7 @@ class MediaExecutorTest {
   void execute_shouldDoNothing_whenNodeContentIsNull() {
     DialogNode node = new DialogNode(null, MESSAGE_TEXT, BUTTON_TYPE, BUTTONS);
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     verifyNoInteractions(
         textHandler, photoHandler, audioHandler, videoHandler, messageRepository, dialogValidator);
@@ -78,7 +77,7 @@ class MediaExecutorTest {
     when(audioHandler.canHandle(any())).thenReturn(false);
     when(videoHandler.canHandle(any())).thenReturn(false);
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     verify(textHandler).canHandle(textNode);
     verify(textHandler).handle(textNode, CHAT_ID);
@@ -107,7 +106,7 @@ class MediaExecutorTest {
     when(audioHandler.canHandle(contentNode)).thenReturn(false);
     when(videoHandler.canHandle(contentNode)).thenReturn(false);
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     InOrder inOrder =
         inOrder(textHandler, photoHandler, audioHandler, videoHandler, messageRepository);
@@ -131,7 +130,7 @@ class MediaExecutorTest {
     when(textHandler.canHandle(any())).thenReturn(true);
     when(textHandler.handle(any(), any())).thenReturn(mock(Message.class));
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     InOrder inOrder = inOrder(dialogValidator, textHandler);
     inOrder
@@ -162,7 +161,7 @@ class MediaExecutorTest {
     when(textHandler.canHandle(textNode)).thenReturn(true);
     when(textHandler.handle(textNode, CHAT_ID)).thenReturn(mock(Message.class));
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     verify(textHandler).canHandle(unsupportedNode);
     verify(photoHandler).canHandle(unsupportedNode);
@@ -187,7 +186,7 @@ class MediaExecutorTest {
     when(audioHandler.canHandle(contentNode)).thenReturn(false);
     when(videoHandler.canHandle(contentNode)).thenReturn(false);
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     verify(textHandler).handle(contentNode, CHAT_ID);
     verify(messageRepository, never()).save(anyString(), anyInt());
@@ -203,7 +202,7 @@ class MediaExecutorTest {
         .validateContent(
             contentNode, List.of(textHandler, photoHandler, audioHandler, videoHandler));
 
-    assertThrows(DialogLoadingException.class, () -> mediaExecutor.execute(node, CHAT_ID));
+    assertThrows(DialogLoadingException.class, () -> contentExecutor.execute(node, CHAT_ID));
     verifyNoInteractions(textHandler, photoHandler, audioHandler, videoHandler, messageRepository);
   }
 
@@ -218,7 +217,7 @@ class MediaExecutorTest {
     when(audioHandler.canHandle(contentNode)).thenReturn(false);
     when(videoHandler.canHandle(contentNode)).thenReturn(false);
 
-    mediaExecutor.execute(node, CHAT_ID);
+    contentExecutor.execute(node, CHAT_ID);
 
     verify(textHandler).canHandle(contentNode);
     verify(photoHandler).canHandle(contentNode);

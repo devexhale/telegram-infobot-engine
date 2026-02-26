@@ -3,7 +3,6 @@ package com.github.jawisimo.botengine.parser;
 import org.junit.jupiter.api.BeforeEach;
 
 class JsonDialogParserTest extends BaseDialogParserTest {
-
   private static final String CORRECT_JSON_FILE = "dialog-test.json";
   private static final String INCORRECT_SYNTAX_JSON_FILE = "incorrect-syntax-dialog.json";
 

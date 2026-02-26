@@ -20,7 +20,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class NodeNavigatorTest {
-
   private static final String CHAT_ID = "123456789";
   private static final String USER_INPUT = "some input";
   private static final String CURRENT_NODE_KEY = "current-node";

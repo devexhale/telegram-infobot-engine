@@ -1,4 +1,4 @@
-package com.github.jawisimo.botengine.interaction.media.handler;
+package com.github.jawisimo.botengine.interaction.content.handler;
 
 import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
 import com.github.jawisimo.botengine.interaction.node.model.ContentType;
@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class TextMediaHandler implements MediaHandler {
+public class TextContentHandler implements ContentHandler {
   private final TelegramClient client;
 
   @Override

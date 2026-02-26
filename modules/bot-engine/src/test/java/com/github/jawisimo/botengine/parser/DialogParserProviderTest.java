@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class DialogParserProviderTest {
-
   private static final String CORRECT_YAML_FILE = "dialog.yml";
   private static final String CORRECT_JSON_FILE = "dialog.json";
   private static final String UNSUPPORTED_FILE = "dialog.txt";

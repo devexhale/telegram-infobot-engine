@@ -1,4 +1,4 @@
-package com.github.jawisimo.botengine.interaction.media.handler;
+package com.github.jawisimo.botengine.interaction.content.handler;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,44 +9,44 @@ import com.github.jawisimo.botengine.interaction.node.model.ContentType;
 import com.github.jawisimo.botengine.interaction.node.model.Media;
 import com.github.jawisimo.botengine.loader.MediaFileLoader;
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-class DocumentMediaHandlerTest extends BaseMediaHandlerTest<DocumentMediaHandler> {
+class PhotoMediaHandlerTest extends BaseMediaHandlerTest<PhotoMediaHandler> {
 
   @Override
-  protected DocumentMediaHandler createHandler(
+  protected PhotoMediaHandler createHandler(
       TelegramClient client, MediaFileLoader mediaFileLoader) {
-    return new DocumentMediaHandler(client, mediaFileLoader);
+    return new PhotoMediaHandler(client, mediaFileLoader);
   }
 
   @Override
   protected ContentNode createContentNodeWithMedia(String caption) {
-    Media media = new Media("document", FILE_NAME, caption);
+    Media media = new Media("photo", FILE_NAME, caption);
     return new ContentNode(ContentType.MEDIA, null, media);
   }
 
   @Test
-  void handle_shouldSendDocumentSuccessfully() throws TelegramApiException {
+  void handle_shouldSendPhotoSuccessfully() throws TelegramApiException {
     ContentNode contentNode = createContentNodeWithMedia(CAPTION);
     Message expectedMessage = new Message();
 
-    when(telegramClient.execute(any(SendDocument.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendPhoto.class))).thenReturn(expectedMessage);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
     assertNotNull(result);
     assertEquals(expectedMessage, result);
     verify(mediaFileLoader).load(FILE_NAME);
-    verify(telegramClient).execute(any(SendDocument.class));
+    verify(telegramClient).execute(any(SendPhoto.class));
   }
 
   @Test
   void handle_shouldReturnNull_whenTelegramApiExceptionOccurs() throws TelegramApiException {
     ContentNode contentNode = createContentNodeWithMedia(CAPTION);
-    when(telegramClient.execute(any(SendDocument.class)))
+    when(telegramClient.execute(any(SendPhoto.class)))
         .thenThrow(new TelegramApiException(EXCEPTION_MSG));
 
     Message result = handler.handle(contentNode, CHAT_ID);
@@ -59,7 +59,7 @@ class DocumentMediaHandlerTest extends BaseMediaHandlerTest<DocumentMediaHandler
     ContentNode contentNode = createContentNodeWithMedia(null);
     Message expectedMessage = new Message();
 
-    when(telegramClient.execute(any(SendDocument.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendPhoto.class))).thenReturn(expectedMessage);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
@@ -69,6 +69,6 @@ class DocumentMediaHandlerTest extends BaseMediaHandlerTest<DocumentMediaHandler
 
   @Test
   void getMediaType_shouldReturnCorrectType() {
-    assertEquals("DOCUMENT", handler.getMediaType());
+    assertEquals("PHOTO", handler.getMediaType());
   }
 }

@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
-import com.github.jawisimo.botengine.interaction.media.handler.MediaHandler;
+import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class DialogValidatorTest {
-
   private static final String NEXT = "next";
   private static final String URL = "https://test.com";
   private static final String SOME_MSG = "Some message...";
@@ -39,7 +38,7 @@ class DialogValidatorTest {
 
   private DialogValidator validator;
 
-  @Mock private MediaHandler mediaHandler;
+  @Mock private ContentHandler contentHandler;
 
   @BeforeEach
   void init() {
@@ -68,7 +67,7 @@ class DialogValidatorTest {
   @Test
   void validateContent_shouldThrowException_whenTextTypeAndTextIsNull() {
     ContentNode node = new ContentNode(ContentType.TEXT, null, null);
-    List<MediaHandler> handlers = List.of();
+    List<ContentHandler> handlers = List.of();
 
     DialogLoadingException ex =
         assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
@@ -80,7 +79,7 @@ class DialogValidatorTest {
   void validateContent_shouldThrowException_whenTextTypeAndTextIsEmpty() {
     ContentNode node = new ContentNode(ContentType.TEXT, "", null);
 
-    List<MediaHandler> handlers = List.of();
+    List<ContentHandler> handlers = List.of();
 
     DialogLoadingException ex =
         assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
@@ -107,9 +106,9 @@ class DialogValidatorTest {
     ContentNode node = new ContentNode(ContentType.MEDIA, null, media);
     String expected = ERROR_NO_HANDLER_FOUND + MEDIA_TYPE + " (file: " + FILE_NAME + ")";
 
-    when(mediaHandler.canHandle(node)).thenReturn(false);
+    when(contentHandler.canHandle(node)).thenReturn(false);
 
-    List<MediaHandler> handlers = List.of(mediaHandler);
+    List<ContentHandler> handlers = List.of(contentHandler);
 
     DialogLoadingException ex =
         assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
@@ -122,9 +121,9 @@ class DialogValidatorTest {
     Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
     ContentNode node = new ContentNode(ContentType.MEDIA, null, media);
 
-    when(mediaHandler.canHandle(node)).thenReturn(true);
+    when(contentHandler.canHandle(node)).thenReturn(true);
 
-    assertDoesNotThrow(() -> validator.validateContent(node, List.of(mediaHandler)));
+    assertDoesNotThrow(() -> validator.validateContent(node, List.of(contentHandler)));
   }
 
   @Test

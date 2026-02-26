@@ -16,7 +16,6 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class CommandExecutorTest {
-
   private static final String CHAT_ID = "123456789";
   private static final String START_COMMAND = "/start";
   private static final String LAST_COMMAND = "/last";

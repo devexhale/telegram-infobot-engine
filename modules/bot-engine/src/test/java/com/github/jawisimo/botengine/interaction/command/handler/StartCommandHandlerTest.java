@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class StartCommandHandlerTest extends BaseCommandHandlerTest {
-
   private StartCommandHandler handler;
 
   @BeforeEach

@@ -13,7 +13,6 @@ import org.springframework.test.context.TestPropertySource;
 @ContextConfiguration(classes = {RedisRepositoriesConfig.class, RedisUserStateRepository.class})
 @TestPropertySource(properties = {"telegram.bot.user-state-persistent=true"})
 class RedisUserStateRepositoryIT extends BaseUserStateRepositoryTest {
-
   @Autowired private RedisUserStateRepository repository;
   @Autowired private RedisConnectionFactory connectionFactory;
 

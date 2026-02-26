@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 abstract class BaseCommandHandlerTest {
-
   protected static final String CHAT_ID = "123456789";
 
   @Mock protected DialogRepository dialogRepository;

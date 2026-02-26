@@ -1,6 +1,6 @@
-package com.github.jawisimo.botengine.interaction.media;
+package com.github.jawisimo.botengine.interaction.content;
 
-import com.github.jawisimo.botengine.interaction.media.handler.MediaHandler;
+import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
 import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
 import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
 import com.github.jawisimo.botengine.repository.MessageRepository;
@@ -13,8 +13,8 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MediaExecutor {
-  private final List<MediaHandler> mediaHandlers;
+public class ContentExecutor {
+  private final List<ContentHandler> contentHandlers;
   private final MessageRepository messageRepository;
   private final DialogValidator dialogValidator;
 
@@ -22,8 +22,8 @@ public class MediaExecutor {
     if (node.content() == null) return;
 
     for (ContentNode contentNode : node.content()) {
-      dialogValidator.validateContent(contentNode, mediaHandlers);
-      for (MediaHandler handler : mediaHandlers) {
+      dialogValidator.validateContent(contentNode, contentHandlers);
+      for (ContentHandler handler : contentHandlers) {
         if (handler.canHandle(contentNode)) {
           Message sent = handler.handle(contentNode, chatId);
           if (sent != null) {

@@ -23,7 +23,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 
 @ExtendWith(MockitoExtension.class)
 class RedisCheckConfigTest {
-
   @Mock private BotProperties properties;
   @Mock private ApplicationContext context;
   @Mock private LettuceConnectionFactory redisConnectionFactory;

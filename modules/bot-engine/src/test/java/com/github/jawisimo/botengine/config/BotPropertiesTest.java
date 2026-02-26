@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class BotPropertiesTest {
-
   private static final String BOT_TOKEN = "token";
   private static final String BOT_NAME = "MyBot";
   private static final String DIALOG_FILE_NAME = "dialog.yml";

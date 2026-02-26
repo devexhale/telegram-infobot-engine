@@ -2,8 +2,7 @@ package com.github.jawisimo.botengine.parser;
 
 import org.junit.jupiter.api.BeforeEach;
 
-public class YamlDialogParserTest extends BaseDialogParserTest {
-
+class YamlDialogParserTest extends BaseDialogParserTest {
   private static final String CORRECT_YAML_FILE = "dialog-test.yml";
   private static final String INCORRECT_SYNTAX_YAML_FILE = "incorrect-syntax-dialog.yml";
 

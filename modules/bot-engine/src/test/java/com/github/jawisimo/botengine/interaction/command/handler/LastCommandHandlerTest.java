@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LastCommandHandlerTest extends BaseCommandHandlerTest {
-
   public static final String LAST_VISITED_NODE = "last-visited-node";
 
   private LastCommandHandler handler;
