@@ -1,7 +1,7 @@
-rootProject.name = 'telegram-bots-config-framework'
+rootProject.name = 'telegram-dialog-bot-engine'
 
-include 'tbcf-starter'
-project(':tbcf-starter').projectDir = file('modules/tbcf-starter')
+include 'telegram-dialog-bot-spring-boot-starter'
+project(':telegram-dialog-bot-spring-boot-starter').projectDir = file('modules/bot-engine')
 
-include 'bot-template'
-project(':bot-template').projectDir = file('modules/bot-template')
+include 'telegram-dialog-bot-template'
+project(':telegram-dialog-bot-template').projectDir = file('modules/bot-template')

@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.github.jawisimo'
 version = '0.0.1-SNAPSHOT'
-description = 'bot-template'
+description = 'Telegram dialog bot template based on Bot Engine'
 
 java {
     toolchain {
@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':tbcf-starter')
+    implementation project(':telegram-dialog-bot-spring-boot-starter')
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

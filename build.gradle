@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.github.jawisimo'
 version = '1.0'
-description = 'tg-bot-config-framework'
+description = 'telegram-dialog-bot-engine'
 
 java {
     toolchain {
