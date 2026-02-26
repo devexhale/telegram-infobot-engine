@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 class TextContentHandlerTest {
+
   private static final String CHAT_ID = "12345";
   private static final String TEXT = "Hello world";
   private static final String EXCEPTION_MSG = "Some error...";

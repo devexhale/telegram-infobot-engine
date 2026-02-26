@@ -14,6 +14,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ContentExecutor {
+
   private final List<ContentHandler> contentHandlers;
   private final MessageRepository messageRepository;
   private final DialogValidator dialogValidator;

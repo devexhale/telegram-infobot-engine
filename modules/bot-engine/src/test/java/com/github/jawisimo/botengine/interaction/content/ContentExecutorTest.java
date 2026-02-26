@@ -23,6 +23,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ContentExecutorTest {
+
   private static final String CHAT_ID = "123456789";
   private static final Integer MESSAGE_ID = 42;
   private static final String MESSAGE_TEXT = "Test message";

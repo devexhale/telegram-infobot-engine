@@ -32,13 +32,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 @ActiveProfiles("test")
 @TestPropertySource(properties = {"telegram.bot.user-state-persistent=false"})
 class NodeNavigatorIT {
+
   private static final String CHAT_ID = "123456789";
   private static final String START_NODE = "/start";
   private static final String HISTORY_Q1 = "history_q1";
   private static final String SCIENCE_Q1 = "science_q1";
   private static final String GEOGRAPHY_Q1 = "geography_q1";
   private static final String CINEMA_Q1 = "cinema_q1";
-  private static final String GITHUB_URL = "https://github.com/jawisimo/tg-bot-config-framework";
+  private static final String GITHUB_URL = "https://github.com/jawisimo/telegram-dialog-bot-engine";
 
   private static final String BUTTON_LABEL_HISTORY = "🏛️ Історія";
   private static final String BUTTON_LABEL_SCIENCE = "🔬 Наука";

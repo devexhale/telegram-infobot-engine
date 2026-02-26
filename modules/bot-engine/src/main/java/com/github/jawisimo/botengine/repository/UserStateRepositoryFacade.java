@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class UserStateRepositoryFacade {
+
   private final BotProperties properties;
   private RedisUserStateRepository redisUserStateRepository;
   private InMemoryUserStateRepository inMemoryUserStateRepository;

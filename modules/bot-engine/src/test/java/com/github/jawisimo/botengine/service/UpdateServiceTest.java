@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateServiceTest {
+
   private static final String UPDATE_ERROR_MESSAGE = "An error occurred during update processing";
   private static final String FAIL_PARAM = "fail";
 

@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @RequiredArgsConstructor
 public class UpdateService {
+
   private final DialogExecutor executor;
 
   @Async("asyncBotVirtualExecutor")

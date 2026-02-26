@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class NodeNavigator {
+
   private final UserStateService userStateService;
   private final DialogRepository dialogRepository;
   private final NodeExecutor nodeExecutor;

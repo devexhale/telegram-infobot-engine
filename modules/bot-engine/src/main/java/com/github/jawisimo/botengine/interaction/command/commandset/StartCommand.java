@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(1)
 public class StartCommand implements Command {
+
   public static final String COMMAND_NAME = "/start";
   private static final String COMMAND_DESCRIPTION = "Start a dialogue with the bot";
 

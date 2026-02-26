@@ -18,6 +18,7 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class KeyboardMarkupBuilder {
+
   private final BotProperties botProperties;
 
   ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {

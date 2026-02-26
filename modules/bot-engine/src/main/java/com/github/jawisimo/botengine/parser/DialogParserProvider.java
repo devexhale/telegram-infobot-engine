@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class DialogParserProvider {
+
   private final List<DialogParser> parsers;
 
   public DialogParser getParser(String dialogFileName) {

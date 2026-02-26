@@ -14,6 +14,7 @@ import java.util.Map;
 
 @Component
 public class YamlDialogParser implements DialogParser {
+
   private static final String FORMAT_YAML = ".yaml";
   private static final String FORMAT_YML = ".yml";
 

@@ -21,6 +21,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @SpringBootTest(classes = {BotConfig.class, BotConfigIT.TestCacheConfig.class})
 @ActiveProfiles("test")
 class BotConfigIT {
+
   @Autowired private ApplicationContext context;
   @Autowired private BotProperties properties;
   @Autowired private TelegramClient telegramClient;

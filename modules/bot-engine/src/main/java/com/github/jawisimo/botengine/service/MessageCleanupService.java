@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MessageCleanupService {
+
   private final TelegramClient client;
   private final MessageRepository messageRepository;
 

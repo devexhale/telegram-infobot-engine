@@ -16,6 +16,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DialogExecutorTest {
+
   private static final long CHAT_ID_LONG = 123L;
   private static final String CHAT_ID = "123";
   private static final String USER_INPUT = "hello";

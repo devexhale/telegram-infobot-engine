@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
       DialogParserProvider.class
     })
 class DialogLoaderIT {
+
   private static final String FAIL_LOAD_MSG_PREFIX = "Failed to load dialog file: ";
 
   @Autowired private DialogLoader dialogLoader;

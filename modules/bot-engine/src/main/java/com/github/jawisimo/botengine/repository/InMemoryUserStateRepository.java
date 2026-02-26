@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryUserStateRepository implements UserStateRepository {
+
   private final ConcurrentHashMap<String, UserState> userStates = new ConcurrentHashMap<>();
 
   @Override

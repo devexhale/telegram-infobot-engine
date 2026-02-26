@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Component
 public class JsonDialogParser implements DialogParser {
+
   private static final String FORMAT_JSON = ".json";
 
   private final ObjectMapper jsonMapper = new ObjectMapper();

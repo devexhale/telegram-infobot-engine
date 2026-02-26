@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Getter(AccessLevel.PACKAGE)
 @Slf4j
 public abstract class AbstractCommandHandler implements CommandHandler {
+
   private final DialogRepository dialogRepository;
   private final UserStateService userStateService;
   private final NodeExecutor nodeExecutor;

@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class DialogValidatorTest {
+
   private static final String NEXT = "next";
   private static final String URL = "https://test.com";
   private static final String SOME_MSG = "Some message...";

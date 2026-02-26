@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class InMemoryMessageRepository implements MessageRepository {
+
   private final ConcurrentHashMap<String, List<Integer>> storage = new ConcurrentHashMap<>();
 
   @Override

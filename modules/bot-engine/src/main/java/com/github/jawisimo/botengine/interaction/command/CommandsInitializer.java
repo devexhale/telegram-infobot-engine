@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CommandsInitializer {
+
   private final TelegramClient client;
   private final List<Command> commands;
 

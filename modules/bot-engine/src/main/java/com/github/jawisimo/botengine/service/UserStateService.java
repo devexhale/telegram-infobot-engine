@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserStateService {
+
   private final UserStateRepositoryFacade userStateRepositoryFacade;
 
   public String getUserStateOrDefault(String chatId, String defaultState) {

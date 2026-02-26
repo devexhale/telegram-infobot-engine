@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class KeyboardExecutorTest {
+
   private static final String CHAT_ID = "123";
   private static final String NODE_MESSAGE = "hello";
   private static final Integer MESSAGE_ID = 77;

@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 @Slf4j
 public class MediaFileLoader {
+
   private static final String MEDIA_FOLDER = "media";
 
   public InputFile load(String mediaFileName) {

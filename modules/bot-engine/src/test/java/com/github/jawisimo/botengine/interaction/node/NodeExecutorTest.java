@@ -22,6 +22,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class NodeExecutorTest {
+
   private static final String CHAT_ID = "123";
   private static final String CHAT_ID_2 = "456";
 

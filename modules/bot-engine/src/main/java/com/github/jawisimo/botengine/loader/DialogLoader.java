@@ -15,6 +15,7 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 @Slf4j
 public class DialogLoader {
+
   private final DialogValidator dialogValidator;
   private final DialogParserProvider dialogParserProvider;
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 public final class DialogMap {
+
   private Map<String, DialogNode> nodes;
 
   public DialogNode getNode(String nodeId) {

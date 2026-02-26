@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 @EnableAsync
 @RequiredArgsConstructor
 public class BotConfig {
+
   private final BotProperties properties;
 
   @Bean

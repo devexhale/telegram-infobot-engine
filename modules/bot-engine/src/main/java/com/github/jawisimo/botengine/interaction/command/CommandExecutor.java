@@ -9,6 +9,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class CommandExecutor {
+
   private final List<CommandHandler> commandHandlers;
 
   public boolean executeIfExists(String chatId, String userInput) {

@@ -22,7 +22,7 @@
     - label: "🎬 Кіно"
       next: "cinema_q1"
     - label: "🔗 GitHub"
-      url: "https://github.com/jawisimo/tg-bot-config-framework"
+      url: "https://github.com/jawisimo/telegram-dialog-bot-engine"
 
 # ІСТОРІЯ
 history_q1:

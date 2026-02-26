@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class UserStateServiceTest {
+
   private static final String CHAT_ID = "chatId-555";
   private static final String START = "/start";
   private static final String MENU = "/menu";

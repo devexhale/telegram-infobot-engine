@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 @RequiredArgsConstructor
 @Slf4j
 public class DialogExecutor {
+
   private final MessageCleanupService cleanupService;
   private final UserStateService userStateService;
   private final NodeNavigator nodeNavigator;

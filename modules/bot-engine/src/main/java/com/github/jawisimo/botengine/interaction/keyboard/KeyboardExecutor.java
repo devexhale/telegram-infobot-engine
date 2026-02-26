@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class KeyboardExecutor {
+
   private final TelegramClient client;
   private final KeyboardMarkupBuilder keyboardBuilder;
   private final DialogValidator dialogValidator;

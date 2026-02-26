@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequiredArgsConstructor
 public class NodeExecutor {
+
   private final ContentExecutor contentExecutor;
   private final KeyboardExecutor keyboardExecutor;
   private final MessageCleanupService cleanupService;

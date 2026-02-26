@@ -1,6 +1,7 @@
 package com.github.jawisimo.botengine.config.redis;
 
 public class RedisTestConstants {
+
   public static final String REDIS_DEPENDENCY_FAIL_MESSAGE =
       "❌ Redis is required but not found in the application context. "
           + "Please add spring-boot-starter-data-redis "

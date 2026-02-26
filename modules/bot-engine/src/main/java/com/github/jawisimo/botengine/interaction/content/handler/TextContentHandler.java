@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Slf4j
 @RequiredArgsConstructor
 public class TextContentHandler implements ContentHandler {
+
   private final TelegramClient client;
 
   @Override
