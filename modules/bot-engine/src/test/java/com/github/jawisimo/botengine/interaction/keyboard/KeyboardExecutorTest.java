@@ -47,7 +47,6 @@ class KeyboardExecutorTest {
   @Test
   void execute_shouldSendReplyKeyboardAndSaveMessageId_whenNodeButtonTypeIsReply()
       throws TelegramApiException {
-
     Button button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
     List<Button> buttons = List.of(button);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.REPLY, buttons);
@@ -75,7 +74,6 @@ class KeyboardExecutorTest {
   @Test
   void execute_shouldSendInlineKeyboardAndSaveMessageId_whenNodeButtonTypeIsInline()
       throws TelegramApiException {
-
     Button button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
     List<Button> buttons = List.of(button);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, buttons);
@@ -103,7 +101,6 @@ class KeyboardExecutorTest {
   @Test
   void execute_shouldNotSaveMessageId_whenTelegramClientThrowsTelegramApiException()
       throws TelegramApiException {
-
     Button button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
     List<Button> buttons = List.of(button);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, buttons);

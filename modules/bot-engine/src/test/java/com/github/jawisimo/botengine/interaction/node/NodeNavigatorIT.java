@@ -127,10 +127,6 @@ class NodeNavigatorIT {
   @Configuration
   @EnableConfigurationProperties(BotProperties.class)
   @ComponentScan(
-      basePackageClasses = {
-        DialogLoader.class,
-        DialogParserProvider.class,
-        DialogValidator.class
-      })
+      basePackageClasses = {DialogLoader.class, DialogParserProvider.class, DialogValidator.class})
   static class TestConfig {}
 }

@@ -34,7 +34,6 @@ class KeyboardMarkupBuilderTest {
   @MethodSource("replyKeyboardCases")
   void buildReplyKeyboard_shouldSplitButtonsIntoRowsAndSetFlags_whenButtonsProvided(
       int buttonsPerRow, int buttonsCount, List<Integer> expectedRowSizes) {
-
     when(botProperties.buttonsPerRow()).thenReturn(buttonsPerRow);
 
     List<Button> buttons = createButtons(buttonsCount);
@@ -64,7 +63,6 @@ class KeyboardMarkupBuilderTest {
   @MethodSource("inlineKeyboardCases")
   void buildInlineKeyboard_shouldSplitButtonsAndMapFields_whenButtonsProvided(
       int buttonsPerRow, int buttonsCount, List<Integer> expectedRowSizes) {
-
     when(botProperties.buttonsPerRow()).thenReturn(buttonsPerRow);
 
     List<Button> buttons = createButtons(buttonsCount);
@@ -95,6 +93,7 @@ class KeyboardMarkupBuilderTest {
   @Test
   void buildReplyKeyboard_shouldReturnEmptyKeyboard_whenButtonsListIsEmpty() {
     int buttonsPerRow = 2;
+
     when(botProperties.buttonsPerRow()).thenReturn(buttonsPerRow);
 
     List<Button> buttons = List.of();
@@ -108,6 +107,7 @@ class KeyboardMarkupBuilderTest {
   @Test
   void buildInlineKeyboard_shouldReturnEmptyKeyboard_whenButtonsListIsEmpty() {
     int buttonsPerRow = 2;
+
     when(botProperties.buttonsPerRow()).thenReturn(buttonsPerRow);
 
     List<Button> buttons = List.of();
