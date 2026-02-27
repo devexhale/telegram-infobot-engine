@@ -8,6 +8,10 @@ group = 'com.github.jawisimo'
 version = '0.0.1-SNAPSHOT'
 description = 'Telegram dialog bot template based on Bot Engine'
 
+base {
+    archivesName = "telegram-dialog-bot-template"
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

@@ -1,8 +1,12 @@
+
+# Run this docker compose when you are working in development mode
+# and just want to bring up Redis
+
 version: '3.8'
 
 services:
   redis:
-    image: redis:latest
+    image: redis:7-alpine
     container_name: bot_template_dev_redis
     ports:
       - "6380:6379"

@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bot_template_dev_app
+    networks:
+      - bot-network
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Uncomment this block if telegram.bot.user-state-persistent=true
+  redis:
+    image: redis:7-alpine
+    container_name: bot_template_prod_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - bot-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+# Uncomment this block if telegram.bot.user-state-persistent=true
+volumes:
+  redis_data:
+
+networks:
+  bot-network:
+    driver: bridge

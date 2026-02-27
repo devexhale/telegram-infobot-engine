@@ -8,6 +8,10 @@ group = 'com.github.jawisimo'
 version = '1.0'
 description = 'Telegram Dialog Bot Engine Spring Boot Starter'
 
+base {
+    archivesName = 'telegram-dialog-bot-spring-boot-starter'
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -24,30 +28,62 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.5"
     }
+    dependencies {
+        // CVE-2025-41249
+        dependency 'org.springframework:spring-core:6.2.11'
+        dependency 'org.springframework:spring-context:6.2.11'
+        dependency 'org.springframework:spring-beans:6.2.11'
+        dependency 'org.springframework:spring-web:6.2.11'
+
+        // CVE-2025-48924
+        dependency 'org.apache.commons:commons-lang3:3.18.0'
+
+        // CVE-2026-24400
+        dependency 'org.assertj:assertj-core:3.27.7'
+
+        // CVE-2025-11226, CVE-2026-1225
+        dependency 'ch.qos.logback:logback-core:1.5.25'
+        dependency 'ch.qos.logback:logback-classic:1.5.25'
+
+        // CVE-2024-25710, CVE-2024-26308
+        dependency 'org.apache.commons:commons-compress:1.26.0'
+
+        // CVE-2025-58057
+        dependency 'io.netty:netty-codec:4.1.125.Final'
+    }
 }
 
 dependencies {
+    // Telegram Bot API
     implementation "org.telegram:telegrambots-springboot-longpolling-starter:9.0.0"
     implementation "org.telegram:telegrambots-client:9.0.0"
+
+    // Cache
     implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    // Serialization
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+
+    // Optional — Redis support (provided by the consumer of this starter)
     compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Boot configuration metadata generation
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('jar') {
-    archiveBaseName.set('telegram-dialog-bot-spring-boot-starter')
-    archiveVersion.set(version)
-}
-
+// Stub for IntelliJ IDEA Kotlin DSL indexing
 tasks.register("prepareKotlinBuildScriptModel") {}
 
 tasks.named('test') {
@@ -60,9 +96,7 @@ publishing {
             from components.java
         }
     }
-
     repositories {
         mavenLocal()
     }
 }
-

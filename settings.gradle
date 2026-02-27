@@ -1,5 +1,6 @@
 rootProject.name = 'telegram-dialog-bot-engine'
 
+// Modules
 include 'telegram-dialog-bot-spring-boot-starter'
 project(':telegram-dialog-bot-spring-boot-starter').projectDir = file('modules/bot-engine')
 
