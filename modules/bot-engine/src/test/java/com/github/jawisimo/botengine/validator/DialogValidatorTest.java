@@ -6,13 +6,15 @@ import static org.mockito.Mockito.when;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
 import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
+import com.github.jawisimo.botengine.interaction.node.model.*;
 import java.util.List;
 import java.util.Map;
-
-import com.github.jawisimo.botengine.interaction.node.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,6 +28,8 @@ class DialogValidatorTest {
   private static final String MEDIA_TYPE = "PHOTO";
   private static final String FILE_NAME = "image.jpg";
   private static final String TEST_FILE_NAME = "file.yml";
+  private static final String BLANK = " ";
+
   private static final String ERROR_TEXT_NULL_OR_EMPTY =
       "Content text is null or empty, but content type is TEXT";
   private static final String ERROR_NO_HANDLER_FOUND = "No handler found for media type: ";
@@ -65,21 +69,10 @@ class DialogValidatorTest {
     assertTrue(ex.getMessage().contains(StartCommand.COMMAND_NAME));
   }
 
-  @Test
-  void validateContent_shouldThrowException_whenTextTypeAndTextIsNull() {
-    ContentNode node = new ContentNode(ContentType.TEXT, null, null);
-    List<ContentHandler> handlers = List.of();
-
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
-
-    assertEquals(ERROR_TEXT_NULL_OR_EMPTY, ex.getMessage());
-  }
-
-  @Test
-  void validateContent_shouldThrowException_whenTextTypeAndTextIsEmpty() {
-    ContentNode node = new ContentNode(ContentType.TEXT, "", null);
-
+  @ParameterizedTest
+  @NullAndEmptySource
+  void validateContent_shouldThrowException_whenTextTypeAndTextIsNullOrEmpty(String text) {
+    ContentNode node = new ContentNode(ContentType.TEXT, text, null);
     List<ContentHandler> handlers = List.of();
 
     DialogLoadingException ex =
@@ -98,6 +91,7 @@ class DialogValidatorTest {
   @Test
   void validateContent_shouldNotThrow_whenMediaIsNull() {
     ContentNode node = new ContentNode(ContentType.MEDIA, null, null);
+
     assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
   }
 
@@ -105,11 +99,10 @@ class DialogValidatorTest {
   void validateContent_shouldThrowException_whenNoMediaHandlerSupports() {
     Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
     ContentNode node = new ContentNode(ContentType.MEDIA, null, media);
+    List<ContentHandler> handlers = List.of(contentHandler);
     String expected = ERROR_NO_HANDLER_FOUND + MEDIA_TYPE + " (file: " + FILE_NAME + ")";
 
     when(contentHandler.canHandle(node)).thenReturn(false);
-
-    List<ContentHandler> handlers = List.of(contentHandler);
 
     DialogLoadingException ex =
         assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
@@ -121,10 +114,11 @@ class DialogValidatorTest {
   void validateContent_shouldNotThrow_whenMediaHandlerSupports() {
     Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
     ContentNode node = new ContentNode(ContentType.MEDIA, null, media);
+    List<ContentHandler> handlers = List.of(contentHandler);
 
     when(contentHandler.canHandle(node)).thenReturn(true);
 
-    assertDoesNotThrow(() -> validator.validateContent(node, List.of(contentHandler)));
+    assertDoesNotThrow(() -> validator.validateContent(node, handlers));
   }
 
   @Test
@@ -138,9 +132,11 @@ class DialogValidatorTest {
     assertEquals(ERROR_REPLY_BUTTON_URL, ex.getMessage());
   }
 
-  @Test
-  void validateButtons_shouldThrowException_whenReplyButtonHasNoNext() {
-    Button button = new Button(BUTTON_LABEL, null, null);
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {BLANK})
+  void validateButtons_shouldThrowException_whenReplyButtonHasNoNextOrNextBlank(String next) {
+    Button button = new Button(BUTTON_LABEL, next, null);
     DialogNode node = createDialogNode(ButtonType.REPLY, button);
 
     DialogLoadingException ex =
@@ -193,6 +189,44 @@ class DialogValidatorTest {
     DialogNode node = createDialogNode(ButtonType.INLINE, button);
 
     assertDoesNotThrow(() -> validator.validateButtons(node));
+  }
+
+  @Test
+  void validateButtons_shouldThrowException_whenInlineButtonUrlIsBlankAndNextIsBlank() {
+    Button button = new Button(BUTTON_LABEL, BLANK, BLANK);
+    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+
+    DialogLoadingException ex =
+        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
+
+    assertEquals(ERROR_INLINE_BUTTON_MISSING, ex.getMessage());
+  }
+
+  @Test
+  void validateButtons_shouldNotThrow_whenInlineButtonHasOnlyBlankUrlButHasNext() {
+    Button button = new Button(BUTTON_LABEL, NEXT, BLANK);
+    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+
+    assertDoesNotThrow(() -> validator.validateButtons(node));
+  }
+
+  @Test
+  void validateButtons_shouldNotThrow_whenInlineButtonHasOnlyBlankNextButHasUrl() {
+    Button button = new Button(BUTTON_LABEL, BLANK, URL);
+    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+
+    assertDoesNotThrow(() -> validator.validateButtons(node));
+  }
+
+  @Test
+  void validateButtons_shouldTreatNullButtonTypeAsInline_andThrowWhenMissingUrlAndNext() {
+    Button button = new Button(BUTTON_LABEL, null, null);
+    DialogNode node = createDialogNode(null, button);
+
+    DialogLoadingException ex =
+        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
+
+    assertEquals(ERROR_INLINE_BUTTON_MISSING, ex.getMessage());
   }
 
   private DialogNode createValidDialogNode() {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 abstract class BaseDialogParserTest {
 
-  protected abstract DialogParser getYamlParser();
+  protected abstract DialogParser getParser();
 
   protected abstract String getCorrectFileName();
 
@@ -19,20 +19,20 @@ abstract class BaseDialogParserTest {
 
   @Test
   void canParse_shouldReturnTrue_forCorrectExtensions() {
-    assertTrue(getYamlParser().canParse(getCorrectFileName()));
+    assertTrue(getParser().canParse(getCorrectFileName()));
   }
 
   @Test
   void canParse_shouldReturnFalse_forIncorrectExtensions() {
     String unsupportedFile = "dialog-test.txt";
 
-    assertFalse(getYamlParser().canParse(unsupportedFile));
+    assertFalse(getParser().canParse(unsupportedFile));
   }
 
   @Test
   void parse_shouldParseCorrectFilesSuccessfully() {
     InputStream is = getClass().getClassLoader().getResourceAsStream(getCorrectFileName());
-    DialogMap dialogMap = getYamlParser().parse(is);
+    DialogMap dialogMap = getParser().parse(is);
 
     assertNotNull(is);
     assertNotNull(dialogMap);
@@ -40,7 +40,7 @@ abstract class BaseDialogParserTest {
 
   @Test
   void parse_shouldThrowDialogLoadingException_whenSyntaxIsIncorrect() {
-    DialogParser parser = getYamlParser();
+    DialogParser parser = getParser();
     String expected = "Failed to parse ";
 
     InputStream is = getClass().getClassLoader().getResourceAsStream(getIncorrectSyntaxFileName());

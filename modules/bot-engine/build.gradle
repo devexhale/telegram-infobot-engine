@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'maven-publish'
+    id 'jacoco'
 }
 
 group = 'com.github.jawisimo'
@@ -86,8 +87,35 @@ dependencies {
 // Stub for IntelliJ IDEA Kotlin DSL indexing
 tasks.register("prepareKotlinBuildScriptModel") {}
 
-tasks.named('test') {
+tasks.named('test', Test) {
     useJUnitPlatform()
+}
+
+//  Test reports configurations
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/interaction/command/commandset/**'
+            ])
+        }))
+    }
 }
 
 publishing {

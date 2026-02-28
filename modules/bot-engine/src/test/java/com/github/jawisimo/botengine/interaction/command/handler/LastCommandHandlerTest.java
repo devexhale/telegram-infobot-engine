@@ -78,4 +78,15 @@ class LastCommandHandlerTest extends BaseCommandHandlerTest {
     verifyNoInteractions(nodeExecutor);
     verify(userStateService, never()).saveUserState(anyString(), anyString());
   }
+
+  @Test
+  void getNodeKey_shouldFallbackToStartCommand_whenNoState() {
+    when(userStateService.getUserStateOrDefault(CHAT_ID, StartCommand.COMMAND_NAME))
+        .thenReturn(StartCommand.COMMAND_NAME);
+
+    String nodeKey = handler.getNodeKey(CHAT_ID);
+
+    assertEquals(StartCommand.COMMAND_NAME, nodeKey);
+    verify(userStateService).getUserStateOrDefault(CHAT_ID, StartCommand.COMMAND_NAME);
+  }
 }

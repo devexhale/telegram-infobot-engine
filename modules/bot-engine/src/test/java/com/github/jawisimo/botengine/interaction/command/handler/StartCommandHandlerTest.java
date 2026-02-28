@@ -44,4 +44,11 @@ class StartCommandHandlerTest extends BaseCommandHandlerTest {
     verifyNoInteractions(nodeExecutor);
     verify(userStateService, never()).saveUserState(anyString(), anyString());
   }
+
+  @Test
+  void getNodeKey_shouldReturnCommandKey() {
+    String nodeKey = handler.getNodeKey(CHAT_ID);
+
+    assertEquals(StartCommand.COMMAND_NAME, nodeKey);
+  }
 }
