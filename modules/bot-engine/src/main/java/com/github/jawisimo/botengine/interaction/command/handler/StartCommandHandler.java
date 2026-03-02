@@ -6,6 +6,13 @@ import com.github.jawisimo.botengine.repository.DialogRepository;
 import com.github.jawisimo.botengine.service.UserStateService;
 import org.springframework.stereotype.Component;
 
+/**
+ * {@link CommandHandler} implementation for the {@code /start} command.
+ *
+ * <p>Resolves the start node and triggers dialog execution from the beginning.
+ *
+ * @since 1.0
+ */
 @Component
 public class StartCommandHandler extends AbstractCommandHandler {
 

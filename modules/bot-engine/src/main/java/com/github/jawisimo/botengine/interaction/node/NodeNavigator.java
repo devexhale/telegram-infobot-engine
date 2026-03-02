@@ -10,6 +10,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * Resolves and navigates between dialog nodes during execution.
+ *
+ * <p>Determines the next node based on user input. Delegates execution to {@link NodeExecutor}.
+ *
+ * <p>Uses {@link UserStateService} to resolve the current dialog position.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -19,6 +28,13 @@ public class NodeNavigator {
   private final DialogRepository dialogRepository;
   private final NodeExecutor nodeExecutor;
 
+  /**
+   * Resolves the next dialog node key based on the current node and user input.
+   *
+   * @param chatId the chat identifier
+   * @param userInput the user input or callback data
+   * @return the resolved next node identifier
+   */
   public String getNextNodeKey(String chatId, String userInput) {
     DialogNode currentNode = getCurrentNode(chatId);
 
@@ -35,6 +51,13 @@ public class NodeNavigator {
     return userInput;
   }
 
+  /**
+   * Navigates to the specified dialog node and executes it.
+   *
+   * @param chatId the chat identifier
+   * @param nodeKey the target dialog node identifier
+   * @return {@code true} if navigation succeeded, {@code false} otherwise
+   */
   public boolean navigateToNode(String chatId, String nodeKey) {
     if (nodeKey == null) {
       return false;

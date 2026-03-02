@@ -14,17 +14,11 @@ java {
     }
 }
 
-subprojects {
-    tasks.withType(Javadoc).configureEach {
-        options.addStringOption('Xdoclint:-missing', '-quiet')
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
-tasks.named('test') {
+tasks.named('test', Test) {
     useJUnitPlatform()
 }
 

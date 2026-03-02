@@ -11,6 +11,13 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+/**
+ * Registers bot commands in Telegram during application startup.
+ *
+ * <p>Collects all {@link Command} beans and sends them to Telegram using {@link TelegramClient}.
+ *
+ * @since 1.0
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -19,8 +26,10 @@ public class CommandsInitializer {
   private final TelegramClient client;
   private final List<Command> commands;
 
+  /** Sends configured bot commands to Telegram. */
   public void setUpCommands() {
     List<BotCommand> botCommands = commands.stream().map(Command::getCommand).toList();
+
     SetMyCommands setMyCommands = new SetMyCommands(botCommands);
     setMyCommands.setScope(new BotCommandScopeDefault());
 

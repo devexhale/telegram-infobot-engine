@@ -7,6 +7,17 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+/**
+ * Orchestrates processing of incoming Telegram updates within the framework.
+ *
+ * <p>Delegates supported update types to {@link DialogExecutor}. Message updates are routed to
+ * {@code executeMessage}, callback query updates are routed to {@code executeCallback}.
+ *
+ * <p>This service is executed asynchronously using the {@code asyncBotVirtualExecutor} task
+ * executor.
+ *
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -14,6 +25,11 @@ public class UpdateService {
 
   private final DialogExecutor executor;
 
+  /**
+   * Routes the update to appropriate dialog executor method.
+   *
+   * @param update the incoming Telegram update
+   */
   @Async("asyncBotVirtualExecutor")
   public void onUpdateReceived(Update update) {
     try {

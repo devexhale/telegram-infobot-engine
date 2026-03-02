@@ -3,6 +3,13 @@ package com.github.jawisimo.botengine.interaction.command.commandset;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * Command that starts dialog interaction with the bot.
+ *
+ * <p>Registers the {@code /start} command in Telegram.
+ *
+ * @since 1.0
+ */
 @Component
 @Order(1)
 public class StartCommand implements Command {

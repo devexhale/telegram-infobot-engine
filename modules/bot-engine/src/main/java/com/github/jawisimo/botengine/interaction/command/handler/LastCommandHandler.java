@@ -9,6 +9,13 @@ import com.github.jawisimo.botengine.service.UserStateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * {@link CommandHandler} implementation for the {@code /last} command.
+ *
+ * <p>Restores the user's last saved dialog position when persistent state is enabled.
+ *
+ * @since 1.0
+ */
 @Component
 @UserStatePersistent
 @Slf4j

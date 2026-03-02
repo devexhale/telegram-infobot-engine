@@ -51,6 +51,9 @@ dependencyManagement {
 
         // CVE-2025-58057
         dependency 'io.netty:netty-codec:4.1.125.Final'
+
+        // GHSA-72hv-8253-57qq
+        dependency 'com.fasterxml.jackson.core:jackson-core:2.21.1'
     }
 }
 

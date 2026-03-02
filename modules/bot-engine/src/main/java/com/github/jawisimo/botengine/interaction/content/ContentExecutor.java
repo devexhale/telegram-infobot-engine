@@ -5,12 +5,19 @@ import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
 import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
 import com.github.jawisimo.botengine.repository.MessageRepository;
 import com.github.jawisimo.botengine.validator.DialogValidator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
-import java.util.List;
-
+/**
+ * Executes dialog node content using registered {@link ContentHandler} implementations.
+ *
+ * <p>Validates each content node, delegates processing to a matching handler, and stores sent
+ * message identifiers for later cleanup.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class ContentExecutor {
@@ -19,8 +26,16 @@ public class ContentExecutor {
   private final MessageRepository messageRepository;
   private final DialogValidator dialogValidator;
 
+  /**
+   * Executes all content blocks of the given dialog node for the specified chat.
+   *
+   * @param node the dialog node containing content definitions
+   * @param chatId the chat identifier
+   */
   public void execute(DialogNode node, String chatId) {
-    if (node.content() == null) return;
+    if (node.content() == null) {
+      return;
+    }
 
     for (ContentNode contentNode : node.content()) {
       dialogValidator.validateContent(contentNode, contentHandlers);

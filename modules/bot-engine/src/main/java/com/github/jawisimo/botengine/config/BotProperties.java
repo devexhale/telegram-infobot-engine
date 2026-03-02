@@ -2,12 +2,19 @@ package com.github.jawisimo.botengine.config;
 
 import com.github.jawisimo.botengine.exception.MissingPropertyException;
 import com.github.jawisimo.botengine.validator.ValidationErrorFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Binds and validates configuration properties under the {@code telegram.bot} prefix.
+ *
+ * <p>Ensures required properties are present and verifies value constraints during application
+ * startup. Invalid configuration results in a startup failure.
+ *
+ * @since 1.0
+ */
 @ConfigurationProperties(prefix = "telegram.bot")
 @Slf4j
 public record BotProperties(
@@ -23,6 +30,12 @@ public record BotProperties(
   private static final int BUTTONS_PER_ROW_MIN_VALUE = 1;
   private static final int BUTTONS_PER_ROW_MAX_VALUE = 10;
 
+  /**
+   * Validates required properties and value constraints.
+   *
+   * @throws MissingPropertyException if required properties are missing
+   * @throws IllegalArgumentException if property values are out of range
+   */
   public BotProperties {
     List<String> errors = new ArrayList<>();
 

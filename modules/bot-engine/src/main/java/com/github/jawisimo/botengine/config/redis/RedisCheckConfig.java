@@ -11,6 +11,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
+/**
+ * Performs startup verification of Redis integration when persistent user state is enabled.
+ *
+ * <p>Validates that Redis dependency is present in the application context, a connection factory is
+ * configured, and the Redis server is reachable. Executes a ping check to ensure the connection is
+ * operational.
+ *
+ * <p>Fails fast with {@link RedisConnectionException} if any verification step fails.
+ *
+ * @since 1.0
+ */
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
@@ -32,6 +43,12 @@ public class RedisCheckConfig {
   private final BotProperties properties;
   private final ApplicationContext context;
 
+  /**
+   * Creates an {@link ApplicationRunner} that performs Redis dependency and connectivity checks
+   * during application startup.
+   *
+   * @return the Redis verification runner
+   */
   @Bean
   public ApplicationRunner redisCheckRunner() {
     return args -> {

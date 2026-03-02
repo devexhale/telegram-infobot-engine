@@ -3,12 +3,23 @@ package com.github.jawisimo.botengine.interaction.node.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.validator.ValidationErrorFormatter;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents media content attached to a dialog node.
+ *
+ * <p>Defines media type, file name, and optional caption.
+ *
+ * @since 1.0
+ */
 public record Media(String type, @JsonProperty("file_name") String fileName, String caption) {
 
+  /**
+   * Validates required media fields.
+   *
+   * @throws DialogLoadingException if required media properties are missing
+   */
   public Media {
     List<String> errors = new ArrayList<>();
 

@@ -10,6 +10,14 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
+/**
+ * Entry point for executing dialog interactions within the framework.
+ *
+ * <p>Routes incoming messages and callback queries to command handling or node navigation.
+ * Coordinates message cleanup, node execution, and user state persistence.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -22,13 +30,20 @@ public class DialogExecutor {
 
   private static final String DELETE_MESSAGE = "Message deleted from chat";
 
+  /**
+   * Executes a dialog step for an incoming text message.
+   *
+   * @param message the incoming Telegram message
+   */
   public void executeMessage(Message message) {
     cleanupService.deleteRedundantMessage(message);
 
     String chatId = message.getChatId().toString();
     String userInput = message.getText();
 
-    if (commandExecutor.executeIfExists(chatId, userInput)) return;
+    if (commandExecutor.executeIfExists(chatId, userInput)) {
+      return;
+    }
 
     String nextNodeKey = nodeNavigator.getNextNodeKey(chatId, userInput);
 
@@ -39,13 +54,20 @@ public class DialogExecutor {
     }
   }
 
+  /**
+   * Executes a dialog step for an incoming callback query.
+   *
+   * @param callbackQuery the incoming Telegram callback query
+   */
   public void executeCallback(CallbackQuery callbackQuery) {
     String chatId = callbackQuery.getMessage().getChatId().toString();
     String callbackData = callbackQuery.getData();
 
     cleanupService.clearLastNode(chatId);
 
-    if (commandExecutor.executeIfExists(chatId, callbackData)) return;
+    if (commandExecutor.executeIfExists(chatId, callbackData)) {
+      return;
+    }
 
     if (nodeNavigator.navigateToNode(chatId, callbackData)) {
       userStateService.saveUserState(chatId, callbackData);

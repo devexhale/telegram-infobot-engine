@@ -2,6 +2,9 @@ package com.github.jawisimo.botengine.interaction.keyboard;
 
 import com.github.jawisimo.botengine.config.BotProperties;
 import com.github.jawisimo.botengine.interaction.node.model.Button;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -11,16 +14,26 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
+/**
+ * Builds Telegram keyboard markup from dialog button definitions.
+ *
+ * <p>Converts dialog {@link Button} models into Telegram reply or inline keyboards. Button layout
+ * is controlled by {@link BotProperties#buttonsPerRow()}.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class KeyboardMarkupBuilder {
 
   private final BotProperties botProperties;
 
+  /**
+   * Builds a reply keyboard layout.
+   *
+   * @param buttons dialog buttons
+   * @return the reply keyboard markup
+   */
   ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
     List<KeyboardRow> rows =
         splitButtons(
@@ -34,6 +47,12 @@ public class KeyboardMarkupBuilder {
         .build();
   }
 
+  /**
+   * Builds an inline keyboard layout.
+   *
+   * @param buttons dialog buttons
+   * @return the inline keyboard markup
+   */
   InlineKeyboardMarkup buildInlineKeyboard(List<Button> buttons) {
     List<InlineKeyboardRow> rows =
         splitButtons(
@@ -49,8 +68,10 @@ public class KeyboardMarkupBuilder {
     return InlineKeyboardMarkup.builder().keyboard(rows).build();
   }
 
+  /** Splits buttons into rows according to configured buttons-per-row value. */
   private <T, R extends List<T>> List<R> splitButtons(
       List<Button> buttons, Function<Button, T> buttonMapper, Function<List<T>, R> rowSupplier) {
+
     List<R> rows = new ArrayList<>();
     int buttonsPerRow = botProperties.buttonsPerRow();
 

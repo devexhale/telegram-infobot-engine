@@ -1,8 +1,8 @@
 package com.github.jawisimo.botengine.interaction.content.handler;
 
+import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
 import com.github.jawisimo.botengine.interaction.node.model.Media;
 import com.github.jawisimo.botengine.loader.MediaFileLoader;
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -10,6 +10,13 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+/**
+ * {@link ContentHandler} implementation for photo media content.
+ *
+ * <p>Sends a photo defined by {@link Media} when the media type is {@code PHOTO}.
+ *
+ * @since 1.0
+ */
 @Component
 @Slf4j
 public class PhotoMediaHandler extends AbstractMediaHandler {
@@ -18,6 +25,13 @@ public class PhotoMediaHandler extends AbstractMediaHandler {
     super(client, mediaFileLoader);
   }
 
+  /**
+   * Sends a photo message to the specified chat.
+   *
+   * @param contentNode the content node containing media configuration
+   * @param chatId the chat identifier
+   * @return the sent Telegram message, or {@code null} if sending failed
+   */
   @Override
   public Message handle(ContentNode contentNode, String chatId) {
     Media media = getMedia(contentNode);
@@ -36,6 +50,11 @@ public class PhotoMediaHandler extends AbstractMediaHandler {
     }
   }
 
+  /**
+   * Returns the media type supported by this handler.
+   *
+   * @return {@code PHOTO}
+   */
   @Override
   String getMediaType() {
     return "PHOTO";
