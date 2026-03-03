@@ -41,6 +41,13 @@ class DialogValidatorTest {
   private static final String ERROR_INLINE_BUTTON_BOTH =
       "Inline button cannot have both 'next' and 'URL'";
 
+  private static final String ERROR_TEXT_TYPE_HAS_MEDIA =
+      "Content node cannot contain media, because content type is TEXT";
+  private static final String ERROR_MEDIA_TYPE_HAS_TEXT_PREFIX =
+      "Content node cannot contain text, because content type is ";
+  private static final String ERROR_MEDIA_TYPE_MISSING_MEDIA_PREFIX =
+      "Content media is null, but content type is ";
+
   private DialogValidator validator;
 
   @Mock private ContentHandler contentHandler;
@@ -89,10 +96,38 @@ class DialogValidatorTest {
   }
 
   @Test
-  void validateContent_shouldNotThrow_whenMediaIsNull() {
+  void validateContent_shouldThrowException_whenTextTypeAndMediaIsPresent() {
+    Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
+    ContentNode node = new ContentNode(ContentType.TEXT, SOME_MSG, media);
+
+    DialogLoadingException ex =
+        assertThrows(
+            DialogLoadingException.class, () -> validator.validateContent(node, List.of()));
+
+    assertEquals(ERROR_TEXT_TYPE_HAS_MEDIA, ex.getMessage());
+  }
+
+  @Test
+  void validateContent_shouldThrowException_whenMediaTypeAndMediaIsNull() {
     ContentNode node = new ContentNode(ContentType.MEDIA, null, null);
 
-    assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
+    DialogLoadingException ex =
+        assertThrows(
+            DialogLoadingException.class, () -> validator.validateContent(node, List.of()));
+
+    assertEquals(ERROR_MEDIA_TYPE_MISSING_MEDIA_PREFIX + ContentType.MEDIA, ex.getMessage());
+  }
+
+  @Test
+  void validateContent_shouldThrowException_whenMediaTypeAndTextIsPresent() {
+    Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
+    ContentNode node = new ContentNode(ContentType.MEDIA, SOME_MSG, media);
+
+    DialogLoadingException ex =
+        assertThrows(
+            DialogLoadingException.class, () -> validator.validateContent(node, List.of()));
+
+    assertEquals(ERROR_MEDIA_TYPE_HAS_TEXT_PREFIX + ContentType.MEDIA, ex.getMessage());
   }
 
   @Test

@@ -45,12 +45,29 @@ public class DialogValidator {
    * @throws DialogLoadingException if the content node is invalid or unsupported
    */
   public void validateContent(ContentNode contentNode, List<ContentHandler> contentHandlers) {
-    if (contentNode.type() == ContentType.TEXT
-        && (contentNode.text() == null || contentNode.text().isEmpty())) {
-      throw new DialogLoadingException("Content text is null or empty, but content type is TEXT");
+    boolean hasText = contentNode.text() != null && !contentNode.text().isBlank();
+    boolean hasMedia = contentNode.media() != null;
+
+    if (contentNode.type() == ContentType.TEXT) {
+      if (!hasText) {
+        throw new DialogLoadingException("Content text is null or empty, but content type is TEXT");
+      }
+      if (hasMedia) {
+        throw new DialogLoadingException(
+            "Content node cannot contain media, because content type is TEXT");
+      }
+    } else {
+      if (!hasMedia) {
+        throw new DialogLoadingException(
+            "Content media is null, but content type is " + contentNode.type());
+      }
+      if (hasText) {
+        throw new DialogLoadingException(
+            "Content node cannot contain text, because content type is " + contentNode.type());
+      }
     }
 
-    if (contentNode.media() != null) {
+    if (hasMedia) {
       validateMedia(contentNode.media(), contentNode, contentHandlers);
     }
   }

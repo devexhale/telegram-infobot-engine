@@ -7,6 +7,9 @@ import com.github.jawisimo.botengine.exception.DialogLoadingException;
  *
  * <p>Encapsulates button label and navigation metadata such as next node or external URL.
  *
+ * @param label button display text
+ * @param next ID of the next dialog node to navigate to
+ * @param url external URL to open (optional, mutually exclusive with next)
  * @since 1.0
  */
 public record Button(String label, String next, String url) {

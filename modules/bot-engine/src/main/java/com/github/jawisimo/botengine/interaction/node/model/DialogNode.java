@@ -11,6 +11,10 @@ import java.util.List;
  *
  * <p>Defines the message text, associated content, button type, and navigation buttons.
  *
+ * @param content list of additional content nodes (optional, e.g. photos, videos)
+ * @param message main message text displayed to the user
+ * @param buttonType layout type for the buttons
+ * @param buttons list of buttons for user interaction
  * @since 1.0
  */
 public record DialogNode(

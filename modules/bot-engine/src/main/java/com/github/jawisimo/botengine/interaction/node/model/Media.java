@@ -11,6 +11,9 @@ import java.util.List;
  *
  * <p>Defines media type, file name, and optional caption.
  *
+ * @param type media type (e.g. photo, video, document)
+ * @param fileName name of the media file to send
+ * @param caption optional caption displayed below the media
  * @since 1.0
  */
 public record Media(String type, @JsonProperty("file_name") String fileName, String caption) {

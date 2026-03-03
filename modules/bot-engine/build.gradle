@@ -94,7 +94,7 @@ tasks.named('test', Test) {
     useJUnitPlatform()
 }
 
-//  Test reports configurations
+// Test reports configurations
 
 jacoco {
     toolVersion = "0.8.12"
@@ -119,6 +119,12 @@ jacocoTestReport {
             ])
         }))
     }
+}
+
+// Suppresses missing Javadoc warnings (e.g. undocumented default constructors),
+// but still validates the quality of existing comments.
+tasks.withType(Javadoc).configureEach {
+    options.addStringOption('Xdoclint:-missing', '-quiet')
 }
 
 publishing {

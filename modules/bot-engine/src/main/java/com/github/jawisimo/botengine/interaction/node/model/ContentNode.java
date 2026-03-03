@@ -7,6 +7,9 @@ import com.github.jawisimo.botengine.exception.DialogLoadingException;
  *
  * <p>Contains content type and optional text or media configuration.
  *
+ * @param type content type (text, photo, video, etc.)
+ * @param text message text (optional, used when type is text-based)
+ * @param media media configuration (optional, used when type is media-based)
  * @since 1.0
  */
 public record ContentNode(ContentType type, String text, Media media) {

@@ -13,6 +13,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * <p>Ensures required properties are present and verifies value constraints during application
  * startup. Invalid configuration results in a startup failure.
  *
+ * @param token Telegram bot token
+ * @param name Bot username
+ * @param dialogFileName Dialog configuration file name
+ * @param buttonsPerRow Number of buttons per row (1–10)
+ * @param userStatePersistent Whether user state should be persisted
  * @since 1.0
  */
 @ConfigurationProperties(prefix = "telegram.bot")
