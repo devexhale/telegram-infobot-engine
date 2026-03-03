@@ -25,51 +25,66 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springBootVersion = '3.5.5'
+    springCoreVersion = '6.2.11'
+    springDataCommonsVersion = '3.4.0'
+    commonsLang3Version = '3.18.0'
+    assertjVersion = '3.27.7'
+    logbackVersion = '1.5.25'
+    commonsCompressVersion = '1.26.0'
+    nettyVersion = '4.1.125.Final'
+    jacksonCoreVersion = '2.21.1'
+    telegramBotsVersion = '9.0.0'
+}
+
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.5"
+        mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
     }
     dependencies {
         // CVE-2025-41249
-        dependency 'org.springframework:spring-core:6.2.11'
-        dependency 'org.springframework:spring-context:6.2.11'
-        dependency 'org.springframework:spring-beans:6.2.11'
-        dependency 'org.springframework:spring-web:6.2.11'
+        dependency "org.springframework:spring-core:$springCoreVersion"
+        dependency "org.springframework:spring-context:$springCoreVersion"
+        dependency "org.springframework:spring-beans:$springCoreVersion"
+        dependency "org.springframework:spring-web:$springCoreVersion"
 
         // CVE-2025-48924
-        dependency 'org.apache.commons:commons-lang3:3.18.0'
+        dependency "org.apache.commons:commons-lang3:$commonsLang3Version"
 
         // CVE-2026-24400
-        dependency 'org.assertj:assertj-core:3.27.7'
+        dependency "org.assertj:assertj-core:$assertjVersion"
 
         // CVE-2025-11226, CVE-2026-1225
-        dependency 'ch.qos.logback:logback-core:1.5.25'
-        dependency 'ch.qos.logback:logback-classic:1.5.25'
+        dependency "ch.qos.logback:logback-core:$logbackVersion"
+        dependency "ch.qos.logback:logback-classic:$logbackVersion"
 
         // CVE-2024-25710, CVE-2024-26308
-        dependency 'org.apache.commons:commons-compress:1.26.0'
+        dependency "org.apache.commons:commons-compress:$commonsCompressVersion"
 
         // CVE-2025-58057
-        dependency 'io.netty:netty-codec:4.1.125.Final'
+        dependency "io.netty:netty-codec:$nettyVersion"
 
         // GHSA-72hv-8253-57qq
-        dependency 'com.fasterxml.jackson.core:jackson-core:2.21.1'
+//        dependency "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
     }
 }
 
 dependencies {
     // Telegram Bot API
-    implementation "org.telegram:telegrambots-springboot-longpolling-starter:9.0.0"
-    implementation "org.telegram:telegrambots-client:9.0.0"
+    implementation "org.telegram:telegrambots-springboot-longpolling-starter:$telegramBotsVersion"
+    implementation "org.telegram:telegrambots-client:$telegramBotsVersion"
 
     // Cache
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'com.github.ben-manes.caffeine:caffeine'
 
     // Serialization
+    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 
     // Optional — Redis support (provided by the consumer of this starter)
+    implementation "org.springframework.data:spring-data-commons:$springDataCommonsVersion"
     compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Lombok
@@ -85,6 +100,12 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation "io.netty:netty-codec:$nettyVersion"
+    implementation "org.apache.commons:commons-compress:$commonsCompressVersion"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
+    implementation "ch.qos.logback:logback-core:$logbackVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
 }
 
 // Stub for IntelliJ IDEA Kotlin DSL indexing
@@ -131,6 +152,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifactId = base.archivesName.get()
         }
     }
     repositories {
