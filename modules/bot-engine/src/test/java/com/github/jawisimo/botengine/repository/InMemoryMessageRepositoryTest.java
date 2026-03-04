@@ -68,12 +68,13 @@ class InMemoryMessageRepositoryTest {
   }
 
   @Test
-  void shouldReturnNull_whenChatDoesNotExist() {
+  void shouldReturnEmptyList_whenChatDoesNotExist() {
     String chatId = "unknown-chat";
 
     List<Integer> removed = repository.removeAll(chatId);
 
-    assertNull(removed);
+    assertNotNull(removed);
+    assertTrue(removed.isEmpty());
   }
 
   @Test
@@ -88,6 +89,7 @@ class InMemoryMessageRepositoryTest {
 
     assertNotNull(firstRemoved);
     assertEquals(List.of(messageId), firstRemoved);
-    assertNull(secondRemoved);
+    assertNotNull(secondRemoved);
+    assertTrue(secondRemoved.isEmpty());
   }
 }

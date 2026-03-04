@@ -44,23 +44,23 @@ class RedisCheckConfigTest {
   @Test
   void redisCheckRunner_shouldThrowException_whenRedisDependencyMissing() {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(false);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(false);
 
     ApplicationRunner runner = config.redisCheckRunner();
 
     RedisConnectionException ex =
         assertThrows(RedisConnectionException.class, () -> runner.run(null));
 
-    assertEquals(REDIS_DEPENDENCY_FAIL_MESSAGE, ex.getMessage());
+    assertEquals(REDIS_DEPENDENCY_FAIL_MSG, ex.getMessage());
     verify(properties).userStatePersistent();
-    verify(context).containsBean(CONNECTION_FACTORY_NAME);
+    verify(context).containsBean(CONNECT_FACTORY_NAME);
     verify(context, never()).getBean(LettuceConnectionFactory.class);
   }
 
   @Test
   void redisCheckRunner_shouldPassSuccessfully_whenPingReturnsPong() throws Exception {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(true);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(true);
     when(context.getBean(LettuceConnectionFactory.class)).thenReturn(redisConnectionFactory);
     when(redisConnectionFactory.getConnection()).thenReturn(redisConnection);
     when(redisConnection.ping()).thenReturn(PONG);
@@ -70,7 +70,7 @@ class RedisCheckConfigTest {
     runner.run(null);
 
     verify(properties).userStatePersistent();
-    verify(context).containsBean(CONNECTION_FACTORY_NAME);
+    verify(context).containsBean(CONNECT_FACTORY_NAME);
     verify(context).getBean(LettuceConnectionFactory.class);
     verify(redisConnectionFactory).getConnection();
     verify(redisConnection).ping();
@@ -80,7 +80,7 @@ class RedisCheckConfigTest {
   @Test
   void redisCheckRunner_shouldThrowConnectFail_whenPingIsNotPong() {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(true);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(true);
     when(context.getBean(LettuceConnectionFactory.class)).thenReturn(redisConnectionFactory);
     when(redisConnectionFactory.getConnection()).thenReturn(redisConnection);
     when(redisConnection.ping()).thenReturn(NOPE);
@@ -90,30 +90,29 @@ class RedisCheckConfigTest {
     RedisConnectionException ex =
         assertThrows(RedisConnectionException.class, () -> runner.run(null));
 
-    assertEquals(REDIS_CONNECT_FAIL_MESSAGE, ex.getMessage());
+    assertEquals(REDIS_CONNECT_FAIL_MSG, ex.getMessage());
     assertNotNull(ex.getCause());
     RedisConnectionException cause =
         assertInstanceOf(RedisConnectionException.class, ex.getCause());
-    assertEquals(REDIS_PING_FAIL_MESSAGE, cause.getMessage());
+    assertEquals(REDIS_CONNECT_FAIL_MSG, cause.getMessage());
     verify(redisConnection).close();
   }
 
   @Test
   void redisCheckRunner_shouldThrowConnectFail_whenConnectionFactoryThrowsException() {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(true);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(true);
     when(context.getBean(LettuceConnectionFactory.class)).thenReturn(redisConnectionFactory);
-    when(redisConnectionFactory.getConnection())
-        .thenThrow(new RuntimeException(SOME_ERROR_MESSAGE));
+    when(redisConnectionFactory.getConnection()).thenThrow(new RuntimeException(SOME_ERROR_MSG));
 
     ApplicationRunner runner = config.redisCheckRunner();
 
     RedisConnectionException ex =
         assertThrows(RedisConnectionException.class, () -> runner.run(null));
 
-    assertEquals(REDIS_CONNECT_FAIL_MESSAGE, ex.getMessage());
+    assertEquals(REDIS_CONNECT_FAIL_MSG, ex.getMessage());
     assertNotNull(ex.getCause());
-    assertEquals(SOME_ERROR_MESSAGE, ex.getCause().getMessage());
+    assertEquals(SOME_ERROR_MSG, ex.getCause().getMessage());
     verify(redisConnectionFactory).getConnection();
     verifyNoInteractions(redisConnection);
   }
@@ -123,14 +122,14 @@ class RedisCheckConfigTest {
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(false);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(false);
 
     ApplicationRunner runner = config.redisCheckRunner();
     assertThrows(RedisConnectionException.class, () -> runner.run(null));
 
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());
-    assertTrue(event.getFormattedMessage().contains(REDIS_DEPENDENCY_FAIL_MESSAGE));
+    assertTrue(event.getFormattedMessage().contains(REDIS_DEPENDENCY_FAIL_MSG));
   }
 
   @Test
@@ -138,7 +137,7 @@ class RedisCheckConfigTest {
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(true);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(true);
     when(context.getBean(LettuceConnectionFactory.class)).thenReturn(redisConnectionFactory);
     when(redisConnectionFactory.getConnection()).thenReturn(redisConnection);
     when(redisConnection.ping()).thenReturn(NOPE);
@@ -148,7 +147,7 @@ class RedisCheckConfigTest {
 
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());
-    assertTrue(event.getFormattedMessage().contains(REDIS_PING_FAIL_MESSAGE));
+    assertTrue(event.getFormattedMessage().contains(REDIS_CONNECT_FAIL_MSG));
   }
 
   @Test
@@ -156,17 +155,16 @@ class RedisCheckConfigTest {
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(properties.userStatePersistent()).thenReturn(true);
-    when(context.containsBean(CONNECTION_FACTORY_NAME)).thenReturn(true);
+    when(context.containsBean(CONNECT_FACTORY_NAME)).thenReturn(true);
     when(context.getBean(LettuceConnectionFactory.class)).thenReturn(redisConnectionFactory);
-    when(redisConnectionFactory.getConnection())
-        .thenThrow(new RuntimeException(SOME_ERROR_MESSAGE));
+    when(redisConnectionFactory.getConnection()).thenThrow(new RuntimeException(SOME_ERROR_MSG));
 
     ApplicationRunner runner = config.redisCheckRunner();
     assertThrows(RedisConnectionException.class, () -> runner.run(null));
 
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());
-    assertTrue(event.getFormattedMessage().contains(REDIS_CONNECT_FAIL_MESSAGE));
+    assertTrue(event.getFormattedMessage().contains(REDIS_CONNECT_FAIL_MSG));
   }
 
   private ListAppender<ILoggingEvent> getListAppender() {
