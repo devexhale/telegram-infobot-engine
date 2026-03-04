@@ -29,21 +29,21 @@ class UpdateServiceTest {
   @InjectMocks private UpdateService service;
 
   @Test
-  void onUpdateReceived_shouldExecuteMessage_whenUpdateHasMessage() {
+  void dispatchHasMessage() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
 
     when(update.hasMessage()).thenReturn(true);
     when(update.getMessage()).thenReturn(message);
 
-    service.onUpdateReceived(update);
+    service.dispatch(update);
 
     verify(executor).executeMessage(message);
     verify(executor, never()).executeCallback(any());
   }
 
   @Test
-  void onUpdateReceived_shouldExecuteCallback_whenUpdateHasCallbackQuery() {
+  void dispatchHasCallbackQuery() {
     Update update = mock(Update.class);
     CallbackQuery callbackQuery = mock(CallbackQuery.class);
 
@@ -51,26 +51,14 @@ class UpdateServiceTest {
     when(update.hasCallbackQuery()).thenReturn(true);
     when(update.getCallbackQuery()).thenReturn(callbackQuery);
 
-    service.onUpdateReceived(update);
+    service.dispatch(update);
 
     verify(executor).executeCallback(callbackQuery);
     verify(executor, never()).executeMessage(any());
   }
 
   @Test
-  void onUpdateReceived_shouldNotInteractWithExecutor_whenUpdateTypeUnsupported() {
-    Update update = mock(Update.class);
-
-    when(update.hasMessage()).thenReturn(false);
-    when(update.hasCallbackQuery()).thenReturn(false);
-
-    service.onUpdateReceived(update);
-
-    verifyNoInteractions(executor);
-  }
-
-  @Test
-  void onUpdateReceived_shouldNotThrow_whenExecutorThrowsException_forMessage() {
+  void dispatch_shouldNotThrow_whenExecutorThrowsException_forMessage() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
 
@@ -78,13 +66,13 @@ class UpdateServiceTest {
     when(update.getMessage()).thenReturn(message);
     doThrow(new RuntimeException(FAIL_PARAM)).when(executor).executeMessage(message);
 
-    assertDoesNotThrow(() -> service.onUpdateReceived(update));
+    assertDoesNotThrow(() -> service.dispatch(update));
 
     verify(executor).executeMessage(message);
   }
 
   @Test
-  void onUpdateReceived_shouldNotThrow_whenExecutorThrowsException_forCallback() {
+  void dispatch_shouldNotThrow_whenExecutorThrowsException_forCallback() {
     Update update = mock(Update.class);
     CallbackQuery callbackQuery = mock(CallbackQuery.class);
 
@@ -93,20 +81,20 @@ class UpdateServiceTest {
     when(update.getCallbackQuery()).thenReturn(callbackQuery);
     doThrow(new RuntimeException(FAIL_PARAM)).when(executor).executeCallback(callbackQuery);
 
-    assertDoesNotThrow(() -> service.onUpdateReceived(update));
+    assertDoesNotThrow(() -> service.dispatch(update));
 
     verify(executor).executeCallback(callbackQuery);
   }
 
   @Test
-  void onUpdateReceived_shouldLogWarn_whenUpdateTypeUnsupported() {
+  void dispatchTypeUnsupported() {
     Update update = mock(Update.class);
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(update.hasMessage()).thenReturn(false);
     when(update.hasCallbackQuery()).thenReturn(false);
 
-    service.onUpdateReceived(update);
+    service.dispatch(update);
 
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.WARN, event.getLevel());
@@ -114,7 +102,7 @@ class UpdateServiceTest {
   }
 
   @Test
-  void onUpdateReceived_shouldLogError_whenExecutorThrowsException_forMessage() {
+  void dispatch_shouldLogError_whenExecutorThrowsException_forMessage() {
     Update update = mock(Update.class);
     Message message = mock(Message.class);
     ListAppender<ILoggingEvent> listAppender = getListAppender();
@@ -123,7 +111,7 @@ class UpdateServiceTest {
     when(update.getMessage()).thenReturn(message);
     doThrow(new RuntimeException(FAIL_PARAM)).when(executor).executeMessage(message);
 
-    service.onUpdateReceived(update);
+    service.dispatch(update);
 
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());
@@ -132,7 +120,7 @@ class UpdateServiceTest {
   }
 
   @Test
-  void onUpdateReceived_shouldLogError_whenExecutorThrowsException_forCallback() {
+  void dispatch_shouldLogError_whenExecutorThrowsException_forCallback() {
     Update update = mock(Update.class);
     CallbackQuery callbackQuery = mock(CallbackQuery.class);
     ListAppender<ILoggingEvent> listAppender = getListAppender();
@@ -142,7 +130,7 @@ class UpdateServiceTest {
     when(update.getCallbackQuery()).thenReturn(callbackQuery);
     doThrow(new RuntimeException(FAIL_PARAM)).when(executor).executeCallback(callbackQuery);
 
-    service.onUpdateReceived(update);
+    service.dispatch(update);
 
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());

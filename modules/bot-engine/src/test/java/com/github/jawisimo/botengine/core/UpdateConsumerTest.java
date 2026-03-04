@@ -1,40 +1,46 @@
 package com.github.jawisimo.botengine.core;
 
-import com.github.jawisimo.botengine.interaction.command.CommandsInitializer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 import com.github.jawisimo.botengine.service.UpdateService;
+import java.util.List;
+import java.util.concurrent.Executor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class UpdateConsumerTest {
 
-  @Mock private CommandsInitializer commandsInitializer;
   @Mock private UpdateService updateService;
 
   @Test
-  void init_shouldSetUpCommands_whenCalled() {
-    UpdateConsumer consumer = new UpdateConsumer(commandsInitializer, updateService);
+  void consume_shouldDispatchEachUpdate_whenDirectExecutorIsUsed() {
+    Executor directExecutor = Runnable::run;
+    UpdateConsumer consumer = new UpdateConsumer(updateService, directExecutor);
 
-    consumer.init();
+    Update update1 = new Update();
+    Update update2 = new Update();
 
-    verify(commandsInitializer).setUpCommands();
-    verifyNoInteractions(updateService);
+    consumer.consume(List.of(update1, update2));
+
+    ArgumentCaptor<Update> captor = ArgumentCaptor.forClass(Update.class);
+    verify(updateService, times(2)).dispatch(captor.capture());
+    assertEquals(List.of(update1, update2), captor.getAllValues());
+    verifyNoMoreInteractions(updateService);
   }
 
   @Test
-  void consume_shouldDelegateToUpdateService_whenInvoked() {
-    UpdateConsumer consumer = new UpdateConsumer(commandsInitializer, updateService);
+  void consume_shouldDoNothing_whenUpdatesListIsEmpty() {
+    Executor directExecutor = Runnable::run;
+    UpdateConsumer consumer = new UpdateConsumer(updateService, directExecutor);
 
-    Update update = new Update();
+    consumer.consume(List.of());
 
-    consumer.consume(update);
-
-    verify(updateService).onUpdateReceived(update);
-    verifyNoInteractions(commandsInitializer);
+    verifyNoInteractions(updateService);
   }
 }

@@ -18,14 +18,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-@SpringBootTest(classes = {BotConfig.class, BotConfigIT.TestCacheConfig.class})
+@SpringBootTest(
+    classes = {ApplicationConfig.class, BotConfig.class, BotConfigIT.TestCacheConfig.class})
 @ActiveProfiles("test")
 class BotConfigIT {
 
   @Autowired private ApplicationContext context;
   @Autowired private BotProperties properties;
   @Autowired private TelegramClient telegramClient;
-  @Autowired private Executor asyncBotVirtualExecutor;
+  @Autowired private Executor virtualThreadsExecutor;
 
   @Test
   void context_shouldLoadPropertiesFromTestProfile_andCreateBeans() throws Exception {
@@ -36,7 +37,7 @@ class BotConfigIT {
     boolean userStatePersistent = true;
 
     ExecutorService executorService =
-        assertInstanceOf(ExecutorService.class, asyncBotVirtualExecutor);
+        assertInstanceOf(ExecutorService.class, virtualThreadsExecutor);
 
     Future<Boolean> result = executorService.submit(() -> Thread.currentThread().isVirtual());
 
@@ -49,7 +50,7 @@ class BotConfigIT {
     assertEquals(userStatePersistent, properties.userStatePersistent());
     assertNotNull(telegramClient);
     assertInstanceOf(OkHttpTelegramClient.class, telegramClient);
-    assertNotNull(asyncBotVirtualExecutor);
+    assertNotNull(virtualThreadsExecutor);
     assertTrue(result.get());
     executorService.shutdownNow();
     executorService.close();
@@ -57,7 +58,7 @@ class BotConfigIT {
 
   @Test
   void beans_shouldBeSingletons() {
-    String asyncExecutorBeanName = "asyncBotVirtualExecutor";
+    String asyncExecutorBeanName = "virtualThreadsExecutor";
 
     TelegramClient firstTelegramClient = context.getBean(TelegramClient.class);
     TelegramClient secondTelegramClient = context.getBean(TelegramClient.class);

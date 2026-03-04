@@ -35,7 +35,7 @@ ext {
     commonsCompressVersion = '1.26.0'
     nettyVersion = '4.1.125.Final'
     jacksonCoreVersion = '2.21.1'
-    telegramBotsVersion = '9.0.0'
+    telegramBotsVersion = '9.2.1'
 }
 
 dependencyManagement {
@@ -66,7 +66,7 @@ dependencyManagement {
         dependency "io.netty:netty-codec:$nettyVersion"
 
         // GHSA-72hv-8253-57qq
-//        dependency "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
+        dependency "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
     }
 }
 
@@ -80,7 +80,6 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine'
 
     // Serialization
-    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 
     // Optional — Redis support (provided by the consumer of this starter)
@@ -100,12 +99,6 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    implementation "io.netty:netty-codec:$nettyVersion"
-    implementation "org.apache.commons:commons-compress:$commonsCompressVersion"
-    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonCoreVersion"
-    implementation "ch.qos.logback:logback-core:$logbackVersion"
-    implementation "ch.qos.logback:logback-classic:$logbackVersion"
 }
 
 // Stub for IntelliJ IDEA Kotlin DSL indexing
