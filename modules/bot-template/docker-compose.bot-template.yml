@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bot_template_dev_app
+    container_name: bot_template_prod_app
     networks:
       - bot-network
     depends_on:

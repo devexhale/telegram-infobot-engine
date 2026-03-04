@@ -8,46 +8,38 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
 /**
- * Performs startup verification of Redis integration when persistent user state is enabled.
+ * Performs a startup check to ensure that Redis dependency is available when persistent user state
+ * is enabled.
  *
- * <p>Validates that Redis dependency is present in the application context, a connection factory is
- * configured, and the Redis server is reachable. Executes a ping check to ensure the connection is
- * operational.
- *
- * <p>Fails fast with {@link RedisConnectionException} if any verification step fails.
+ * <p>If {@code telegram.bot.user-state-persistent=true}, this configuration verifies that a Redis
+ * connection factory is present in the application context. If Redis dependency is missing, the
+ * application fails fast with {@link RedisConnectionException} and provides guidance on how to add
+ * the required dependency.
  *
  * @since 1.0
  */
-@Slf4j
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class RedisCheckConfig {
 
   private static final String REDIS_DEPENDENCY_FAIL_MSG =
       "Redis is required but not found in the application context. "
-          + "Please add spring-boot-starter-data-redis "
-          + "and configure spring.data.redis.*properties.";
-
-  private static final String REDIS_CONNECT_FAIL_MSG =
-      "Connection to Redis failed. Please check your connection.";
-
-  private static final String REDIS_PONG = "PONG";
+          + "Please add 'spring-boot-starter-data-redis'.";
 
   private final BotProperties properties;
   private final ApplicationContext context;
 
   /**
-   * Creates an {@link ApplicationRunner} that performs Redis dependency and connectivity checks
-   * during application startup.
+   * Creates an {@link ApplicationRunner} that verifies Redis dependency presence when persistent
+   * user state is enabled.
    *
-   * @return the Redis verification runner
+   * @return the runner that checks Redis dependency availability
    */
   @Bean
-  public ApplicationRunner redisCheckRunner() {
+  public ApplicationRunner redisDependencyCheckRunner() {
     return args -> {
       if (!properties.userStatePersistent()) {
         return;
@@ -56,21 +48,6 @@ public class RedisCheckConfig {
       if (!context.containsBean("redisConnectionFactory")) {
         log.error(REDIS_DEPENDENCY_FAIL_MSG);
         throw new RedisConnectionException(REDIS_DEPENDENCY_FAIL_MSG);
-      }
-
-      LettuceConnectionFactory redisConnectionFactory =
-          context.getBean(LettuceConnectionFactory.class);
-
-      try (RedisConnection redisConnection = redisConnectionFactory.getConnection()) {
-        String pongResponse = redisConnection.ping();
-
-        if (!REDIS_PONG.equalsIgnoreCase(pongResponse)) {
-          log.error(REDIS_CONNECT_FAIL_MSG);
-          throw new RedisConnectionException(REDIS_CONNECT_FAIL_MSG);
-        }
-      } catch (Exception e) {
-        log.error(REDIS_CONNECT_FAIL_MSG, e);
-        throw new RedisConnectionException(REDIS_CONNECT_FAIL_MSG, e);
       }
     };
   }
