@@ -43,10 +43,17 @@ public class InMemoryMessageRepository implements MessageRepository {
    * Removes and returns all message identifiers associated with the chat.
    *
    * @param chatId the chat identifier
-   * @return the removed message identifiers or {@code null} if none were stored
+   * @return the removed message identifiers or {@code empty List} if none were stored
    */
   @Override
   public List<Integer> removeAll(String chatId) {
-    return storage.remove(chatId);
+    List<Integer> snapshot = new ArrayList<>();
+    storage.computeIfPresent(
+        chatId,
+        (k, v) -> {
+          snapshot.addAll(v);
+          return null;
+        });
+    return List.copyOf(snapshot);
   }
 }

@@ -23,12 +23,12 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 @Slf4j
 public class DialogExecutor {
 
+  private static final String DELETE_MESSAGE = "Message deleted from chat";
+
   private final MessageCleanupService cleanupService;
   private final UserStateService userStateService;
   private final NodeNavigator nodeNavigator;
   private final CommandExecutor commandExecutor;
-
-  private static final String DELETE_MESSAGE = "Message deleted from chat";
 
   /**
    * Executes a dialog step for an incoming text message.
