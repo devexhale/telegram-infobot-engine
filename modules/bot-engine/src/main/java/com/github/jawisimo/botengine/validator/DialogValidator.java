@@ -150,7 +150,6 @@ public class DialogValidator {
 
   private void validateButton(
       Button button, ButtonType buttonType, String buttonPath, List<String> errors) {
-
     if (button == null) {
       errors.add("%s is null".formatted(path(buttonPath)));
       return;
@@ -176,7 +175,6 @@ public class DialogValidator {
 
   private void validateReplyButton(
       String buttonPath, boolean hasUrl, boolean hasNext, List<String> errors) {
-
     if (hasUrl) {
       errors.add("%s must not be present for reply button".formatted(path(buttonPath + ".url")));
     }
@@ -188,7 +186,6 @@ public class DialogValidator {
 
   private void validateInlineButton(
       String buttonPath, boolean hasUrl, boolean hasNext, List<String> errors) {
-
     if (!hasUrl && !hasNext) {
       errors.add("%s must contain either 'next' or 'url'".formatted(path(buttonPath)));
     }
@@ -200,7 +197,6 @@ public class DialogValidator {
 
   private void validateMissingNextNode(
       Button button, DialogMap dialogMap, String buttonPath, List<String> warnings) {
-
     if (button == null || button.next() == null || button.next().isBlank()) {
       return;
     }
@@ -226,7 +222,6 @@ public class DialogValidator {
 
   private void validateContentNode(
       ContentNode contentNode, String contentPath, List<String> errors) {
-
     if (contentNode == null) {
       errors.add("%s is null".formatted(path(contentPath)));
       return;
@@ -252,7 +247,6 @@ public class DialogValidator {
 
   private void validateTextContent(
       String contentPath, boolean hasText, boolean hasMedia, List<String> errors) {
-
     if (!hasText) {
       errors.add("%s is missing or blank for text content".formatted(path(contentPath + ".text")));
     }
@@ -269,7 +263,6 @@ public class DialogValidator {
       boolean hasText,
       boolean hasMedia,
       List<String> errors) {
-
     if (!hasMedia) {
       errors.add("%s is missing for media content".formatted(path(contentPath + ".media")));
       return;
@@ -285,7 +278,6 @@ public class DialogValidator {
 
   private void validateMedia(
       ContentNode contentNode, Media media, String mediaPath, List<String> errors) {
-
     if (media == null) {
       errors.add("%s is null".formatted(path(mediaPath)));
       return;

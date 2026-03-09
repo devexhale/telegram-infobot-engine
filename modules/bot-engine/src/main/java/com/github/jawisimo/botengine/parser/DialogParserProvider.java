@@ -46,7 +46,7 @@ public class DialogParserProvider {
 
     DialogParser parser = matchingParsers.getFirst();
     log.info(
-        "Parsing dialog using {} for file '{}' has been successful",
+        "Selected parser '{}' for dialog file '{}'",
         parser.getClass().getSimpleName(),
         dialogFileName);
     return parser;
