@@ -36,7 +36,7 @@ public class UpdateService {
         log.warn("Unsupported update type: {}", update);
       }
     } catch (Exception e) {
-      log.error("An error occurred during update processing: {}", e.getMessage(), e);
+      log.error("An error occurred during update processing:", e);
     }
   }
 }

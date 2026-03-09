@@ -1,276 +1,336 @@
 package com.github.jawisimo.botengine.validator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
-import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
 import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
-import com.github.jawisimo.botengine.interaction.node.model.*;
+import com.github.jawisimo.botengine.model.Button;
+import com.github.jawisimo.botengine.model.ButtonType;
+import com.github.jawisimo.botengine.model.ContentNode;
+import com.github.jawisimo.botengine.model.ContentType;
+import com.github.jawisimo.botengine.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogNode;
+import com.github.jawisimo.botengine.model.Media;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.LoggerFactory;
 
 @ExtendWith(MockitoExtension.class)
 class DialogValidatorTest {
 
-  private static final String NEXT = "next";
-  private static final String URL = "https://test.com";
-  private static final String SOME_MSG = "Some message...";
-  private static final String BUTTON_LABEL = "Button Label";
-  private static final String MEDIA_TYPE = "PHOTO";
-  private static final String FILE_NAME = "image.jpg";
-  private static final String TEST_FILE_NAME = "file.yml";
-  private static final String BLANK = " ";
-
-  private static final String ERROR_TEXT_NULL_OR_EMPTY =
-      "Content text is null or empty, but content type is TEXT";
-  private static final String ERROR_NO_HANDLER_FOUND = "No handler found for media type: ";
-  private static final String ERROR_REPLY_BUTTON_URL = "Reply button cannot have a 'URL'";
-  private static final String ERROR_REPLY_BUTTON_NEXT =
-      "Reply button must have a 'next' (callback text)";
-  private static final String ERROR_INLINE_BUTTON_MISSING =
-      "Inline button must have either 'next' or 'URL'";
-  private static final String ERROR_INLINE_BUTTON_BOTH =
-      "Inline button cannot have both 'next' and 'URL'";
-
-  private static final String ERROR_TEXT_TYPE_HAS_MEDIA =
-      "Content node cannot contain media, because content type is TEXT";
-  private static final String ERROR_MEDIA_TYPE_HAS_TEXT_PREFIX =
-      "Content node cannot contain text, because content type is ";
-  private static final String ERROR_MEDIA_TYPE_MISSING_MEDIA_PREFIX =
-      "Content media is null, but content type is ";
-
-  private DialogValidator validator;
+  private static final String DIALOG_FILE_NAME = "dialog.yml";
+  private static final String START_NODE_KEY = "/start";
+  private static final String NEXT_NODE_KEY = "history_q1";
+  private static final String MISSING_NODE_KEY = "missing_node";
+  private static final String MESSAGE = "Start message";
+  private static final String BUTTON_LABEL = "Next";
+  private static final String URL = "https://example.com";
+  private static final String MISSING_MEDIA_FILE = "missing-file.jpg";
 
   @Mock private ContentHandler contentHandler;
 
+  private DialogValidator dialogValidator;
+
   @BeforeEach
   void init() {
-    validator = new DialogValidator();
+    dialogValidator = new DialogValidator(List.of(contentHandler));
   }
 
   @Test
-  void validateStartNode_shouldNotThrow_whenStartNodeExists() {
-    DialogMap dialogMap = new DialogMap(Map.of(StartCommand.COMMAND_NAME, createValidDialogNode()));
+  void validate_shouldThrowException_whenDialogMapIsNull() {
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class, () -> dialogValidator.validate(null, DIALOG_FILE_NAME));
 
-    assertDoesNotThrow(() -> validator.validateStartNode(dialogMap, TEST_FILE_NAME));
+    assertTrue(exception.getMessage().contains("Dialog map is null in file 'dialog.yml'"));
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Dialog loading failed with 1 errors for file 'dialog.yml':"));
   }
 
   @Test
-  void validateStartNode_shouldThrowException_whenStartNodeMissing() {
-    DialogMap dialogMap = new DialogMap(Map.of());
+  void validate_shouldThrowException_whenDialogMapIsEmpty() {
+    DialogMap dialogMap = new DialogMap(new LinkedHashMap<>());
 
-    DialogLoadingException ex =
+    DialogLoadingException exception =
         assertThrows(
             DialogLoadingException.class,
-            () -> validator.validateStartNode(dialogMap, TEST_FILE_NAME));
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
 
-    assertTrue(ex.getMessage().contains(StartCommand.COMMAND_NAME));
-  }
-
-  @ParameterizedTest
-  @NullAndEmptySource
-  void validateContent_shouldThrowException_whenTextTypeAndTextIsNullOrEmpty(String text) {
-    ContentNode node = new ContentNode(ContentType.TEXT, text, null);
-    List<ContentHandler> handlers = List.of();
-
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
-
-    assertEquals(ERROR_TEXT_NULL_OR_EMPTY, ex.getMessage());
+    assertTrue(exception.getMessage().contains("Dialog map is empty in file 'dialog.yml'"));
+    assertTrue(exception.getMessage().contains("Dialog must contain node '/start' in file"));
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Dialog loading failed with 2 errors for file 'dialog.yml':"));
   }
 
   @Test
-  void validateContent_shouldNotThrow_whenTextTypeAndTextIsValid() {
-    ContentNode node = new ContentNode(ContentType.TEXT, SOME_MSG, null);
+  void validate_shouldThrowException_whenStartNodeIsMissing() {
+    DialogNode dialogNode = validInlineNodeWithUrlButton();
+    DialogMap dialogMap = dialogMap(Map.of("history_q1", dialogNode));
 
-    assertDoesNotThrow(() -> validator.validateContent(node, List.of()));
-  }
-
-  @Test
-  void validateContent_shouldThrowException_whenTextTypeAndMediaIsPresent() {
-    Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
-    ContentNode node = new ContentNode(ContentType.TEXT, SOME_MSG, media);
-
-    DialogLoadingException ex =
+    DialogLoadingException exception =
         assertThrows(
-            DialogLoadingException.class, () -> validator.validateContent(node, List.of()));
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
 
-    assertEquals(ERROR_TEXT_TYPE_HAS_MEDIA, ex.getMessage());
+    assertTrue(exception.getMessage().contains("Dialog must contain node '/start' in file"));
   }
 
   @Test
-  void validateContent_shouldThrowException_whenMediaTypeAndMediaIsNull() {
-    ContentNode node = new ContentNode(ContentType.MEDIA, null, null);
+  void validate_shouldThrowException_whenMessageIsBlank() {
+    DialogNode dialogNode =
+        new DialogNode(
+            null, "   ", ButtonType.INLINE, List.of(new Button(BUTTON_LABEL, null, URL)));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
 
-    DialogLoadingException ex =
+    DialogLoadingException exception =
         assertThrows(
-            DialogLoadingException.class, () -> validator.validateContent(node, List.of()));
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
 
-    assertEquals(ERROR_MEDIA_TYPE_MISSING_MEDIA_PREFIX + ContentType.MEDIA, ex.getMessage());
+    assertTrue(exception.getMessage().contains("Node '/start.message' is missing or blank"));
   }
 
   @Test
-  void validateContent_shouldThrowException_whenMediaTypeAndTextIsPresent() {
-    Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
-    ContentNode node = new ContentNode(ContentType.MEDIA, SOME_MSG, media);
+  void validate_shouldThrowException_whenButtonTypeIsUnknown() {
+    DialogNode dialogNode =
+        new DialogNode(
+            null,
+            MESSAGE,
+            ButtonType.UNKNOWN,
+            List.of(new Button(BUTTON_LABEL, NEXT_NODE_KEY, null)));
+    DialogMap dialogMap = dialogMap(orderedNodes(dialogNode, validReplyNode()));
 
-    DialogLoadingException ex =
+    DialogLoadingException exception =
         assertThrows(
-            DialogLoadingException.class, () -> validator.validateContent(node, List.of()));
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
 
-    assertEquals(ERROR_MEDIA_TYPE_HAS_TEXT_PREFIX + ContentType.MEDIA, ex.getMessage());
+    assertTrue(exception.getMessage().contains("Node '/start.button_type' is not valid"));
   }
 
   @Test
-  void validateContent_shouldThrowException_whenNoMediaHandlerSupports() {
-    Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
-    ContentNode node = new ContentNode(ContentType.MEDIA, null, media);
-    List<ContentHandler> handlers = List.of(contentHandler);
-    String expected = ERROR_NO_HANDLER_FOUND + MEDIA_TYPE + " (file: " + FILE_NAME + ")";
+  void validate_shouldThrowException_whenButtonsAreMissing() {
+    DialogNode dialogNode = new DialogNode(null, MESSAGE, ButtonType.INLINE, null);
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
 
-    when(contentHandler.canHandle(node)).thenReturn(false);
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
 
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateContent(node, handlers));
-
-    assertEquals(expected, ex.getMessage());
+    assertTrue(exception.getMessage().contains("Node '/start.buttons' is missing or empty"));
   }
 
   @Test
-  void validateContent_shouldNotThrow_whenMediaHandlerSupports() {
-    Media media = new Media(MEDIA_TYPE, FILE_NAME, null);
-    ContentNode node = new ContentNode(ContentType.MEDIA, null, media);
-    List<ContentHandler> handlers = List.of(contentHandler);
-
-    when(contentHandler.canHandle(node)).thenReturn(true);
-
-    assertDoesNotThrow(() -> validator.validateContent(node, handlers));
-  }
-
-  @Test
-  void validateButtons_shouldThrowException_whenReplyButtonHasUrl() {
-    Button button = new Button(BUTTON_LABEL, NEXT, URL);
-    DialogNode node = createDialogNode(ButtonType.REPLY, button);
-
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
-
-    assertEquals(ERROR_REPLY_BUTTON_URL, ex.getMessage());
-  }
-
-  @ParameterizedTest
-  @NullAndEmptySource
-  @ValueSource(strings = {BLANK})
-  void validateButtons_shouldThrowException_whenReplyButtonHasNoNextOrNextBlank(String next) {
-    Button button = new Button(BUTTON_LABEL, next, null);
-    DialogNode node = createDialogNode(ButtonType.REPLY, button);
-
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
-
-    assertEquals(ERROR_REPLY_BUTTON_NEXT, ex.getMessage());
-  }
-
-  @Test
-  void validateButtons_shouldNotThrow_whenReplyButtonIsValid() {
-    Button button = new Button(BUTTON_LABEL, NEXT, null);
-    DialogNode node = createDialogNode(ButtonType.REPLY, button);
-
-    assertDoesNotThrow(() -> validator.validateButtons(node));
-  }
-
-  @Test
-  void validateButtons_shouldThrowException_whenInlineButtonHasNeitherUrlNorNext() {
-    Button button = new Button(BUTTON_LABEL, null, null);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
-
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
-
-    assertEquals(ERROR_INLINE_BUTTON_MISSING, ex.getMessage());
-  }
-
-  @Test
-  void validateButtons_shouldThrowException_whenInlineButtonHasBothUrlAndNext() {
-    Button button = new Button(BUTTON_LABEL, NEXT, URL);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
-
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
-
-    assertEquals(ERROR_INLINE_BUTTON_BOTH, ex.getMessage());
-  }
-
-  @Test
-  void validateButtons_shouldNotThrow_whenInlineButtonHasOnlyUrl() {
+  void validate_shouldThrowException_whenReplyButtonContainsUrl() {
     Button button = new Button(BUTTON_LABEL, null, URL);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+    DialogNode dialogNode = new DialogNode(null, MESSAGE, ButtonType.REPLY, List.of(button));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
 
-    assertDoesNotThrow(() -> validator.validateButtons(node));
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
+
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.buttons[0].url' must not be present for reply button"));
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.buttons[0].next' is missing or blank for reply button"));
   }
 
   @Test
-  void validateButtons_shouldNotThrow_whenInlineButtonHasOnlyNext() {
-    Button button = new Button(BUTTON_LABEL, NEXT, null);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+  void validate_shouldThrowException_whenInlineButtonContainsNextAndUrl() {
+    Button button = new Button(BUTTON_LABEL, NEXT_NODE_KEY, URL);
+    DialogNode dialogNode = new DialogNode(null, MESSAGE, ButtonType.INLINE, List.of(button));
+    DialogMap dialogMap = dialogMap(orderedNodes(dialogNode, validReplyNode()));
 
-    assertDoesNotThrow(() -> validator.validateButtons(node));
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
+
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.buttons[0]' cannot contain both 'next' and 'url'"));
   }
 
   @Test
-  void validateButtons_shouldThrowException_whenInlineButtonUrlIsBlankAndNextIsBlank() {
-    Button button = new Button(BUTTON_LABEL, BLANK, BLANK);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+  void validate_shouldThrowException_whenTextContentTextIsBlank() {
+    ContentNode contentNode = new ContentNode(ContentType.TEXT, " ", null);
+    DialogNode dialogNode =
+        new DialogNode(
+            List.of(contentNode),
+            MESSAGE,
+            ButtonType.INLINE,
+            List.of(new Button(BUTTON_LABEL, null, URL)));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
 
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
 
-    assertEquals(ERROR_INLINE_BUTTON_MISSING, ex.getMessage());
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.content[0].text' is missing or blank for text content"));
   }
 
   @Test
-  void validateButtons_shouldNotThrow_whenInlineButtonHasOnlyBlankUrlButHasNext() {
-    Button button = new Button(BUTTON_LABEL, NEXT, BLANK);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+  void validate_shouldThrowException_whenMediaContentIsMissing() {
+    ContentNode contentNode = new ContentNode(ContentType.MEDIA, null, null);
+    DialogNode dialogNode =
+        new DialogNode(
+            List.of(contentNode),
+            MESSAGE,
+            ButtonType.INLINE,
+            List.of(new Button(BUTTON_LABEL, null, URL)));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
 
-    assertDoesNotThrow(() -> validator.validateButtons(node));
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
+
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.content[0].media' is missing for media content"));
   }
 
   @Test
-  void validateButtons_shouldNotThrow_whenInlineButtonHasOnlyBlankNextButHasUrl() {
-    Button button = new Button(BUTTON_LABEL, BLANK, URL);
-    DialogNode node = createDialogNode(ButtonType.INLINE, button);
+  void validate_shouldThrowException_whenMediaFileDoesNotExist() {
+    ContentNode contentNode =
+        new ContentNode(ContentType.MEDIA, null, new Media("photo", MISSING_MEDIA_FILE, null));
+    DialogNode dialogNode =
+        new DialogNode(
+            List.of(contentNode),
+            MESSAGE,
+            ButtonType.INLINE,
+            List.of(new Button(BUTTON_LABEL, null, URL)));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
 
-    assertDoesNotThrow(() -> validator.validateButtons(node));
+    when(contentHandler.canHandle(any(ContentNode.class))).thenReturn(true);
+
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
+
+    assertTrue(
+        exception
+            .getMessage()
+            .contains(
+                "Node '/start.content[0].media.file_name' points to missing media file 'media/missing-file.jpg'"));
   }
 
   @Test
-  void validateButtons_shouldTreatNullButtonTypeAsInline_andThrowWhenMissingUrlAndNext() {
-    Button button = new Button(BUTTON_LABEL, null, null);
-    DialogNode node = createDialogNode(null, button);
+  void validate_shouldLogErrorAndNotThrow_whenNextNodeIsMissing() {
+    DialogNode dialogNode =
+        new DialogNode(
+            null,
+            MESSAGE,
+            ButtonType.INLINE,
+            List.of(new Button(BUTTON_LABEL, MISSING_NODE_KEY, null)));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
+    Logger logger = (Logger) LoggerFactory.getLogger(DialogValidator.class);
+    ListAppender<ILoggingEvent> appender = new ListAppender<>();
 
-    DialogLoadingException ex =
-        assertThrows(DialogLoadingException.class, () -> validator.validateButtons(node));
+    appender.start();
+    logger.addAppender(appender);
 
-    assertEquals(ERROR_INLINE_BUTTON_MISSING, ex.getMessage());
+    assertDoesNotThrow(() -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
+
+    logger.detachAppender(appender);
+
+    assertTrue(appender.list.stream().anyMatch(event -> event.getLevel() == Level.ERROR));
+    assertTrue(
+        appender.list.stream()
+            .anyMatch(
+                event ->
+                    event
+                        .getFormattedMessage()
+                        .contains(
+                            "Node '/start.buttons[0].next' points to missing node 'missing_node'")));
   }
 
-  private DialogNode createValidDialogNode() {
-    Button button = new Button(BUTTON_LABEL, NEXT, null);
-    return createDialogNode(ButtonType.REPLY, button);
+  @Test
+  void
+      validate_shouldThrowSingleExceptionWithAllErrors_whenDialogContainsMultipleStructuralIssues() {
+    ContentNode contentNode = new ContentNode(ContentType.TEXT, " ", null);
+    DialogNode dialogNode =
+        new DialogNode(
+            List.of(contentNode), " ", ButtonType.REPLY, List.of(new Button(" ", null, URL)));
+    DialogMap dialogMap = dialogMap(Map.of(START_NODE_KEY, dialogNode));
+
+    DialogLoadingException exception =
+        assertThrows(
+            DialogLoadingException.class,
+            () -> dialogValidator.validate(dialogMap, DIALOG_FILE_NAME));
+
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Dialog loading failed with 5 errors for file 'dialog.yml':"));
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.content[0].text' is missing or blank for text content"));
+    assertTrue(exception.getMessage().contains("Node '/start.message' is missing or blank"));
+    assertTrue(
+        exception.getMessage().contains("Node '/start.buttons[0].label' is missing or blank"));
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.buttons[0].url' must not be present for reply button"));
+    assertTrue(
+        exception
+            .getMessage()
+            .contains("Node '/start.buttons[0].next' is missing or blank for reply button"));
   }
 
-  private DialogNode createDialogNode(ButtonType buttonType, Button... buttons) {
-    ContentNode content = new ContentNode(ContentType.TEXT, SOME_MSG, null);
-    return new DialogNode(List.of(content), "Test message", buttonType, List.of(buttons));
+  private DialogMap dialogMap(Map<String, DialogNode> nodes) {
+    return new DialogMap(new LinkedHashMap<>(nodes));
+  }
+
+  private Map<String, DialogNode> orderedNodes(DialogNode firstNode, DialogNode secondNode) {
+    Map<String, DialogNode> nodes = new LinkedHashMap<>();
+    nodes.put(START_NODE_KEY, firstNode);
+    nodes.put(NEXT_NODE_KEY, secondNode);
+
+    return nodes;
+  }
+
+  private DialogNode validInlineNodeWithUrlButton() {
+    return new DialogNode(
+        null, MESSAGE, ButtonType.INLINE, List.of(new Button(BUTTON_LABEL, null, URL)));
+  }
+
+  private DialogNode validReplyNode() {
+    return new DialogNode(
+        null, MESSAGE, ButtonType.REPLY, List.of(new Button(BUTTON_LABEL, START_NODE_KEY, null)));
   }
 }

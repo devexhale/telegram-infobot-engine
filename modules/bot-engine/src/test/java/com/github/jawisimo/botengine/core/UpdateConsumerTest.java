@@ -29,6 +29,7 @@ class UpdateConsumerTest {
     consumer.consume(List.of(update1, update2));
 
     ArgumentCaptor<Update> captor = ArgumentCaptor.forClass(Update.class);
+
     verify(updateService, times(2)).dispatch(captor.capture());
     assertEquals(List.of(update1, update2), captor.getAllValues());
     verifyNoMoreInteractions(updateService);

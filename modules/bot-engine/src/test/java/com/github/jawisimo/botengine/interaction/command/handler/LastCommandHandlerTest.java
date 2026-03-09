@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import com.github.jawisimo.botengine.interaction.command.commandset.LastCommand;
 import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.DialogNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

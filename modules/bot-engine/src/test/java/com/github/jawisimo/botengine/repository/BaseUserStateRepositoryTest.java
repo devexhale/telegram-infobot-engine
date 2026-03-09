@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.repository;
 
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.model.UserState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;

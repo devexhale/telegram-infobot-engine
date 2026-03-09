@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
+import com.github.jawisimo.botengine.model.ContentNode;
 import com.github.jawisimo.botengine.loader.MediaFileLoader;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
@@ -30,14 +30,13 @@ class DocumentMediaHandlerTest extends BaseMediaHandlerTest<DocumentMediaHandler
   @Test
   void handle_shouldSendDocumentSuccessfully() throws TelegramApiException {
     ContentNode contentNode = createContentNodeWithExpectedMediaType(CAPTION);
-    Message expectedMessage = new Message();
 
-    when(telegramClient.execute(any(SendDocument.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendDocument.class))).thenReturn(expectedMsg);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
     assertNotNull(result);
-    assertEquals(expectedMessage, result);
+    assertEquals(expectedMsg, result);
     verify(mediaFileLoader).load(FILE_NAME);
     verify(telegramClient).execute(any(SendDocument.class));
   }
@@ -56,14 +55,14 @@ class DocumentMediaHandlerTest extends BaseMediaHandlerTest<DocumentMediaHandler
   @Test
   void handle_shouldHandleSuccessfully_whenCaptionIsNull() throws TelegramApiException {
     ContentNode contentNode = createContentNodeWithExpectedMediaType(null);
-    Message expectedMessage = new Message();
+    Message expectedMsg = new Message();
 
-    when(telegramClient.execute(any(SendDocument.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendDocument.class))).thenReturn(expectedMsg);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
     assertNotNull(result);
-    assertEquals(expectedMessage, result);
+    assertEquals(expectedMsg, result);
   }
 
   @Test

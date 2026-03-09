@@ -2,9 +2,9 @@ package com.github.jawisimo.botengine.repository;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.jawisimo.botengine.config.BotProperties;
-import com.github.jawisimo.botengine.interaction.node.model.DialogMap;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
+import com.github.jawisimo.botengine.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogNode;
 import com.github.jawisimo.botengine.loader.DialogLoader;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class CaffeineDialogRepository implements DialogRepository {
       Caffeine.newBuilder().maximumSize(CACHE_SIZE_MAX).build();
 
   /**
-   * Returns a dialog node resolved from the cached dialog map.
+   * Returns a dialog node fromButton from the cached dialog map.
    *
    * @param nodeId the dialog node identifier
    * @return the corresponding {@link DialogNode}

@@ -1,7 +1,7 @@
 package com.github.jawisimo.botengine.repository;
 
-import com.github.jawisimo.botengine.config.BotProperties;
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
+import com.github.jawisimo.botengine.model.UserState;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

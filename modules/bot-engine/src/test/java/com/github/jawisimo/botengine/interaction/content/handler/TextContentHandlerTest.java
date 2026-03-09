@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
-import com.github.jawisimo.botengine.interaction.node.model.ContentType;
+import com.github.jawisimo.botengine.model.ContentNode;
+import com.github.jawisimo.botengine.model.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,10 +22,14 @@ class TextContentHandlerTest {
   private TelegramClient telegramClient;
   private TextContentHandler handler;
 
+  private Message expectedMsg;
+
   @BeforeEach
   void setUp() {
     telegramClient = mock(TelegramClient.class);
     handler = new TextContentHandler(telegramClient);
+
+    expectedMsg = new Message();
   }
 
   @Test
@@ -45,14 +49,13 @@ class TextContentHandlerTest {
   @Test
   void handle_shouldSendMessageSuccessfully() throws TelegramApiException {
     ContentNode contentNode = createTextContentNode();
-    Message expectedMessage = new Message();
 
-    when(telegramClient.execute(any(SendMessage.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendMessage.class))).thenReturn(expectedMsg);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
     assertNotNull(result);
-    assertEquals(expectedMessage, result);
+    assertEquals(expectedMsg, result);
     verify(telegramClient).execute(any(SendMessage.class));
   }
 

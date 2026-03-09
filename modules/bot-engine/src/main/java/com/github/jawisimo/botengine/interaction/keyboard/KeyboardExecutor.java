@@ -1,10 +1,9 @@
 package com.github.jawisimo.botengine.interaction.keyboard;
 
-import com.github.jawisimo.botengine.interaction.node.model.Button;
-import com.github.jawisimo.botengine.interaction.node.model.ButtonType;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.Button;
+import com.github.jawisimo.botengine.model.ButtonType;
+import com.github.jawisimo.botengine.model.DialogNode;
 import com.github.jawisimo.botengine.repository.MessageRepository;
-import com.github.jawisimo.botengine.validator.DialogValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +16,8 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 /**
  * Executes keyboard rendering for a dialog node.
  *
- * <p>Validates button configuration, builds appropriate keyboard markup, sends the message via
- * {@link TelegramClient}, and stores the sent message identifier for later cleanup.
+ * <p>Builds appropriate keyboard markup, sends the message via {@link TelegramClient}, and stores
+ * the sent message identifier for later cleanup.
  *
  * @since 1.0
  */
@@ -29,7 +28,6 @@ public class KeyboardExecutor {
 
   private final TelegramClient client;
   private final KeyboardMarkupBuilder keyboardBuilder;
-  private final DialogValidator dialogValidator;
   private final MessageRepository messageRepository;
 
   /**
@@ -40,14 +38,18 @@ public class KeyboardExecutor {
    */
   public void execute(DialogNode node, String chatId) {
     List<Button> buttons = node.buttons();
-    dialogValidator.validateButtons(node);
+    ButtonType buttonType = node.buttonType();
 
     SendMessage sendMessage = SendMessage.builder().chatId(chatId).text(node.message()).build();
 
-    if (node.buttonType() == ButtonType.REPLY) {
-      sendMessage.setReplyMarkup(keyboardBuilder.buildReplyKeyboard(buttons));
-    } else {
-      sendMessage.setReplyMarkup(keyboardBuilder.buildInlineKeyboard(buttons));
+    switch (buttonType) {
+      case ButtonType.INLINE ->
+          sendMessage.setReplyMarkup(keyboardBuilder.buildInlineKeyboard(buttons));
+      case ButtonType.REPLY ->
+          sendMessage.setReplyMarkup(keyboardBuilder.buildReplyKeyboard(buttons));
+      default -> {
+        return;
+      }
     }
 
     try {

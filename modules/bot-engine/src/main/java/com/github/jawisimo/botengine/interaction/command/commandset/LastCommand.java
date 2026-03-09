@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.interaction.command.commandset;
 
-import com.github.jawisimo.botengine.annotation.UserStatePersistent;
+import com.github.jawisimo.botengine.config.redis.UserStatePersistent;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

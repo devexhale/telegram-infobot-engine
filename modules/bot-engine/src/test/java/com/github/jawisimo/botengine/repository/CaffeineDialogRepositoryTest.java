@@ -3,23 +3,24 @@ package com.github.jawisimo.botengine.repository;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.config.BotProperties;
-import com.github.jawisimo.botengine.interaction.node.model.DialogMap;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
+import com.github.jawisimo.botengine.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogNode;
 import com.github.jawisimo.botengine.loader.DialogLoader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class CaffeineDialogRepositoryTest {
 
+  @Mock private BotProperties properties;
+  @Mock private DialogLoader dialogLoader;
+  @Mock private DialogMap dialogMap;
+
   @Test
   void shouldLoadDialogOnlyOnce_whenSameDialogFileNameRequestedMultipleTimes() {
-    BotProperties properties = mock(BotProperties.class);
-    DialogLoader dialogLoader = mock(DialogLoader.class);
-    DialogMap dialogMap = mock(DialogMap.class);
-
     String dialogFileName = "dialog.yml";
     String firstNodeId = "node-1";
     String secondNodeId = "node-2";
@@ -48,10 +49,6 @@ class CaffeineDialogRepositoryTest {
 
   @Test
   void shouldPassDialogFileNameToLoader_whenCacheMissOccurs() {
-    BotProperties properties = mock(BotProperties.class);
-    DialogLoader dialogLoader = mock(DialogLoader.class);
-    DialogMap dialogMap = mock(DialogMap.class);
-
     String dialogFileName = "dialog.json";
     String nodeId = "node-87";
     DialogNode node = mock(DialogNode.class);

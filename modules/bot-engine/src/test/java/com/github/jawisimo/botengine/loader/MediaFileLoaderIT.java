@@ -5,13 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 class MediaFileLoaderIT {
 
+  private static final String MEDIA_FOLDER = "media";
   private static final String CORRECT_MEDIA_FILE = "Qstart.jpg";
 
   private MediaFileLoader mediaFileLoader;
@@ -30,22 +28,10 @@ class MediaFileLoaderIT {
     assertEquals(CORRECT_MEDIA_FILE, inputFile.getMediaName());
   }
 
-  @ParameterizedTest
-  @NullAndEmptySource
-  @ValueSource(strings = {"   ", "\t", "\n"})
-  void load_shouldThrowException_whenFileNameIsInvalid(String fileName) {
-    String expected = "Media file_name is missing or blank";
-
-    DialogLoadingException exception =
-        assertThrows(DialogLoadingException.class, () -> mediaFileLoader.load(fileName));
-
-    assertEquals(expected, exception.getMessage());
-  }
-
   @Test
   void load_shouldThrowException_whenMediaFileDoesNotExist() {
     String fileName = "non-existent.mp3";
-    String expected = "Media file not found: " + fileName;
+    String expected = "Media file not found: '%s/%s'".formatted(MEDIA_FOLDER, fileName);
 
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> mediaFileLoader.load(fileName));

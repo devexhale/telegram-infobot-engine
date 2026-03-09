@@ -42,7 +42,7 @@ class CommandsInitializerTest {
   private CommandsInitializer initializer;
 
   @BeforeEach
-  void setUp() {
+  void init() {
     initializer = new CommandsInitializer(client, List.of(command1, command2));
   }
 

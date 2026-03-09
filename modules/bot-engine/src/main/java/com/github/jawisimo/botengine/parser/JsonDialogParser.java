@@ -3,8 +3,8 @@ package com.github.jawisimo.botengine.parser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
-import com.github.jawisimo.botengine.interaction.node.model.DialogMap;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogNode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class JsonDialogParser implements DialogParser {
       TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
       return new DialogMap(jsonMapper.readValue(is, typeRef));
     } catch (IOException e) {
-      throw new DialogLoadingException("Failed to parse JSON dialog", e);
+      throw new DialogLoadingException("Failed to parse JSON dialog file", e);
     }
   }
 }

@@ -3,8 +3,8 @@ package com.github.jawisimo.botengine.interaction.keyboard;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import com.github.jawisimo.botengine.config.BotProperties;
-import com.github.jawisimo.botengine.interaction.node.model.Button;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
+import com.github.jawisimo.botengine.model.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -106,7 +106,7 @@ class KeyboardMarkupBuilderTest {
 
   @Test
   void buildInlineKeyboard_shouldReturnEmptyKeyboard_whenButtonsListIsEmpty() {
-    int buttonsPerRow = 2;
+    int buttonsPerRow = 3;
 
     when(botProperties.buttonsPerRow()).thenReturn(buttonsPerRow);
 

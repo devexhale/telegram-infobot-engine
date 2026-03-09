@@ -1,7 +1,7 @@
 package com.github.jawisimo.botengine.interaction.command.handler;
 
-import com.github.jawisimo.botengine.interaction.node.NodeExecutor;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.DialogNode;
+import com.github.jawisimo.botengine.interaction.navigator.NodeExecutor;
 import com.github.jawisimo.botengine.repository.DialogRepository;
 import com.github.jawisimo.botengine.service.UserStateService;
 import lombok.AccessLevel;

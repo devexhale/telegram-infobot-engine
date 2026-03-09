@@ -1,8 +1,9 @@
 package com.github.jawisimo.botengine.config.redis;
 
-import com.github.jawisimo.botengine.config.BotProperties;
+import static com.github.jawisimo.botengine.util.EnvironmentDetector.isTestEnvironment;
+
+import com.github.jawisimo.botengine.config.bot.BotProperties;
 import com.github.jawisimo.botengine.exception.RedisConnectionException;
-import com.github.jawisimo.botengine.util.EnvironmentDetector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -11,8 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-
-import static com.github.jawisimo.botengine.util.EnvironmentDetector.isTestEnvironment;
 
 /**
  * Performs startup verification of Redis integration when persistent user state is enabled.

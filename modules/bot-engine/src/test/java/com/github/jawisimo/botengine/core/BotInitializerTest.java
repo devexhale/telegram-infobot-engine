@@ -9,7 +9,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import com.github.jawisimo.botengine.config.BotProperties;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
 import com.github.jawisimo.botengine.interaction.command.CommandsInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class BotInitializerTest {
   private BotInitializer botInitializer;
 
   @BeforeEach
-  void setUp() {
+  void init() {
     botInitializer = new BotInitializer(commandsInitializer, properties);
   }
 

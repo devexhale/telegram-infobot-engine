@@ -1,16 +1,15 @@
 package com.github.jawisimo.botengine.interaction.content;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
-import com.github.jawisimo.botengine.interaction.node.model.Button;
-import com.github.jawisimo.botengine.interaction.node.model.ButtonType;
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.Button;
+import com.github.jawisimo.botengine.model.ButtonType;
+import com.github.jawisimo.botengine.model.ContentNode;
+import com.github.jawisimo.botengine.model.DialogNode;
 import com.github.jawisimo.botengine.repository.MessageRepository;
 import com.github.jawisimo.botengine.validator.DialogValidator;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +17,6 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ContentExecutorTest {
@@ -43,9 +40,7 @@ class ContentExecutorTest {
   void setUp() {
     contentExecutor =
         new ContentExecutor(
-            List.of(textHandler, photoHandler, audioHandler, videoHandler),
-            messageRepository,
-            dialogValidator);
+            List.of(textHandler, photoHandler, audioHandler, videoHandler), messageRepository);
   }
 
   @Test
@@ -134,16 +129,8 @@ class ContentExecutorTest {
     contentExecutor.execute(node, CHAT_ID);
 
     InOrder inOrder = inOrder(dialogValidator, textHandler);
-    inOrder
-        .verify(dialogValidator)
-        .validateContent(
-            contentNode1, List.of(textHandler, photoHandler, audioHandler, videoHandler));
     inOrder.verify(textHandler).canHandle(contentNode1);
     inOrder.verify(textHandler).handle(contentNode1, CHAT_ID);
-    inOrder
-        .verify(dialogValidator)
-        .validateContent(
-            contentNode2, List.of(textHandler, photoHandler, audioHandler, videoHandler));
     inOrder.verify(textHandler).canHandle(contentNode2);
     inOrder.verify(textHandler).handle(contentNode2, CHAT_ID);
   }
@@ -191,20 +178,6 @@ class ContentExecutorTest {
 
     verify(textHandler).handle(contentNode, CHAT_ID);
     verify(messageRepository, never()).save(anyString(), anyInt());
-  }
-
-  @Test
-  void execute_shouldThrowException_whenValidatorFails() {
-    ContentNode contentNode = mock(ContentNode.class);
-    DialogNode node = new DialogNode(List.of(contentNode), MESSAGE_TEXT, BUTTON_TYPE, BUTTONS);
-
-    doThrow(new DialogLoadingException("Validation failed"))
-        .when(dialogValidator)
-        .validateContent(
-            contentNode, List.of(textHandler, photoHandler, audioHandler, videoHandler));
-
-    assertThrows(DialogLoadingException.class, () -> contentExecutor.execute(node, CHAT_ID));
-    verifyNoInteractions(textHandler, photoHandler, audioHandler, videoHandler, messageRepository);
   }
 
   @Test

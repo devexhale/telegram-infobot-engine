@@ -2,39 +2,38 @@ package com.github.jawisimo.botengine.validator;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import java.util.stream.IntStream;
+import lombok.experimental.UtilityClass;
 
 /**
- * Utility class for formatting validation error messages.
+ * Utility for formatting validation errors and warnings.
  *
- * <p>Produces human-readable error descriptions used during dialog validation.
+ * <p>Builds a numbered list of issues with a header message.
+ *
+ * <p>Each issue is prefixed with its index starting from 1.
+ *
+ * <p>The formatted output is used in validation exceptions and logs.
  *
  * @since 1.0
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class ValidationErrorFormatter {
 
   /**
-   * Formats validation errors into a readable message.
+   * Formats a list of issues with a header and numbered entries.
    *
-   * @param header the message header describing the validation context
-   * @param errors the list of validation errors
-   * @return a formatted error message or an empty string if no errors exist
+   * <p>Each issue is placed on a new line and prefixed with its index.
+   *
+   * @param header the header message describing the validation context
+   * @param issues the list of validation issues
+   * @return formatted validation message
    */
-  public static String format(String header, List<String> errors) {
-    if (errors.isEmpty()) {
-      return "";
-    }
+  public static String format(String header, List<String> issues) {
+    String formattedIssues =
+        IntStream.range(0, issues.size())
+            .mapToObj(i -> (i + 1) + ". " + issues.get(i))
+            .collect(Collectors.joining(System.lineSeparator()));
 
-    if (errors.size() == 1) {
-      return errors.getFirst();
-    }
-
-    return header
-        + " with "
-        + errors.size()
-        + " error(s):\n"
-        + errors.stream().map(e -> "  - " + e).collect(Collectors.joining("\n"));
+    return header + System.lineSeparator() + formattedIssues;
   }
 }

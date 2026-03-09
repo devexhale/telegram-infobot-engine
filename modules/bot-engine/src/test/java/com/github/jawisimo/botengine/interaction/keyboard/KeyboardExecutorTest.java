@@ -1,10 +1,14 @@
 package com.github.jawisimo.botengine.interaction.keyboard;
 
-import com.github.jawisimo.botengine.interaction.node.model.Button;
-import com.github.jawisimo.botengine.interaction.node.model.ButtonType;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import com.github.jawisimo.botengine.model.Button;
+import com.github.jawisimo.botengine.model.ButtonType;
+import com.github.jawisimo.botengine.model.DialogNode;
 import com.github.jawisimo.botengine.repository.MessageRepository;
-import com.github.jawisimo.botengine.validator.DialogValidator;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -19,11 +23,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class KeyboardExecutorTest {
 
@@ -37,30 +36,35 @@ class KeyboardExecutorTest {
 
   @Mock private TelegramClient client;
   @Mock private KeyboardMarkupBuilder keyboardBuilder;
-  @Mock private DialogValidator dialogValidator;
   @Mock private MessageRepository messageRepository;
 
   @InjectMocks private KeyboardExecutor keyboardExecutor;
 
+  @Mock private Message sentMsg;
+
   @Captor private ArgumentCaptor<SendMessage> sendMessageCaptor;
+
+  private Button button;
+
+  @BeforeEach
+  void init() {
+    button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
+  }
 
   @Test
   void execute_shouldSendReplyKeyboardAndSaveMessageId_whenNodeButtonTypeIsReply()
       throws TelegramApiException {
-    Button button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
     List<Button> buttons = List.of(button);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.REPLY, buttons);
 
     ReplyKeyboardMarkup replyMarkup = ReplyKeyboardMarkup.builder().build();
-    Message sentMessage = mock(Message.class);
 
     when(keyboardBuilder.buildReplyKeyboard(buttons)).thenReturn(replyMarkup);
-    when(client.execute(any(SendMessage.class))).thenReturn(sentMessage);
-    when(sentMessage.getMessageId()).thenReturn(MESSAGE_ID);
+    when(client.execute(any(SendMessage.class))).thenReturn(sentMsg);
+    when(sentMsg.getMessageId()).thenReturn(MESSAGE_ID);
 
     keyboardExecutor.execute(node, CHAT_ID);
 
-    verify(dialogValidator).validateButtons(node);
     verify(keyboardBuilder).buildReplyKeyboard(buttons);
     verify(keyboardBuilder, never()).buildInlineKeyboard(anyList());
     verify(client).execute(sendMessageCaptor.capture());
@@ -74,20 +78,17 @@ class KeyboardExecutorTest {
   @Test
   void execute_shouldSendInlineKeyboardAndSaveMessageId_whenNodeButtonTypeIsInline()
       throws TelegramApiException {
-    Button button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
     List<Button> buttons = List.of(button);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, buttons);
 
     InlineKeyboardMarkup inlineMarkup = InlineKeyboardMarkup.builder().build();
-    Message sentMessage = mock(Message.class);
 
     when(keyboardBuilder.buildInlineKeyboard(buttons)).thenReturn(inlineMarkup);
-    when(client.execute(any(SendMessage.class))).thenReturn(sentMessage);
-    when(sentMessage.getMessageId()).thenReturn(MESSAGE_ID);
+    when(client.execute(any(SendMessage.class))).thenReturn(sentMsg);
+    when(sentMsg.getMessageId()).thenReturn(MESSAGE_ID);
 
     keyboardExecutor.execute(node, CHAT_ID);
 
-    verify(dialogValidator).validateButtons(node);
     verify(keyboardBuilder).buildInlineKeyboard(buttons);
     verify(keyboardBuilder, never()).buildReplyKeyboard(anyList());
     verify(client).execute(sendMessageCaptor.capture());
@@ -101,7 +102,6 @@ class KeyboardExecutorTest {
   @Test
   void execute_shouldNotSaveMessageId_whenTelegramClientThrowsTelegramApiException()
       throws TelegramApiException {
-    Button button = new Button(BUTTON_LABEL, BUTTON_NEXT, BUTTON_URL);
     List<Button> buttons = List.of(button);
     DialogNode node = new DialogNode(null, NODE_MESSAGE, ButtonType.INLINE, buttons);
 
@@ -113,7 +113,6 @@ class KeyboardExecutorTest {
 
     keyboardExecutor.execute(node, CHAT_ID);
 
-    verify(dialogValidator).validateButtons(node);
     verify(keyboardBuilder).buildInlineKeyboard(buttons);
     verify(client).execute(any(SendMessage.class));
     verify(messageRepository, never()).save(anyString(), anyInt());

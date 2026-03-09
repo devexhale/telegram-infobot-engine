@@ -28,7 +28,7 @@ class CommandExecutorTest {
   private CommandExecutor commandExecutor;
 
   @BeforeEach
-  void setUp() {
+  void init() {
     commandExecutor = new CommandExecutor(List.of(startHandler, lastHandler));
   }
 

@@ -1,7 +1,7 @@
 package com.github.jawisimo.botengine.interaction.keyboard;
 
-import com.github.jawisimo.botengine.config.BotProperties;
-import com.github.jawisimo.botengine.interaction.node.model.Button;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
+import com.github.jawisimo.botengine.model.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

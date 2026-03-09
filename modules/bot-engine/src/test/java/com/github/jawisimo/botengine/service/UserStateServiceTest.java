@@ -3,7 +3,7 @@ package com.github.jawisimo.botengine.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.model.UserState;
 import com.github.jawisimo.botengine.repository.UserStateRepositoryFacade;
 
 import java.util.Optional;
@@ -33,15 +33,13 @@ class UserStateServiceTest {
   @MethodSource("provideUserStateScenarios")
   void getUserStateOrDefault_shouldReturnCorrectState(
       UserState repositoryState, String defaultState, String expectedResult) {
-
-    String chatId = "chat-1";
     Optional<UserState> repositoryResult = Optional.ofNullable(repositoryState);
-    when(userStateRepositoryFacade.findByChatId(chatId)).thenReturn(repositoryResult);
+    when(userStateRepositoryFacade.findByChatId(CHAT_ID)).thenReturn(repositoryResult);
 
-    String actualResult = service.getUserStateOrDefault(chatId, defaultState);
+    String actualResult = service.getUserStateOrDefault(CHAT_ID, defaultState);
 
     assertEquals(expectedResult, actualResult);
-    verify(userStateRepositoryFacade).findByChatId(chatId);
+    verify(userStateRepositoryFacade).findByChatId(CHAT_ID);
   }
 
   @Test

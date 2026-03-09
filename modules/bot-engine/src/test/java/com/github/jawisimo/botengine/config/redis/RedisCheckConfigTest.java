@@ -7,7 +7,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import com.github.jawisimo.botengine.config.BotProperties;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
 import com.github.jawisimo.botengine.exception.RedisConnectionException;
 import com.github.jawisimo.botengine.util.EnvironmentDetector;
 import org.junit.jupiter.api.AfterEach;

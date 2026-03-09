@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.interaction.content.handler;
 
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
+import com.github.jawisimo.botengine.model.ContentNode;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 /**

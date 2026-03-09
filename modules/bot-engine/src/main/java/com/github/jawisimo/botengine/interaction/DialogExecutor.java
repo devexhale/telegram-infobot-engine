@@ -1,9 +1,12 @@
 package com.github.jawisimo.botengine.interaction;
 
 import com.github.jawisimo.botengine.interaction.command.CommandExecutor;
-import com.github.jawisimo.botengine.interaction.node.NodeNavigator;
+import com.github.jawisimo.botengine.interaction.navigator.NavigationResultHandler;
+import com.github.jawisimo.botengine.interaction.navigator.NextNodeKeyResolver;
+import com.github.jawisimo.botengine.interaction.navigator.NodeRouter;
+import com.github.jawisimo.botengine.interaction.navigator.dto.NavigationRequest;
+import com.github.jawisimo.botengine.interaction.navigator.dto.NavigationResult;
 import com.github.jawisimo.botengine.service.MessageCleanupService;
-import com.github.jawisimo.botengine.service.UserStateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,8 +16,15 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 /**
  * Entry point for executing dialog interactions within the framework.
  *
- * <p>Routes incoming messages and callback queries to command handling or node navigation.
- * Coordinates message cleanup, node execution, and user state persistence.
+ * <p>Routes incoming {@link Message} updates and {@link CallbackQuery} events to command execution
+ * or dialog navigation.
+ *
+ * <p>{@link MessageCleanupService} performs message cleanup before further processing.
+ *
+ * <p>{@link CommandExecutor} handles commands when present. Otherwise the input is resolved by
+ * {@link NextNodeKeyResolver} and routed by {@link NodeRouter}.
+ *
+ * <p>{@link NavigationResultHandler} processes the {@link NavigationResult}.
  *
  * @since 1.0
  */
@@ -23,15 +33,19 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 @Slf4j
 public class DialogExecutor {
 
-  private static final String DELETE_MESSAGE = "Message deleted from chat";
-
   private final MessageCleanupService cleanupService;
-  private final UserStateService userStateService;
-  private final NodeNavigator nodeNavigator;
+  private final NextNodeKeyResolver nextNodeKeyResolver;
+  private final NodeRouter nodeRouter;
+  private final NavigationResultHandler navigationResultHandler;
   private final CommandExecutor commandExecutor;
 
   /**
-   * Executes a dialog step for an incoming text message.
+   * Processes an incoming message update.
+   *
+   * <p>Deletes redundant user messages and attempts to execute a command.
+   *
+   * <p>If no command matches, the message text is resolved to a {@link NavigationRequest}. The
+   * request is routed to a dialog node and the navigation result is handled.
    *
    * @param message the incoming Telegram message
    */
@@ -45,17 +59,20 @@ public class DialogExecutor {
       return;
     }
 
-    String nextNodeKey = nodeNavigator.getNextNodeKey(chatId, userInput);
-
-    if (nodeNavigator.navigateToNode(chatId, nextNodeKey)) {
-      userStateService.saveUserState(chatId, nextNodeKey);
-    } else {
-      log.warn("Irrelevant message sent: \"{}\". {}: {}", userInput, DELETE_MESSAGE, chatId);
-    }
+    NavigationRequest request = nextNodeKeyResolver.resolve(chatId, userInput);
+    NavigationResult result = nodeRouter.route(chatId, request);
+    navigationResultHandler.handle(chatId, request, result);
   }
 
   /**
-   * Executes a dialog step for an incoming callback query.
+   * Processes an incoming callback query event.
+   *
+   * <p>Clears the last node message and attempts to execute a command.
+   *
+   * <p>If no command matches, callback data is treated as a button action.
+   *
+   * <p>The data is converted to a {@link NavigationRequest}.The request is routed and the
+   * navigation result is handled.
    *
    * @param callbackQuery the incoming Telegram callback query
    */
@@ -63,17 +80,12 @@ public class DialogExecutor {
     String chatId = callbackQuery.getMessage().getChatId().toString();
     String callbackData = callbackQuery.getData();
 
-    cleanupService.clearLastNode(chatId);
-
     if (commandExecutor.executeIfExists(chatId, callbackData)) {
       return;
     }
 
-    if (nodeNavigator.navigateToNode(chatId, callbackData)) {
-      userStateService.saveUserState(chatId, callbackData);
-    } else {
-      log.warn(
-          "No dialog node found for input: \"{}\". {}: {}", callbackData, DELETE_MESSAGE, chatId);
-    }
+    NavigationRequest request = new NavigationRequest(callbackData, callbackData, true);
+    NavigationResult result = nodeRouter.route(chatId, request);
+    navigationResultHandler.handle(chatId, request, result);
   }
 }

@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.parser;
 
-import com.github.jawisimo.botengine.interaction.node.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogMap;
 import java.io.InputStream;
 
 /**

@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.core;
 
-import com.github.jawisimo.botengine.config.BotProperties;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
 import com.github.jawisimo.botengine.interaction.command.CommandsInitializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

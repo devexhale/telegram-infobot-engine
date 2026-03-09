@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.repository;
 
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.DialogNode;
 
 /**
  * Provides access to dialog nodes by their identifier.

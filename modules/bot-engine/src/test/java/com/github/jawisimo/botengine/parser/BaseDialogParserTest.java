@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
-import com.github.jawisimo.botengine.interaction.node.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogMap;
 import java.io.InputStream;
 import org.junit.jupiter.api.Test;
 

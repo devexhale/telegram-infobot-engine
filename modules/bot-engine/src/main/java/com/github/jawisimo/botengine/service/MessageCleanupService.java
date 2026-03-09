@@ -1,5 +1,6 @@
 package com.github.jawisimo.botengine.service;
 
+import com.github.jawisimo.botengine.interaction.command.commandset.Command;
 import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
 import com.github.jawisimo.botengine.repository.MessageRepository;
 import java.util.List;
@@ -27,6 +28,7 @@ public class MessageCleanupService {
 
   private final TelegramClient client;
   private final MessageRepository messageRepository;
+  private final List<Command> commands;
 
   /**
    * Deletes a message by chat and message identifiers.
@@ -59,8 +61,14 @@ public class MessageCleanupService {
     }
 
     String text = message.getText();
-    if (text != null && text.equals(StartCommand.COMMAND_NAME)) {
-      return;
+
+    if (text == null) return;
+
+    for (Command command : commands) {
+      if (text.equals(command.getCommandName())) {
+        command.getCommand();
+        return;
+      }
     }
 
     String chatId = message.getChatId().toString();

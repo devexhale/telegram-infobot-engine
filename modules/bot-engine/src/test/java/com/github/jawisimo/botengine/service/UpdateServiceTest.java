@@ -28,11 +28,12 @@ class UpdateServiceTest {
 
   @InjectMocks private UpdateService service;
 
+  @Mock private Update update;
+  @Mock private Message message;
+  @Mock private CallbackQuery callbackQuery;
+
   @Test
   void dispatchHasMessage() {
-    Update update = mock(Update.class);
-    Message message = mock(Message.class);
-
     when(update.hasMessage()).thenReturn(true);
     when(update.getMessage()).thenReturn(message);
 
@@ -44,9 +45,6 @@ class UpdateServiceTest {
 
   @Test
   void dispatchHasCallbackQuery() {
-    Update update = mock(Update.class);
-    CallbackQuery callbackQuery = mock(CallbackQuery.class);
-
     when(update.hasMessage()).thenReturn(false);
     when(update.hasCallbackQuery()).thenReturn(true);
     when(update.getCallbackQuery()).thenReturn(callbackQuery);
@@ -59,9 +57,6 @@ class UpdateServiceTest {
 
   @Test
   void dispatch_shouldNotThrow_whenExecutorThrowsException_forMessage() {
-    Update update = mock(Update.class);
-    Message message = mock(Message.class);
-
     when(update.hasMessage()).thenReturn(true);
     when(update.getMessage()).thenReturn(message);
     doThrow(new RuntimeException(FAIL_PARAM)).when(executor).executeMessage(message);
@@ -73,9 +68,6 @@ class UpdateServiceTest {
 
   @Test
   void dispatch_shouldNotThrow_whenExecutorThrowsException_forCallback() {
-    Update update = mock(Update.class);
-    CallbackQuery callbackQuery = mock(CallbackQuery.class);
-
     when(update.hasMessage()).thenReturn(false);
     when(update.hasCallbackQuery()).thenReturn(true);
     when(update.getCallbackQuery()).thenReturn(callbackQuery);
@@ -88,7 +80,6 @@ class UpdateServiceTest {
 
   @Test
   void dispatchTypeUnsupported() {
-    Update update = mock(Update.class);
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(update.hasMessage()).thenReturn(false);
@@ -103,8 +94,6 @@ class UpdateServiceTest {
 
   @Test
   void dispatch_shouldLogError_whenExecutorThrowsException_forMessage() {
-    Update update = mock(Update.class);
-    Message message = mock(Message.class);
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(update.hasMessage()).thenReturn(true);
@@ -116,13 +105,11 @@ class UpdateServiceTest {
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());
     assertTrue(event.getFormattedMessage().contains(UPDATE_ERROR_MESSAGE));
-    assertTrue(event.getFormattedMessage().contains(FAIL_PARAM));
+    assertEquals(FAIL_PARAM, event.getThrowableProxy().getMessage());
   }
 
   @Test
   void dispatch_shouldLogError_whenExecutorThrowsException_forCallback() {
-    Update update = mock(Update.class);
-    CallbackQuery callbackQuery = mock(CallbackQuery.class);
     ListAppender<ILoggingEvent> listAppender = getListAppender();
 
     when(update.hasMessage()).thenReturn(false);
@@ -135,7 +122,7 @@ class UpdateServiceTest {
     ILoggingEvent event = listAppender.list.getFirst();
     assertEquals(Level.ERROR, event.getLevel());
     assertTrue(event.getFormattedMessage().contains(UPDATE_ERROR_MESSAGE));
-    assertTrue(event.getFormattedMessage().contains(FAIL_PARAM));
+    assertEquals(FAIL_PARAM, event.getThrowableProxy().getMessage());
   }
 
   private ListAppender<ILoggingEvent> getListAppender() {

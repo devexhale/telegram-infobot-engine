@@ -1,63 +1,49 @@
 package com.github.jawisimo.botengine.validator;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class ValidationErrorFormatterTest {
 
-  private static final String HEADER = "Header";
+  private static final String HEADER = "Validation failed";
+  private static final String ISSUE_ONE = "First issue";
+  private static final String ISSUE_TWO = "Second issue";
+  private static final String ISSUE_THREE = "Third issue";
+  private static final String NL = System.lineSeparator();
 
   @Test
-  void format_shouldReturnEmptyString_whenErrorsListIsEmpty() {
-    String result = ValidationErrorFormatter.format(HEADER, List.of());
+  void format_shouldReturnHeaderAndNumberedIssues_whenMultipleIssuesProvided() {
+    List<String> issues = List.of(ISSUE_ONE, ISSUE_TWO, ISSUE_THREE);
 
-    assertEquals("", result);
-  }
-
-  @Test
-  void format_shouldReturnSingleErrorWithoutHeader_whenOnlyOneErrorProvided() {
-    String error = "Some validation error";
-
-    String result = ValidationErrorFormatter.format(HEADER, List.of(error));
-
-    assertEquals(error, result);
-  }
-
-  @Test
-  void format_shouldReturnFormattedMessage_whenMultipleErrorsProvided() {
-    String header = "Dialog validation failed";
-    List<String> errors = List.of("Node A is missing", "Button B has no target");
+    String result = ValidationErrorFormatter.format(HEADER, issues);
 
     String expected =
-        """
-                    Dialog validation failed with 2 error(s):
-                      - Node A is missing
-                      - Button B has no target""";
-
-    String result = ValidationErrorFormatter.format(header, errors);
+        HEADER + NL + "1. " + ISSUE_ONE + NL + "2. " + ISSUE_TWO + NL + "3. " + ISSUE_THREE;
 
     assertEquals(expected, result);
   }
 
   @Test
-  void format_shouldIncludeCorrectErrorCount_whenMultipleErrorsProvided() {
-    String header = "Header";
-    List<String> errors = List.of("e1", "e2", "e3");
+  void format_shouldReturnHeaderAndSingleIssue_whenOneIssueProvided() {
+    List<String> issues = List.of(ISSUE_ONE);
 
-    String result = ValidationErrorFormatter.format(header, errors);
+    String result = ValidationErrorFormatter.format(HEADER, issues);
 
-    assertTrue(result.contains("3 error(s)"));
+    String expected = HEADER + NL + "1. " + ISSUE_ONE;
+
+    assertEquals(expected, result);
   }
 
   @Test
-  void format_shouldHandleNullHeader_whenMultipleErrorsProvided() {
-    List<String> errors = List.of("e1", "e2");
+  void format_shouldReturnHeaderAndNoIssues_whenIssueListIsEmpty() {
+    List<String> issues = List.of();
 
-    String result = ValidationErrorFormatter.format(null, errors);
+    String result = ValidationErrorFormatter.format(HEADER, issues);
 
-    assertTrue(result.startsWith("null with 2 error(s):"));
+    String expected = HEADER + NL;
+
+    assertEquals(expected, result);
   }
 }

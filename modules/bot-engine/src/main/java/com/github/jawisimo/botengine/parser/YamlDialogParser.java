@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
-import com.github.jawisimo.botengine.interaction.node.model.DialogMap;
-import com.github.jawisimo.botengine.interaction.node.model.DialogNode;
+import com.github.jawisimo.botengine.model.DialogMap;
+import com.github.jawisimo.botengine.model.DialogNode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class YamlDialogParser implements DialogParser {
       TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
       return new DialogMap(yamlMapper.readValue(is, typeRef));
     } catch (IOException e) {
-      throw new DialogLoadingException("Failed to parse YAML dialog", e);
+      throw new DialogLoadingException("Failed to parse YAML dialog file", e);
     }
   }
 }

@@ -1,7 +1,7 @@
 package com.github.jawisimo.botengine.repository;
 
-import com.github.jawisimo.botengine.annotation.UserStatePersistent;
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.config.redis.UserStatePersistent;
+import com.github.jawisimo.botengine.model.UserState;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.repository.CrudRepository;

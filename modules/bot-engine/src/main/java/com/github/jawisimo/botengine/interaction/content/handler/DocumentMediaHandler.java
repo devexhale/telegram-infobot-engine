@@ -1,7 +1,7 @@
 package com.github.jawisimo.botengine.interaction.content.handler;
 
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
-import com.github.jawisimo.botengine.interaction.node.model.Media;
+import com.github.jawisimo.botengine.model.ContentNode;
+import com.github.jawisimo.botengine.model.Media;
 import com.github.jawisimo.botengine.loader.MediaFileLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

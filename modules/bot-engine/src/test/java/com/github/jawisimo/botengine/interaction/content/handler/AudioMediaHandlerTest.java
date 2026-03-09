@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.interaction.node.model.ContentNode;
 import com.github.jawisimo.botengine.loader.MediaFileLoader;
+import com.github.jawisimo.botengine.model.ContentNode;
 import org.junit.jupiter.api.Test;
 import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -30,14 +30,13 @@ class AudioMediaHandlerTest extends BaseMediaHandlerTest<AudioMediaHandler> {
   @Test
   void handle_shouldSendAudioSuccessfully() throws TelegramApiException {
     ContentNode contentNode = createContentNodeWithExpectedMediaType(CAPTION);
-    Message expectedMessage = new Message();
 
-    when(telegramClient.execute(any(SendAudio.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendAudio.class))).thenReturn(expectedMsg);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
     assertNotNull(result);
-    assertEquals(expectedMessage, result);
+    assertEquals(expectedMsg, result);
     verify(mediaFileLoader).load(FILE_NAME);
     verify(telegramClient).execute(any(SendAudio.class));
   }
@@ -57,14 +56,13 @@ class AudioMediaHandlerTest extends BaseMediaHandlerTest<AudioMediaHandler> {
   @Test
   void handle_shouldHandleSuccessfully_whenCaptionIsNull() throws TelegramApiException {
     ContentNode contentNode = createContentNodeWithExpectedMediaType(null);
-    Message expectedMessage = new Message();
 
-    when(telegramClient.execute(any(SendAudio.class))).thenReturn(expectedMessage);
+    when(telegramClient.execute(any(SendAudio.class))).thenReturn(expectedMsg);
 
     Message result = handler.handle(contentNode, CHAT_ID);
 
     assertNotNull(result);
-    assertEquals(expectedMessage, result);
+    assertEquals(expectedMsg, result);
   }
 
   @Test

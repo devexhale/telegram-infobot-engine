@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.repository;
 
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.model.UserState;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;

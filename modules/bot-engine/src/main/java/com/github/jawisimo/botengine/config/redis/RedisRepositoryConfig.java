@@ -1,6 +1,5 @@
 package com.github.jawisimo.botengine.config.redis;
 
-import com.github.jawisimo.botengine.annotation.UserStatePersistent;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;

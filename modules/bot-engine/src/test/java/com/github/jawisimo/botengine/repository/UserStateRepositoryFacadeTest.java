@@ -3,8 +3,8 @@ package com.github.jawisimo.botengine.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.github.jawisimo.botengine.config.BotProperties;
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.config.bot.BotProperties;
+import com.github.jawisimo.botengine.model.UserState;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -22,6 +22,10 @@ class UserStateRepositoryFacadeTest {
   private static final String CHAT_ID = "chat-95";
   private static final String NODE_ID = "some_node";
 
+  private static final String IN_MEMORY_USER_STATE_REPOSITORY_SET =
+      "setInMemoryUserStateRepository";
+  private static final String REDIS_USER_STATE_REPOSITORY_SET = "setRedisUserStateRepository";
+
   @Mock private BotProperties properties;
   @Mock private RedisUserStateRepository redisRepository;
   @Mock private InMemoryUserStateRepository inMemoryRepository;
@@ -29,14 +33,14 @@ class UserStateRepositoryFacadeTest {
   private UserStateRepositoryFacade repository;
 
   private UserState userState;
-  private UserState expected;
+  private UserState expectedUserState;
 
   @BeforeEach
-  void setUp() {
+  void init() {
     repository = new UserStateRepositoryFacade(properties);
 
     userState = new UserState(CHAT_ID, NODE_ID);
-    expected = userState;
+    expectedUserState = userState;
   }
 
   @ParameterizedTest
@@ -46,16 +50,16 @@ class UserStateRepositoryFacadeTest {
     when(properties.userStatePersistent()).thenReturn(persistent);
 
     if (persistent) {
-      when(redisRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
+      when(redisRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expectedUserState));
     } else {
-      when(inMemoryRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
+      when(inMemoryRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expectedUserState));
     }
 
     injectRepositories();
 
     Optional<UserState> result = repository.findByChatId(CHAT_ID);
 
-    assertEquals(Optional.of(expected), result);
+    assertEquals(Optional.of(expectedUserState), result);
 
     if (persistent) {
       verify(redisRepository).findByChatId(CHAT_ID);
@@ -88,13 +92,13 @@ class UserStateRepositoryFacadeTest {
   @Test
   void shouldAssignOnlyRedisRepository_whenUserStatePersistentIsTrue() {
     when(properties.userStatePersistent()).thenReturn(true);
-    when(redisRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
+    when(redisRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expectedUserState));
 
     injectRepositories();
 
     Optional<UserState> result = repository.findByChatId(CHAT_ID);
 
-    assertEquals(Optional.of(expected), result);
+    assertEquals(Optional.of(expectedUserState), result);
     verify(redisRepository).findByChatId(CHAT_ID);
     verifyNoInteractions(inMemoryRepository);
   }
@@ -102,21 +106,21 @@ class UserStateRepositoryFacadeTest {
   @Test
   void shouldAssignOnlyInMemoryRepository_whenUserStatePersistentIsFalse() {
     when(properties.userStatePersistent()).thenReturn(false);
-    when(inMemoryRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expected));
+    when(inMemoryRepository.findByChatId(CHAT_ID)).thenReturn(Optional.of(expectedUserState));
 
     injectRepositories();
 
     Optional<UserState> result = repository.findByChatId(CHAT_ID);
 
-    assertEquals(Optional.of(expected), result);
+    assertEquals(Optional.of(expectedUserState), result);
     verify(inMemoryRepository).findByChatId(CHAT_ID);
     verifyNoInteractions(redisRepository);
   }
 
   private void injectRepositories() {
-    invokeSetter("setRedisUserStateRepository", RedisUserStateRepository.class, redisRepository);
     invokeSetter(
-        "setInMemoryUserStateRepository", InMemoryUserStateRepository.class, inMemoryRepository);
+        IN_MEMORY_USER_STATE_REPOSITORY_SET, InMemoryUserStateRepository.class, inMemoryRepository);
+    invokeSetter(REDIS_USER_STATE_REPOSITORY_SET, RedisUserStateRepository.class, redisRepository);
   }
 
   private <T> void invokeSetter(String methodName, Class<T> paramType, T argument) {

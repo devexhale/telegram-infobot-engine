@@ -1,6 +1,6 @@
 package com.github.jawisimo.botengine.service;
 
-import com.github.jawisimo.botengine.interaction.node.model.UserState;
+import com.github.jawisimo.botengine.model.UserState;
 import com.github.jawisimo.botengine.repository.UserStateRepositoryFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
