@@ -35,8 +35,8 @@ class YamlDialogParserTest extends BaseDialogParserTest {
 
   @Override
   @Test
-  void canParse_shouldReturnTrue_forCorrectExtensions() {
-    assertTrue(yamlParser.canParse(CORRECT_YAML_FILE));
-    assertTrue(yamlParser.canParse(CORRECT_YML_FILE));
+  void supports_shouldReturnTrue_whenFileExtensionIsSupported() {
+    assertTrue(yamlParser.supports(CORRECT_YAML_FILE));
+    assertTrue(yamlParser.supports(CORRECT_YML_FILE));
   }
 }

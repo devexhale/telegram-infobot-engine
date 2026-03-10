@@ -51,7 +51,7 @@ class NavigationResultHandlerTest {
         listAppender.list.stream()
             .anyMatch(
                 event ->
-                    event.getLevel() == Level.ERROR
+                    event.getLevel() == Level.WARN
                         && event.getFormattedMessage().contains("Dialog node 'node_1' not found"));
 
     assertTrue(logFound);

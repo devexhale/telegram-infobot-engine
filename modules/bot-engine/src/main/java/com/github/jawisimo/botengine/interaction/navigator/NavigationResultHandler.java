@@ -42,7 +42,7 @@ public class NavigationResultHandler {
   public void handle(String chatId, NavigationRequest request, NavigationResult result) {
     switch (result) {
       case SUCCESS -> userStateService.saveUserState(chatId, request.nodeKey());
-      case NODE_NOTE_FOUND -> log.error("Dialog node '{}' not found", request.nodeKey());
+      case NODE_NOTE_FOUND -> log.warn("Dialog node '{}' not found", request.nodeKey());
       case IRRELEVANT_INPUT ->
           log.warn(
               "Irrelevant message sent: '{}'. {}: '{}'",

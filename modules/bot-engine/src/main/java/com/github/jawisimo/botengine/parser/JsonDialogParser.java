@@ -26,22 +26,20 @@ public class JsonDialogParser implements DialogParser {
 
   /** Returns {@code true} if the file has a {@code .json} extension. */
   @Override
-  public boolean canParse(String fileName) {
-    return fileName.endsWith(FORMAT_JSON);
+  public boolean supports(String dialogFileName) {
+    return dialogFileName.endsWith(FORMAT_JSON);
   }
 
   /**
    * Parses a JSON dialog configuration into a {@link DialogMap}.
    *
+   * @param is the JSON input stream
+   * @return the parsed dialog map
    * @throws DialogLoadingException if parsing fails
    */
   @Override
-  public DialogMap parse(InputStream is) {
-    try {
-      TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
-      return new DialogMap(jsonMapper.readValue(is, typeRef));
-    } catch (IOException e) {
-      throw new DialogLoadingException("Failed to parse JSON dialog file", e);
-    }
+  public DialogMap parse(InputStream is) throws IOException {
+    TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
+    return new DialogMap(jsonMapper.readValue(is, typeRef));
   }
 }

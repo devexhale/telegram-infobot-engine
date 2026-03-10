@@ -1,6 +1,8 @@
 package com.github.jawisimo.botengine.parser;
 
 import com.github.jawisimo.botengine.model.DialogMap;
+
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -16,10 +18,10 @@ public interface DialogParser {
   /**
    * Determines whether this parser supports the given file.
    *
-   * @param fileName the dialog configuration file name
+   * @param dialogFileName the dialog configuration file name
    * @return {@code true} if the parser can handle the file format
    */
-  boolean canParse(String fileName);
+  boolean supports(String dialogFileName);
 
   /**
    * Parses the provided input stream into a dialog model.
@@ -27,5 +29,5 @@ public interface DialogParser {
    * @param is the input stream containing dialog configuration data
    * @return the parsed {@link DialogMap}
    */
-  DialogMap parse(InputStream is);
+  DialogMap parse(InputStream is) throws IOException;
 }

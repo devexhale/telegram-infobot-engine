@@ -3,18 +3,10 @@ package com.github.jawisimo.botengine.validator;
 import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.interaction.command.commandset.StartCommand;
 import com.github.jawisimo.botengine.interaction.content.handler.ContentHandler;
-import com.github.jawisimo.botengine.model.Button;
-import com.github.jawisimo.botengine.model.ButtonType;
-import com.github.jawisimo.botengine.model.ContentNode;
-import com.github.jawisimo.botengine.model.ContentType;
-import com.github.jawisimo.botengine.model.DialogMap;
-import com.github.jawisimo.botengine.model.DialogNode;
-import com.github.jawisimo.botengine.model.Media;
-
+import com.github.jawisimo.botengine.model.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,7 +28,6 @@ import org.springframework.stereotype.Component;
 public class DialogValidator {
 
   private static final String MEDIA_FOLDER = "media";
-
   private final List<ContentHandler> contentHandlers;
 
   /**
@@ -57,14 +48,13 @@ public class DialogValidator {
 
     if (dialogMap != null) {
       validateStartNode(dialogMap, fileName, errors);
-
-      for (Map.Entry<String, DialogNode> entry : dialogMap.nodes().entrySet()) {
-        validateNode(entry.getKey(), entry.getValue(), dialogMap, errors, warnings);
-      }
+      dialogMap
+          .nodes()
+          .forEach((key, node) -> validateNode(key, node, dialogMap, errors, warnings));
     }
 
     if (!warnings.isEmpty()) {
-      log.error(
+      log.warn(
           ValidationErrorFormatter.format(
               "Dialog logic validation completed with %d warnings for file '%s':"
                   .formatted(warnings.size(), fileName),
@@ -83,17 +73,16 @@ public class DialogValidator {
   private void validateDialogMap(DialogMap dialogMap, String fileName, List<String> errors) {
     if (dialogMap == null) {
       errors.add("Dialog map is null in file '%s'".formatted(fileName));
-      return;
-    }
-
-    if (dialogMap.nodes().isEmpty()) {
+    } else if (dialogMap.nodes().isEmpty()) {
       errors.add("Dialog map is empty in file '%s'".formatted(fileName));
     }
   }
 
   private void validateStartNode(DialogMap dialogMap, String fileName, List<String> errors) {
     if (!dialogMap.containsNodeKey(StartCommand.COMMAND_NAME)) {
-      errors.add("Dialog must contain node '/start' in file '%s'".formatted(fileName));
+      errors.add(
+          "Dialog must contain node '%s' in file '%s'"
+              .formatted(StartCommand.COMMAND_NAME, fileName));
     }
   }
 
@@ -103,20 +92,19 @@ public class DialogValidator {
       DialogMap dialogMap,
       List<String> errors,
       List<String> warnings) {
-
     if (node == null) {
-      errors.add("%s is null".formatted(path(nodeKey)));
+      errors.add("%s is empty".formatted(path(nodeKey)));
       return;
     }
 
-    validateContent(node, nodeKey, errors);
     validateMessage(node, nodeKey, errors);
     validateButtonType(node, nodeKey, errors);
     validateButtons(node, nodeKey, dialogMap, errors, warnings);
+    validateContent(node, nodeKey, errors);
   }
 
   private void validateMessage(DialogNode node, String nodeKey, List<String> errors) {
-    if (node.message() == null || node.message().isBlank()) {
+    if (isInvalidString(node.message())) {
       errors.add("%s is missing or blank".formatted(path(nodeKey + ".message")));
     }
   }
@@ -133,7 +121,6 @@ public class DialogValidator {
       DialogMap dialogMap,
       List<String> errors,
       List<String> warnings) {
-
     if (node.buttons() == null || node.buttons().isEmpty()) {
       errors.add("%s is missing or empty".formatted(path(nodeKey + ".buttons")));
       return;
@@ -142,176 +129,108 @@ public class DialogValidator {
     for (int i = 0; i < node.buttons().size(); i++) {
       Button button = node.buttons().get(i);
       String buttonPath = nodeKey + ".buttons[" + i + "]";
-
       validateButton(button, node.buttonType(), buttonPath, errors);
       validateMissingNextNode(button, dialogMap, buttonPath, warnings);
     }
   }
 
-  private void validateButton(
-      Button button, ButtonType buttonType, String buttonPath, List<String> errors) {
+  private void validateButton(Button button, ButtonType type, String path, List<String> errors) {
     if (button == null) {
-      errors.add("%s is null".formatted(path(buttonPath)));
+      errors.add("%s is empty".formatted(path(path)));
       return;
     }
 
-    if (button.label() == null || button.label().isBlank()) {
-      errors.add("%s is missing or blank".formatted(path(buttonPath + ".label")));
+    if (isInvalidString(button.label())) {
+      errors.add("%s is missing or blank".formatted(path(path + ".label")));
     }
 
-    boolean hasUrl = button.url() != null && !button.url().isBlank();
-    boolean hasNext = button.next() != null && !button.next().isBlank();
+    boolean hasUrl = !isInvalidString(button.url());
+    boolean hasNext = !isInvalidString(button.next());
 
-    if (buttonType == null) {
-      return;
-    }
-
-    if (buttonType == ButtonType.REPLY) {
-      validateReplyButton(buttonPath, hasUrl, hasNext, errors);
-    } else if (buttonType == ButtonType.INLINE) {
-      validateInlineButton(buttonPath, hasUrl, hasNext, errors);
-    }
-  }
-
-  private void validateReplyButton(
-      String buttonPath, boolean hasUrl, boolean hasNext, List<String> errors) {
-    if (hasUrl) {
-      errors.add("%s must not be present for reply button".formatted(path(buttonPath + ".url")));
-    }
-
-    if (!hasNext) {
-      errors.add("%s is missing or blank for reply button".formatted(path(buttonPath + ".next")));
-    }
-  }
-
-  private void validateInlineButton(
-      String buttonPath, boolean hasUrl, boolean hasNext, List<String> errors) {
-    if (!hasUrl && !hasNext) {
-      errors.add("%s must contain either 'next' or 'url'".formatted(path(buttonPath)));
-    }
-
-    if (hasUrl && hasNext) {
-      errors.add("%s cannot contain both 'next' and 'url'".formatted(path(buttonPath)));
-    }
-  }
-
-  private void validateMissingNextNode(
-      Button button, DialogMap dialogMap, String buttonPath, List<String> warnings) {
-    if (button == null || button.next() == null || button.next().isBlank()) {
-      return;
-    }
-
-    if (!dialogMap.containsNodeKey(button.next())) {
-      warnings.add(
-          "%s points to missing node '%s'".formatted(path(buttonPath + ".next"), button.next()));
-    }
-  }
-
-  private void validateContent(DialogNode node, String nodeKey, List<String> errors) {
-    if (node.content() == null || node.content().isEmpty()) {
-      return;
-    }
-
-    for (int i = 0; i < node.content().size(); i++) {
-      ContentNode contentNode = node.content().get(i);
-      String contentPath = nodeKey + ".content[" + i + "]";
-
-      validateContentNode(contentNode, contentPath, errors);
+    if (type == ButtonType.REPLY) {
+      if (hasUrl)
+        errors.add("%s must not be present for reply button".formatted(path(path + ".url")));
+      if (!hasNext)
+        errors.add("%s is missing or blank for reply button".formatted(path(path + ".next")));
+    } else if (type == ButtonType.INLINE) {
+      if (!hasUrl && !hasNext)
+        errors.add(
+            "%s must contain either 'next' or 'url' for inline button".formatted(path(path)));
+      if (hasUrl && hasNext)
+        errors.add(
+            "%s cannot contain both 'next' and 'url' for inline button".formatted(path(path)));
     }
   }
 
   private void validateContentNode(
       ContentNode contentNode, String contentPath, List<String> errors) {
     if (contentNode == null) {
-      errors.add("%s is null".formatted(path(contentPath)));
+      errors.add("%s is empty".formatted(path(contentPath)));
       return;
     }
 
-    if (contentNode.type() == null) {
-      errors.add("%s is missing or not valid".formatted(path(contentPath + ".type")));
+    if (contentNode.type() == null || contentNode.type() == ContentType.UNKNOWN) {
+      errors.add("%s is missing or not supported".formatted(path(contentPath + ".type")));
       return;
     }
 
-    boolean hasText = contentNode.text() != null && !contentNode.text().isBlank();
+    boolean hasText = !isInvalidString(contentNode.text());
     boolean hasMedia = contentNode.media() != null;
 
     if (contentNode.type() == ContentType.TEXT) {
-      validateTextContent(contentPath, hasText, hasMedia, errors);
-      return;
-    }
-
-    if (contentNode.type() == ContentType.MEDIA) {
-      validateMediaContent(contentNode, contentPath, hasText, hasMedia, errors);
-    }
-  }
-
-  private void validateTextContent(
-      String contentPath, boolean hasText, boolean hasMedia, List<String> errors) {
-    if (!hasText) {
-      errors.add("%s is missing or blank for text content".formatted(path(contentPath + ".text")));
-    }
-
-    if (hasMedia) {
-      errors.add(
-          "%s must not be present when type is 'text'".formatted(path(contentPath + ".media")));
+      if (!hasText)
+        errors.add(
+            "%s is missing or blank for text content".formatted(path(contentPath + ".text")));
+      if (hasMedia)
+        errors.add("%s must not be present for text type".formatted(path(contentPath + ".media")));
+    } else if (contentNode.type() == ContentType.MEDIA) {
+      if (!hasMedia)
+        errors.add("%s is missing for media content".formatted(path(contentPath + ".media")));
+      else validateMedia(contentNode, contentNode.media(), contentPath + ".media", errors);
+      if (hasText)
+        errors.add("%s must not be present for media type".formatted(path(contentPath + ".text")));
     }
   }
 
-  private void validateMediaContent(
-      ContentNode contentNode,
-      String contentPath,
-      boolean hasText,
-      boolean hasMedia,
-      List<String> errors) {
-    if (!hasMedia) {
-      errors.add("%s is missing for media content".formatted(path(contentPath + ".media")));
-      return;
+  private void validateMedia(ContentNode node, Media media, String path, List<String> errors) {
+    if (isInvalidString(media.type()))
+      errors.add("%s is missing or blank".formatted(path(path + ".type")));
+    if (isInvalidString(media.fileName())) {
+      errors.add("%s is missing or blank".formatted(path(path + ".file_name")));
+    } else {
+      validateMediaFileExists(media.fileName(), path, errors);
     }
 
-    if (hasText) {
-      errors.add(
-          "%s must not be present when type is 'media'".formatted(path(contentPath + ".text")));
+    if (media.type() != null && contentHandlers.stream().noneMatch(h -> h.canHandle(node))) {
+      errors.add("%s '%s' is not supported".formatted(path(path + ".type"), media.type()));
     }
-
-    validateMedia(contentNode, contentNode.media(), contentPath + ".media", errors);
   }
 
-  private void validateMedia(
-      ContentNode contentNode, Media media, String mediaPath, List<String> errors) {
-    if (media == null) {
-      errors.add("%s is null".formatted(path(mediaPath)));
-      return;
+  private void validateContent(DialogNode node, String nodeKey, List<String> errors) {
+    if (node.content() == null) return;
+    for (int i = 0; i < node.content().size(); i++) {
+      validateContentNode(node.content().get(i), nodeKey + ".content[" + i + "]", errors);
     }
+  }
 
-    if (media.type() == null || media.type().isBlank()) {
-      errors.add("%s is missing or blank".formatted(path(mediaPath + ".type")));
+  private void validateMissingNextNode(
+      Button btn, DialogMap map, String path, List<String> warnings) {
+    if (btn != null && !isInvalidString(btn.next()) && !map.containsNodeKey(btn.next())) {
+      warnings.add("%s points to missing node '%s'".formatted(path(path + ".next"), btn.next()));
     }
-
-    if (media.fileName() == null || media.fileName().isBlank()) {
-      errors.add("%s is missing or blank".formatted(path(mediaPath + ".file_name")));
-      return;
-    }
-
-    if (media.type() != null) {
-      boolean supported =
-          contentHandlers.stream().anyMatch(handler -> handler.canHandle(contentNode));
-      if (!supported) {
-        errors.add("%s '%s' is not supported".formatted(path(mediaPath + ".type"), media.type()));
-      }
-    }
-
-    validateMediaFileExists(media.fileName(), mediaPath, errors);
   }
 
   private void validateMediaFileExists(String fileName, String mediaPath, List<String> errors) {
     String resourcePath = Paths.get(MEDIA_FOLDER, fileName).toString();
-    boolean exists = getClass().getClassLoader().getResource(resourcePath) != null;
-
-    if (!exists) {
+    if (getClass().getClassLoader().getResource(resourcePath) == null) {
       errors.add(
           "%s points to missing media file '%s/%s'"
               .formatted(path(mediaPath + ".file_name"), MEDIA_FOLDER, fileName));
     }
+  }
+
+  private boolean isInvalidString(String s) {
+    return s == null || s.isBlank();
   }
 
   private String path(String value) {

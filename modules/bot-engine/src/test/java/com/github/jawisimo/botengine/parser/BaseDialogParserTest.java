@@ -1,13 +1,12 @@
 package com.github.jawisimo.botengine.parser;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.github.jawisimo.botengine.exception.DialogLoadingException;
 import com.github.jawisimo.botengine.model.DialogMap;
+import java.io.IOException;
 import java.io.InputStream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 abstract class BaseDialogParserTest {
 
@@ -18,20 +17,21 @@ abstract class BaseDialogParserTest {
   protected abstract String getIncorrectSyntaxFileName();
 
   @Test
-  void canParse_shouldReturnTrue_forCorrectExtensions() {
-    assertTrue(getParser().canParse(getCorrectFileName()));
+  void supports_shouldReturnTrue_whenFileExtensionIsSupported() {
+    assertTrue(getParser().supports(getCorrectFileName()));
   }
 
   @Test
-  void canParse_shouldReturnFalse_forIncorrectExtensions() {
+  void supports_shouldReturnFalse_whenFileExtensionIsUnsupported() {
     String unsupportedFile = "dialog-test.txt";
 
-    assertFalse(getParser().canParse(unsupportedFile));
+    assertFalse(getParser().supports(unsupportedFile));
   }
 
   @Test
-  void parse_shouldParseCorrectFilesSuccessfully() {
+  void parse_shouldParseDialogSuccessfully_whenFileContentIsValid() throws IOException {
     InputStream is = getClass().getClassLoader().getResourceAsStream(getCorrectFileName());
+
     DialogMap dialogMap = getParser().parse(is);
 
     assertNotNull(is);
@@ -39,17 +39,14 @@ abstract class BaseDialogParserTest {
   }
 
   @Test
-  void parse_shouldThrowDialogLoadingException_whenSyntaxIsIncorrect() {
-    DialogParser parser = getParser();
-    String expected = "Failed to parse ";
-
+  void parse_shouldThrowException_whenFileSyntaxIsInvalid() {
     InputStream is = getClass().getClassLoader().getResourceAsStream(getIncorrectSyntaxFileName());
 
-    DialogLoadingException exception =
-        assertThrows(DialogLoadingException.class, () -> parser.parse(is));
+    Executable parseCall = () -> getParser().parse(is);
+
+    IOException exception = assertThrows(IOException.class, parseCall);
 
     assertNotNull(is);
-    assertTrue(exception.getMessage().contains(expected));
     assertNotNull(exception.getCause());
   }
 }

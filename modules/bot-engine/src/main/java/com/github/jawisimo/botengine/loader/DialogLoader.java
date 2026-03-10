@@ -5,7 +5,9 @@ import com.github.jawisimo.botengine.model.DialogMap;
 import com.github.jawisimo.botengine.parser.DialogParser;
 import com.github.jawisimo.botengine.parser.DialogParserProvider;
 import com.github.jawisimo.botengine.validator.DialogValidator;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
  *
  * <p>The parsed {@link DialogMap} is validated by {@link DialogValidator}.
  *
- * <p>If parsing or validation fails, a {@link DialogLoadingException} is thrown.
+ * <p>If loading, parsing, or validation fails, a {@link DialogLoadingException} is thrown.
  *
  * @since 1.0
  */
@@ -32,13 +34,15 @@ public class DialogLoader {
   /**
    * Loads and validates a dialog definition file.
    *
-   * <p>The file is resolved from the classpath and parsed using a {@link DialogParser}.
+   * <p>The file is resolved from the classpath, checked for empty content, and parsed using a
+   * suitable {@link DialogParser}.
    *
    * <p>The resulting {@link DialogMap} is validated before being returned.
    *
    * @param dialogFileName the dialog configuration file name
    * @return the parsed and validated dialog map
-   * @throws DialogLoadingException if the file cannot be found, parsed, or validated
+   * @throws DialogLoadingException if the file cannot be found, is empty, cannot be parsed, or
+   *     fails validation
    */
   public DialogMap load(String dialogFileName) {
     try (InputStream is = getClass().getClassLoader().getResourceAsStream(dialogFileName)) {
@@ -46,8 +50,11 @@ public class DialogLoader {
         throw new DialogLoadingException("Dialog file not found: '%s'".formatted(dialogFileName));
       }
 
+      byte[] content = is.readAllBytes();
+      validateNotEmpty(content, dialogFileName);
+
       DialogParser parser = dialogParserProvider.getParser(dialogFileName);
-      DialogMap dialogMap = parser.parse(is);
+      DialogMap dialogMap = parser.parse(new ByteArrayInputStream(content));
       dialogValidator.validate(dialogMap, dialogFileName);
       return dialogMap;
     } catch (DialogLoadingException e) {
@@ -55,6 +62,14 @@ public class DialogLoader {
     } catch (Exception e) {
       throw new DialogLoadingException(
           "Failed to load dialog file: '%s'".formatted(dialogFileName), e);
+    }
+  }
+
+  private void validateNotEmpty(byte[] content, String dialogFileName) {
+    String dialogText = new String(content, StandardCharsets.UTF_8);
+
+    if (dialogText.isBlank()) {
+      throw new DialogLoadingException("Dialog file is empty: '%s'".formatted(dialogFileName));
     }
   }
 }

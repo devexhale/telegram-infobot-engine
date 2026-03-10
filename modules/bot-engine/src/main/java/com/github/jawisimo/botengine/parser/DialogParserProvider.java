@@ -30,7 +30,7 @@ public class DialogParserProvider {
    */
   public DialogParser getParser(String dialogFileName) {
     List<DialogParser> matchingParsers =
-        parsers.stream().filter(p -> p.canParse(dialogFileName)).toList();
+        parsers.stream().filter(p -> p.supports(dialogFileName)).toList();
 
     if (matchingParsers.isEmpty()) {
       throw new DialogLoadingException("No suitable parser found for file: " + dialogFileName);

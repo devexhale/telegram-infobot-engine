@@ -28,22 +28,20 @@ public class YamlDialogParser implements DialogParser {
 
   /** Returns {@code true} if the file has a {@code .yaml} or {@code .yml} extension. */
   @Override
-  public boolean canParse(String fileName) {
-    return fileName.endsWith(FORMAT_YAML) || fileName.endsWith(FORMAT_YML);
+  public boolean supports(String dialogFileName) {
+    return dialogFileName.endsWith(FORMAT_YAML) || dialogFileName.endsWith(FORMAT_YML);
   }
 
   /**
    * Parses a YAML dialog configuration into a {@link DialogMap}.
    *
+   * @param is the YAML input stream
+   * @return the parsed dialog map
    * @throws DialogLoadingException if parsing fails
    */
   @Override
-  public DialogMap parse(InputStream is) {
-    try {
-      TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
-      return new DialogMap(yamlMapper.readValue(is, typeRef));
-    } catch (IOException e) {
-      throw new DialogLoadingException("Failed to parse YAML dialog file", e);
-    }
+  public DialogMap parse(InputStream is) throws IOException {
+    TypeReference<Map<String, DialogNode>> typeRef = new TypeReference<>() {};
+    return new DialogMap(yamlMapper.readValue(is, typeRef));
   }
 }

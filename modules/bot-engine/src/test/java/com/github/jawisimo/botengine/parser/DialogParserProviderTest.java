@@ -33,33 +33,33 @@ class DialogParserProviderTest {
 
   @Test
   void getParser_shouldReturnYamlParser_whenYamlFileProvided() {
-    when(yamlParser.canParse(CORRECT_YAML_FILE)).thenReturn(true);
-    when(jsonParser.canParse(CORRECT_YAML_FILE)).thenReturn(false);
+    when(yamlParser.supports(CORRECT_YAML_FILE)).thenReturn(true);
+    when(jsonParser.supports(CORRECT_YAML_FILE)).thenReturn(false);
 
     DialogParser result = provider.getParser(CORRECT_YAML_FILE);
 
     assertSame(yamlParser, result);
 
-    verify(yamlParser).canParse(CORRECT_YAML_FILE);
-    verify(jsonParser).canParse(CORRECT_YAML_FILE);
+    verify(yamlParser).supports(CORRECT_YAML_FILE);
+    verify(jsonParser).supports(CORRECT_YAML_FILE);
   }
 
   @Test
   void getParser_shouldReturnJsonParser_whenJsonFileProvided() {
-    when(yamlParser.canParse(CORRECT_JSON_FILE)).thenReturn(false);
-    when(jsonParser.canParse(CORRECT_JSON_FILE)).thenReturn(true);
+    when(yamlParser.supports(CORRECT_JSON_FILE)).thenReturn(false);
+    when(jsonParser.supports(CORRECT_JSON_FILE)).thenReturn(true);
 
     DialogParser result = provider.getParser(CORRECT_JSON_FILE);
 
     assertSame(jsonParser, result);
-    verify(yamlParser).canParse(CORRECT_JSON_FILE);
-    verify(jsonParser).canParse(CORRECT_JSON_FILE);
+    verify(yamlParser).supports(CORRECT_JSON_FILE);
+    verify(jsonParser).supports(CORRECT_JSON_FILE);
   }
 
   @Test
   void getParser_shouldThrowException_whenNoParserFound() {
-    when(yamlParser.canParse(UNSUPPORTED_FILE)).thenReturn(false);
-    when(jsonParser.canParse(UNSUPPORTED_FILE)).thenReturn(false);
+    when(yamlParser.supports(UNSUPPORTED_FILE)).thenReturn(false);
+    when(jsonParser.supports(UNSUPPORTED_FILE)).thenReturn(false);
 
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> provider.getParser(UNSUPPORTED_FILE));
@@ -69,8 +69,8 @@ class DialogParserProviderTest {
 
   @Test
   void getParser_shouldThrowException_whenMultipleParsersFound() {
-    when(yamlParser.canParse(CORRECT_YAML_FILE)).thenReturn(true);
-    when(jsonParser.canParse(CORRECT_YAML_FILE)).thenReturn(true);
+    when(yamlParser.supports(CORRECT_YAML_FILE)).thenReturn(true);
+    when(jsonParser.supports(CORRECT_YAML_FILE)).thenReturn(true);
 
     String expected =
         "Multiple parsers found for file: "
@@ -91,12 +91,12 @@ class DialogParserProviderTest {
   void getParser_shouldWorkWithSingleParser() {
     DialogParserProvider singleParserProvider = new DialogParserProvider(List.of(yamlParser));
 
-    when(yamlParser.canParse(CORRECT_YAML_FILE)).thenReturn(true);
+    when(yamlParser.supports(CORRECT_YAML_FILE)).thenReturn(true);
 
     DialogParser result = singleParserProvider.getParser(CORRECT_YAML_FILE);
 
     assertSame(yamlParser, result);
-    verify(yamlParser).canParse(CORRECT_YAML_FILE);
+    verify(yamlParser).supports(CORRECT_YAML_FILE);
   }
 
   @Test

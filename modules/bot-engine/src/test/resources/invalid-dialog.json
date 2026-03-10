@@ -1,0 +1,37 @@
+{
+  "history_q1": {
+    "content": [
+      {
+        "type": "media",
+        "media": {
+          "type": "photo",
+          "file_name": "History.jpg"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Питання 1️⃣ "
+      }
+    ],
+    "message": "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? ",
+    "button_type": "reply",
+    "buttons": [
+      {
+        "label": "Вбивство ерцгерцога Франца Фердинанда",
+        "next": "history_q1_correct"
+      },
+      {
+        "label": "Підписання Версальського договору",
+        "next": "history_q1_wrong"
+      },
+      {
+        "label": "Вторгнення Німеччини в Бельгію",
+        "next": "history_q1_wrong"
+      },
+      {
+        "label": "Битва на Соммі",
+        "next": "history_q1_wrong"
+      }
+    ]
+  }
+}

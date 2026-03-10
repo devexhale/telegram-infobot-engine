@@ -11,10 +11,9 @@ import com.github.jawisimo.botengine.parser.DialogParserProvider;
 import com.github.jawisimo.botengine.parser.JsonDialogParser;
 import com.github.jawisimo.botengine.parser.YamlDialogParser;
 import com.github.jawisimo.botengine.validator.DialogValidator;
-import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,16 +33,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
     })
 class DialogLoaderIT {
 
-  private static final String VALID_DIALOG_YML = "dialog-test.yml";
-  private static final String VALID_DIALOG_JSON = "dialog-test.json";
-  private static final String INCORRECT_SYNTAX_YML = "incorrect-syntax-dialog.yml";
-  private static final String INCORRECT_SYNTAX_JSON = "incorrect-syntax-dialog.json";
-  private static final String INCORRECT_STRUCTURE_YML = "incorrect-structure-dialog.yml";
-  private static final String INCORRECT_STRUCTURE_JSON = "incorrect-structure-dialog.json";
-  private static final String NON_EXISTS_YML = "non-existent-dialog.yml";
-  private static final String NON_EXISTS_JSON = "non-existent-dialog.json";
-  private static final String PARSE_FAILED_YAML_MSG = "Failed to parse YAML dialog file";
-  private static final String PARSE_FAILED_JSON_MSG = "Failed to parse JSON dialog file";
   private static final String START_NODE_ID = "/start";
   private static final String START_MESSAGE = "Почнемо нашу подорож. Оберіть тему: ";
 
@@ -52,7 +41,7 @@ class DialogLoaderIT {
   @Autowired private DialogLoader dialogLoader;
 
   @ParameterizedTest
-  @ValueSource(strings = {VALID_DIALOG_YML, VALID_DIALOG_JSON})
+  @ValueSource(strings = {"dialog-test.yml", "dialog-test.json"})
   void load_shouldSuccessfullyLoadValidDialog_whenDialogFileIsValid(String fileName) {
     DialogMap dialogMap = dialogLoader.load(fileName);
     DialogNode startNode = dialogMap.getNode(START_NODE_ID);
@@ -65,31 +54,64 @@ class DialogLoaderIT {
   }
 
   @ParameterizedTest
-  @MethodSource("invalidDialogs")
-  void load_shouldThrowException_whenDialogFileIsInvalid(String fileName, String expectedMessage) {
+  @CsvSource({
+    "incorrect-syntax-dialog.yml, Failed to load dialog file: 'incorrect-syntax-dialog.yml'",
+    "incorrect-syntax-dialog.json, Failed to load dialog file: 'incorrect-syntax-dialog.json'"
+  })
+  void load_shouldThrowException_whenDialogFileHasInvalidStructure(
+      String fileName, String expectedMsg) {
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> dialogLoader.load(fileName));
 
-    assertEquals(expectedMessage, exception.getMessage());
+    assertEquals(expectedMsg, exception.getMessage());
+    assertNotNull(exception.getCause());
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {NON_EXISTS_YML, NON_EXISTS_JSON})
+  @CsvSource({
+    "empty-dialog.yml, Dialog file is empty: 'empty-dialog.yml'",
+    "empty-dialog.json, Dialog file is empty: 'empty-dialog.json'"
+  })
+  void load_shouldThrowException_whenDialogFileIsEmpty(String fileName, String expectedMsg) {
+    DialogLoadingException exception =
+        assertThrows(DialogLoadingException.class, () -> dialogLoader.load(fileName));
+
+    assertEquals(expectedMsg, exception.getMessage());
+    assertNull(exception.getCause());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"non-existent-dialog.yml", "non-existent-dialog.json"})
   void load_shouldThrowException_whenDialogFileDoesNotExist(String fileName) {
-    String expectedMessage = "Dialog file not found: '%s'".formatted(fileName);
+    String expectedMsg = "Dialog file not found: '%s'".formatted(fileName);
 
     DialogLoadingException exception =
         assertThrows(DialogLoadingException.class, () -> dialogLoader.load(fileName));
 
-    assertEquals(expectedMessage, exception.getMessage());
+    assertEquals(expectedMsg, exception.getMessage());
     assertNull(exception.getCause());
   }
 
-  private static Stream<Arguments> invalidDialogs() {
-    return Stream.of(
-        Arguments.of(INCORRECT_SYNTAX_YML, PARSE_FAILED_YAML_MSG),
-        Arguments.of(INCORRECT_SYNTAX_JSON, PARSE_FAILED_JSON_MSG),
-        Arguments.of(INCORRECT_STRUCTURE_YML, PARSE_FAILED_YAML_MSG),
-        Arguments.of(INCORRECT_STRUCTURE_JSON, PARSE_FAILED_JSON_MSG));
+  @ParameterizedTest
+  @ValueSource(strings = {"invalid-dialog.yml", "invalid-dialog.json"})
+  void load_shouldThrowException_whenDialogFileFailsValidation(String fileName) {
+    String expectedMsg =
+        "Dialog must contain node '%s' in file '%s'".formatted(START_NODE_ID, fileName);
+
+    DialogLoadingException exception =
+        assertThrows(DialogLoadingException.class, () -> dialogLoader.load(fileName));
+
+    boolean contains = exception.getMessage().contains(expectedMsg);
+
+    assertTrue(contains);
+    assertNull(exception.getCause());
+  }
+
+  @Test
+  void load_shouldThrowException_whenDialogFileExtensionIsUnsupported() {
+    DialogLoadingException exception =
+        assertThrows(DialogLoadingException.class, () -> dialogLoader.load("dialog-test.txt"));
+
+    assertNotNull(exception.getMessage());
   }
 }
