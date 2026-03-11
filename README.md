@@ -1,2 +1,2 @@
-gradle clean :telegram-dialog-bot-template:bootRun
+gradle clean :telegram-dialog-bots-engine-bot-template:bootRun
 

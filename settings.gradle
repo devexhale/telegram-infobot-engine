@@ -1,8 +1,9 @@
-rootProject.name = 'telegram-dialog-bot-engine'
+rootProject.name = 'telegram-dialog-bots-engine'
 
 // Modules
-include 'telegram-dialog-bot-spring-boot-starter'
-project(':telegram-dialog-bot-spring-boot-starter').projectDir = file('modules/bot-engine')
 
-include 'telegram-dialog-bot-template'
-project(':telegram-dialog-bot-template').projectDir = file('modules/bot-template')
+include 'telegram-dialog-bots-engine-spring-boot-starter'
+project(':telegram-dialog-bots-engine-spring-boot-starter').projectDir = file('modules/bots-engine')
+
+include 'telegram-dialog-bots-engine-bot-template'
+project(':telegram-dialog-bots-engine-bot-template').projectDir = file('modules/bot-template')

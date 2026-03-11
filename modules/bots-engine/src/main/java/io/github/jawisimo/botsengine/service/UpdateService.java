@@ -1,0 +1,42 @@
+package io.github.jawisimo.botsengine.service;
+
+import io.github.jawisimo.botsengine.interaction.DialogExecutor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Update;
+
+/**
+ * Orchestrates processing of incoming Telegram updates within the framework.
+ *
+ * <p>Delegates supported update types to {@link DialogExecutor}. Message updates are routed to
+ * {@code executeMessage}, callback query updates are routed to {@code executeCallback}.
+ *
+ * @since 1.0
+ */
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class UpdateService {
+
+  private final DialogExecutor executor;
+
+  /**
+   * Routes the update to appropriate dialog executor method.
+   *
+   * @param update the incoming Telegram update
+   */
+  public void dispatch(Update update) {
+    try {
+      if (update.hasMessage()) {
+        executor.executeMessage(update.getMessage());
+      } else if (update.hasCallbackQuery()) {
+        executor.executeCallback(update.getCallbackQuery());
+      } else {
+        log.warn("Unsupported update type: {}", update);
+      }
+    } catch (Exception e) {
+      log.error("An error occurred during update processing:", e);
+    }
+  }
+}
