@@ -52,8 +52,12 @@ public class MessageCleanupService {
    * Deletes a user message if it is considered redundant for the dialog flow.
    *
    * <p>Messages containing bot commands are preserved to keep visible entry points in the chat
-   * history. Other messages are removed to keep the chat clean and prevent clutter during dialog
-   * navigation.
+   * history. All other messages, including text and media (photos, videos, documents, etc.), are
+   * removed to keep the chat clean and prevent clutter during dialog navigation.
+   *
+   * <p>A message is considered a command only if its text matches one of the registered command
+   * names. Messages without text (e.g., media messages) are always treated as redundant and
+   * deleted.
    *
    * @param message the message to evaluate and possibly delete
    */
@@ -62,19 +66,23 @@ public class MessageCleanupService {
       return;
     }
 
-    String text = message.getText();
-
-    if (text == null) return;
-
-    for (Command command : commands) {
-      if (text.equals(command.getCommandName())) {
-        command.getCommand();
-        return;
-      }
+    if (message.getChatId() == null || message.getMessageId() == null) {
+      return;
     }
 
     String chatId = message.getChatId().toString();
     Integer messageId = message.getMessageId();
+
+    String text = message.getText();
+
+    if (text != null) {
+      for (Command command : commands) {
+        if (text.equals(command.getCommandName())) {
+          return;
+        }
+      }
+    }
+
     deleteMessage(chatId, messageId);
   }
 
