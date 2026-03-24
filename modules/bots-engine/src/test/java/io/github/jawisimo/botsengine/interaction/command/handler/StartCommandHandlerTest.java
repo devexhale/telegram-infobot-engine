@@ -14,7 +14,9 @@ class StartCommandHandlerTest extends BaseCommandHandlerTest {
 
   @BeforeEach
   void init() {
-    handler = new StartCommandHandler(dialogRepository, userStateService, nodeExecutor);
+    handler =
+        new StartCommandHandler(
+            dialogRepository, subscriberService, userStateService, nodeExecutor);
   }
 
   @Test

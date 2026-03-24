@@ -17,7 +17,8 @@ class LastCommandHandlerTest extends BaseCommandHandlerTest {
 
   @BeforeEach
   void init() {
-    handler = new LastCommandHandler(dialogRepository, userStateService, nodeExecutor);
+    handler =
+        new LastCommandHandler(dialogRepository, subscriberService, userStateService, nodeExecutor);
   }
 
   @Test

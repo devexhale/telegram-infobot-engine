@@ -19,14 +19,14 @@ abstract class BaseUserStateRepositoryTest {
 
   @Test
   void findByChatId_shouldReturnEmptyOptional_whenUserStateDoesNotExist() {
-    String chatId = "chat-45";
+    String chatId = "45";
     Optional<UserState> result = getRepository().findByChatId(chatId);
     assertTrue(result.isEmpty());
   }
 
   @Test
   void findByChatId_shouldReturnSavedUserState_whenUserStateWasSaved() {
-    String chatId = "chat-24";
+    String chatId = "24";
     String nodeId = "history";
     UserState userState = new UserState(chatId, nodeId);
 
@@ -39,7 +39,7 @@ abstract class BaseUserStateRepositoryTest {
 
   @Test
   void findByChatId_shouldReturnLastSavedUserState_whenUserStateWasOverwritten() {
-    String chatId = "chat-25";
+    String chatId = "25";
 
     UserState first = new UserState(chatId, "history");
     UserState second = new UserState(chatId, "move");
@@ -55,9 +55,9 @@ abstract class BaseUserStateRepositoryTest {
 
   @Test
   void shouldKeepIndependentStates_whenUserStatesSavedForDifferentChats() {
-    String firstChatId = "chat-1435576";
+    String firstChatId = "1435576";
     String firstNodeId = "history";
-    String secondChatId = "chat-2234455";
+    String secondChatId = "2234455";
     String secondNodeId = "move";
 
     UserState firstUserState = new UserState(firstChatId, firstNodeId);

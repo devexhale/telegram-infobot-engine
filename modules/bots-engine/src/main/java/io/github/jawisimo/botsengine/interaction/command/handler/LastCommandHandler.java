@@ -5,6 +5,7 @@ import io.github.jawisimo.botsengine.interaction.command.commandset.LastCommand;
 import io.github.jawisimo.botsengine.interaction.command.commandset.StartCommand;
 import io.github.jawisimo.botsengine.interaction.navigator.NodeExecutor;
 import io.github.jawisimo.botsengine.repository.DialogRepository;
+import io.github.jawisimo.botsengine.service.SubscriberService;
 import io.github.jawisimo.botsengine.service.UserStateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,9 +24,10 @@ public class LastCommandHandler extends AbstractCommandHandler {
 
   LastCommandHandler(
       DialogRepository dialogRepository,
+      SubscriberService subscriberService,
       UserStateService userStateService,
       NodeExecutor nodeExecutor) {
-    super(dialogRepository, userStateService, nodeExecutor);
+    super(dialogRepository, subscriberService, userStateService, nodeExecutor);
   }
 
   @Override

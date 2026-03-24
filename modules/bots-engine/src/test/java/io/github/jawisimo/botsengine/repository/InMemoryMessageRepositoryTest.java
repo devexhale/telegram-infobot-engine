@@ -18,7 +18,7 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldReturnSavedMessage_whenSingleMessageWasSaved() {
-    String chatId = "250L";
+    String chatId = "250";
     Integer messageId = 12;
 
     repository.save(chatId, messageId);
@@ -31,7 +31,7 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldReturnMessagesInInsertionOrder_whenMultipleMessagesSavedForSameChat() {
-    String chatId = "555L";
+    String chatId = "555";
     Integer firstMessageId = 10;
     Integer secondMessageId = 11;
     Integer thirdMessageId = 12;
@@ -48,8 +48,8 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldReturnOnlyMessagesOfRequestedChat_whenMultipleChatsExist() {
-    String firstChatId = "125L";
-    String secondChatId = "233L";
+    String firstChatId = "125";
+    String secondChatId = "233";
     Integer firstChatMessageId = 14;
     Integer secondChatFirstMessageId = 26;
     Integer secondChatSecondMessageId = 21;
@@ -69,7 +69,7 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldReturnEmptyList_whenChatDoesNotExist() {
-    String chatId = "0L";
+    String chatId = "0";
 
     List<Integer> removed = repository.removeAll(chatId);
 
@@ -79,7 +79,7 @@ class InMemoryMessageRepositoryTest {
 
   @Test
   void shouldRemoveMessagesAfterFirstCall_whenCalledTwice() {
-    String chatId = "46L";
+    String chatId = "46";
     Integer messageId = 98;
 
     repository.save(chatId, messageId);

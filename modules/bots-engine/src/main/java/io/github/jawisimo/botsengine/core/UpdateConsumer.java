@@ -26,8 +26,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  * @since 1.0
  */
 @Component
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class UpdateConsumer implements LongPollingUpdateConsumer {
 
   private final UpdateService updateService;

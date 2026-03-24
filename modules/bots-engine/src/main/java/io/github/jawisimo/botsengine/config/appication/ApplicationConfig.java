@@ -4,6 +4,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.SimpleAsyncTaskScheduler;
 
 /**
  * General application-level configuration for shared infrastructure components.
@@ -17,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0
  */
 @Configuration
+@EnableScheduling
 public class ApplicationConfig {
 
   /**
@@ -30,5 +34,13 @@ public class ApplicationConfig {
   @Bean
   public Executor virtualThreadsExecutor() {
     return Executors.newVirtualThreadPerTaskExecutor();
+  }
+
+  @Bean
+  public TaskScheduler virtualThreadsTaskScheduler() {
+    SimpleAsyncTaskScheduler scheduler = new SimpleAsyncTaskScheduler();
+    scheduler.setVirtualThreads(true);
+    scheduler.setThreadNamePrefix("scheduler-");
+    return scheduler;
   }
 }

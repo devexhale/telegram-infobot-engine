@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class NavigationResultHandler {
 
-  private static final String DELETE_MESSAGE = "Message deleted from chat";
+  private static final String DELETE_MSG = "Message deleted from chat";
 
   private final UserStateService userStateService;
 
@@ -45,10 +45,7 @@ public class NavigationResultHandler {
       case NODE_NOT_FOUND -> log.warn("Dialog node '{}' not found", request.nodeKey());
       case IRRELEVANT_INPUT ->
           log.warn(
-              "Irrelevant message sent: '{}'. {}: '{}'",
-              request.rawInput(),
-              DELETE_MESSAGE,
-              chatId);
+              "Irrelevant message sent: '{}'. {}: '{}'", request.rawInput(), DELETE_MSG, chatId);
     }
   }
 }

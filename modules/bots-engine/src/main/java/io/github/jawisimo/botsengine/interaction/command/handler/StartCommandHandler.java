@@ -3,6 +3,7 @@ package io.github.jawisimo.botsengine.interaction.command.handler;
 import io.github.jawisimo.botsengine.interaction.command.commandset.StartCommand;
 import io.github.jawisimo.botsengine.interaction.navigator.NodeExecutor;
 import io.github.jawisimo.botsengine.repository.DialogRepository;
+import io.github.jawisimo.botsengine.service.SubscriberService;
 import io.github.jawisimo.botsengine.service.UserStateService;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +19,10 @@ public class StartCommandHandler extends AbstractCommandHandler {
 
   StartCommandHandler(
       DialogRepository dialogRepository,
+      SubscriberService subscriberService,
       UserStateService userStateService,
       NodeExecutor nodeExecutor) {
-    super(dialogRepository, userStateService, nodeExecutor);
+    super(dialogRepository, subscriberService, userStateService, nodeExecutor);
   }
 
   @Override
@@ -31,5 +33,11 @@ public class StartCommandHandler extends AbstractCommandHandler {
   @Override
   String getNodeKey(String chatId) {
     return getCommandKey();
+  }
+
+  @Override
+  public void handle(String chatId) {
+    getSubscriberService().subscribe(chatId);
+    super.handle(chatId);
   }
 }

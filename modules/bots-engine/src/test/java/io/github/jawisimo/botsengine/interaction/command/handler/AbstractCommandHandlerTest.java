@@ -16,7 +16,8 @@ class AbstractCommandHandlerTest extends BaseCommandHandlerTest {
   @BeforeEach
   void init() {
     handler =
-        new AbstractCommandHandler(dialogRepository, userStateService, nodeExecutor) {
+        new AbstractCommandHandler(
+            dialogRepository, subscriberService, userStateService, nodeExecutor) {
           @Override
           public String getCommandKey() {
             return "test-command";
