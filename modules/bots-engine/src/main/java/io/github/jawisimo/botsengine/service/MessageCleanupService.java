@@ -66,10 +66,6 @@ public class MessageCleanupService {
       return;
     }
 
-    if (message.getChatId() == null || message.getMessageId() == null) {
-      return;
-    }
-
     String chatId = message.getChatId().toString();
     Integer messageId = message.getMessageId();
 

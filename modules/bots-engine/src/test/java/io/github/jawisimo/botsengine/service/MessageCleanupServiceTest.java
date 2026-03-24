@@ -23,10 +23,21 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @ExtendWith(MockitoExtension.class)
 class MessageCleanupServiceTest {
 
-  private static final String CHAT_ID = "chat-12";
+  private static final Long CHAT_ID = 125L;
   private static final Integer MESSAGE_ID = 59;
+
+  private static final Long SECOND_CHAT_ID = 124L;
+  private static final Long COMMAND_CHAT_ID = 150L;
+  private static final Long PARAM_CHAT_ID = 120L;
+
+  private static final Integer SECOND_MESSAGE_ID = 3;
+  private static final Integer COMMAND_MESSAGE_ID = 2;
+  private static final Integer PARAM_MESSAGE_ID = 8;
+
   private static final String START_COMMAND = "/start";
   private static final String LAST_COMMAND = "/last";
+  private static final String NON_COMMAND_TEXT = "hello_world";
+
   private static final String TELEGRAM_API_EXCEPTION_MSG = "Telegram API exception";
 
   private final TelegramClient client = mock(TelegramClient.class);
@@ -47,13 +58,13 @@ class MessageCleanupServiceTest {
   void deleteMessage_shouldCallTelegramClient_WithCorrectParameters() throws Exception {
     initServiceWithCommands(List.of());
 
-    service.deleteMessage(CHAT_ID, MESSAGE_ID);
+    service.deleteMessage(CHAT_ID.toString(), MESSAGE_ID);
 
     ArgumentCaptor<DeleteMessage> captor = ArgumentCaptor.forClass(DeleteMessage.class);
     verify(client).executeAsync(captor.capture());
 
     DeleteMessage request = captor.getValue();
-    assertEquals(CHAT_ID, request.getChatId());
+    assertEquals(CHAT_ID.toString(), request.getChatId());
     assertEquals(MESSAGE_ID, request.getMessageId());
   }
 
@@ -65,7 +76,7 @@ class MessageCleanupServiceTest {
         .when(client)
         .executeAsync(any(DeleteMessage.class));
 
-    assertDoesNotThrow(() -> service.deleteMessage(CHAT_ID, MESSAGE_ID));
+    assertDoesNotThrow(() -> service.deleteMessage(CHAT_ID.toString(), MESSAGE_ID));
 
     verify(client).executeAsync(any(DeleteMessage.class));
   }
@@ -84,8 +95,8 @@ class MessageCleanupServiceTest {
     initServiceWithCommands(List.of());
 
     when(message.getText()).thenReturn(null);
-    when(message.getChatId()).thenReturn(123L);
-    when(message.getMessageId()).thenReturn(1);
+    when(message.getChatId()).thenReturn(CHAT_ID);
+    when(message.getMessageId()).thenReturn(MESSAGE_ID);
 
     service.deleteRedundantMessage(message);
 
@@ -99,8 +110,8 @@ class MessageCleanupServiceTest {
     initServiceWithCommands(List.of(startCommand));
 
     when(message.getText()).thenReturn(START_COMMAND);
-    when(message.getChatId()).thenReturn(123L);
-    when(message.getMessageId()).thenReturn(1);
+    when(message.getChatId()).thenReturn(COMMAND_CHAT_ID);
+    when(message.getMessageId()).thenReturn(COMMAND_MESSAGE_ID);
 
     service.deleteRedundantMessage(message);
 
@@ -113,9 +124,9 @@ class MessageCleanupServiceTest {
 
     initServiceWithCommands(List.of(startCommand));
 
-    when(message.getText()).thenReturn("hello_world");
-    when(message.getChatId()).thenReturn(124L);
-    when(message.getMessageId()).thenReturn(3);
+    when(message.getText()).thenReturn(NON_COMMAND_TEXT);
+    when(message.getChatId()).thenReturn(SECOND_CHAT_ID);
+    when(message.getMessageId()).thenReturn(SECOND_MESSAGE_ID);
 
     service.deleteRedundantMessage(message);
 
@@ -131,8 +142,8 @@ class MessageCleanupServiceTest {
     initServiceWithCommands(List.of(startCommand, lastCommand));
 
     when(message.getText()).thenReturn(commandText);
-    when(message.getChatId()).thenReturn(120L);
-    when(message.getMessageId()).thenReturn(1);
+    when(message.getChatId()).thenReturn(PARAM_CHAT_ID);
+    when(message.getMessageId()).thenReturn(PARAM_MESSAGE_ID);
 
     service.deleteRedundantMessage(message);
 
@@ -164,27 +175,14 @@ class MessageCleanupServiceTest {
   }
 
   @Test
-  void deleteRedundantMessage_shouldDoNothing_whenMessageIdIsNull() {
-    initServiceWithCommands(List.of());
-
-    when(message.getText()).thenReturn("hello");
-    when(message.getChatId()).thenReturn(123L);
-    when(message.getMessageId()).thenReturn(null);
-
-    service.deleteRedundantMessage(message);
-
-    verifyNoInteractions(client);
-  }
-
-  @Test
   void clearLastNode_shouldDoNothing_whenRepositoryReturnsNull() {
     initServiceWithCommands(List.of());
 
-    when(messageRepository.removeAll(CHAT_ID)).thenReturn(null);
+    when(messageRepository.removeAll(CHAT_ID.toString())).thenReturn(null);
 
-    service.clearLastNode(CHAT_ID);
+    service.clearLastNode(CHAT_ID.toString());
 
-    verify(messageRepository).removeAll(CHAT_ID);
+    verify(messageRepository).removeAll(CHAT_ID.toString());
     verifyNoInteractions(client);
   }
 
@@ -192,11 +190,11 @@ class MessageCleanupServiceTest {
   void clearLastNode_shouldDoNothing_whenRepositoryReturnsEmptyList() {
     initServiceWithCommands(List.of());
 
-    when(messageRepository.removeAll(CHAT_ID)).thenReturn(List.of());
+    when(messageRepository.removeAll(CHAT_ID.toString())).thenReturn(List.of());
 
-    service.clearLastNode(CHAT_ID);
+    service.clearLastNode(CHAT_ID.toString());
 
-    verify(messageRepository).removeAll(CHAT_ID);
+    verify(messageRepository).removeAll(CHAT_ID.toString());
     verifyNoInteractions(client);
   }
 
@@ -205,9 +203,9 @@ class MessageCleanupServiceTest {
     initServiceWithCommands(List.of());
 
     List<Integer> messageIds = List.of(1, 2, 3);
-    when(messageRepository.removeAll(CHAT_ID)).thenReturn(messageIds);
+    when(messageRepository.removeAll(CHAT_ID.toString())).thenReturn(messageIds);
 
-    service.clearLastNode(CHAT_ID);
+    service.clearLastNode(CHAT_ID.toString());
 
     ArgumentCaptor<DeleteMessage> captor = ArgumentCaptor.forClass(DeleteMessage.class);
     verify(client, times(messageIds.size())).executeAsync(captor.capture());
@@ -215,7 +213,7 @@ class MessageCleanupServiceTest {
     List<DeleteMessage> requests = captor.getAllValues();
 
     assertEquals(messageIds.size(), requests.size());
-    requests.forEach(request -> assertEquals(CHAT_ID, request.getChatId()));
+    requests.forEach(request -> assertEquals(CHAT_ID.toString(), request.getChatId()));
 
     List<Integer> capturedIds = requests.stream().map(DeleteMessage::getMessageId).toList();
 
@@ -227,13 +225,13 @@ class MessageCleanupServiceTest {
     initServiceWithCommands(List.of());
 
     List<Integer> messageIds = List.of(1, 2, 3);
-    when(messageRepository.removeAll(CHAT_ID)).thenReturn(messageIds);
+    when(messageRepository.removeAll(CHAT_ID.toString())).thenReturn(messageIds);
 
     doThrow(new TelegramApiException(TELEGRAM_API_EXCEPTION_MSG))
         .when(client)
         .executeAsync(any(DeleteMessage.class));
 
-    assertDoesNotThrow(() -> service.clearLastNode(CHAT_ID));
+    assertDoesNotThrow(() -> service.clearLastNode(CHAT_ID.toString()));
 
     verify(client, times(messageIds.size())).executeAsync(any(DeleteMessage.class));
   }
@@ -242,14 +240,14 @@ class MessageCleanupServiceTest {
   void clearLastNode_shouldUseChatIdStringCorrectly() throws Exception {
     initServiceWithCommands(List.of());
 
-    when(messageRepository.removeAll(CHAT_ID)).thenReturn(List.of(42));
+    when(messageRepository.removeAll(CHAT_ID.toString())).thenReturn(List.of(42));
 
-    service.clearLastNode(CHAT_ID);
+    service.clearLastNode(CHAT_ID.toString());
 
     ArgumentCaptor<DeleteMessage> captor = ArgumentCaptor.forClass(DeleteMessage.class);
     verify(client).executeAsync(captor.capture());
 
-    assertEquals(CHAT_ID, captor.getValue().getChatId());
+    assertEquals(CHAT_ID.toString(), captor.getValue().getChatId());
   }
 
   static Stream<Arguments> provideCommandMessages() {

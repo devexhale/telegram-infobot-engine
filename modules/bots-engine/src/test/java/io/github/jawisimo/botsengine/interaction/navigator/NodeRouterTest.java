@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class NodeRouterTest {
 
-  private static final String CHAT_ID = "123";
+  private static final String CHAT_ID = "125L";
   private static final String NODE_KEY = "history_q1";
   private static final String USER_INPUT = "History";
 

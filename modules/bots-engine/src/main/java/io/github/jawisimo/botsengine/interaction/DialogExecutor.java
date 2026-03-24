@@ -51,6 +51,11 @@ public class DialogExecutor {
    * @param message the incoming Telegram message
    */
   public void executeMessage(Message message) {
+    if (message == null || message.getChatId() == null || message.getMessageId() == null) {
+      log.debug("Skipping message due to missing required fields");
+      return;
+    }
+
     cleanupService.deleteRedundantMessage(message);
 
     String chatId = message.getChatId().toString();
@@ -78,6 +83,13 @@ public class DialogExecutor {
    * @param callbackQuery the incoming Telegram callback query
    */
   public void executeCallback(CallbackQuery callbackQuery) {
+    if (callbackQuery == null
+        || callbackQuery.getMessage() == null
+        || callbackQuery.getMessage().getChatId() == null) {
+      log.debug("Skipping callback due to missing required fields");
+      return;
+    }
+
     String chatId = callbackQuery.getMessage().getChatId().toString();
     String callbackData = callbackQuery.getData();
 

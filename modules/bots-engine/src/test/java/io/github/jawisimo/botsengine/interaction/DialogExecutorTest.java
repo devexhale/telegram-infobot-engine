@@ -27,8 +27,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 @ExtendWith(MockitoExtension.class)
 class DialogExecutorTest {
 
-  private static final long CHAT_ID_LONG = 123L;
-  private static final String CHAT_ID = "123";
+  private static final Long CHAT_ID = 123L;
   private static final String USER_INPUT = "hello";
   private static final String CALLBACK_DATA = "next_node";
   private static final String NODE_KEY = "node_1";
@@ -45,16 +44,16 @@ class DialogExecutorTest {
 
   @Test
   void executeMessage_shouldDeleteRedundantMessageAndReturn_whenCommandExecuted() {
-    when(message.getChatId()).thenReturn(CHAT_ID_LONG);
+    when(message.getChatId()).thenReturn(CHAT_ID);
     when(message.getText()).thenReturn(USER_INPUT);
-    when(commandExecutor.executeIfExists(CHAT_ID, USER_INPUT)).thenReturn(true);
+    when(commandExecutor.executeIfExists(CHAT_ID.toString(), USER_INPUT)).thenReturn(true);
 
     dialogExecutor.executeMessage(message);
 
     InOrder inOrder = inOrder(cleanupService, commandExecutor);
 
     inOrder.verify(cleanupService).deleteRedundantMessage(message);
-    inOrder.verify(commandExecutor).executeIfExists(CHAT_ID, USER_INPUT);
+    inOrder.verify(commandExecutor).executeIfExists(CHAT_ID.toString(), USER_INPUT);
 
     verifyNoInteractions(nextNodeKeyResolver);
     verifyNoInteractions(nodeRouter);
@@ -67,11 +66,11 @@ class DialogExecutorTest {
     NavigationRequest request = new NavigationRequest(USER_INPUT, NODE_KEY, false);
     NavigationResult result = NavigationResult.SUCCESS;
 
-    when(message.getChatId()).thenReturn(CHAT_ID_LONG);
+    when(message.getChatId()).thenReturn(CHAT_ID);
     when(message.getText()).thenReturn(USER_INPUT);
-    when(commandExecutor.executeIfExists(CHAT_ID, USER_INPUT)).thenReturn(false);
-    when(nextNodeKeyResolver.resolve(CHAT_ID, USER_INPUT)).thenReturn(request);
-    when(nodeRouter.route(CHAT_ID, request)).thenReturn(result);
+    when(commandExecutor.executeIfExists(CHAT_ID.toString(), USER_INPUT)).thenReturn(false);
+    when(nextNodeKeyResolver.resolve(CHAT_ID.toString(), USER_INPUT)).thenReturn(request);
+    when(nodeRouter.route(CHAT_ID.toString(), request)).thenReturn(result);
 
     dialogExecutor.executeMessage(message);
 
@@ -84,24 +83,53 @@ class DialogExecutorTest {
             navigationResultHandler);
 
     inOrder.verify(cleanupService).deleteRedundantMessage(message);
-    inOrder.verify(commandExecutor).executeIfExists(CHAT_ID, USER_INPUT);
-    inOrder.verify(nextNodeKeyResolver).resolve(CHAT_ID, USER_INPUT);
-    inOrder.verify(nodeRouter).route(CHAT_ID, request);
-    inOrder.verify(navigationResultHandler).handle(CHAT_ID, request, result);
+    inOrder.verify(commandExecutor).executeIfExists(CHAT_ID.toString(), USER_INPUT);
+    inOrder.verify(nextNodeKeyResolver).resolve(CHAT_ID.toString(), USER_INPUT);
+    inOrder.verify(nodeRouter).route(CHAT_ID.toString(), request);
+    inOrder.verify(navigationResultHandler).handle(CHAT_ID.toString(), request, result);
 
     verify(cleanupService, never()).clearLastNode(anyString());
+  }
+
+  @Test
+  void executeMessage_shouldDoNothing_whenMessageIsNull() {
+    dialogExecutor.executeMessage(null);
+
+    verifyNoInteractions(
+        cleanupService, commandExecutor, nextNodeKeyResolver, nodeRouter, navigationResultHandler);
+  }
+
+  @Test
+  void executeMessage_shouldDoNothing_whenChatIdIsNull() {
+    when(message.getChatId()).thenReturn(null);
+
+    dialogExecutor.executeMessage(message);
+
+    verifyNoInteractions(
+        cleanupService, commandExecutor, nextNodeKeyResolver, nodeRouter, navigationResultHandler);
+  }
+
+  @Test
+  void executeMessage_shouldDoNothing_whenMessageIdIsNull() {
+    when(message.getChatId()).thenReturn(CHAT_ID);
+    when(message.getMessageId()).thenReturn(null);
+
+    dialogExecutor.executeMessage(message);
+
+    verifyNoInteractions(
+        cleanupService, commandExecutor, nextNodeKeyResolver, nodeRouter, navigationResultHandler);
   }
 
   @Test
   void executeCallback_shouldReturn_whenCommandExecuted() {
     when(callbackQuery.getMessage()).thenReturn(message);
     when(callbackQuery.getData()).thenReturn(CALLBACK_DATA);
-    when(message.getChatId()).thenReturn(CHAT_ID_LONG);
-    when(commandExecutor.executeIfExists(CHAT_ID, CALLBACK_DATA)).thenReturn(true);
+    when(message.getChatId()).thenReturn(CHAT_ID);
+    when(commandExecutor.executeIfExists(CHAT_ID.toString(), CALLBACK_DATA)).thenReturn(true);
 
     dialogExecutor.executeCallback(callbackQuery);
 
-    verify(commandExecutor).executeIfExists(CHAT_ID, CALLBACK_DATA);
+    verify(commandExecutor).executeIfExists(CHAT_ID.toString(), CALLBACK_DATA);
     verifyNoInteractions(nextNodeKeyResolver);
     verifyNoInteractions(nodeRouter);
     verifyNoInteractions(navigationResultHandler);
@@ -116,20 +144,46 @@ class DialogExecutorTest {
 
     when(callbackQuery.getMessage()).thenReturn(message);
     when(callbackQuery.getData()).thenReturn(CALLBACK_DATA);
-    when(message.getChatId()).thenReturn(CHAT_ID_LONG);
-    when(commandExecutor.executeIfExists(CHAT_ID, CALLBACK_DATA)).thenReturn(false);
-    when(nodeRouter.route(CHAT_ID, request)).thenReturn(result);
+    when(message.getChatId()).thenReturn(CHAT_ID);
+    when(commandExecutor.executeIfExists(CHAT_ID.toString(), CALLBACK_DATA)).thenReturn(false);
+    when(nodeRouter.route(CHAT_ID.toString(), request)).thenReturn(result);
 
     dialogExecutor.executeCallback(callbackQuery);
 
     InOrder inOrder = inOrder(commandExecutor, nodeRouter, navigationResultHandler);
 
-    inOrder.verify(commandExecutor).executeIfExists(CHAT_ID, CALLBACK_DATA);
-    inOrder.verify(nodeRouter).route(CHAT_ID, request);
-    inOrder.verify(navigationResultHandler).handle(CHAT_ID, request, result);
+    inOrder.verify(commandExecutor).executeIfExists(CHAT_ID.toString(), CALLBACK_DATA);
+    inOrder.verify(nodeRouter).route(CHAT_ID.toString(), request);
+    inOrder.verify(navigationResultHandler).handle(CHAT_ID.toString(), request, result);
 
     verifyNoInteractions(nextNodeKeyResolver);
     verify(cleanupService, never()).clearLastNode(anyString());
     verify(cleanupService, never()).deleteRedundantMessage(any());
+  }
+
+  @Test
+  void executeCallback_shouldDoNothing_whenCallbackIsNull() {
+    dialogExecutor.executeCallback(null);
+
+    verifyNoInteractions(commandExecutor, nodeRouter, navigationResultHandler);
+  }
+
+  @Test
+  void executeCallback_shouldDoNothing_whenMessageIsNull() {
+    when(callbackQuery.getMessage()).thenReturn(null);
+
+    dialogExecutor.executeCallback(callbackQuery);
+
+    verifyNoInteractions(commandExecutor, nodeRouter, navigationResultHandler);
+  }
+
+  @Test
+  void executeCallback_shouldDoNothing_whenChatIdIsNull() {
+    when(callbackQuery.getMessage()).thenReturn(message);
+    when(message.getChatId()).thenReturn(null);
+
+    dialogExecutor.executeCallback(callbackQuery);
+
+    verifyNoInteractions(commandExecutor, nodeRouter, navigationResultHandler);
   }
 }

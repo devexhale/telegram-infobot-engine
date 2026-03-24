@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class NextNodeKeyResolverTest {
 
-  private static final String CHAT_ID = "123";
+  private static final String CHAT_ID = "130L";
   private static final String USER_INPUT = "History";
   private static final String NODE_KEY = "history_q1";
   private static final String CURRENT_NODE_KEY = "node_1";

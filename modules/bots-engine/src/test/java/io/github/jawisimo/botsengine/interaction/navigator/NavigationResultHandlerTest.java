@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 @ExtendWith(MockitoExtension.class)
 class NavigationResultHandlerTest {
 
-  private static final String CHAT_ID = "123";
+  private static final String CHAT_ID = "150L";
   private static final String NODE_KEY = "node_1";
   private static final String USER_INPUT = "hello";
 

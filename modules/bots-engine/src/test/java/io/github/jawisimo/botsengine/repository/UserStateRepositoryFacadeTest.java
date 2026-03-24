@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class UserStateRepositoryFacadeTest {
 
-  private static final String CHAT_ID = "chat-95";
+  private static final String CHAT_ID = "100L";
   private static final String NODE_ID = "some_node";
 
   private static final String IN_MEMORY_USER_STATE_REPOSITORY_SET =

@@ -21,7 +21,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 @ExtendWith(MockitoExtension.class)
 class ContentExecutorTest {
 
-  private static final String CHAT_ID = "123456789";
+  private static final String CHAT_ID = "123456789L";
   private static final Integer MESSAGE_ID = 42;
   private static final String MESSAGE_TEXT = "Test message";
   private static final ButtonType BUTTON_TYPE = ButtonType.INLINE;
