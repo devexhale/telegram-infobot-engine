@@ -4,9 +4,9 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'io.github.jawisimo'
+group = 'io.github.devexhale'
 version = '1.0'
-description = 'telegram-dialog-bots-engine'
+description = 'telegram-infobot-engine'
 
 java {
     toolchain {
@@ -23,5 +23,5 @@ tasks.named('test', Test) {
 }
 
 springBoot {
-    mainClass = 'io.github.jawisimo.bottemplate.BotTemplateApplication'
+    mainClass = 'io.github.devexhale.bottemplate.BotTemplateApplication'
 }

@@ -2,14 +2,10 @@
   content:
     - type: text
       text: "Перевірте свої знання та дізнайтесь більше про світ навколо!"
-    - type: media
-      media:
-        type: photo
-        file_name: Qstart.jpg
-    - type: media
-      media:
-        type: audio
-        file_name: start_quest.mp3
+    - type: photo
+      file_name: Qstart.jpg
+    - type: audio
+      file_name: start_quest.mp3
   message: "Почнемо нашу подорож. Оберіть тему: "
   button_type: inline
   buttons:
@@ -22,15 +18,13 @@
     - label: "🎬 Кіно"
       next: "cinema_q1"
     - label: "🔗 GitHub"
-      url: "https://github.com/jawisimo/telegram-dialog-bots-engine"
+      url: "https://github.com/devexhale/telegram-infobot-engine"
 
 # ІСТОРІЯ
 history_q1:
   content:
-    - type: media
-      media:
-        type: photo
-        file_name: History.jpg
+    - type: photo
+      file_name: History.jpg
     - type: text
       text: "Питання 1️⃣ "
   message: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "
@@ -243,10 +237,8 @@ history_end:
 # НАУКА
 science_q1:
   content:
-    - type: media
-      media:
-        type: photo
-        file_name: Science.jpg
+    - type: photo
+      file_name: Science.jpg
     - type: text
       text: "Питання 1️⃣ "
   message: "Який експеримент, проведений у 1887 році, спростував існування ефіру як середовища для поширення світла?"
@@ -459,13 +451,11 @@ science_end:
 # ГЕОГРАФІЯ
 geography_q1:
   content:
-    - type: media
-      media:
-        type: photo
-        file_name: Geography.jpeg
+    - type: photo
+      file_name: Geography.jpeg
     - type: text
       text: "Питання 1️⃣ "
-  message: "Який географічний об’єкт є найглибшою точкою Світового океану?"
+  message: "Який географічний об'єкт є найглибшою точкою Світового океану?"
   button_type: reply
   buttons:
     - label: "Філіппінський жолоб"
@@ -608,7 +598,7 @@ geography_q5:
       next: "geography_q5_wrong"
     - label: "Ефіопія"
       next: "geography_q5_wrong"
-    - label: "В’єтнам"
+    - label: "В'єтнам"
       next: "geography_q5_wrong"
     - label: "Бразилія"
       next: "geography_q5_correct"
@@ -675,10 +665,8 @@ geography_end:
 # КІНО
 cinema_q1:
   content:
-    - type: media
-      media:
-        type: photo
-        file_name: Movie.jpg
+    - type: photo
+      file_name: Movie.jpg
     - type: text
       text: "Питання 1️⃣ "
   message: "Який фільм 1927 року вважається першим повнометражним звуковим фільмом у історії кінематографа?"
