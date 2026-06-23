@@ -1,78 +1,57 @@
-// package io.github.jawisimo.botengine.service;
-//
-// import static org.junit.jupiter.api.Assertions.*;
-// import static org.mockito.Mockito.*;
-//
-// import io.github.jawisimo.botengine.domain.common.UserState;
-//
-// import java.util.Optional;
-// import java.util.stream.Stream;
-// import org.junit.jupiter.api.Test;
-// import org.junit.jupiter.api.extension.ExtendWith;
-// import org.junit.jupiter.params.ParameterizedTest;
-// import org.junit.jupiter.params.provider.Arguments;
-// import org.junit.jupiter.params.provider.MethodSource;
-// import org.mockito.ArgumentCaptor;
-// import org.mockito.InjectMocks;
-// import org.mockito.Mock;
-// import org.mockito.junit.jupiter.MockitoExtension;
-//
-// @ExtendWith(MockitoExtension.class)
-// class UserStateServiceTest {
-//
-//  private static final String CHAT_ID = "chatId-555";
-//  private static final String START = "/start";
-//  private static final String MENU = "/menu";
-//
-//  @Mock private UserStateRepositoryFacade userStateRepositoryFacade;
-//
-//  @InjectMocks private UserStateService service;
-//
-//  @ParameterizedTest
-//  @MethodSource("provideUserStateScenarios")
-//  void getUserStateOrDefault_shouldReturnCorrectState(
-//      UserState repositoryState, String defaultState, String expectedResult) {
-//    Optional<UserState> repositoryResult = Optional.ofNullable(repositoryState);
-//    when(userStateRepositoryFacade.findByChatId(CHAT_ID)).thenReturn(repositoryResult);
-//
-//    String actualResult = service.getUserStateOrDefault(CHAT_ID, defaultState);
-//
-//    assertEquals(expectedResult, actualResult);
-//    verify(userStateRepositoryFacade).findByChatId(CHAT_ID);
-//  }
-//
-//  @Test
-//  void saveUserState_shouldSaveNewUserState() {
-//    service.saveUserState(CHAT_ID, MENU);
-//
-//    ArgumentCaptor<UserState> captor = ArgumentCaptor.forClass(UserState.class);
-//    verify(userStateRepositoryFacade).save(captor.capture());
-//
-//    UserState saved = captor.getValue();
-//    assertEquals(CHAT_ID, saved.getChatId());
-//    assertEquals(MENU, saved.getNodeId());
-//  }
-//
-//  @Test
-//  void getUserStateOrDefault_shouldCallRepositoryForEachInvocation() {
-//    String defaultState = START;
-//    int expectedInvocations = 2;
-//
-//    when(userStateRepositoryFacade.findByChatId(CHAT_ID))
-//        .thenReturn(Optional.of(new UserState(CHAT_ID, MENU)));
-//
-//    service.getUserStateOrDefault(CHAT_ID, defaultState);
-//    service.getUserStateOrDefault(CHAT_ID, defaultState);
-//
-//    verify(userStateRepositoryFacade, times(expectedInvocations)).findByChatId(CHAT_ID);
-//  }
-//
-//  static Stream<Arguments> provideUserStateScenarios() {
-//    return Stream.of(
-//        Arguments.of(null, START, START),
-//        Arguments.of(new UserState(CHAT_ID, MENU), START, MENU),
-//        Arguments.of(new UserState(CHAT_ID, null), START, START),
-//        Arguments.of(new UserState(CHAT_ID, ""), START, ""),
-//        Arguments.of(null, null, null));
-//  }
-// }
+package io.github.devexhale.botengine.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import io.github.devexhale.botengine.repository.state.UserStateRepository;
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+class UserStateServiceTest {
+
+  private static final String CHAT_ID = "123456789";
+  private static final String STORED_NODE_ID = "stored_node";
+  private static final String DEFAULT_NODE_ID = "/start";
+
+  @Mock private UserStateRepository userStateRepository;
+
+  @InjectMocks private UserStateService userStateService;
+
+  @Test
+  void getUserStateOrDefault_shouldReturnStoredValue_whenNodeExists() {
+    when(userStateRepository.findNodeKey(CHAT_ID)).thenReturn(Optional.of(STORED_NODE_ID));
+
+    String result = userStateService.getUserStateOrDefault(CHAT_ID, DEFAULT_NODE_ID);
+
+    assertEquals(STORED_NODE_ID, result);
+  }
+
+  @Test
+  void getUserStateOrDefault_shouldReturnDefaultValue_whenNodeDoesNotExist() {
+    when(userStateRepository.findNodeKey(CHAT_ID)).thenReturn(Optional.empty());
+
+    String result = userStateService.getUserStateOrDefault(CHAT_ID, DEFAULT_NODE_ID);
+
+    assertEquals(DEFAULT_NODE_ID, result);
+  }
+
+  @Test
+  void saveUserState_shouldDelegateToRepository_whenCalled() {
+    userStateService.saveUserState(CHAT_ID, STORED_NODE_ID);
+
+    verify(userStateRepository).save(CHAT_ID, STORED_NODE_ID);
+  }
+
+  @Test
+  void deleteUserState_shouldDelegateToRepository_whenCalled() {
+    userStateService.deleteUserState(CHAT_ID);
+
+    verify(userStateRepository).delete(CHAT_ID);
+  }
+}

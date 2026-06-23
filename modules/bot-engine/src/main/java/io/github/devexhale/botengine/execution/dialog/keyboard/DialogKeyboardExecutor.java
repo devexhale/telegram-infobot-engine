@@ -1,5 +1,6 @@
 package io.github.devexhale.botengine.execution.dialog.keyboard;
 
+import io.github.devexhale.botengine.diagnostics.exception.TelegramMessageSendException;
 import io.github.devexhale.botengine.domain.dialog.Button;
 import io.github.devexhale.botengine.domain.dialog.ButtonType;
 import io.github.devexhale.botengine.domain.dialog.DialogNode;
@@ -35,9 +36,8 @@ public class DialogKeyboardExecutor {
       return List.of(client.execute(request));
     } catch (TelegramApiException e) {
       log.error("Failed to send dialog keyboard markup in chat. ChatID={}", chatId, e);
+      throw new TelegramMessageSendException(e);
     }
-
-    return List.of();
   }
 
   private SendMessage createRequest(DialogNode node, String chatId) {

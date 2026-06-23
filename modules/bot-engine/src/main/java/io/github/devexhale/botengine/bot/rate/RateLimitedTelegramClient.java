@@ -42,7 +42,6 @@ public class RateLimitedTelegramClient implements TelegramClient {
 
   private static final int MAX_RETRIES = 3;
   private static final int INITIAL_ATTEMPT = 1;
-  private static final int ATTEMPT_INCREMENT_STEP = 1;
   private static final int DEFAULT_RETRY_AFTER = 5;
   private static final int RATE_LIMIT_ERROR_CODE = 429;
   private static final int NO_RETRY_DELAY = 0;
@@ -380,7 +379,7 @@ public class RateLimitedTelegramClient implements TelegramClient {
     CompletableFuture<T> nextTry = new CompletableFuture<>();
     scheduledExecutorService.schedule(
         () ->
-            executeAsyncWithRetry(chatId, action, attempt + ATTEMPT_INCREMENT_STEP)
+            executeAsyncWithRetry(chatId, action, attempt + 1)
                 .whenComplete((res, err) -> propagateResult(nextTry, res, err)),
         retryAfter,
         TimeUnit.SECONDS);

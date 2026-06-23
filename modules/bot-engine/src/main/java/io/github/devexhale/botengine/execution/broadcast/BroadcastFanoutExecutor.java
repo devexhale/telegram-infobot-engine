@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class BroadcastFanoutExecutor {
 
   private static final String FORBIDDEN_RESPONSE_CODE = "403";
-  private static final String FORBIDDEN_RESPONSE_MESSAGE = "Forbidden";
+  private static final String FORBIDDEN_RESPONSE_MSG = "Forbidden";
 
   private final DefinitionStorage<BroadcastNode> broadcastStorage;
   private final BroadcastNodeExecutor broadcastNodeExecutor;
@@ -43,8 +43,8 @@ public class BroadcastFanoutExecutor {
   }
 
   private boolean isForbiddenError(Exception e) {
-    return e.getMessage() != null
-        && (e.getMessage().contains(FORBIDDEN_RESPONSE_CODE)
-            || e.getMessage().contains(FORBIDDEN_RESPONSE_MESSAGE));
+    String msg = e.getMessage();
+    return msg != null
+        && (msg.contains(FORBIDDEN_RESPONSE_CODE) || msg.contains(FORBIDDEN_RESPONSE_MSG));
   }
 }

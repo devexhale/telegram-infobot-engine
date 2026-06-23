@@ -1,14 +1,12 @@
 package io.github.devexhale.botengine.validator.properties;
 
 import io.github.devexhale.botengine.properties.DialogProperties;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @Order(2)
@@ -44,7 +42,7 @@ public class DialogPropertiesValidator implements PropertiesValidator {
 
     if (dialogFileName != null
         && !dialogFileName.isBlank()
-        && !resourceLoader.getResource(Paths.get(dialogFileName).toString()).exists()) {
+        && !resourceLoader.getResource(dialogFileName).exists()) {
       invalidProperties.add(
           DIALOG_FILE_NAME_PROPERTY + ": file '%s' not found".formatted(dialogFileName));
     }

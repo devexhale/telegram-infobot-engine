@@ -99,15 +99,6 @@ jacocoTestReport {
         html.required = true
         csv.required = false
     }
-
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    '**/interaction/command/commandset/**',
-                    '**/model/**'
-            ])
-        }))
-    }
 }
 
 // Suppresses missing Javadoc warnings (e.g. undocumented default constructors),

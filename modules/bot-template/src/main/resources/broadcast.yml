@@ -6,7 +6,7 @@ template_broadcast_node_1:
       file_name: github-logo.png
   message: "https://github.com/devexhale/telegram-infobot-engine"
   return_label: "Повернутись до квесту"
-  start_at: "2026-05-26T15:27:00"
+  start_at: "2026-06-25T10:30:00"
 # default total_sends value = 1
 
 template_broadcast_node_2:
@@ -15,6 +15,6 @@ template_broadcast_node_2:
       text: "template content text_2"
   message: "This is a broadcast message_2"
   return_label: "Back to menu"
-  start_at: "2026-04-08T10:00:00"
+  start_at: "2026-06-08T10:00:00"
   total_sends: 2
   interval: "PT12H"

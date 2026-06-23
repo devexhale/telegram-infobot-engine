@@ -1,0 +1,4 @@
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+io.github.devexhale.botengine.diagnostics.analyzer.RedisInitializationFailureAnalyzer,\
+io.github.devexhale.botengine.diagnostics.analyzer.PropertiesInitializationFailureAnalyzer,\
+io.github.devexhale.botengine.diagnostics.analyzer.DefinitionInitializationFailureAnalyzer

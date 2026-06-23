@@ -1,14 +1,13 @@
 package io.github.devexhale.botengine.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /**
  * Utility class for detecting the current runtime environment.
  *
  * @since 1.0
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class EnvironmentDetector {
 
   /**

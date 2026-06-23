@@ -64,8 +64,4 @@ public class RateLimiter {
         .addLimit(Bandwidth.builder().capacity(capacity).refillGreedy(rate, interval).build())
         .build();
   }
-
-  public long getAvailableGlobalTokens() {
-    return proxyManager.builder().build(GLOBAL_KEY, () -> globalConfig).getAvailableTokens();
-  }
 }

@@ -18,7 +18,7 @@ public class SubscriberService {
   private final MessageCleanupRepository messageCleanupRepository;
 
   public void subscribe(String chatId) {
-    subscriberRepository.add(chatId);
+    subscriberRepository.save(chatId);
     log.info("User subscribed. ChatID={}", chatId);
   }
 

@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface SubscriberRepository {
 
-  void add(String chatId);
+  void save(String chatId);
 
   void delete(String chatId);
 

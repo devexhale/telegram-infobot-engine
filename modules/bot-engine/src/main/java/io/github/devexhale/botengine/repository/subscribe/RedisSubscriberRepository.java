@@ -14,7 +14,7 @@ public class RedisSubscriberRepository implements SubscriberRepository {
   private final RedisTemplate<String, String> redisTemplate;
 
   @Override
-  public void add(String chatId) {
+  public void save(String chatId) {
     redisTemplate.opsForSet().add(KEY, chatId);
   }
 

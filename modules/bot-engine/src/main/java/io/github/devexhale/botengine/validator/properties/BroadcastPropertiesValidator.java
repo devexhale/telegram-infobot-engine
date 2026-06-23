@@ -2,16 +2,14 @@ package io.github.devexhale.botengine.validator.properties;
 
 import io.github.devexhale.botengine.annotation.ConditionalOnBroadcastEnabled;
 import io.github.devexhale.botengine.properties.BroadcastProperties;
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
-
-import java.nio.file.Paths;
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
 @Component
 @Order(3)
@@ -56,8 +54,7 @@ public class BroadcastPropertiesValidator implements PropertiesValidator {
     if (broadcastEnabled) {
       if (broadcastFileName != null
           && !broadcastFileName.isBlank()
-          && !resourceLoader.getResource(broadcastFileName).exists()
-          && !resourceLoader.getResource(Paths.get(broadcastFileName).toString()).exists()) {
+          && !resourceLoader.getResource(broadcastFileName).exists()) {
         invalidProperties.add(
             BROADCAST_FILE_NAME_PROPERTY + ": file '%s' not found".formatted(broadcastFileName));
       }
@@ -72,6 +69,7 @@ public class BroadcastPropertiesValidator implements PropertiesValidator {
         }
       }
     }
+
     return invalidProperties;
   }
 }

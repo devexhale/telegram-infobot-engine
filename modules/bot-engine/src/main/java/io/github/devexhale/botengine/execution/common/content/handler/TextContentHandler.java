@@ -30,13 +30,6 @@ public class TextContentHandler implements ContentHandler {
     return ContentType.TEXT;
   }
 
-  /**
-   * Sends the text message to the specified chat.
-   *
-   * @param node the text content node
-   * @param chatId the chat identifier
-   * @return an Optional containing the sent message, or empty if sending failed
-   */
   @Override
   public Message handle(ContentNode node, String chatId) {
     SendMessage request = new SendMessage(chatId, node.text());
