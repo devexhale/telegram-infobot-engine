@@ -14,6 +14,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+/**
+ * Loads, parses, and validates definition configuration files.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class DefinitionLoader {
@@ -22,6 +27,15 @@ public class DefinitionLoader {
   private final DefinitionValidatorRegistry validatorRegistry;
   private final ResourceLoader resourceLoader;
 
+  /**
+   * Loads a configuration file, parses it into the target type, and validates it.
+   *
+   * @param fileName the path to the configuration file
+   * @param targetType the class to parse the file into
+   * @param <T> the type of the parsed configuration
+   * @return the parsed and validated configuration object
+   * @throws DefinitionInitializationException if the file is missing, empty, or invalid
+   */
   public <T> T load(String fileName, Class<T> targetType) {
     String resourcePath = Paths.get(fileName).toString();
     Resource resource = resourceLoader.getResource(resourcePath);

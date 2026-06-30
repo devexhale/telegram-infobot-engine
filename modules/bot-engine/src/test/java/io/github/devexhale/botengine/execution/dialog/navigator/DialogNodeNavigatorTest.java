@@ -33,6 +33,8 @@ class DialogNodeNavigatorTest {
   private static final String CALLBACK_DATA = "callback_data";
   private static final String EXISTING_NODE_ID = "existing_node";
   private static final String START_NODE_ID = StartCommand.COMMAND_NAME;
+  private static final String IRRELEVANT_MSG_SENT = "Irrelevant message sent";
+  private static final String MSG = "msg";
 
   @Mock private DefinitionStorage<DialogNode> dialogStorage;
   @Mock private DialogNodeExecutor dialogNodeExecutor;
@@ -86,7 +88,7 @@ class DialogNodeNavigatorTest {
 
     ILoggingEvent loggedEvent = logCaptor.events().getFirst();
     assertEquals(Level.WARN, loggedEvent.getLevel());
-    assertTrue(loggedEvent.getFormattedMessage().contains("Irrelevant message sent"));
+    assertTrue(loggedEvent.getFormattedMessage().contains(IRRELEVANT_MSG_SENT));
     assertTrue(loggedEvent.getFormattedMessage().contains(USER_INPUT));
     assertTrue(loggedEvent.getFormattedMessage().contains(CHAT_ID));
   }
@@ -94,7 +96,7 @@ class DialogNodeNavigatorTest {
   @Test
   void navigateMessage_shouldExecutesNodeAndSavesState_whenNodeExistsForReplyButtonLabel() {
     DialogNode currentNodeWithReplyButtons =
-        new DialogNode(null, "msg", ButtonType.REPLY, replyButtons);
+        new DialogNode(null, MSG, ButtonType.REPLY, replyButtons);
 
     when(userStateService.getUserStateOrDefault(CHAT_ID, START_NODE_ID)).thenReturn(START_NODE_ID);
     when(dialogStorage.getNode(START_NODE_ID)).thenReturn(currentNodeWithReplyButtons);
@@ -111,7 +113,7 @@ class DialogNodeNavigatorTest {
     String nonMatchingButtonLabel = "non_matching_button_label";
 
     DialogNode currentNodeWithReplyButtons =
-        new DialogNode(null, "msg", ButtonType.REPLY, replyButtons);
+        new DialogNode(null, MSG, ButtonType.REPLY, replyButtons);
 
     when(userStateService.getUserStateOrDefault(CHAT_ID, START_NODE_ID)).thenReturn(START_NODE_ID);
     when(dialogStorage.getNode(START_NODE_ID)).thenReturn(currentNodeWithReplyButtons);
@@ -123,7 +125,7 @@ class DialogNodeNavigatorTest {
 
     ILoggingEvent loggedEvent = logCaptor.events().getFirst();
     assertEquals(Level.WARN, loggedEvent.getLevel());
-    assertTrue(loggedEvent.getFormattedMessage().contains("Irrelevant message sent"));
+    assertTrue(loggedEvent.getFormattedMessage().contains(IRRELEVANT_MSG_SENT));
     assertTrue(loggedEvent.getFormattedMessage().contains(nonMatchingButtonLabel));
     assertTrue(loggedEvent.getFormattedMessage().contains(CHAT_ID));
   }
@@ -140,14 +142,14 @@ class DialogNodeNavigatorTest {
 
     ILoggingEvent loggedEvent = logCaptor.events().getFirst();
     assertEquals(Level.WARN, loggedEvent.getLevel());
-    assertTrue(loggedEvent.getFormattedMessage().contains("Irrelevant message sent"));
+    assertTrue(loggedEvent.getFormattedMessage().contains(IRRELEVANT_MSG_SENT));
     assertTrue(loggedEvent.getFormattedMessage().contains(USER_INPUT));
     assertTrue(loggedEvent.getFormattedMessage().contains(CHAT_ID));
   }
 
   @Test
   void navigateMessage_shouldLogWarning_whenCurrentNodeButtonsIsNull() {
-    DialogNode currentNodeWithNullButtons = new DialogNode(null, "msg", ButtonType.REPLY, null);
+    DialogNode currentNodeWithNullButtons = new DialogNode(null, MSG, ButtonType.REPLY, null);
 
     when(userStateService.getUserStateOrDefault(CHAT_ID, START_NODE_ID)).thenReturn(START_NODE_ID);
     when(dialogStorage.getNode(START_NODE_ID)).thenReturn(currentNodeWithNullButtons);
@@ -159,7 +161,7 @@ class DialogNodeNavigatorTest {
 
     ILoggingEvent loggedEvent = logCaptor.events().getFirst();
     assertEquals(Level.WARN, loggedEvent.getLevel());
-    assertTrue(loggedEvent.getFormattedMessage().contains("Irrelevant message sent"));
+    assertTrue(loggedEvent.getFormattedMessage().contains(IRRELEVANT_MSG_SENT));
     assertTrue(loggedEvent.getFormattedMessage().contains(USER_INPUT));
     assertTrue(loggedEvent.getFormattedMessage().contains(CHAT_ID));
   }

@@ -16,7 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 /**
  * Loads media files from the classpath and wraps them as {@link InputFile}.
  *
- * <p>Resolves media resources from the {@code media} directory and prepares them for sending via
+ * <p>Resolves media resources from the {@code content} directory and prepares them for sending via
  * the Telegram API.
  *
  * @since 1.0
@@ -33,10 +33,9 @@ public class MediaFileLoader {
   /**
    * Loads a media file from the classpath.
    *
-   * @param mediaFileName the media file name located under the {@code media} directory
+   * @param mediaFileName the file name located under the {@code content} directory
    * @return the loaded {@link InputFile}
-   * @throws DefinitionInitializationException if the file name is invalid or the resource cannot be
-   *     found
+   * @throws DefinitionInitializationException if the resource cannot be found or read
    */
   public InputFile load(String mediaFileName) {
     String resourcePath = Paths.get(MEDIA_FOLDER, mediaFileName).toString();

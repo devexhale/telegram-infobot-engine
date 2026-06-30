@@ -6,11 +6,24 @@ import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates {@link ContentNode} lists for structural and content integrity.
+ *
+ * @since 1.0
+ */
 @Component
 public class ContentValidator {
 
   private static final String MEDIA_FOLDER = "content";
 
+  /**
+   * Validates a list of content nodes and populates the validation context with errors and
+   * warnings.
+   *
+   * @param content the list of content nodes to validate
+   * @param contentPath the path to the content node where the error or warning occurred
+   * @param context the validation context to accumulate issues
+   */
   void validate(List<ContentNode> content, String contentPath, ValidationContext context) {
     if (content == null) {
       return;

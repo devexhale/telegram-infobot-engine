@@ -16,13 +16,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
- * Deletes bot messages and redundant user messages to keep the chat clean during dialog navigation.
+ * Manages the deletion of bot and redundant user messages to keep the chat clean.
  *
- * <p>Uses {@link MessageCleanupRepository} as a source of message identifiers to delete and
- * delegates the actual deletion to {@link TelegramClient}.
- *
- * <p>The service is typically used when moving between dialog nodes to remove messages from the
- * previous node and to clean up redundant user input.
+ * <p>Uses {@link MessageCleanupRepository} to track messages and delegates actual deletion to
+ * {@link TelegramClient}.
  *
  * @since 1.0
  */
@@ -37,6 +34,12 @@ public class MessageCleanupManager {
 
   private static final int BATCH_SIZE = 100;
 
+  /**
+   * Registers sent messages for future cleanup.
+   *
+   * @param chatId the chat identifier
+   * @param messages the list of messages to register
+   */
   public void registerMessagesForCleanup(String chatId, List<Message> messages) {
     if (messages != null && !messages.isEmpty()) {
       messages.forEach(message -> messageCleanupRepository.save(chatId, message.getMessageId()));
@@ -44,11 +47,7 @@ public class MessageCleanupManager {
   }
 
   /**
-   * Deletes a user message if it is considered redundant for the dialog flow.
-   *
-   * <p>Messages containing bot commands are preserved to keep visible entry points in the chat
-   * history. All other messages, including text and media (photos, videos, documents, etc.), are
-   * removed to keep the chat clean and prevent clutter during dialog navigation.
+   * Deletes a user message if it is not a recognized bot command.
    *
    * @param message the message to evaluate and possibly delete
    */
@@ -74,10 +73,7 @@ public class MessageCleanupManager {
   }
 
   /**
-   * Deletes all messages associated with the last dialog node for the given chat.
-   *
-   * <p>Message identifiers are processed in batches of 100 to optimize API usage and comply with
-   * Telegram's rate limits for bulk deletion.
+   * Deletes all previously registered messages for the given chat in batches.
    *
    * @param chatId the chat identifier
    */
@@ -96,12 +92,6 @@ public class MessageCleanupManager {
     }
   }
 
-  /**
-   * Deletes a batch of messages using the bulk deletion method.
-   *
-   * @param chatId the chat identifier
-   * @param messageIds the list of message identifiers to delete
-   */
   private void deleteMessages(String chatId, List<Integer> messageIds) {
     String formattedIds = formatMessageIds(messageIds);
 
@@ -129,12 +119,6 @@ public class MessageCleanupManager {
     }
   }
 
-  /**
-   * Deletes a message by chat and message identifiers.
-   *
-   * @param chatId the chat identifier
-   * @param messageId the message identifier
-   */
   private void deleteMessage(String chatId, Integer messageId) {
     try {
       client

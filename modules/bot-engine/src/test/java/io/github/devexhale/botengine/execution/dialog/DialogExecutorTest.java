@@ -31,6 +31,8 @@ class DialogExecutorTest {
   private static final int MESSAGE_ID = 123;
   private static final String USER_INPUT = "user_input";
   private static final String CALLBACK_DATA = "callback_data";
+  private static final String SKIP_MSG = "Skipping message";
+  private static final String SKIP_CALLBACK = "Skipping callback";
 
   @Mock private MessageCleanupManager cleanupService;
   @Mock private DialogNodeNavigator dialogNodeNavigator;
@@ -85,7 +87,7 @@ class DialogExecutorTest {
   void executeMessage_shouldLogWarning_whenMessageIsNull() {
     dialogExecutor.executeMessage(null);
     verify(cleanupService, never()).cleanRedundantMessage(any());
-    assertWarningLogged("Skipping message");
+    assertWarningLogged(SKIP_MSG);
   }
 
   @Test
@@ -97,7 +99,7 @@ class DialogExecutorTest {
     verify(cleanupService, never()).cleanRedundantMessage(any());
     verify(commandExecutor, never()).executeIfExists(any(), any());
     verify(dialogNodeNavigator, never()).navigateMessage(any(), any());
-    assertWarningLogged("Skipping message");
+    assertWarningLogged(SKIP_MSG);
   }
 
   @Test
@@ -109,7 +111,7 @@ class DialogExecutorTest {
     verify(cleanupService, never()).cleanRedundantMessage(any());
     verify(commandExecutor, never()).executeIfExists(any(), any());
     verify(dialogNodeNavigator, never()).navigateMessage(any(), any());
-    assertWarningLogged("Skipping message");
+    assertWarningLogged(SKIP_MSG);
   }
 
   @Test
@@ -135,7 +137,7 @@ class DialogExecutorTest {
   void executeCallback_shouldLogWarning_whenCallbackQueryIsNull() {
     dialogExecutor.executeCallback(null);
     verify(commandExecutor, never()).executeIfExists(any(), any());
-    assertWarningLogged("Skipping callback");
+    assertWarningLogged(SKIP_CALLBACK);
   }
 
   @Test
@@ -146,7 +148,7 @@ class DialogExecutorTest {
 
     verify(commandExecutor, never()).executeIfExists(any(), any());
     verify(dialogNodeNavigator, never()).navigateCallback(any(), any());
-    assertWarningLogged("Skipping callback");
+    assertWarningLogged(SKIP_CALLBACK);
   }
 
   @Test
@@ -157,7 +159,7 @@ class DialogExecutorTest {
 
     verify(commandExecutor, never()).executeIfExists(any(), any());
     verify(dialogNodeNavigator, never()).navigateCallback(any(), any());
-    assertWarningLogged("Skipping callback");
+    assertWarningLogged(SKIP_CALLBACK);
   }
 
   private void assertWarningLogged(String expectedMessagePart) {

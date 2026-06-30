@@ -7,10 +7,9 @@ import java.lang.annotation.Target;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
- * Conditional annotation that enables components when persistent user state is active.
+ * Enables components when broadcast functionality is active.
  *
- * <p>Shortcut for {@link ConditionalOnProperty} with {@code
- * telegram.bot.user-state-persistent=true}.
+ * <p>Shortcut for {@link ConditionalOnProperty} with {@code telegram.bot.broadcast.enabled}.
  *
  * @since 1.0
  */

@@ -5,6 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Redis-backed implementation of {@link SubscriberRepository}.
+ *
+ * <p>Manages chat subscriptions in Redis.
+ *
+ * @since 1.0
+ */
 @Repository
 @RequiredArgsConstructor
 public class RedisSubscriberRepository implements SubscriberRepository {

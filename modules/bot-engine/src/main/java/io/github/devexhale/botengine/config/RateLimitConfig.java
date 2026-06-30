@@ -18,6 +18,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configures Redis infrastructure for distributed rate limiting.
+ *
+ * <p>Sets up components to enforce rate limits across application instances.
+ *
+ * @since 1.0
+ */
 @Configuration
 @ConditionalOnClass(name = "org.springframework.data.redis.connection.RedisConnectionFactory")
 public class RateLimitConfig {
@@ -33,6 +40,11 @@ public class RateLimitConfig {
   @Value("${spring.data.redis.password:}")
   private String redisPassword;
 
+  /**
+   * Creates a Lettuce {@link RedisClient} using configured host, port, and password.
+   *
+   * @return the configured Redis client
+   */
   @Bean(destroyMethod = "shutdown")
   public RedisClient redisClient() {
     RedisURI.Builder builder = RedisURI.builder().withHost(redisHost).withPort(redisPort);
@@ -44,6 +56,13 @@ public class RateLimitConfig {
     return RedisClient.create(builder.build());
   }
 
+  /**
+   * Establishes a stateful Redis connection for Bucket4j state storage.
+   *
+   * @param redisClient the Redis client to use
+   * @return the stateful Redis connection
+   * @throws RedisInitializationException if the connection fails
+   */
   @Bean(destroyMethod = "close")
   public StatefulRedisConnection<String, byte[]> bucket4jConnection(RedisClient redisClient) {
     try {
@@ -53,6 +72,15 @@ public class RateLimitConfig {
     }
   }
 
+  /**
+   * Creates a Bucket4J {@link ProxyManager} backed by Redis.
+   *
+   * <p>Uses a compare-and-swap based builder with time-based expiration for refilling buckets up to
+   * their maximum capacity.
+   *
+   * @param bucket4jConnection the Redis connection for state storage
+   * @return the configured proxy manager
+   */
   @Bean
   public ProxyManager<String> bucketProxyManager(
       StatefulRedisConnection<String, byte[]> bucket4jConnection) {

@@ -8,6 +8,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * Orchestrates the warm-up process for all registered {@link WarmableStorage} instances.
+ *
+ * <p>Iterates through available storages, triggers initialization for enabled ones, and aggregates
+ * any errors encountered during the process.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -17,6 +25,11 @@ public class DefinitionStorageWarmer {
 
   private final List<WarmableStorage> storages;
 
+  /**
+   * Warms up all enabled storages and throws an exception if any initialization fails.
+   *
+   * @throws DefinitionInitializationException if one or more storages fail to warm up
+   */
   public void warmUpAll() {
     List<String> errors = new ArrayList<>();
 

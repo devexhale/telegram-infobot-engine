@@ -5,6 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 
+/**
+ * Handles chat member status updates to manage user subscriptions.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class ChatMemberUpdateExecutor {
@@ -14,6 +19,11 @@ public class ChatMemberUpdateExecutor {
 
   private final SubscriberService subscriberService;
 
+  /**
+   * Processes a chat member update to subscribe or unsubscribe the user.
+   *
+   * @param update the {@link ChatMemberUpdated} event
+   */
   public void execute(ChatMemberUpdated update) {
     String newStatus = update.getNewChatMember().getStatus();
     String chatId = update.getChat().getId().toString();

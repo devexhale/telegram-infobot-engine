@@ -58,6 +58,9 @@ class BroadcastFanoutExecutorTest {
   void execute_shouldExecuteBroadcastNodeForAllSubscribers_whenSuccessful() {
     Set<String> subscribers = Set.of(CHAT_ID_1, CHAT_ID_2);
 
+    lenient().doNothing().when(broadcastNodeExecutor).execute(broadcastNode, CHAT_ID_1);
+    lenient().doNothing().when(broadcastNodeExecutor).execute(broadcastNode, CHAT_ID_2);
+
     broadcastFanoutExecutor.execute(NODE_ID, subscribers);
 
     verify(broadcastNodeExecutor).execute(broadcastNode, CHAT_ID_1);
@@ -133,6 +136,7 @@ class BroadcastFanoutExecutorTest {
         new TelegramMessageSendException(new Exception(FORBIDDEN_EXCEPTION_MSG));
 
     doThrow(forbiddenException).when(broadcastNodeExecutor).execute(broadcastNode, CHAT_ID_1);
+    lenient().doNothing().when(broadcastNodeExecutor).execute(broadcastNode, CHAT_ID_2);
 
     broadcastFanoutExecutor.execute(NODE_ID, subscribers);
 

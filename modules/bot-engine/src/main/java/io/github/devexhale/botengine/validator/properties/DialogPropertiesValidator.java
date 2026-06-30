@@ -8,6 +8,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates dialog configuration properties.
+ *
+ * @since 1.0
+ */
 @Component
 @Order(2)
 @RequiredArgsConstructor

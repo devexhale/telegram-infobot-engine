@@ -7,6 +7,11 @@ import io.github.devexhale.botengine.domain.dialog.DialogNode;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
+/**
+ * Reads raw dialog node maps and maps them to a {@link DialogMap} domain object.
+ *
+ * @since 1.0
+ */
 @Component
 public class DialogMapDefinitionReader
     implements MapDefinitionReader<DialogMap, Map<String, DialogNode>> {

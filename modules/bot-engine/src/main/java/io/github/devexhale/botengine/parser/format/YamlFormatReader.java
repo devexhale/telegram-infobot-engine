@@ -5,6 +5,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+/**
+ * Reads configuration files in YAML format.
+ *
+ * @since 1.0
+ */
 @Component
 public class YamlFormatReader extends AbstractFormatReader {
 

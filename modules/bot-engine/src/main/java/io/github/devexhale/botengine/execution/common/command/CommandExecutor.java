@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * Executes registered command handlers when a matching command is detected.
- *
- * <p>Iterates through available {@link CommandHandler} implementations and delegates execution to
- * the first matching handler.
+ * Dispatches user commands to their corresponding {@link CommandHandler} implementations.
  *
  * @since 1.0
  */
@@ -20,11 +17,11 @@ public class CommandExecutor {
   private final List<CommandHandler> commandHandlers;
 
   /**
-   * Executes a command if a corresponding handler exists.
+   * Attempts to execute a command matching the user input.
    *
    * @param chatId the chat identifier
    * @param userInput the user input to evaluate
-   * @return {@code true} if a command was executed, {@code false} otherwise
+   * @return {@code true} if a matching command was found and executed, {@code false} otherwise
    */
   public boolean executeIfExists(String chatId, String userInput) {
     if (userInput == null) {

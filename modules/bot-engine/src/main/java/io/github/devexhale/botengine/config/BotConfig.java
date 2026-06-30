@@ -11,10 +11,10 @@ import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
- * Core configuration for Telegram bot integration within the bots-engine framework.
+ * Provides core configuration for Telegram bot integration.
  *
- * <p>Enables binding of {@link BotProperties} configuration, and defines infrastructure beans
- * required for communication with the Telegram Bot API.
+ * <p>Enables configuration properties binding and defines infrastructure beans for Telegram Bot API
+ * communication.
  *
  * @since 1.0
  */
@@ -30,10 +30,9 @@ public class BotConfig {
   private final BotProperties properties;
 
   /**
-   * Creates and configures a {@link TelegramClient} used for communication with the Telegram Bot
-   * API.
+   * Creates a {@link TelegramClient} for Telegram Bot API communication.
    *
-   * <p>The client is initialized using the bot token defined in {@link BotProperties}.
+   * <p>Initialized using the bot token from {@link BotProperties}.
    *
    * @return the configured {@link TelegramClient} instance
    */

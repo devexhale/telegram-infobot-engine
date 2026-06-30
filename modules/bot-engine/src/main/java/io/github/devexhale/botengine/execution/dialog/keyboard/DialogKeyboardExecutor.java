@@ -14,7 +14,14 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-/** Executes keyboard rendering for a dialog node. */
+/**
+ * Executes dialog keyboard markup sending for dialog nodes.
+ *
+ * <p>Builds and sends the message with configured inline or reply keyboard based on the dialog node
+ * configuration.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -24,10 +31,12 @@ public class DialogKeyboardExecutor {
   private final DialogKeyboardMarkupBuilder keyboardBuilder;
 
   /**
-   * Sends a dialog message with keyboard markup for the specified chat.
+   * Sends the dialog message with configured keyboard markup.
    *
-   * @param node the dialog node containing button configuration
-   * @param chatId the chat identifier
+   * @param node the dialog node containing message and button configuration
+   * @param chatId the target chat identifier
+   * @return a list containing the sent Telegram {@link Message}
+   * @throws TelegramMessageSendException if the Telegram API call fails
    */
   public List<Message> execute(DialogNode node, String chatId) {
     SendMessage request = createRequest(node, chatId);

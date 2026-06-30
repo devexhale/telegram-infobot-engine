@@ -19,8 +19,10 @@ class DefinitionValidatorRegistryTest {
 
   private static final Class<String> STRING_TYPE = String.class;
   private static final Class<Integer> INTEGER_TYPE = Integer.class;
+
   private static final String DUPLICATE_ERROR_PART =
       "Duplicate definition validators found for type:";
+
   private static final String MISSING_ERROR_PART = "No definition validator registered for type:";
 
   @Mock private DefinitionValidator<String> stringValidator;

@@ -11,6 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * Parses configuration files into typed domain objects.
+ *
+ * <p>Delegates format-specific reading to {@link ConfigFormatReader} implementations and type
+ * mapping to {@link MapDefinitionReader} implementations.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -19,6 +27,16 @@ public class MapParser {
   private final List<ConfigFormatReader> formatReaders;
   private final MapDefinitionReaderRegistry definitionReaderRegistry;
 
+  /**
+   * Parses the input stream into the specified target type.
+   *
+   * @param fileName the name of the file being parsed
+   * @param inputStream the input stream to read
+   * @param targetType the target domain class
+   * @param <T> the target type
+   * @return the parsed domain object
+   * @throws DefinitionInitializationException if parsing fails
+   */
   public <T> T parse(String fileName, InputStream inputStream, Class<T> targetType) {
     ConfigFormatReader formatReader = resolveFormatReader(fileName);
     MapDefinitionReader<T, ?> definitionReader = definitionReaderRegistry.get(targetType);

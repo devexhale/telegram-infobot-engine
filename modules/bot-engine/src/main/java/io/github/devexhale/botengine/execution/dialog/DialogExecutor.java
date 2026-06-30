@@ -10,16 +10,10 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 /**
- * Entry point for executing dialog interactions within the framework.
+ * Entry point for processing dialog interactions and routing updates.
  *
- * <p>Routes incoming {@link Message} updates and {@link CallbackQuery} events to command execution
- * or dialog navigation.
- *
- * <p>{@link MessageCleanupManager} removes redundant user messages from the chat to keep the
- * conversation clean.
- *
- * <p>{@link CommandExecutor} handles commands when present. Otherwise, navigation is delegated to
- * {@link DialogNodeNavigator}.
+ * <p>Handles incoming {@link Message} and {@link CallbackQuery} events, delegating to command
+ * execution or dialog navigation.
  *
  * @since 1.0
  */
@@ -33,13 +27,9 @@ public class DialogExecutor {
   private final CommandExecutor commandExecutor;
 
   /**
-   * Processes an incoming message update.
+   * Processes an incoming text message update.
    *
-   * <p>Deletes redundant user messages and attempts to execute a command.
-   *
-   * <p>If no command matches, the message is passed to {@link DialogNodeNavigator}.
-   *
-   * @param message the incoming Telegram message
+   * @param message the incoming Telegram {@link Message}
    */
   public void executeMessage(Message message) {
     if (message == null || message.getChatId() == null || message.getMessageId() == null) {
@@ -60,10 +50,7 @@ public class DialogExecutor {
   /**
    * Processes an incoming callback query event.
    *
-   * <p>If no command matches, callback data is treated as button navigation and delegated to {@link
-   * DialogNodeNavigator}.
-   *
-   * @param callbackQuery the incoming Telegram callback query
+   * @param callbackQuery the incoming Telegram {@link CallbackQuery}
    */
   public void executeCallback(CallbackQuery callbackQuery) {
     if (callbackQuery == null

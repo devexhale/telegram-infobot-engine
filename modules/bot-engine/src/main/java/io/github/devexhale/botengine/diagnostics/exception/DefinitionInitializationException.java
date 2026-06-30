@@ -1,7 +1,7 @@
 package io.github.devexhale.botengine.diagnostics.exception;
 
 /**
- * Thrown when a dialog configuration cannot be loaded, parsed, or validated.
+ * Thrown when definition configuration files initialization fails.
  *
  * @since 1.0
  */

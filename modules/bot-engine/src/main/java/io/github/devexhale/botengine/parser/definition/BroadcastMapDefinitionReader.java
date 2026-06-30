@@ -8,6 +8,11 @@ import io.github.devexhale.botengine.domain.broadcast.BroadcastNode;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
+/**
+ * Reads raw broadcast node maps and maps them to a {@link BroadcastMap} domain object.
+ *
+ * @since 1.0
+ */
 @Component
 @ConditionalOnBroadcastEnabled
 public class BroadcastMapDefinitionReader

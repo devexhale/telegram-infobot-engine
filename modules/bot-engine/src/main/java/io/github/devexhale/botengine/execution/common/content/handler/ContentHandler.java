@@ -7,13 +7,17 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 /**
  * Strategy interface for handling dialog content execution.
  *
- * <p>Implementations process specific {@link ContentNode} types. Each handler produces a Telegram
- * {@link Message}.
+ * <p>Implementations process {@link ContentNode} types and produce a {@link Message}.
  *
  * @since 1.0
  */
 public interface ContentHandler {
 
+  /**
+   * Returns the content type handled by this handler.
+   *
+   * @return the {@link ContentType}
+   */
   ContentType type();
 
   /**
@@ -21,7 +25,7 @@ public interface ContentHandler {
    *
    * @param contentNode the content node to handle
    * @param chatId the chat identifier
-   * @return the sent Telegram message
+   * @return the sent Telegram {@link Message}
    */
   Message handle(ContentNode contentNode, String chatId);
 }

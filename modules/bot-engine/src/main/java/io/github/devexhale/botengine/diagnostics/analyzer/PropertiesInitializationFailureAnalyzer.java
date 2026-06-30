@@ -4,6 +4,12 @@ import io.github.devexhale.botengine.diagnostics.exception.PropertiesInitializat
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
+/**
+ * Analyzes {@link PropertiesInitializationException} to provide user-friendly diagnostics when
+ * application properties fail to load or validate.
+ *
+ * @since 1.0
+ */
 public class PropertiesInitializationFailureAnalyzer
     extends AbstractFailureAnalyzer<PropertiesInitializationException> {
 

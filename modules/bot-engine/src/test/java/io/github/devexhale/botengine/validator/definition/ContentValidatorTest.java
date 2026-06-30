@@ -17,6 +17,9 @@ class ContentValidatorTest {
   private static final String INVALID_FILE_NAME = "non_existent_file_xyz123.mp3";
   private static final String VALID_TEXT = "Hello world";
   private static final String VALID_CAPTION = "Test caption";
+  private static final String FIELD_TYPE = "type";
+  private static final String FIELD_TEXT = "text";
+  private static final String FIELD_FILE_NAME = "file_name";
 
   private ContentValidator contentValidator;
   private ValidationContext context;
@@ -58,7 +61,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.errors().isEmpty());
-    assertTrue(context.errors().getFirst().contains("type"));
+    assertTrue(context.errors().getFirst().contains(FIELD_TYPE));
   }
 
   @Test
@@ -68,7 +71,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.errors().isEmpty());
-    assertTrue(context.errors().getFirst().contains("type"));
+    assertTrue(context.errors().getFirst().contains(FIELD_TYPE));
   }
 
   @Test
@@ -78,7 +81,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.errors().isEmpty());
-    assertTrue(context.errors().getFirst().contains("text"));
+    assertTrue(context.errors().getFirst().contains(FIELD_TEXT));
   }
 
   @Test
@@ -88,7 +91,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.errors().isEmpty());
-    assertTrue(context.errors().getFirst().contains("text"));
+    assertTrue(context.errors().getFirst().contains(FIELD_TEXT));
   }
 
   @Test
@@ -98,7 +101,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.warnings().isEmpty());
-    assertTrue(context.warnings().getFirst().contains("file_name"));
+    assertTrue(context.warnings().getFirst().contains(FIELD_FILE_NAME));
   }
 
   @Test
@@ -118,7 +121,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.errors().isEmpty());
-    assertTrue(context.errors().getFirst().contains("file_name"));
+    assertTrue(context.errors().getFirst().contains(FIELD_FILE_NAME));
   }
 
   @Test
@@ -128,7 +131,7 @@ class ContentValidatorTest {
     contentValidator.validate(List.of(node), CONTENT_PATH, context);
 
     assertFalse(context.warnings().isEmpty());
-    assertTrue(context.warnings().getFirst().contains("text"));
+    assertTrue(context.warnings().getFirst().contains(FIELD_TEXT));
   }
 
   @Test

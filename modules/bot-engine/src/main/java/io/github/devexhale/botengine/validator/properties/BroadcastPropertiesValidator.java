@@ -11,6 +11,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validates broadcast configuration properties when broadcast functionality is enabled.
+ *
+ * @since 1.0
+ */
 @Component
 @Order(3)
 @RequiredArgsConstructor
@@ -25,13 +30,16 @@ public class BroadcastPropertiesValidator implements PropertiesValidator {
 
   @Override
   public List<String> findMissingProperties() {
+    if (!properties.enabled()) {
+      return List.of();
+    }
+
     List<String> missingProperties = new ArrayList<>();
 
-    boolean broadcastEnabled = properties.enabled();
     String broadcastFileName = properties.fileName();
     String broadcastTimezone = properties.timezone();
 
-    if (broadcastEnabled && (broadcastFileName == null || broadcastFileName.isBlank())) {
+    if (broadcastFileName == null || broadcastFileName.isBlank()) {
       missingProperties.add(BROADCAST_FILE_NAME_PROPERTY);
     }
 
@@ -45,28 +53,29 @@ public class BroadcastPropertiesValidator implements PropertiesValidator {
   @Override
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public List<String> findInvalidProperties() {
+    if (!properties.enabled()) {
+      return List.of();
+    }
+
     List<String> invalidProperties = new ArrayList<>();
 
-    boolean broadcastEnabled = properties.enabled();
     String broadcastFileName = properties.fileName();
     String broadcastTimezone = properties.timezone();
 
-    if (broadcastEnabled) {
-      if (broadcastFileName != null
-          && !broadcastFileName.isBlank()
-          && !resourceLoader.getResource(broadcastFileName).exists()) {
-        invalidProperties.add(
-            BROADCAST_FILE_NAME_PROPERTY + ": file '%s' not found".formatted(broadcastFileName));
-      }
+    if (broadcastFileName != null
+        && !broadcastFileName.isBlank()
+        && !resourceLoader.getResource(broadcastFileName).exists()) {
+      invalidProperties.add(
+          BROADCAST_FILE_NAME_PROPERTY + ": file '%s' not found".formatted(broadcastFileName));
+    }
 
-      if (broadcastTimezone != null && !broadcastTimezone.isBlank()) {
-        try {
-          ZoneId.of(broadcastTimezone);
-        } catch (DateTimeException e) {
-          invalidProperties.add(
-              "%s: has invalid value '%s'. Use valid ZoneId like 'Europe/Kyiv' or 'UTC'"
-                  .formatted(BROADCAST_TIMEZONE_PROPERTY, broadcastTimezone));
-        }
+    if (broadcastTimezone != null && !broadcastTimezone.isBlank()) {
+      try {
+        ZoneId.of(broadcastTimezone);
+      } catch (DateTimeException e) {
+        invalidProperties.add(
+            "%s: has invalid value '%s'. Use valid ZoneId like 'Europe/Kyiv' or 'UTC'"
+                .formatted(BROADCAST_TIMEZONE_PROPERTY, broadcastTimezone));
       }
     }
 

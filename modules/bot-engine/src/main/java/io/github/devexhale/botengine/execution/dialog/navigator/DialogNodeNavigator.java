@@ -10,20 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * Resolves and executes dialog node transitions.
- *
- * <p>Handles both message-based and callback-based navigation:
- *
- * <ul>
- *   <li>For regular messages, resolves the next node using the current dialog state.
- *   <li>For callback queries, treats callback data as the next node key directly.
- * </ul>
- *
- * <p>If the resolved node exists, delegates execution to {@link DialogNodeExecutor} and persists
- * the new current node in {@link UserStateService}.
- *
- * <p>If the node does not exist, logs either a missing-node warning for button-based navigation or
- * an irrelevant-input warning for raw user input.
+ * Resolves and executes dialog node transitions based on user input or callbacks.
  *
  * @since 1.0
  */
@@ -39,11 +26,9 @@ public class DialogNodeNavigator {
   private final UserStateService userStateService;
 
   /**
-   * Resolves and executes navigation for a regular message.
+   * Navigates to the next node based on a regular text message.
    *
-   * <p>If the current node uses a {@link ButtonType#REPLY} keyboard, the input is matched against
-   * button labels and the corresponding {@code next} node key is used. Otherwise, the input is
-   * treated as a raw node key.
+   * <p>If the current node has a reply keyboard, matches the input against button labels.
    *
    * @param chatId the chat identifier
    * @param userInput the raw message text
@@ -67,12 +52,10 @@ public class DialogNodeNavigator {
   }
 
   /**
-   * Resolves and executes navigation for a callback query.
-   *
-   * <p>Callback data is treated as the target node key directly.
+   * Navigates to the next node based on an inline keyboard callback query.
    *
    * @param chatId the chat identifier
-   * @param callbackData the callback data
+   * @param callbackData the callback data representing the target node key
    */
   public void navigateCallback(String chatId, String callbackData) {
     navigate(chatId, callbackData, callbackData, true);

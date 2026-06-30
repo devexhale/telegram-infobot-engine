@@ -1,7 +1,6 @@
 package io.github.devexhale.botengine.execution.common.command.handler;
 
 import io.github.devexhale.botengine.domain.dialog.DialogNode;
-import io.github.devexhale.botengine.execution.dialog.navigator.DialogNodeExecutor;
 import io.github.devexhale.botengine.execution.dialog.navigator.DialogNodeNavigator;
 import io.github.devexhale.botengine.service.UserStateService;
 import io.github.devexhale.botengine.storage.definition.DefinitionStorage;
@@ -13,8 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Base implementation of {@link CommandHandler} providing common command logic.
  *
- * <p>Resolves the target dialog node, executes it using {@link DialogNodeExecutor}, and persists
- * the resulting user state.
+ * <p>Resolves the target dialog node and delegates navigation to {@link DialogNodeNavigator}.
  *
  * @since 1.0
  */
@@ -30,7 +28,7 @@ public abstract class AbstractCommandHandler implements CommandHandler {
   private final DialogNodeNavigator nodeNavigator;
 
   /**
-   * Executes the command by resolving and running the associated dialog node.
+   * Executes the command by resolving the dialog node and delegating navigation.
    *
    * @param chatId the chat identifier
    */

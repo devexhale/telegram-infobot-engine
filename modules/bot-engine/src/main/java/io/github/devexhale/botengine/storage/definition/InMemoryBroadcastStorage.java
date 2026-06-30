@@ -14,6 +14,14 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * In-memory implementation of {@link DefinitionStorage} for broadcast nodes.
+ *
+ * <p>Loads broadcast definitions from a configuration file during cache warm-up and stores them in
+ * memory for fast access. Active only when broadcast functionality is enabled.
+ *
+ * @since 1.0
+ */
 @Component
 @ConditionalOnBroadcastEnabled
 @Order(2)

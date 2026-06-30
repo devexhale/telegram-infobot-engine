@@ -1,4 +1,4 @@
-package io.github.devexhale.botengine.validator.definition.util;
+package io.github.devexhale.botengine.validator.definition;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

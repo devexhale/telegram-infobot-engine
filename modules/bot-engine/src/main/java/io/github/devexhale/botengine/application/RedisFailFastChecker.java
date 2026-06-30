@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 
 import static io.github.devexhale.botengine.util.EnvironmentDetector.isTestEnvironment;
 
+/**
+ * Performs a fail-fast check to ensure Redis is available and responsive.
+ *
+ * <p>Verifies the presence of {@code RedisConnectionFactory} and pings the server. Skips the check
+ * if the application is running in a test environment.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class RedisFailFastChecker {
@@ -25,6 +33,11 @@ public class RedisFailFastChecker {
 
   private final ApplicationContext context;
 
+  /**
+   * Verifies that Redis is available and reachable.
+   *
+   * @throws RedisInitializationException if Redis is missing or unreachable
+   */
   public void check() {
     if (isTestEnvironment()) {
       return;

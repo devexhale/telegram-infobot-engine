@@ -15,10 +15,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 /**
- * Builds Telegram keyboard markup from dialog button definitions.
+ * Builds Telegram keyboard markups for dialog nodes.
  *
- * <p>Converts dialog {@link Button} models into Telegram reply or inline keyboards. Button layout
- * is controlled by {@link DialogProperties#buttonsPerRow()}.
+ * <p>Constructs {@link ReplyKeyboardMarkup} and {@link InlineKeyboardMarkup} by splitting buttons
+ * into rows based on configured properties.
  *
  * @since 1.0
  */
@@ -29,10 +29,10 @@ public class DialogKeyboardMarkupBuilder {
   private final DialogProperties dialogProperties;
 
   /**
-   * Builds a reply keyboard layout.
+   * Builds a {@link ReplyKeyboardMarkup} from the provided buttons.
    *
-   * @param buttons dialog buttons
-   * @return the reply keyboard markup
+   * @param buttons the list of buttons to include
+   * @return the configured reply keyboard markup
    */
   ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
     List<KeyboardRow> rows =
@@ -48,10 +48,10 @@ public class DialogKeyboardMarkupBuilder {
   }
 
   /**
-   * Builds an inline keyboard layout.
+   * Builds an {@link InlineKeyboardMarkup} from the provided buttons.
    *
-   * @param buttons dialog buttons
-   * @return the inline keyboard markup
+   * @param buttons the list of buttons to include
+   * @return the configured inline keyboard markup
    */
   InlineKeyboardMarkup buildInlineKeyboard(List<Button> buttons) {
     List<InlineKeyboardRow> rows =
@@ -68,7 +68,16 @@ public class DialogKeyboardMarkupBuilder {
     return InlineKeyboardMarkup.builder().keyboard(rows).build();
   }
 
-  /** Splits buttons into rows according to configured buttons-per-row value. */
+  /**
+   * Splits a list of buttons into rows according to the configured buttons-per-row value.
+   *
+   * @param buttons the list of buttons to split
+   * @param buttonMapper the function to map a {@link Button} to a keyboard button
+   * @param rowSupplier the function to create a row from a list of mapped buttons
+   * @param <T> the type of the keyboard button
+   * @param <R> the type of the row
+   * @return the list of rows containing the mapped buttons
+   */
   private <T, R extends List<T>> List<R> splitButtons(
       List<Button> buttons, Function<Button, T> buttonMapper, Function<List<T>, R> rowSupplier) {
 

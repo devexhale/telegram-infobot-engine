@@ -9,6 +9,14 @@ import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Manages rate limiting for Telegram API requests using Bucket4J.
+ *
+ * <p>Enforces both global and per-chat rate limits based on configured capacity and refill rates.
+ * Uses a distributed proxy manager for state management across instances.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class RateLimiter {
@@ -22,6 +30,7 @@ public class RateLimiter {
   private BucketConfiguration globalConfig;
   private BucketConfiguration chatConfig;
 
+  /** Initializes bucket configurations for global and chat-level rate limits. */
   @PostConstruct
   public void init() {
     globalConfig =
@@ -36,11 +45,17 @@ public class RateLimiter {
             botProperties.rateLimit().chat().interval());
   }
 
+  /**
+   * Acquires tokens for both global and chat-specific rate limits.
+   *
+   * @param chatId the chat ID for per-chat rate limiting, may be null
+   */
   public void acquire(String chatId) {
     globalAcquire();
     chatAcquire(chatId);
   }
 
+  /** Acquires a token from the global rate limit bucket. */
   private void globalAcquire() {
     proxyManager
         .builder()
@@ -49,6 +64,11 @@ public class RateLimiter {
         .consumeUninterruptibly(CONSUME_NUM_TOKENS);
   }
 
+  /**
+   * Acquires a token from the chat-specific rate limit bucket.
+   *
+   * @param chatId the chat ID, if null the acquisition is skipped
+   */
   private void chatAcquire(String chatId) {
     if (chatId != null) {
       proxyManager
@@ -59,6 +79,14 @@ public class RateLimiter {
     }
   }
 
+  /**
+   * Builds a bucket configuration with the specified capacity and refill rate.
+   *
+   * @param capacity the maximum number of tokens
+   * @param rate the number of tokens to refill
+   * @param interval the refill interval
+   * @return the configured bucket
+   */
   private BucketConfiguration buildConfig(int capacity, int rate, Duration interval) {
     return BucketConfiguration.builder()
         .addLimit(Bandwidth.builder().capacity(capacity).refillGreedy(rate, interval).build())

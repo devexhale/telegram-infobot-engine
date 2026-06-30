@@ -34,6 +34,7 @@ class DialogValidatorTest {
   private static final String BUTTON_LABEL = "Click me";
   private static final String NEXT_NODE_KEY = "next_node";
   private static final String BUTTON_URL = "https://example.com";
+  private static final String BUTTONS_FIELD = "buttons";
   private static final String START_NODE_KEY = StartCommand.COMMAND_NAME;
   private static final String INVALID_EMPTY_STRING = "";
 
@@ -169,7 +170,7 @@ class DialogValidatorTest {
                 dialogValidator.validate(
                     new DialogMap(Map.of(START_NODE_KEY, nodeWithNoButtons)), FILE_NAME));
 
-    assertTrue(exception.getMessage().contains("buttons"));
+    assertTrue(exception.getMessage().contains(BUTTONS_FIELD));
   }
 
   @Test
@@ -184,7 +185,7 @@ class DialogValidatorTest {
                 dialogValidator.validate(
                     new DialogMap(Map.of(START_NODE_KEY, nodeWithEmptyButtons)), FILE_NAME));
 
-    assertTrue(exception.getMessage().contains("buttons"));
+    assertTrue(exception.getMessage().contains(BUTTONS_FIELD));
   }
 
   @Test

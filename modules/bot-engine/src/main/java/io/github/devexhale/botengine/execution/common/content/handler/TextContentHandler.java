@@ -12,9 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
- * {@link ContentHandler} implementation for plain text content.
- *
- * <p>Sends a simple text message when the content type is {@link ContentType#TEXT}.
+ * Handles text content by sending content node text messages via the Telegram API.
  *
  * @since 1.0
  */

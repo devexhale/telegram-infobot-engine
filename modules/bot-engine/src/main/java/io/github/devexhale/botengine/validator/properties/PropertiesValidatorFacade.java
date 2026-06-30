@@ -8,6 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * Facade for orchestrating the validation of all application properties.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -18,6 +23,11 @@ public class PropertiesValidatorFacade {
 
   private final List<PropertiesValidator> validators;
 
+  /**
+   * Validates all configuration properties and throws an exception if any issues are found.
+   *
+   * @throws PropertiesInitializationException if required properties are missing or invalid
+   */
   public void validateAll() {
     log.info("Validating configuration properties...");
 

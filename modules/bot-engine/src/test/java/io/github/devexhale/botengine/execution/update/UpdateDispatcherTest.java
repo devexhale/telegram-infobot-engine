@@ -21,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
@@ -39,7 +38,6 @@ class UpdateDispatcherTest {
   @Mock private Message message;
   @Mock private CallbackQuery callbackQuery;
   @Mock private ChatMemberUpdated chatMemberUpdated;
-  @Mock private Chat chat;
 
   @BeforeEach
   void setUp() {
@@ -50,8 +48,6 @@ class UpdateDispatcherTest {
   void dispatch_shouldExecuteChatMemberUpdate_whenHasMyChatMember() {
     when(update.hasMyChatMember()).thenReturn(true);
     when(update.getMyChatMember()).thenReturn(chatMemberUpdated);
-    when(chatMemberUpdated.getChat()).thenReturn(chat);
-    when(chat.getId()).thenReturn(Long.valueOf(CHAT_ID));
 
     updateDispatcher.dispatch(update);
 

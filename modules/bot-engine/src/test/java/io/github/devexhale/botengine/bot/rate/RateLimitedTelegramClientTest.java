@@ -58,12 +58,12 @@ class RateLimitedTelegramClientTest {
   private static final int RATE_LIMIT_CODE = 429;
   private static final int RETRY_AFTER_SECONDS = 5;
   private static final int NO_RETRY_DELAY = 0;
-  private static final long TEST_USER_ID = 1L;
-  private static final int TEST_MESSAGE_ID = 1;
-  private static final int TEST_STAR_COUNT = 1;
-  private static final String TEST_STICKER_NAME = "name";
-  private static final String TEST_STICKER_FORMAT = "static";
-  private static final String TEST_URL = "https://test.com";
+  private static final long USER_ID = 1L;
+  private static final int MESSAGE_ID = 1;
+  private static final int STAR_COUNT = 1;
+  private static final String STICKER_NAME = "name";
+  private static final String STICKER_FORMAT = "static";
+  private static final String URL = "https://test.com";
   private static final String BIZ_CONN_ID = "id";
 
   private static final String RESOLVE_CHAT_ID_METHOD = "resolveChatId";
@@ -570,49 +570,49 @@ class RateLimitedTelegramClientTest {
       SendMediaGroup.builder().chatId(CHAT_ID).medias(java.util.Collections.emptyList()).build(),
       SendPaidMedia.builder()
           .chatId(CHAT_ID)
-          .starCount(TEST_STAR_COUNT)
+          .starCount(STAR_COUNT)
           .media(java.util.Collections.emptyList())
           .build(),
       SendAnimation.builder().chatId(CHAT_ID).animation(new InputFile()).build(),
       EditMessageMedia.builder()
           .chatId(CHAT_ID)
-          .messageId(TEST_MESSAGE_ID)
+          .messageId(MESSAGE_ID)
           .media(mock(org.telegram.telegrambots.meta.api.objects.media.InputMedia.class))
           .build(),
       SetChatPhoto.builder().chatId(CHAT_ID).photo(new InputFile()).build(),
-      SetWebhook.builder().url(TEST_URL).build(),
+      SetWebhook.builder().url(URL).build(),
       SetBusinessAccountProfilePhoto.builder()
           .businessConnectionId(BIZ_CONN_ID)
           .photo(InputProfilePhotoStatic.builder().photo(new InputFile()).build())
           .build(),
       new SetMyProfilePhoto(),
       AddStickerToSet.builder()
-          .userId(TEST_USER_ID)
-          .name(TEST_STICKER_NAME)
+          .userId(USER_ID)
+          .name(STICKER_NAME)
           .sticker(mock(org.telegram.telegrambots.meta.api.objects.stickers.InputSticker.class))
           .build(),
       ReplaceStickerInSet.builder()
-          .userId(TEST_USER_ID)
-          .name(TEST_STICKER_NAME)
+          .userId(USER_ID)
+          .name(STICKER_NAME)
           .oldSticker("old")
           .sticker(mock(org.telegram.telegrambots.meta.api.objects.stickers.InputSticker.class))
           .build(),
       SetStickerSetThumbnail.builder()
-          .userId(TEST_USER_ID)
-          .name(TEST_STICKER_NAME)
-          .format(TEST_STICKER_FORMAT)
+          .userId(USER_ID)
+          .name(STICKER_NAME)
+          .format(STICKER_FORMAT)
           .thumbnail(new InputFile())
           .build(),
       CreateNewStickerSet.builder()
-          .userId(TEST_USER_ID)
-          .name(TEST_STICKER_NAME)
+          .userId(USER_ID)
+          .name(STICKER_NAME)
           .title("title")
           .stickers(Collections.emptyList())
           .build(),
       UploadStickerFile.builder()
-          .userId(TEST_USER_ID)
+          .userId(USER_ID)
           .sticker(new InputFile())
-          .stickerFormat(TEST_STICKER_FORMAT)
+          .stickerFormat(STICKER_FORMAT)
           .build(),
       new org.telegram.telegrambots.meta.api.objects.File()
     };

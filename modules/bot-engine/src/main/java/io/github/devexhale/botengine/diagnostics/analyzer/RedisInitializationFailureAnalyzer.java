@@ -4,6 +4,12 @@ import io.github.devexhale.botengine.diagnostics.exception.RedisInitializationEx
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
+/**
+ * Analyzes {@link RedisInitializationException} to provide user-friendly diagnostics when Redis
+ * connection or initialization fails.
+ *
+ * @since 1.0
+ */
 public class RedisInitializationFailureAnalyzer
     extends AbstractFailureAnalyzer<RedisInitializationException> {
 

@@ -35,6 +35,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+/**
+ * Decorator for {@link TelegramClient} that adds rate limiting and automatic retries.
+ *
+ * <p>Intercepts API calls to enforce rate limits per chat. If the Telegram API returns a 429 (Too
+ * Many Requests) error, it automatically retries the request up to a maximum number of attempts
+ * after the specified delay.
+ *
+ * @since 1.0
+ */
 @Component
 @Primary
 @Slf4j
@@ -302,6 +311,15 @@ public class RateLimitedTelegramClient implements TelegramClient {
         null, () -> delegate.downloadFileAsStreamAsync(file), INITIAL_ATTEMPT);
   }
 
+  /**
+   * Executes a synchronous API call with rate limiting and retry logic.
+   *
+   * @param chatId the target chat ID for rate limiting
+   * @param action the synchronous action to execute
+   * @param <T> the return type of the action
+   * @return the result of the action
+   * @throws TelegramApiException if the execution fails after all retries
+   */
   private <T> T executeSync(String chatId, SyncAction<T> action) throws TelegramApiException {
     rateLimiter.acquire(chatId);
 
@@ -329,6 +347,12 @@ public class RateLimitedTelegramClient implements TelegramClient {
     }
   }
 
+  /**
+   * Blocks the current thread for the specified number of seconds.
+   *
+   * @param seconds the duration to sleep
+   * @throws TelegramApiException if the thread is interrupted during sleep
+   */
   private void waitFor(int seconds) throws TelegramApiException {
     try {
       Thread.sleep(TimeUnit.SECONDS.toMillis(seconds));
@@ -338,6 +362,15 @@ public class RateLimitedTelegramClient implements TelegramClient {
     }
   }
 
+  /**
+   * Executes an asynchronous API call with rate limiting and retry logic.
+   *
+   * @param chatId the target chat ID for rate limiting
+   * @param action the asynchronous action to execute
+   * @param attempt the current retry attempt number
+   * @param <T> the return type of the action
+   * @return a future representing the pending result
+   */
   private <T> CompletableFuture<T> executeAsyncWithRetry(
       String chatId, AsyncAction<T> action, int attempt) {
 
@@ -357,6 +390,19 @@ public class RateLimitedTelegramClient implements TelegramClient {
     }
   }
 
+  /**
+   * Handles retry logic for failed asynchronous API calls.
+   *
+   * <p>If the error is a rate limit (429) and retries remain, schedules a retry task. Otherwise,
+   * returns a failed future.
+   *
+   * @param chatId the target chat ID
+   * @param action the action to retry
+   * @param attempt the current attempt number
+   * @param throwable the error that triggered the retry
+   * @param <T> the return type
+   * @return a future with the retry result or failure
+   */
   private <T> CompletableFuture<T> handleAsyncRetry(
       String chatId, AsyncAction<T> action, int attempt, Throwable throwable) {
     int retryAfter = extractRetryAfter(throwable);
@@ -374,6 +420,16 @@ public class RateLimitedTelegramClient implements TelegramClient {
     return scheduleRetryTask(chatId, action, attempt, retryAfter);
   }
 
+  /**
+   * Schedules a retry task to execute after the specified delay.
+   *
+   * @param chatId the target chat ID
+   * @param action the action to execute
+   * @param attempt the next attempt number
+   * @param retryAfter the delay in seconds before retrying
+   * @param <T> the return type
+   * @return a future that completes when the retry finishes
+   */
   private <T> CompletableFuture<T> scheduleRetryTask(
       String chatId, AsyncAction<T> action, int attempt, int retryAfter) {
     CompletableFuture<T> nextTry = new CompletableFuture<>();
@@ -386,6 +442,14 @@ public class RateLimitedTelegramClient implements TelegramClient {
     return nextTry;
   }
 
+  /**
+   * Propagates the result or error from a retry to the target future.
+   *
+   * @param targetFuture the future to complete
+   * @param result the successful result, may be null
+   * @param error the error, may be null
+   * @param <T> the result type
+   */
   private <T> void propagateResult(CompletableFuture<T> targetFuture, T result, Throwable error) {
     if (error != null) {
       targetFuture.completeExceptionally(error);
@@ -395,6 +459,14 @@ public class RateLimitedTelegramClient implements TelegramClient {
     targetFuture.complete(result);
   }
 
+  /**
+   * Extracts the retry delay in seconds from a {@link Throwable}.
+   *
+   * <p>Inspects the exception and its causes for a 429 HTTP status code.
+   *
+   * @param t the throwable to inspect
+   * @return the retry delay in seconds, or 0 if not rate limited
+   */
   private int extractRetryAfter(Throwable t) {
     if (t == null) return NO_RETRY_DELAY;
     if (t instanceof TelegramApiRequestException apiEx
@@ -409,6 +481,12 @@ public class RateLimitedTelegramClient implements TelegramClient {
     return NO_RETRY_DELAY;
   }
 
+  /**
+   * Extracts the retry delay from the exception parameters or returns a default.
+   *
+   * @param apiEx the Telegram API request exception
+   * @return the retry delay in seconds
+   */
   private int getRetrySecondsOrDefault(TelegramApiRequestException apiEx) {
     if (apiEx.getParameters() != null && apiEx.getParameters().getRetryAfter() != null) {
       return apiEx.getParameters().getRetryAfter();
@@ -417,6 +495,15 @@ public class RateLimitedTelegramClient implements TelegramClient {
     return DEFAULT_RETRY_AFTER;
   }
 
+  /**
+   * Resolves the chat ID from a Telegram API method object.
+   *
+   * <p>Uses pattern matching to extract the chat ID from various method types. Returns null for
+   * methods without a chat ID.
+   *
+   * @param method the Telegram API method object
+   * @return the chat ID string, or null if not applicable
+   */
   @SuppressWarnings("java:S1479")
   private String resolveChatId(Object method) {
     return switch (method) {

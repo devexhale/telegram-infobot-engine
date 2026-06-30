@@ -7,6 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Redis-backed implementation of {@link MessageCleanupRepository}.
+ *
+ * <p>Manages message identifiers in Redis for efficient cleanup operations.
+ *
+ * @since 1.0
+ */
 @Repository
 @RequiredArgsConstructor
 public class RedisMessageCleanupRepository implements MessageCleanupRepository {

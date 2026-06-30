@@ -4,6 +4,12 @@ import io.github.devexhale.botengine.diagnostics.exception.DefinitionInitializat
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
+/**
+ * Analyzes {@link DefinitionInitializationException} to provide user-friendly diagnostics when
+ * definition configuration files fail to load.
+ *
+ * @since 1.0
+ */
 public class DefinitionInitializationFailureAnalyzer
     extends AbstractFailureAnalyzer<DefinitionInitializationException> {
 

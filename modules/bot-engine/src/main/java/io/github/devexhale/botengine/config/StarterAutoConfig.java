@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Autoconfiguration entry point for the bots-engine Spring Boot starter.
+ * Autoconfiguration entry point for the bot-engine Spring Boot starter.
  *
  * <p>Registers framework components via component scanning and loads default starter properties
  * from {@code application-starter.properties}.

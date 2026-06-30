@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Holds validation errors and warnings accumulated during definition parsing.
+ *
+ * @since 1.0
+ */
 public class ValidationContext {
 
   private final List<String> errors = new ArrayList<>();

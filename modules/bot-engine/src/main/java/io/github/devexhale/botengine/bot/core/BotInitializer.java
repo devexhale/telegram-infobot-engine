@@ -11,11 +11,8 @@ import org.springframework.stereotype.Component;
 /**
  * Performs startup initialization tasks for the Telegram bot.
  *
- * <p>This component runs after the Spring application context is fully initialized using {@link
- * ApplicationRunner}. It performs bot startup steps such as registering commands via {@link
- * CommandsInitializer}.
- *
- * <p>Execution flow: ApplicationRunner -> BotInitializer -> CommandsInitializer -> Telegram API.
+ * <p>Runs after the Spring context is fully initialized via {@link ApplicationRunner}. Registers
+ * bot commands using {@link CommandsInitializer}.
  *
  * @since 1.0
  */
@@ -30,8 +27,7 @@ public class BotInitializer implements ApplicationRunner {
   /**
    * Executes bot initialization routines after application startup.
    *
-   * <p>Registers bot commands and logs that the Telegram bot has been successfully initialized and
-   * is ready to receive updates.
+   * <p>Registers bot commands and logs a successful initialization message.
    */
   @Override
   public void run(ApplicationArguments args) {

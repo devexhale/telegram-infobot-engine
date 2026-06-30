@@ -1,13 +1,18 @@
 package io.github.devexhale.botengine.validator.definition;
 
+import static io.github.devexhale.botengine.execution.broadcast.BroadcastDefaults.DEFAULT_TOTAL_SENDS;
+
 import io.github.devexhale.botengine.annotation.ConditionalOnBroadcastEnabled;
 import io.github.devexhale.botengine.domain.broadcast.BroadcastMap;
 import io.github.devexhale.botengine.domain.broadcast.BroadcastNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static io.github.devexhale.botengine.execution.broadcast.BroadcastDefaults.DEFAULT_TOTAL_SENDS;
-
+/**
+ * Performs comprehensive validation of a {@link BroadcastMap}.
+ *
+ * @since 1.0
+ */
 @Component
 @ConditionalOnBroadcastEnabled
 @RequiredArgsConstructor
@@ -58,8 +63,8 @@ public class BroadcastValidator extends AbstractDefinitionValidator<BroadcastMap
       return;
     }
 
-    validateMessage(node, nodeKey, context);
     contentValidator.validate(node.content(), nodeKey + ".content", context);
+    validateMessage(node, nodeKey, context);
     validateReturnButtonLabel(node, nodeKey, context);
     validateStartAt(node, nodeKey, context);
     validateTotalSends(node, nodeKey, context);

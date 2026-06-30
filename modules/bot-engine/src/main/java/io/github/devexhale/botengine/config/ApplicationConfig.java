@@ -12,13 +12,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * General application-level configuration for shared infrastructure components.
- *
- * <p>Defines common beans used across the bots-engine framework that are not directly related to
- * Telegram integration. These components provide runtime infrastructure required by various
- * framework services.
- *
- * <p>Currently provides a virtual thread executor used for concurrent task execution.
+ * Defines general application-level bean configurations and core infrastructure.
  *
  * @since 1.0
  */
@@ -29,23 +23,30 @@ public class ApplicationConfig {
   private static final int SCHEDULED_POOL_SIZE = 4;
   private static final int EXECUTOR_POOL_START_SUFFIX = 1;
 
+  /**
+   * Creates a JSON {@link ObjectMapper} configured with Java time support.
+   *
+   * @return the configured JSON object mapper
+   */
   @Bean
   public ObjectMapper jsonMapper() {
     return new ObjectMapper().registerModule(new JavaTimeModule());
   }
 
+  /**
+   * Creates a YAML {@link ObjectMapper} configured with Java time support.
+   *
+   * @return the configured YAML object mapper
+   */
   @Bean
   public ObjectMapper yamlMapper() {
     return new ObjectMapper(new YAMLFactory()).registerModule(new JavaTimeModule());
   }
 
   /**
-   * Creates an {@link Executor} backed by Java virtual threads.
+   * Creates a primary {@link Executor} that spawns a new virtual thread for each task.
    *
-   * <p>This executor creates a new virtual thread for each submitted task, allowing lightweight
-   * concurrent processing without the overhead of platform threads.
-   *
-   * @return the configured virtual thread executor
+   * @return the virtual thread executor
    */
   @Bean
   @Primary
@@ -53,6 +54,11 @@ public class ApplicationConfig {
     return Executors.newVirtualThreadPerTaskExecutor();
   }
 
+  /**
+   * Creates a {@link ScheduledExecutorService} with a fixed pool of daemon threads.
+   *
+   * @return the scheduled executor service
+   */
   @Bean(destroyMethod = "shutdown")
   public ScheduledExecutorService scheduledExecutorService() {
     return Executors.newScheduledThreadPool(

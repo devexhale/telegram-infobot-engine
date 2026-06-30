@@ -11,19 +11,10 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
- * Consumes incoming Telegram updates and delegates them to the framework processing pipeline.
+ * Consumes incoming Telegram updates and dispatches them asynchronously.
  *
- * <p>Acts as a bridge between the Telegram long polling infrastructure and the bots-engine
- * framework. Receives batches of updates from Telegram and forwards them to {@link
- * UpdateDispatcher}, which orchestrates dialog execution.
- *
- * <p>Updates are dispatched asynchronously using the {@code virtualThreadsExecutor}, allowing
- * concurrent processing of update batches. Each update from the received batch is submitted as an
- * independent task, allowing concurrent processing across multiple virtual threads. This enables
- * high throughput while keeping the polling consumer lightweight and responsive.
- *
- * <p>Execution flow: TelegramBot -> UpdateConsumer -> UpdateDispatcher -> dialog execution
- * pipeline.
+ * <p>Delegates each {@link Update} to the {@link UpdateDispatcher} using a virtual thread executor
+ * for concurrent processing.
  *
  * @since 1.0
  */
@@ -36,14 +27,9 @@ public class UpdateConsumer implements LongPollingUpdateConsumer {
   private final UpdateDispatcher updateDispatcher;
 
   /**
-   * Consumes a batch of Telegram {@link Update updates} and submits them for asynchronous
-   * processing.
+   * Processes a batch of updates by submitting each to the virtual thread executor.
    *
-   * <p>Each update is dispatched to {@link UpdateDispatcher#dispatch(Update)} using the configured
-   * {@code virtualThreadsExecutor}. This allows updates to be processed concurrently while the
-   * consumer remains free to accept new batches from the Telegram long polling mechanism.
-   *
-   * @param updates the list of incoming Telegram updates received from the polling session
+   * @param updates the list of incoming {@link Update} objects
    */
   @Override
   public void consume(List<Update> updates) {

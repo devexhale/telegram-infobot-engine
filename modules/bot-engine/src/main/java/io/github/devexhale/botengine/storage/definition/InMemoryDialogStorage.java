@@ -14,6 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * In-memory implementation of {@link DefinitionStorage} for dialog nodes.
+ *
+ * <p>Loads dialog definitions from a configuration file during cache warm-up and stores them in
+ * memory for fast access.
+ *
+ * @since 1.0
+ */
 @Component
 @Order(1)
 @RequiredArgsConstructor

@@ -16,6 +16,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+/**
+ * Sends an inline keyboard with a return button for broadcast messages.
+ *
+ * <p>The return button navigates the user back to the main dialog by triggering the {@code /last}
+ * command.
+ *
+ * @since 1.0
+ */
 @Component
 @ConditionalOnBroadcastEnabled
 @RequiredArgsConstructor
@@ -24,6 +32,13 @@ public class BroadcastKeyboardExecutor {
 
   private final TelegramClient client;
 
+  /**
+   * Sends the broadcast message with an inline return button to the specified chat.
+   *
+   * @param node the broadcast node containing the message and button label
+   * @param chatId the target chat ID
+   * @throws TelegramMessageSendException if the Telegram API call fails
+   */
   public void execute(BroadcastNode node, String chatId) {
     InlineKeyboardMarkup keyboard = createReturnButtonKeyboardMarkup(node);
 

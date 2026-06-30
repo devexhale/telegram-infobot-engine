@@ -7,8 +7,6 @@ import java.util.Locale;
 /**
  * Defines the keyboard type used by a dialog node.
  *
- * <p>UNKNOWN represents an invalid value during deserialization.
- *
  * @since 1.0
  */
 public enum ButtonType {
@@ -21,7 +19,8 @@ public enum ButtonType {
    *
    * <p>Returns {@code null} when the value is missing.
    *
-   * <p>Returns {@link ButtonType#UNKNOWN} for invalid values.
+   * <p>Returns {@link ButtonType#UNKNOWN} when the value is present but does not match any known
+   * type.
    *
    * @param value the raw button type value
    * @return the resolved button type

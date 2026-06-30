@@ -10,6 +10,14 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Set;
 
+/**
+ * Base implementation of {@link ConfigFormatReader} for specific file formats.
+ *
+ * <p>Uses a Jackson {@link ObjectMapper} to deserialize configuration files and checks file
+ * extensions to determine format support.
+ *
+ * @since 1.0
+ */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractFormatReader implements ConfigFormatReader {
 

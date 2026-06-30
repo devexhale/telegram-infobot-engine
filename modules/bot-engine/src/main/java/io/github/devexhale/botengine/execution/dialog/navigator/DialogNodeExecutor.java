@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 /**
- * Executes dialog nodes by rendering content and keyboard interactions.
- *
- * <p>Coordinates node execution flow and ensures sequential processing per chat. Delegates content
- * rendering to {@link ContentExecutor} and keyboard creation to {@link DialogKeyboardExecutor}.
+ * Executes dialog nodes for a specific chat by rendering content and keyboard.
  *
  * @since 1.0
  */
@@ -32,9 +29,6 @@ public class DialogNodeExecutor {
   /**
    * Executes the given dialog node for the specified chat.
    *
-   * <p>Ensures that node execution is synchronized per chat to prevent concurrent message rendering
-   * conflicts.
-   *
    * @param node the dialog node to execute
    * @param chatId the chat identifier
    */
@@ -48,9 +42,9 @@ public class DialogNodeExecutor {
   }
 
   /**
-   * Executes content and keyboard rendering for the given node and aggregates all sent messages.
+   * Renders content and keyboard for the given node.
    *
-   * @param node the dialog node to execute
+   * @param node the dialog node to render
    * @param chatId the chat identifier
    */
   private void renderNode(DialogNode node, String chatId) {

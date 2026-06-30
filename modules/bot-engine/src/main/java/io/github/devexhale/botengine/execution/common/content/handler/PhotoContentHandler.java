@@ -12,6 +12,11 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+/**
+ * Handles photo content by sending photo files via the Telegram API.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

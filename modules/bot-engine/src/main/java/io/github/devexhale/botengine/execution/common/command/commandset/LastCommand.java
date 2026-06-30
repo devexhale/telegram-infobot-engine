@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Command that restores the user's last dialog position.
  *
- * <p>Registers the {@code /last} command when persistent user state is enabled.
+ * <p>Registers the {@code /last} command when broadcast functionality is enabled.
  *
  * @since 1.0
  */

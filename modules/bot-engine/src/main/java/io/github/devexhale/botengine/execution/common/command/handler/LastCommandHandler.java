@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * {@link CommandHandler} implementation for the {@code /last} command.
  *
- * <p>Restores the user's last saved dialog position when persistent state is enabled.
+ * <p>Restores the user's last saved dialog position.
  *
  * @since 1.0
  */

@@ -23,6 +23,14 @@ import org.springframework.stereotype.Component;
 
 import static io.github.devexhale.botengine.execution.broadcast.BroadcastDefaults.DEFAULT_TOTAL_SENDS;
 
+/**
+ * Plans and schedules broadcast executions based on configured timing parameters.
+ *
+ * <p>Reads broadcast nodes from storage and schedules them for execution at specified times with
+ * configured intervals. Uses virtual threads for asynchronous broadcast execution.
+ *
+ * @since 1.0
+ */
 @Component
 @ConditionalOnBroadcastEnabled
 @RequiredArgsConstructor
@@ -40,11 +48,13 @@ public class BroadcastPlanner {
 
   private ZoneId zoneId;
 
+  /** Initializes the timezone for broadcast scheduling. */
   @PostConstruct
   public void init() {
     zoneId = ZoneId.of(broadcastProperties.timezone());
   }
 
+  /** Schedules all broadcast nodes after the application is ready. */
   @EventListener(ApplicationReadyEvent.class)
   public void run() {
     log.info("Initializing broadcast schedules...");
@@ -52,6 +62,12 @@ public class BroadcastPlanner {
     log.info("Finished initializing broadcast schedules");
   }
 
+  /**
+   * Schedules all sends for a single broadcast node.
+   *
+   * @param nodeId the broadcast node ID
+   * @param node the broadcast node to schedule
+   */
   private void scheduleNode(String nodeId, BroadcastNode node) {
     int totalSends = getTotalSends(node);
     Duration interval = getInterval(node);
@@ -67,6 +83,14 @@ public class BroadcastPlanner {
     }
   }
 
+  /**
+   * Schedules a single broadcast send at the calculated execution time.
+   *
+   * @param nodeId the broadcast node ID
+   * @param startAt the base start time
+   * @param interval the interval between sends
+   * @param sendIndex the index of this send (0-based)
+   */
   private void scheduleSingleSend(
       String nodeId, LocalDateTime startAt, Duration interval, int sendIndex) {
     ZonedDateTime startAtZoned = startAt.atZone(zoneId);
@@ -84,6 +108,12 @@ public class BroadcastPlanner {
         () -> executeBroadcastAsync(nodeId, sendIndex), delay, TimeUnit.MILLISECONDS);
   }
 
+  /**
+   * Submits the broadcast execution to the virtual thread executor.
+   *
+   * @param nodeId the broadcast node ID
+   * @param sendIndex the index of this send
+   */
   private void executeBroadcastAsync(String nodeId, int sendIndex) {
     try {
       virtualThreadsExecutor.execute(() -> executeBroadcast(nodeId, sendIndex));
@@ -96,6 +126,12 @@ public class BroadcastPlanner {
     }
   }
 
+  /**
+   * Executes the broadcast by retrieving subscribers and delegating to the fanout executor.
+   *
+   * @param nodeId the broadcast node ID
+   * @param sendIndex the index of this send
+   */
   private void executeBroadcast(String nodeId, int sendIndex) {
     try {
       Set<String> subscribers = subscriberService.getAllSubscribers();

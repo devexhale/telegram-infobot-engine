@@ -68,7 +68,7 @@ class LastCommandHandlerTest {
   }
 
   @Test
-  void handle_shouldLogWarning_whenNodeForKeyReturnedByUserServiceDoesNotExist() {
+  void handle_shouldLogWarning_whenNodeNotFoundForKey() {
     when(userStateService.getUserStateOrDefault(CHAT_ID, StartCommand.COMMAND_NAME))
         .thenReturn(SAVED_NODE_KEY);
     when(dialogStorage.getNode(SAVED_NODE_KEY)).thenReturn(null);

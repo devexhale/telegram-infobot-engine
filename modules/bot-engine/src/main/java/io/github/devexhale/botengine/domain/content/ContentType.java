@@ -7,9 +7,6 @@ import java.util.Locale;
 /**
  * Defines the type of content inside a definition node.
  *
- * <p>{@link #UNKNOWN} is used during validation to produce a meaningful error message when the
- * provided value does not match any known type.
- *
  * @since 1.0
  */
 public enum ContentType {

@@ -5,6 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Redis-backed implementation of {@link UserStateRepository}.
+ *
+ * <p>Manages current dialog node keys for each chat using Redis as storage.
+ *
+ * @since 1.0
+ */
 @Repository
 @RequiredArgsConstructor
 public class RedisUserStateRepository implements UserStateRepository {

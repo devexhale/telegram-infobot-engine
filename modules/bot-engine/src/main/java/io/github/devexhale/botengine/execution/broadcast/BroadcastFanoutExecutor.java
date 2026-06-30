@@ -9,6 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/**
+ * Executes a broadcast node for a set of subscribers.
+ *
+ * <p>Iterates through the provided subscribers and sends the broadcast node. Automatically
+ * unsubscribes users if a 403 Forbidden error occurs.
+ *
+ * @since 1.0
+ */
 @Component
 @ConditionalOnBroadcastEnabled
 @RequiredArgsConstructor
@@ -22,6 +30,12 @@ public class BroadcastFanoutExecutor {
   private final BroadcastNodeExecutor broadcastNodeExecutor;
   private final SubscriberService subscriberService;
 
+  /**
+   * Sends the specified broadcast node to all provided subscribers.
+   *
+   * @param nodeId the ID of the broadcast node to send
+   * @param subscribers the set of chat IDs to send the broadcast to
+   */
   public void execute(String nodeId, Set<String> subscribers) {
     BroadcastNode node = broadcastStorage.getNode(nodeId);
 

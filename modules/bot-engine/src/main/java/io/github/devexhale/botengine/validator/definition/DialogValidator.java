@@ -12,6 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Performs comprehensive validation of a {@link DialogMap}.
+ *
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class DialogValidator extends AbstractDefinitionValidator<DialogMap> {

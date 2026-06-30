@@ -9,6 +9,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Validates core bot configuration properties.
+ *
+ * @since 1.0
+ */
 @Component
 @Order(1)
 @RequiredArgsConstructor
@@ -28,9 +33,11 @@ public class BotPropertiesValidator implements PropertiesValidator {
   public List<String> findMissingProperties() {
     List<String> missingProperties = new ArrayList<>();
     String token = properties.token();
+
     if (token == null || token.isBlank()) {
       missingProperties.add(BOT_TOKEN_PROPERTY);
     }
+
     return missingProperties;
   }
 

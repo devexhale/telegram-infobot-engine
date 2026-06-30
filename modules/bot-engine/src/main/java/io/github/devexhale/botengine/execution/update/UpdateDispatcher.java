@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
- * Orchestrates processing of incoming Telegram updates within the framework.
+ * Orchestrates the processing of incoming Telegram updates.
  *
- * <p>Delegates supported update types to {@link DialogExecutor}. Message updates are routed to
- * {@code executeMessage}, callback query updates are routed to {@code executeCallback}.
+ * <p>Delegates messages and callback queries to {@link DialogExecutor}, and chat member updates to
+ * {@link ChatMemberUpdateExecutor}.
  *
  * @since 1.0
  */
@@ -23,16 +23,15 @@ public class UpdateDispatcher {
   private final ChatMemberUpdateExecutor chatMemberUpdateExecutor;
 
   /**
-   * Routes the update to appropriate dialog executor method.
+   * Routes the incoming update to the appropriate handler.
    *
-   * @param update the incoming Telegram update
+   * @param update the incoming Telegram {@link Update}
    */
   public void dispatch(Update update) {
     Long chatId = null;
 
     try {
       if (update.hasMyChatMember()) {
-        chatId = update.getMyChatMember().getChat().getId();
         chatMemberUpdateExecutor.execute(update.getMyChatMember());
         return;
       }

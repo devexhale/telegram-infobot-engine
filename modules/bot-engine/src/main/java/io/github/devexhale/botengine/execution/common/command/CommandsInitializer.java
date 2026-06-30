@@ -12,9 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
- * Registers bot commands in Telegram during application startup.
- *
- * <p>Collects all {@link Command} beans and sends them to Telegram using {@link TelegramClient}.
+ * Registers bot commands with the Telegram API during application startup.
  *
  * @since 1.0
  */
