@@ -41,6 +41,9 @@ class BroadcastPlannerTest {
   private static final int CONFIGURED_SENDS = 3;
   private static final int DAY_OFFSET = 1;
 
+  private static final String SCHEDULE_SINGLE_SEND_METHOD = "scheduleSingleSend";
+  private static final String EXECUTE_BROADCAST_METHOD = "executeBroadcast";
+
   private static final Duration ONE_HOUR_INTERVAL = Duration.ofHours(1);
 
   @Mock private ScheduledExecutorService scheduledExecutorService;
@@ -110,25 +113,6 @@ class BroadcastPlannerTest {
   }
 
   @Test
-  void scheduleNode_shouldLogWarningAndSkip_whenStartAtIsNull()
-      throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    when(broadcastNode.startAt()).thenReturn(null);
-
-    Method method =
-        broadcastPlanner
-            .getClass()
-            .getDeclaredMethod("scheduleNode", String.class, BroadcastNode.class);
-    method.setAccessible(true);
-    method.invoke(broadcastPlanner, NODE_ID, broadcastNode);
-
-    verify(scheduledExecutorService, never()).schedule((Runnable) any(), anyLong(), any());
-
-    ILoggingEvent loggedEvent = logCaptor.events().getFirst();
-    assertEquals(Level.WARN, loggedEvent.getLevel());
-    assertTrue(loggedEvent.getFormattedMessage().contains("has no start_at time"));
-  }
-
-  @Test
   void scheduleSingleSend_shouldLogWarningAndSkip_whenExecutionTimeIsInPast()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     LocalDateTime pastTime = LocalDateTime.now().minusDays(DAY_OFFSET);
@@ -137,7 +121,11 @@ class BroadcastPlannerTest {
         broadcastPlanner
             .getClass()
             .getDeclaredMethod(
-                "scheduleSingleSend", String.class, LocalDateTime.class, Duration.class, int.class);
+                SCHEDULE_SINGLE_SEND_METHOD,
+                String.class,
+                LocalDateTime.class,
+                Duration.class,
+                int.class);
     method.setAccessible(true);
     method.invoke(broadcastPlanner, NODE_ID, pastTime, Duration.ZERO, FIRST_SEND_INDEX);
 
@@ -157,7 +145,11 @@ class BroadcastPlannerTest {
         broadcastPlanner
             .getClass()
             .getDeclaredMethod(
-                "scheduleSingleSend", String.class, LocalDateTime.class, Duration.class, int.class);
+                SCHEDULE_SINGLE_SEND_METHOD,
+                String.class,
+                LocalDateTime.class,
+                Duration.class,
+                int.class);
     method.setAccessible(true);
     method.invoke(broadcastPlanner, NODE_ID, futureTime, Duration.ZERO, FIRST_SEND_INDEX);
 
@@ -171,7 +163,9 @@ class BroadcastPlannerTest {
     when(subscriberService.getAllSubscribers()).thenReturn(Set.of());
 
     Method method =
-        broadcastPlanner.getClass().getDeclaredMethod("executeBroadcast", String.class, int.class);
+        broadcastPlanner
+            .getClass()
+            .getDeclaredMethod(EXECUTE_BROADCAST_METHOD, String.class, int.class);
     method.setAccessible(true);
     method.invoke(broadcastPlanner, NODE_ID, FIRST_SEND_INDEX);
 
@@ -188,7 +182,9 @@ class BroadcastPlannerTest {
     when(subscriberService.getAllSubscribers()).thenReturn(Set.of(CHAT_ID));
 
     Method method =
-        broadcastPlanner.getClass().getDeclaredMethod("executeBroadcast", String.class, int.class);
+        broadcastPlanner
+            .getClass()
+            .getDeclaredMethod(EXECUTE_BROADCAST_METHOD, String.class, int.class);
     method.setAccessible(true);
     method.invoke(broadcastPlanner, NODE_ID, FIRST_SEND_INDEX);
 
@@ -204,7 +200,9 @@ class BroadcastPlannerTest {
     doThrow(fanoutException).when(broadcastFanoutExecutor).execute(NODE_ID, Set.of(CHAT_ID));
 
     Method method =
-        broadcastPlanner.getClass().getDeclaredMethod("executeBroadcast", String.class, int.class);
+        broadcastPlanner
+            .getClass()
+            .getDeclaredMethod(EXECUTE_BROADCAST_METHOD, String.class, int.class);
     method.setAccessible(true);
     method.invoke(broadcastPlanner, NODE_ID, FIRST_SEND_INDEX);
 

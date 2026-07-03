@@ -40,19 +40,27 @@ public class BroadcastFanoutExecutor {
     BroadcastNode node = broadcastStorage.getNode(nodeId);
 
     for (String chatId : subscribers) {
-      try {
-        broadcastNodeExecutor.execute(node, chatId);
-        log.info("Broadcast node '{}' sent to chat. ChatID={}", nodeId, chatId);
-      } catch (Exception e) {
-        if (isForbiddenError(e)) {
-          subscriberService.unsubscribe(chatId);
-          log.warn(
-              "User unsubscribed during broadcast because of 403 Forbidden. ChatID={}", chatId);
-          continue;
-        }
-
-        log.error("Failed to send broadcast node '{}'. ChatID={}", nodeId, chatId, e);
+      if (Thread.currentThread().isInterrupted()) {
+        log.warn("Broadcast for node '{}' was interrupted by shutdown. Stopping fanout.", nodeId);
+        break;
       }
+
+      processSubscriber(nodeId, node, chatId);
+    }
+  }
+
+  private void processSubscriber(String nodeId, BroadcastNode node, String chatId) {
+    try {
+      broadcastNodeExecutor.execute(node, chatId);
+      log.info("Broadcast node '{}' sent to chat. ChatID={}", nodeId, chatId);
+    } catch (Exception e) {
+      if (isForbiddenError(e)) {
+        subscriberService.unsubscribe(chatId);
+        log.warn("User unsubscribed during broadcast because of 403 Forbidden. ChatID={}", chatId);
+        return;
+      }
+
+      log.error("Failed to send broadcast node '{}'. ChatID={}", nodeId, chatId, e);
     }
   }
 

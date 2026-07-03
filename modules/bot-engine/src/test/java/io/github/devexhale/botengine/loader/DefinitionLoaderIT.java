@@ -2,7 +2,6 @@ package io.github.devexhale.botengine.loader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.github.devexhale.botengine.config.ApplicationConfig;
 import io.github.devexhale.botengine.diagnostics.exception.DefinitionInitializationException;
 import io.github.devexhale.botengine.domain.dialog.DialogMap;
 import io.github.devexhale.botengine.domain.dialog.DialogNode;
@@ -33,8 +32,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
       MapDefinitionReaderRegistry.class,
       ContentValidator.class,
       DialogValidator.class,
-      DefinitionValidatorRegistry.class,
-      ApplicationConfig.class
+      DefinitionValidatorRegistry.class
     })
 class DefinitionLoaderIT {
 

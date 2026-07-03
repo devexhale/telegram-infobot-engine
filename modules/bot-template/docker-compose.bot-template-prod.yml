@@ -1,9 +1,23 @@
+# =====================================================================================================================
+# Quick Template - Production-style Docker Compose
+# =====================================================================================================================
+# This is a minimal example for running the bot-template in a container, not a production-grade setup.
+# Before building, manually switch the active Redis block in application.properties
+# (comment out the "Local Development" host/port, uncomment the "Template Production" ones).
+#
+# For a real production deployment, additionally consider:
+#   - Loading the bot token from a .env file / secret manager instead of baking it into the image
+#   - Setting a Redis password and passing it via REDIS_PASSWORD or a secret
+#   - Not exposing the Redis port to the host unless needed for manual debugging
+# =====================================================================================================================
+
+name: bot-template-prod
+
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bot_template_prod_app
     networks:
       - bot-network
     depends_on:
@@ -11,9 +25,8 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-  # Uncomment this block if telegram.bot.user-state-persistent=true
   redis:
-    image: redis:7-alpine
+    image: redis:7.4-alpine
     container_name: bot_template_prod_redis
     ports:
       - "6379:6379"
@@ -28,7 +41,6 @@ services:
       retries: 5
     restart: unless-stopped
 
-# Uncomment this block if telegram.bot.user-state-persistent=true
 volumes:
   redis_data:
 

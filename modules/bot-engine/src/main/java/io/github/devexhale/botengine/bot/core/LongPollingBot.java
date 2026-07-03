@@ -2,6 +2,7 @@ package io.github.devexhale.botengine.bot.core;
 
 import io.github.devexhale.botengine.properties.BotProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;

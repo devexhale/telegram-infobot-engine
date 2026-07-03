@@ -28,9 +28,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class InMemoryDialogStorage implements WarmableStorage, DefinitionStorage<DialogNode> {
 
+  private static final DialogMap EMPTY = new DialogMap(Map.of());
+
   private final DialogProperties properties;
   private final DefinitionLoader loader;
-  private final AtomicReference<DialogMap> holder = new AtomicReference<>();
+
+  private final AtomicReference<DialogMap> holder = new AtomicReference<>(EMPTY);
 
   @Override
   public void warmUp() {

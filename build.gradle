@@ -1,27 +1,9 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.5.5'
-    id 'io.spring.dependency-management' version '1.1.7'
-}
-
-group = 'io.github.devexhale'
-version = '1.0'
-description = 'telegram-infobot-engine'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
-tasks.named('test', Test) {
-    useJUnitPlatform()
-}
-
-springBoot {
-    mainClass = 'io.github.devexhale.bottemplate.BotTemplateApplication'
-}
+// This is the root of a multi-module Gradle build.
+// It intentionally contains no shared configuration — each module
+// defines its own plugins, dependencies, and version independently.
+//
+// To build or run a specific module from the project root, target it explicitly, e.g.:
+//   ./gradlew clean :telegram-infobot-engine-bot-template:build
+//   ./gradlew clean :telegram-infobot-engine-bot-template:bootRun
+//
+// See settings.gradle for module definitions.

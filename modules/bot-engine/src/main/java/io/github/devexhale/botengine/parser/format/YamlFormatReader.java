@@ -1,8 +1,9 @@
 package io.github.devexhale.botengine.parser.format;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class YamlFormatReader extends AbstractFormatReader {
 
-  public YamlFormatReader(@Qualifier("yamlMapper") ObjectMapper objectMapper) {
-    super(objectMapper, Set.of(".yaml", ".yml"));
+  public YamlFormatReader() {
+    super(
+        new ObjectMapper(new YAMLFactory()).registerModule(new JavaTimeModule()),
+        Set.of(".yaml", ".yml"));
   }
 }

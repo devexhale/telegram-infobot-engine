@@ -8,6 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.CopyMessage;
@@ -60,9 +61,10 @@ public class RateLimitedTelegramClient implements TelegramClient {
   private final ScheduledExecutorService scheduledExecutorService;
 
   public RateLimitedTelegramClient(
-      RateLimiter rateLimiter,
+      @Lazy RateLimiter rateLimiter,
       @Qualifier("telegramClient") TelegramClient delegate,
-      ScheduledExecutorService scheduledExecutorService) {
+      @Qualifier("botEngineScheduledExecutorService")
+          ScheduledExecutorService scheduledExecutorService) {
     this.rateLimiter = rateLimiter;
     this.delegate = delegate;
     this.scheduledExecutorService = scheduledExecutorService;

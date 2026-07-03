@@ -1,8 +1,8 @@
 package io.github.devexhale.botengine.parser.format;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsonFormatReader extends AbstractFormatReader {
 
-  public JsonFormatReader(@Qualifier("jsonMapper") ObjectMapper objectMapper) {
-    super(objectMapper, Set.of(".json"));
+  public JsonFormatReader() {
+    super(new ObjectMapper().registerModule(new JavaTimeModule()), Set.of(".json"));
   }
 }

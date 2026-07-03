@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Set;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -33,18 +33,33 @@ import static io.github.devexhale.botengine.execution.broadcast.BroadcastDefault
  */
 @Component
 @ConditionalOnBroadcastEnabled
-@RequiredArgsConstructor
 @Slf4j
 public class BroadcastPlanner {
 
   private static final int INDEX_INCREMENT_STEP = 1;
 
-  private final Executor virtualThreadsExecutor;
+  private final ExecutorService virtualThreadsExecutor;
   private final ScheduledExecutorService scheduledExecutorService;
   private final DefinitionStorage<BroadcastNode> broadcastStorage;
   private final BroadcastFanoutExecutor broadcastFanoutExecutor;
   private final BroadcastProperties broadcastProperties;
   private final SubscriberService subscriberService;
+
+  public BroadcastPlanner(
+      @Qualifier("botEngineVirtualThreadsExecutor") ExecutorService virtualThreadsExecutor,
+      @Qualifier("botEngineScheduledExecutorService")
+          ScheduledExecutorService scheduledExecutorService,
+      DefinitionStorage<BroadcastNode> broadcastStorage,
+      BroadcastFanoutExecutor broadcastFanoutExecutor,
+      BroadcastProperties broadcastProperties,
+      SubscriberService subscriberService) {
+    this.virtualThreadsExecutor = virtualThreadsExecutor;
+    this.scheduledExecutorService = scheduledExecutorService;
+    this.broadcastStorage = broadcastStorage;
+    this.broadcastFanoutExecutor = broadcastFanoutExecutor;
+    this.broadcastProperties = broadcastProperties;
+    this.subscriberService = subscriberService;
+  }
 
   private ZoneId zoneId;
 
@@ -72,11 +87,6 @@ public class BroadcastPlanner {
     int totalSends = getTotalSends(node);
     Duration interval = getInterval(node);
     LocalDateTime startAt = node.startAt();
-
-    if (startAt == null) {
-      log.warn("Broadcast node '{}' has no start_at time. Skipping.", nodeId);
-      return;
-    }
 
     for (int i = 0; i < totalSends; i++) {
       scheduleSingleSend(nodeId, startAt, interval, i);

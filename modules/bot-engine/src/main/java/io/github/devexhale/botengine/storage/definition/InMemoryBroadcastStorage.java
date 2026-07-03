@@ -23,15 +23,18 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 1.0
  */
 @Component
+@RequiredArgsConstructor
 @ConditionalOnBroadcastEnabled
 @Order(2)
-@RequiredArgsConstructor
 @Slf4j
 public class InMemoryBroadcastStorage implements WarmableStorage, DefinitionStorage<BroadcastNode> {
 
+  private static final BroadcastMap EMPTY = new BroadcastMap(Map.of());
+
   private final BroadcastProperties properties;
   private final DefinitionLoader loader;
-  private final AtomicReference<BroadcastMap> holder = new AtomicReference<>();
+
+  private final AtomicReference<BroadcastMap> holder = new AtomicReference<>(EMPTY);
 
   @Override
   public void warmUp() {

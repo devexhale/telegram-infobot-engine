@@ -55,6 +55,28 @@ class BroadcastFanoutExecutorTest {
   }
 
   @Test
+  @SuppressWarnings("ResultOfMethodCallIgnored")
+  void execute_shouldLogWarningAndStop_whenCurrentThreadIsInterrupted() {
+    Set<String> subscribers = Set.of(CHAT_ID_1, CHAT_ID_2);
+
+    try {
+      Thread.currentThread().interrupt();
+
+      broadcastFanoutExecutor.execute(NODE_ID, subscribers);
+
+      verify(broadcastNodeExecutor, never()).execute(any(), any());
+      verify(subscriberService, never()).unsubscribe(any());
+
+      ILoggingEvent loggedEvent = logCaptor.events().getFirst();
+      assertEquals(Level.WARN, loggedEvent.getLevel());
+      assertTrue(loggedEvent.getFormattedMessage().contains("was interrupted by shutdown"));
+      assertTrue(loggedEvent.getFormattedMessage().contains(NODE_ID));
+    } finally {
+      Thread.interrupted();
+    }
+  }
+
+  @Test
   void execute_shouldExecuteBroadcastNodeForAllSubscribers_whenSuccessful() {
     Set<String> subscribers = Set.of(CHAT_ID_1, CHAT_ID_2);
 

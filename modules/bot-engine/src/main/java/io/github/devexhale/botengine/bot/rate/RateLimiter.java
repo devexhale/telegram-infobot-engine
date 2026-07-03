@@ -6,7 +6,9 @@ import io.github.bucket4j.distributed.proxy.ProxyManager;
 import io.github.devexhale.botengine.properties.BotProperties;
 import jakarta.annotation.PostConstruct;
 import java.time.Duration;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @Component
-@RequiredArgsConstructor
+@Slf4j
 public class RateLimiter {
 
   private static final int CONSUME_NUM_TOKENS = 1;
@@ -27,6 +29,14 @@ public class RateLimiter {
 
   private final BotProperties botProperties;
   private final ProxyManager<String> proxyManager;
+
+  public RateLimiter(
+      BotProperties botProperties,
+      @Qualifier("botEngineBucketProxyManager") @Lazy ProxyManager<String> proxyManager) {
+    this.botProperties = botProperties;
+    this.proxyManager = proxyManager;
+  }
+
   private BucketConfiguration globalConfig;
   private BucketConfiguration chatConfig;
 
@@ -51,8 +61,12 @@ public class RateLimiter {
    * @param chatId the chat ID for per-chat rate limiting, may be null
    */
   public void acquire(String chatId) {
-    globalAcquire();
-    chatAcquire(chatId);
+    try {
+      globalAcquire();
+      chatAcquire(chatId);
+    } catch (Exception e) {
+      log.warn("Rate limiter unavailable, allowing request without limiting. ChatID={}", chatId, e);
+    }
   }
 
   /** Acquires a token from the global rate limit bucket. */

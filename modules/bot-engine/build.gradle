@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'io.github.devexhale'
-version = '1.0'
+version = '1.0.0'
 description = 'Telegram Infobot Engine Spring Boot Starter'
 
 java {
@@ -21,53 +21,53 @@ repositories {
     mavenCentral()
 }
 
+// =====================================================================================================================
+// Dependencies & Versions
+// =====================================================================================================================
+
 ext {
-    springBootVersion = '3.5.14'
-    springCoreVersion = '6.2.11'
-    springDataCommonsVersion = '3.4.0'
-    commonsLang3Version = '3.18.0'
-    assertjVersion = '3.27.7'
-    logbackVersion = '1.5.25'
-    commonsCompressVersion = '1.26.0'
-    nettyVersion = '4.1.125.Final'
-    jacksonCoreVersion = '2.21.1'
-    bucket4jVersion = '8.18.0'
     telegramBotsVersion = '9.5.0'
+    bucket4jVersion = '8.18.0'
+    commonsLang3Version = '3.18.0' // Overridden for CVE-2025-48924
+    springBootVersion = '3.5.16'
+    jacocoVersion = '0.8.15'
 }
 
 dependencyManagement {
     imports {
         mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
     }
-
     dependencies {
-        // CVE-2025-48924
-        dependency "org.apache.commons:commons-lang3:3.18.0"
+        // Force upgrade to fix CVE-2025-48924
+        dependency "org.apache.commons:commons-lang3:$commonsLang3Version"
     }
 }
 
 dependencies {
-    // Telegram Bot API
-    implementation "org.telegram:telegrambots-springboot-longpolling-starter:$telegramBotsVersion"
+    // --- Telegram Bot API ---
     implementation "org.telegram:telegrambots-client:$telegramBotsVersion"
+    implementation "org.telegram:telegrambots-springboot-longpolling-starter:$telegramBotsVersion"
 
-    // Rate limiting
-    implementation("com.bucket4j:bucket4j_jdk17-lettuce:$bucket4jVersion")
+    // --- Infrastructure & Rate Limiting ---
+    implementation "com.bucket4j:bucket4j_jdk17-lettuce:$bucket4jVersion"
 
-    // Serialization
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // --- Serialization ---
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 
-    // Redis (provided by the consumer of this starter)
-    compileOnly 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    // Lombok
+    // --- Annotation Processors ---
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Spring Boot configuration metadata generation
+    // IDE autocomplete & metadata for application.properties keys
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    // Test
+    // Faster startup: pre-computed metadata for @Conditional filtering
+    annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
+
+    // --- Testing ---
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation 'org.testcontainers:junit-jupiter'
@@ -75,24 +75,31 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-// Stub for IntelliJ IDEA Kotlin DSL indexing
+// =====================================================================================================================
+// Compilation & Encoding
+// =====================================================================================================================
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Stub for IntelliJ IDEA Kotlin DSL indexing (prevents false-positive errors in IDE)
 tasks.register("prepareKotlinBuildScriptModel") {}
+
+// =====================================================================================================================
+// Testing & Code Coverage (JaCoCo)
+// =====================================================================================================================
+
+jacoco {
+    toolVersion = jacocoVersion
+}
 
 tasks.named('test', Test) {
     useJUnitPlatform()
-}
-
-// Test reports configurations
-
-jacoco {
-    toolVersion = "0.8.12"
-}
-
-test {
     finalizedBy jacocoTestReport
 }
 
-jacocoTestReport {
+tasks.named('jacocoTestReport', JacocoReport) {
     dependsOn test
     reports {
         xml.required = true
@@ -101,15 +108,24 @@ jacocoTestReport {
     }
 }
 
-// Suppresses missing Javadoc warnings (e.g. undocumented default constructors),
+// =====================================================================================================================
+// Javadoc Configuration
+// =====================================================================================================================
+
+// Suppresses missing Javadoc warnings (e.g., undocumented default constructors),
 // but still validates the quality of existing comments.
 tasks.withType(Javadoc).configureEach {
     options.addStringOption('Xdoclint:-missing', '-quiet')
+    options.encoding = 'UTF-8'
 }
+
+// =====================================================================================================================
+// Publishing
+// =====================================================================================================================
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        register("mavenJava", MavenPublication) {
             from components.java
         }
     }
