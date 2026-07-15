@@ -5,8 +5,6 @@ import static io.github.devexhale.botengine.util.EnvironmentDetector.isTestEnvir
 import io.github.devexhale.botengine.storage.warm.DefinitionStorageWarmer;
 import io.github.devexhale.botengine.validator.properties.PropertiesValidatorFacade;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
  * Initializes core application components during startup.
@@ -16,13 +14,10 @@ import org.springframework.stereotype.Component;
  *
  * @since 1.0
  */
-@Component
-@RequiredArgsConstructor
-public class StartUpApplicationRunner {
-
-  private final PropertiesValidatorFacade propertiesValidatorFacade;
-  private final DefinitionStorageWarmer definitionStorageWarmer;
-  private final RedisFailFastChecker redisFailFastChecker;
+public record StartUpApplicationRunner(
+    PropertiesValidatorFacade propertiesValidatorFacade,
+    DefinitionStorageWarmer definitionStorageWarmer,
+    RedisFailFastChecker redisFailFastChecker) {
 
   /**
    * Performs startup initialization tasks.

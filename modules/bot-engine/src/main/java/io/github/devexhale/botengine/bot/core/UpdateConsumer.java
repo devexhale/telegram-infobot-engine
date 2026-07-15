@@ -1,7 +1,6 @@
 package io.github.devexhale.botengine.bot.core;
 
 import io.github.devexhale.botengine.execution.update.UpdateDispatcher;
-import jakarta.annotation.PreDestroy;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,11 +26,6 @@ public class UpdateConsumer implements LongPollingUpdateConsumer {
   private final ExecutorService virtualThreadsExecutor =
       Executors.newVirtualThreadPerTaskExecutor();
   private final UpdateDispatcher updateDispatcher;
-
-  @PreDestroy
-  void shutdownExecutors() {
-    virtualThreadsExecutor.close();
-  }
 
   /**
    * Processes a batch of updates by submitting each to the virtual thread executor.

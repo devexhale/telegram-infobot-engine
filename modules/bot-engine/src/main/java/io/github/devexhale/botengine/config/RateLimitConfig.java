@@ -1,7 +1,5 @@
 package io.github.devexhale.botengine.config;
 
-import static io.github.devexhale.botengine.application.RedisFailFastChecker.REDIS_CONNECTION_FAIL_MSG;
-
 import io.github.bucket4j.distributed.ExpirationAfterWriteStrategy;
 import io.github.bucket4j.distributed.proxy.ProxyManager;
 import io.github.bucket4j.redis.lettuce.Bucket4jLettuce;
@@ -19,13 +17,14 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
+import static io.github.devexhale.botengine.application.RedisFailFastChecker.CONNECTION_FAIL_MSG;
+
 /**
  * Configures Redis infrastructure for distributed rate limiting using Bucket4J.
  *
  * @since 1.0
  */
 @Configuration
-@DependsOn("startUpApplicationRunner")
 public class RateLimitConfig {
 
   private static final Duration BUCKET_TTL = Duration.ofSeconds(10);
@@ -38,6 +37,7 @@ public class RateLimitConfig {
    * @throws RedisInitializationException if the connection fails
    */
   @Bean(destroyMethod = "close")
+  @DependsOn("startUpApplicationRunner")
   @Lazy
   public StatefulRedisConnection<String, byte[]> botEngineBucket4jConnection(
       RedisConnectionFactory connectionFactory) {
@@ -50,13 +50,13 @@ public class RateLimitConfig {
     RedisClient redisClient = (RedisClient) lettuceFactory.getNativeClient();
 
     if (redisClient == null) {
-      throw new IllegalStateException("LettuceConnectionFactory has not been initialized yet.");
+      throw new IllegalStateException("LettuceConnectionFactory has not been initialized yet");
     }
 
     try {
       return redisClient.connect(RedisCodec.of(StringCodec.UTF8, ByteArrayCodec.INSTANCE));
     } catch (Exception e) {
-      throw new RedisInitializationException(REDIS_CONNECTION_FAIL_MSG, e);
+      throw new RedisInitializationException(CONNECTION_FAIL_MSG, e);
     }
   }
 
@@ -67,6 +67,7 @@ public class RateLimitConfig {
    * @return the configured proxy manager
    */
   @Bean
+  @DependsOn("startUpApplicationRunner")
   @Lazy
   public ProxyManager<String> botEngineBucketProxyManager(
       StatefulRedisConnection<String, byte[]> bucket4jConnection) {

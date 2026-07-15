@@ -9,12 +9,9 @@ import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
-@DataRedisTest(excludeAutoConfiguration = RedisRepositoriesAutoConfiguration.class)
 @WithRedisTestContainer
 @ContextConfiguration(classes = {RedisUserStateRepository.class})
 class RedisUserStateRepositoryIT {

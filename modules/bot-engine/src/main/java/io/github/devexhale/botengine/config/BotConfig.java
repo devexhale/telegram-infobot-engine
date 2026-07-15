@@ -1,6 +1,5 @@
 package io.github.devexhale.botengine.config;
 
-import io.github.devexhale.botengine.diagnostics.exception.PropertiesInitializationException;
 import io.github.devexhale.botengine.properties.BotProperties;
 import io.github.devexhale.botengine.properties.BroadcastProperties;
 import io.github.devexhale.botengine.properties.DialogProperties;
@@ -26,7 +25,6 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
   DialogProperties.class,
   BroadcastProperties.class
 })
-@DependsOn("startUpApplicationRunner")
 @RequiredArgsConstructor
 public class BotConfig {
 
@@ -40,6 +38,7 @@ public class BotConfig {
    * @return the configured {@link TelegramClient} instance
    */
   @Bean
+  @DependsOn("startUpApplicationRunner")
   public TelegramClient telegramClient() {
     return new OkHttpTelegramClient(properties.token());
   }

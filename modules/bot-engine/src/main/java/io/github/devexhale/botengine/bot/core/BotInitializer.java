@@ -4,6 +4,7 @@ import io.github.devexhale.botengine.execution.common.command.CommandsInitialize
 import io.github.devexhale.botengine.properties.BotProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class BotInitializer implements ApplicationRunner {
    * <p>Registers bot commands and logs a successful initialization message.
    */
   @Override
-  public void run(ApplicationArguments args) {
+  public void run(@NotNull ApplicationArguments args) {
     commandsInitializer.setUpCommands();
     log.info("Telegram bot {} initialized and ready", properties.name());
   }

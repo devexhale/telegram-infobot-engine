@@ -1,27 +1,24 @@
 package io.github.devexhale.botengine.execution.broadcast;
 
+import static io.github.devexhale.botengine.execution.broadcast.BroadcastDefaults.DEFAULT_TOTAL_SENDS;
+
 import io.github.devexhale.botengine.annotation.ConditionalOnBroadcastEnabled;
 import io.github.devexhale.botengine.domain.broadcast.BroadcastNode;
 import io.github.devexhale.botengine.properties.BroadcastProperties;
 import io.github.devexhale.botengine.service.SubscriberService;
 import io.github.devexhale.botengine.storage.definition.DefinitionStorage;
+import jakarta.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.concurrent.*;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
-import static io.github.devexhale.botengine.execution.broadcast.BroadcastDefaults.DEFAULT_TOTAL_SENDS;
 
 /**
  * Plans and schedules broadcast executions based on configured timing parameters.
