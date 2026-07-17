@@ -30,6 +30,7 @@ ext {
     bucket4jVersion = '8.18.0'
     commonsLang3Version = '3.18.0' // Overridden for CVE-2025-48924
     springBootVersion = '4.0.7'
+    guavaVersion = '33.6.0-jre'
     jacocoVersion = '0.8.15'
 }
 
@@ -50,6 +51,9 @@ dependencies {
 
     // --- Infrastructure & Rate Limiting ---
     implementation "com.bucket4j:bucket4j_jdk17-lettuce:$bucket4jVersion"
+
+    // Striped locking for per-chat synchronization between dialog and broadcast delivery
+    implementation "com.google.guava:guava:$guavaVersion"
 
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import static io.github.devexhale.botengine.util.EnvironmentDetector.isTestEnvironment;
+
 /**
  * Manages rate limiting for Telegram API requests using Bucket4J.
  *
@@ -65,7 +67,10 @@ public class RateLimiter {
       globalAcquire();
       chatAcquire(chatId);
     } catch (Exception e) {
-      log.warn("Rate limiter unavailable, allowing request without limiting. ChatID={}", chatId, e);
+      if (!isTestEnvironment()) {
+        log.warn(
+            "Rate limiter unavailable, allowing request without limiting. ChatID={}", chatId, e);
+      }
     }
   }
 

@@ -109,7 +109,7 @@ public class ContentValidator {
 
     if (getClass().getClassLoader().getResource(resourcePath) == null) {
       context.addError(
-          "%s points to missing media file: %s/%s"
+          "%s points to missing media file '%s/%s'"
               .formatted(path(contentPath + ".file_name"), MEDIA_FOLDER, fileName));
     }
   }

@@ -14,7 +14,7 @@ class ContentValidatorTest {
 
   private static final String CONTENT_PATH = "content";
   private static final String VALID_FILE_NAME = "Qstart.jpg";
-  private static final String INVALID_FILE_NAME = "non_existent_file_xyz123.mp3";
+  private static final String INVALID_FILE_NAME = "non_existent_file.mp3";
   private static final String VALID_TEXT = "Hello world";
   private static final String VALID_CAPTION = "Test caption";
   private static final String FIELD_TYPE = "type";

@@ -3,11 +3,11 @@ package io.github.devexhale.botengine.execution.dialog.navigator;
 import io.github.devexhale.botengine.domain.dialog.DialogNode;
 import io.github.devexhale.botengine.execution.common.content.ContentExecutor;
 import io.github.devexhale.botengine.execution.dialog.keyboard.DialogKeyboardExecutor;
+import io.github.devexhale.botengine.execution.support.ChatLockRegistry;
 import io.github.devexhale.botengine.execution.support.MessageCleanupManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.concurrent.locks.Lock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -24,7 +24,7 @@ public class DialogNodeExecutor {
   private final ContentExecutor contentExecutor;
   private final DialogKeyboardExecutor dialogKeyboardExecutor;
   private final MessageCleanupManager messageCleanupManager;
-  private final ConcurrentHashMap<String, Object> chatLocks = new ConcurrentHashMap<>();
+  private final ChatLockRegistry chatLockRegistry;
 
   /**
    * Executes the given dialog node for the specified chat.
@@ -33,11 +33,13 @@ public class DialogNodeExecutor {
    * @param chatId the chat identifier
    */
   public void execute(DialogNode node, String chatId) {
-    Object lock = chatLocks.computeIfAbsent(chatId, k -> new Object());
-
-    synchronized (lock) {
+    Lock lock = chatLockRegistry.getLock(chatId);
+    lock.lock();
+    try {
       messageCleanupManager.cleanLastNode(chatId);
       renderNode(node, chatId);
+    } finally {
+      lock.unlock();
     }
   }
 

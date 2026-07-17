@@ -13,8 +13,10 @@ import io.github.devexhale.botengine.domain.dialog.ButtonType;
 import io.github.devexhale.botengine.domain.dialog.DialogNode;
 import io.github.devexhale.botengine.execution.common.content.ContentExecutor;
 import io.github.devexhale.botengine.execution.dialog.keyboard.DialogKeyboardExecutor;
+import io.github.devexhale.botengine.execution.support.ChatLockRegistry;
 import io.github.devexhale.botengine.execution.support.MessageCleanupManager;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +36,7 @@ class DialogNodeExecutorTest {
   @Mock private ContentExecutor contentExecutor;
   @Mock private DialogKeyboardExecutor dialogKeyboardExecutor;
   @Mock private MessageCleanupManager messageCleanupManager;
+  @Mock private ChatLockRegistry chatLockRegistry;
 
   @InjectMocks private DialogNodeExecutor dialogNodeExecutor;
 
@@ -51,6 +54,8 @@ class DialogNodeExecutorTest {
     Button button = new Button("Click me", "callback_data", "https://example.com");
     contentNodes = List.of();
     node = new DialogNode(contentNodes, NODE_MESSAGE, ButtonType.INLINE, List.of(button));
+
+    when(chatLockRegistry.getLock(CHAT_ID)).thenReturn(new ReentrantLock());
   }
 
   @Test
