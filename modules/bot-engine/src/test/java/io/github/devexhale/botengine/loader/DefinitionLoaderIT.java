@@ -37,7 +37,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 class DefinitionLoaderIT {
 
   private static final String START_NODE_ID = "/start";
-  private static final String START_MESSAGE = "Почнемо нашу подорож. Оберіть тему: ";
+  private static final String START_MESSAGE = "Let's begin our journey. Choose a topic: ";
 
   @MockitoBean private TelegramClient telegramClient;
 

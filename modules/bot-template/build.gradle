@@ -6,7 +6,7 @@ plugins {
 
 group = 'io.github.devexhale'
 version = '0.0.1-SNAPSHOT'
-description = 'Telegram bot template based on telegram-infobot-engine'
+description = 'Telegram bot template based on telegram-infobot-engine-spring-boot-starter'
 
 java {
     toolchain {
@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     // Resolved as a sibling Gradle module within this multi-project build
-    implementation project(':telegram-infobot-engine-spring-boot-starter')
+    implementation project(':bot-engine')
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

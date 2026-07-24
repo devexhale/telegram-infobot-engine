@@ -1,11 +1,11 @@
 template_broadcast_node_1:
   content:
     - type: text
-      text: "Оцініть проєкт на GitHub"
+      text: "Check out the project on GitHub"
     - type: photo
       file_name: github-logo.png
   message: "https://github.com/devexhale/telegram-infobot-engine"
-  return_label: "Повернутись до квесту"
+  return_label: "Back to the quest"
   start_at: "2026-07-16T14:33:00"
   # default total_sends value = 1
 

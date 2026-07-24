@@ -1,877 +1,878 @@
-/start:
-  content:
-    - type: text
-      text: "Перевірте свої знання та дізнайтесь більше про світ навколо!"
-    - type: photo
-      file_name: Qstart.jpg
-    - type: audio
-      file_name: start_quest.mp3
-  message: "Почнемо нашу подорож. Оберіть тему: "
-  button_type: inline
-  buttons:
-    - label: "🏛️ Історія"
-      next: "history_q1"
-    - label: "🔬 Наука"
-      next: "science_q1"
-    - label: "🌎 Географія"
-      next: "geography_q1"
-    - label: "🎬 Кіно"
-      next: "cinema_q1"
-    - label: "🔗 GitHub"
-      url: "https://github.com/devexhale/telegram-infobot-engine"
-
-# ІСТОРІЯ
-history_q1:
-  content:
-    - type: photo
-      file_name: History.jpg
-    - type: text
-      text: "Питання 1️⃣ "
-  message: "Яка подія, що відбулась 28 червня 1914 року, стала безпосереднім каталізатором початку Першої світової війни? "
-  button_type: reply
-  buttons:
-    - label: "Вбивство ерцгерцога Франца Фердинанда"
-      next: "history_q1_correct"
-    - label: "Підписання Версальського договору"
-      next: "history_q1_wrong"
-    - label: "Вторгнення Німеччини в Бельгію"
-      next: "history_q1_wrong"
-    - label: "Битва на Соммі"
-      next: "history_q1_wrong"
-
-history_q1_correct:
-  message: "✅ Правильно! Вбивство ерцгерцога Франца Фердинанда в Сараєво 28 червня 1914 року спричинило ланцюг подій, що призвів до початку Першої світової війни."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "history_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q1_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "history_q1"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q2:
-  content:
-    - type: text
-      text: "Питання 2️⃣ "
-  message: "Хто був першим президентом США?"
-  button_type: reply
-  buttons:
-    - label: "Томас Джефферсон"
-      next: "history_q2_wrong"
-    - label: "Авраам Лінкольн"
-      next: "history_q2_wrong"
-    - label: "Джордж Вашингтон"
-      next: "history_q2_correct"
-    - label: "Джон Адамс"
-      next: "history_q2_wrong"
-
-history_q2_correct:
-  message: "✅ Правильно! Джордж Вашингтон був першим президентом США з 1789 по 1797 рік."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "history_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q2_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "history_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q3:
-  content:
-    - type: text
-      text: "Питання 3️⃣ "
-  message: "Коли відбулась Французька революція?"
-  button_type: reply
-  buttons:
-    - label: "1789-1799"
-      next: "history_q3_correct"
-    - label: "1776-1783"
-      next: "history_q3_wrong"
-    - label: "1803-1815"
-      next: "history_q3_wrong"
-    - label: "1812-1815"
-      next: "history_q3_wrong"
-
-history_q3_correct:
-  message: "✅ Правильно! Французька революція тривала з 1789 по 1799 рік."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "history_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q3_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "history_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q4:
-  content:
-    - type: text
-      text: "Питання 4️⃣ "
-  message: "Хто був засновником династії Цін у Китаї?"
-  button_type: reply
-  buttons:
-    - label: "Куньлунь"
-      next: "history_q4_wrong"
-    - label: "Нурхаці"
-      next: "history_q4_correct"
-    - label: "Конфуцій"
-      next: "history_q4_wrong"
-    - label: "Цинь Шихуан"
-      next: "history_q4_wrong"
-
-history_q4_correct:
-  message: "✅ Правильно! Нурхаці заснував династію Цін у Китаї на початку XVII століття."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "history_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q4_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "history_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q5:
-  content:
-    - type: text
-      text: "Питання 5️⃣ "
-  message: "Яка подія 1648 року стала початком найбільшого козацького повстання в історії Речі Посполитої?"
-  button_type: reply
-  buttons:
-    - label: "Коліївщина"
-      next: "history_q5_wrong"
-    - label: "Хмельниччина"
-      next: "history_q5_correct"
-    - label: "Повстання Наливайка"
-      next: "history_q5_wrong"
-    - label: "Повстання Косинського"
-      next: "history_q5_wrong"
-
-history_q5_correct:
-  message: "✅ Правильно! Хмельниччина, або повстання під проводом Богдана Хмельницького, почалося в 1648 році і стало найбільшим козацьким повстанням проти Речі Посполитої."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "history_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q5_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "history_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q6:
-  content:
-    - type: text
-      text: "Питання 6️⃣ "
-  message: "Який імператор побудував Велику Китайську стіну?"
-  button_type: reply
-  buttons:
-    - label: "Цінь Ши Хуанді"
-      next: "history_q6_correct"
-    - label: "Конфуцій"
-      next: "history_q6_wrong"
-    - label: "Мао Цзедун"
-      next: "history_q6_wrong"
-    - label: "Сунь Ятсен"
-      next: "history_q6_wrong"
-
-history_q6_correct:
-  message: "✅ Правильно! Цінь Ши Хуанді був першим імператором об'єднаного Китаю і розпочав будівництво Великої Китайської стіни."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "history_end"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_q6_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "history_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-history_end:
-  message: "🎉 Вітаємо! Ви завершили вікторину з історії! Хочете спробувати іншу тему?"
-  button_type: reply
-  buttons:
-    - label: "🔙 На головну"
-      next: "/start"
-
-# НАУКА
-science_q1:
-  content:
-    - type: photo
-      file_name: Science.jpg
-    - type: text
-      text: "Питання 1️⃣ "
-  message: "Який експеримент, проведений у 1887 році, спростував існування ефіру як середовища для поширення світла?"
-  button_type: reply
-  buttons:
-    - label: "Експеримент Резерфорда"
-      next: "science_q1_wrong"
-    - label: "Експеримент Майкельсона-Морлі"
-      next: "science_q1_correct"
-    - label: "Експеримент Томсона"
-      next: "science_q1_wrong"
-    - label: "Експеримент Міллікена"
-      next: "science_q1_wrong"
-
-science_q1_correct:
-  message: "✅ Правильно! Експеримент Майкельсона-Морлі в 1887 році показав, що швидкість світла не залежить від руху через гіпотетичний ефір, що підготувало ґрунт для теорії відносності."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "science_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q1_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "science_q1"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q2:
-  content:
-    - type: text
-      text: "Питання 2️⃣ "
-  message: "Який хімічний елемент був відкритий на Сонці раніше, ніж на Землі, завдяки спектральному аналізу?"
-  button_type: reply
-  buttons:
-    - label: "Водень"
-      next: "science_q2_wrong"
-    - label: "Кисень"
-      next: "science_q2_wrong"
-    - label: "Гелій"
-      next: "science_q2_correct"
-    - label: "Азот"
-      next: "science_q2_wrong"
-
-science_q2_correct:
-  message: "✅ Правильно! Гелій був виявлений на Сонці в 1868 році через спектральні лінії, а на Землі його ізолювали лише в 1895 році."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "science_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q2_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "science_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q3:
-  content:
-    - type: text
-      text: "Питання 3️⃣ "
-  message: "Яке явище, відкрите в 1932 році Карлом Андерсоном, підтвердило існування антиматерії?"
-  button_type: reply
-  buttons:
-    - label: "Виявлення нейтрино"
-      next: "science_q3_wrong"
-    - label: "Виявлення протона"
-      next: "science_q3_wrong"
-    - label: "Виявлення кварка"
-      next: "science_q3_wrong"
-    - label: "Виявлення позитрона"
-      next: "science_q3_correct"
-
-science_q3_correct:
-  message: "✅ Правильно! Виявлення позитрона Карлом Андерсоном у 1932 році стало першим доказом існування антиматерії, підтверджуючи теорію Дірака."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "science_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q3_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "science_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q4:
-  content:
-    - type: text
-      text: "Питання 4️⃣ "
-  message: "Який біологічний процес, відкритий у 1953 році, лежить в основі копіювання генетичної інформації в клітинах?"
-  button_type: reply
-  buttons:
-    - label: "Транскрипція РНК"
-      next: "science_q4_wrong"
-    - label: "Трансляція білків"
-      next: "science_q4_wrong"
-    - label: "Реплікація ДНК"
-      next: "science_q4_correct"
-    - label: "Мейоз"
-      next: "science_q4_wrong"
-
-science_q4_correct:
-  message: "✅ Правильно! Реплікація ДНК, модель якої запропонували Уотсон і Крік у 1953 році, забезпечує копіювання генетичної інформації під час поділу клітин."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "science_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q4_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "science_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q5:
-  content:
-    - type: text
-      text: "Питання 5️⃣ "
-  message: "Яка космологічна модель, запропонована в 1927 році Жоржем Леметром, описує розширення Всесвіту?"
-  button_type: reply
-  buttons:
-    - label: "Теорія стаціонарного Всесвіту"
-      next: "science_q5_wrong"
-    - label: "Теорія струн"
-      next: "science_q5_wrong"
-    - label: "Теорія темної енергії"
-      next: "science_q5_wrong"
-    - label: "Теорія Великого вибуху"
-      next: "science_q5_correct"
-
-science_q5_correct:
-  message: "✅ Правильно! Теорія Великого вибуху, запропонована Жоржем Леметром у 1927 році, пояснює розширення Всесвіту від початкової сингулярності."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "science_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q5_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "science_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q6:
-  content:
-    - type: text
-      text: "Питання 6️⃣ "
-  message: "Яке явище, передбачене Альбертом Ейнштейном у 1915 році, було вперше підтверджене спостереженнями Артура Еддінгтона в 1919 році?"
-  button_type: reply
-  buttons:
-    - label: "Фотоелектричний ефект"
-      next: "science_q6_wrong"
-    - label: "Ефект Доплера"
-      next: "science_q6_wrong"
-    - label: "Гравітаційне лінзування"
-      next: "science_q6_correct"
-    - label: "Квантова заплутаність"
-      next: "science_q6_wrong"
-
-science_q6_correct:
-  message: "✅ Правильно! Гравітаційне лінзування, передбачене загальною теорією відносності Ейнштейна, було підтверджене Еддінгтоном під час сонячного затемнення 1919 року."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "science_end"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_q6_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "science_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-science_end:
-  message: "🎉 Вітаємо! Ви завершили вікторину з науки! Хочете спробувати іншу тему?"
-  button_type: reply
-  buttons:
-    - label: "🔙 На головну"
-      next: "/start"
-
-# ГЕОГРАФІЯ
-geography_q1:
-  content:
-    - type: photo
-      file_name: Geography.jpeg
-    - type: text
-      text: "Питання 1️⃣ "
-  message: "Який географічний об'єкт є найглибшою точкою Світового океану?"
-  button_type: reply
-  buttons:
-    - label: "Філіппінський жолоб"
-      next: "geography_q1_wrong"
-    - label: "Маріанська западина"
-      next: "geography_q1_correct"
-    - label: "Пуерто-Рицький жолоб"
-      next: "geography_q1_wrong"
-    - label: "Яванський жолоб"
-      next: "geography_q1_wrong"
-
-geography_q1_correct:
-  message: "✅ Правильно! Маріанська западина, розташована в Тихому океані, є найглибшою точкою Світового океану з глибиною близько 11 км."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "geography_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q1_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "geography_q1"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q2:
-  content:
-    - type: text
-      text: "Питання 2️⃣ "
-  message: "Яка країна має найбільшу кількість прісноводних озер у світі?"
-  button_type: reply
-  buttons:
-    - label: "Фінляндія"
-      next: "geography_q2_wrong"
-    - label: "Росія"
-      next: "geography_q2_wrong"
-    - label: "Канада"
-      next: "geography_q2_correct"
-    - label: "Бразилія"
-      next: "geography_q2_wrong"
-
-geography_q2_correct:
-  message: "✅ Правильно! Канада має найбільшу кількість прісноводних озер у світі, включаючи Великі озера та численні менші озера."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "geography_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q2_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "geography_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q3:
-  content:
-    - type: text
-      text: "Питання 3️⃣ "
-  message: "Який геологічний розлом є причиною частих землетрусів у Каліфорнії?"
-  button_type: reply
-  buttons:
-    - label: "Розлом Альпійський"
-      next: "geography_q3_wrong"
-    - label: "Розлом Сан-Андреас"
-      next: "geography_q3_correct"
-    - label: "Розлом Гімалайський"
-      next: "geography_q3_wrong"
-    - label: "Розлом Мід-Океанічний"
-      next: "geography_q3_wrong"
-
-geography_q3_correct:
-  message: "✅ Правильно! Розлом Сан-Андреас є тектонічним розломом, що спричиняє численні землетруси в Каліфорнії через рух плит."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "geography_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q3_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "geography_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q4:
-  content:
-    - type: text
-      text: "Питання 4️⃣ "
-  message: "Яке море, розташоване між Аравійським півостровом і Африкою, є найсолонішим у світі?"
-  button_type: reply
-  buttons:
-    - label: "Чорне море"
-      next: "geography_q4_wrong"
-    - label: "Мертве море"
-      next: "geography_q4_wrong"
-    - label: "Червоне море"
-      next: "geography_q4_correct"
-    - label: "Каспійське море"
-      next: "geography_q4_wrong"
-
-geography_q4_correct:
-  message: "✅ Правильно! Червоне море має найвищу солоність серед морів Світового океану через високу температуру і випаровування."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "geography_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q4_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "geography_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q5:
-  content:
-    - type: text
-      text: "Питання 5️⃣ "
-  message: "Яка країна є найбільшим експортером кави у світі?"
-  button_type: reply
-  buttons:
-    - label: "Колумбія"
-      next: "geography_q5_wrong"
-    - label: "Ефіопія"
-      next: "geography_q5_wrong"
-    - label: "В'єтнам"
-      next: "geography_q5_wrong"
-    - label: "Бразилія"
-      next: "geography_q5_correct"
-
-geography_q5_correct:
-  message: "✅ Правильно! Бразилія є найбільшим експортером кави у світі, виробляючи близько 40% світового обсягу."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "geography_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q5_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "geography_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q6:
-  content:
-    - type: text
-      text: "Питання 6️⃣ "
-  message: "Який архіпелаг, відкритий у 1831 році Чарльзом Дарвіном, став ключовим для його теорії еволюції?"
-  button_type: reply
-  buttons:
-    - label: "Гавайські острови"
-      next: "geography_q6_wrong"
-    - label: "Філіппінські острови"
-      next: "geography_q6_wrong"
-    - label: "Галапагоські острови"
-      next: "geography_q6_correct"
-    - label: "Мальдіви"
-      next: "geography_q6_wrong"
-
-geography_q6_correct:
-  message: "✅ Правильно! Галапагоські острови, відвідані Дарвіном у 1831 році, надали унікальні дані про видоутворення, що лягли в основу його теорії еволюції."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "geography_end"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_q6_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "geography_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-geography_end:
-  message: "🎉 Вітаємо! Ви завершили вікторину з географії! Хочете спробувати іншу тему?"
-  button_type: reply
-  buttons:
-    - label: "🔙 На головну"
-      next: "/start"
-
-# КІНО
-cinema_q1:
-  content:
-    - type: photo
-      file_name: Movie.jpg
-    - type: text
-      text: "Питання 1️⃣ "
-  message: "Який фільм 1927 року вважається першим повнометражним звуковим фільмом у історії кінематографа?"
-  button_type: reply
-  buttons:
-    - label: "Метрополіс"
-      next: "cinema_q1_wrong"
-    - label: "Співак джазу"
-      next: "cinema_q1_correct"
-    - label: "Світанок"
-      next: "cinema_q1_wrong"
-    - label: "Великий парад"
-      next: "cinema_q1_wrong"
-
-cinema_q1_correct:
-  message: "✅ Правильно! 'Співак джазу' (1927) став першим повнометражним звуковим фільмом, що започаткував еру звукового кіно."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "cinema_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q1_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "cinema_q1"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q2:
-  content:
-    - type: text
-      text: "Питання 2️⃣ "
-  message: "Який режисер отримав перший в історії 'Оскар' за найкращу режисуру в 1929 році?"
-  button_type: reply
-  buttons:
-    - label: "Чарлі Чаплін"
-      next: "cinema_q2_wrong"
-    - label: "Д. В. Гріффіт"
-      next: "cinema_q2_wrong"
-    - label: "Френк Борзейдж"
-      next: "cinema_q2_correct"
-    - label: "Бастер Кітон"
-      next: "cinema_q2_wrong"
-
-cinema_q2_correct:
-  message: "✅ Правильно! Френк Борзейдж отримав перший 'Оскар' за найкращу режисуру за фільм 'Сьоме небо' на церемонії 1929 року."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "cinema_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q2_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "cinema_q2"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q3:
-  content:
-    - type: text
-      text: "Питання 3️⃣ "
-  message: "Який фільм 1972 року встановив стандарт для сучасного гангстерського жанру?"
-  button_type: reply
-  buttons:
-    - label: "Скажений бик"
-      next: "cinema_q3_wrong"
-    - label: "Хрещений батько"
-      next: "cinema_q3_correct"
-    - label: "Таксист"
-      next: "cinema_q3_wrong"
-    - label: "Одного разу в Америці"
-      next: "cinema_q3_wrong"
-
-cinema_q3_correct:
-  message: "✅ Правильно! 'Хрещений батько' (1972) Френсіса Форда Копполи став культовим фільмом, що визначив сучасний гангстерський жанр."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "cinema_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q3_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "cinema_q3"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q4:
-  content:
-    - type: text
-      text: "Питання 4️⃣ "
-  message: "Яка техніка монтажу, розроблена Сергієм Ейзенштейном, використовувалася для створення емоційного впливу у фільмі 'Броненосець Потьомкін' (1925)?"
-  button_type: reply
-  buttons:
-    - label: "Паралельний монтаж"
-      next: "cinema_q4_wrong"
-    - label: "Монтаж атракціонів"
-      next: "cinema_q4_correct"
-    - label: "Континуїтетний монтаж"
-      next: "cinema_q4_wrong"
-    - label: "Нелінійний монтаж"
-      next: "cinema_q4_wrong"
-
-cinema_q4_correct:
-  message: "✅ Правильно! Монтаж атракціонів, розроблений Ейзенштейном, використовував контрастні образи для створення емоційного впливу в 'Броненосці Потьомкін'."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "cinema_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q4_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "cinema_q4"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q5:
-  content:
-    - type: text
-      text: "Питання 5️⃣ "
-  message: "Який фільм 1999 року популяризував концепцію 'куленосного часу' (bullet time) у кінематографі?"
-  button_type: reply
-  buttons:
-    - label: "Термінатор 2"
-      next: "cinema_q5_wrong"
-    - label: "Матриця"
-      next: "cinema_q5_correct"
-    - label: "Бійцівський клуб"
-      next: "cinema_q5_wrong"
-    - label: "Швидкість"
-      next: "cinema_q5_wrong"
-
-cinema_q5_correct:
-  message: "✅ Правильно! 'Матриця' (1999) братів Вачовскі популяризувала техніку 'bullet time', створюючи ефект уповільненого руху."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "cinema_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q5_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "cinema_q5"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q6:
-  content:
-    - type: text
-      text: "Питання 6️⃣ "
-  message: "Який режисер є єдиним, хто отримав 'Золоту пальмову гілку' Каннського кінофестивалю за два фільми поспіль?"
-  button_type: reply
-  buttons:
-    - label: "Квентін Тарантіно"
-      next: "cinema_q6_wrong"
-    - label: "Мартін Скорсезе"
-      next: "cinema_q6_wrong"
-    - label: "Білле Аугуст"
-      next: "cinema_q6_correct"
-    - label: "Акіра Куросава"
-      next: "cinema_q6_wrong"
-
-cinema_q6_correct:
-  message: "✅ Правильно! Білле Аугуст отримав 'Золоту пальмову гілку' за фільми 'Пелле-завойовник' (1988) і 'Найкращі наміри' (1992) поспіль."
-  button_type: reply
-  buttons:
-    - label: "Далі ➡️"
-      next: "cinema_end"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_q6_wrong:
-  message: "❌ Неправильно! Спробуйте ще раз."
-  button_type: reply
-  buttons:
-    - label: "🔄 Спробувати ще раз"
-      next: "cinema_q6"
-    - label: "🔙 На головну"
-      next: "/start"
-
-cinema_end:
-  message: "🎉 Вітаємо! Ви завершили вікторину з кіно! Хочете спробувати іншу тему?"
-  button_type: reply
-  buttons:
-    - label: "🔙 На головну"
-      next: "/start"
+  /start:
+    conTent:
+      - type: text
+        text: "Test your knowledge and learn more about the world around you!"
+      - type: photo
+        file_name: Qstart.jpg
+        caption: "Start quest..."
+      - type: audio
+        file_name: start_quest.mp3
+    message: "Let's begin our journey. Choose a topic: "
+    button_type: inline
+    buttons:
+      - label: "🏛️ History"
+        next: "history_q1"
+      - label: "🔬 Science"
+        next: "science_q1"
+      - label: "🌎 Geography"
+        next: "geography_q1"
+      - label: "🎬 Cinema"
+        next: "cinema_q1"
+      - label: "🔗 GitHub"
+        url: "https://github.com/devexhale/telegram-infobot-engine"
+
+  # HISTORY
+  history_q1:
+    content:
+      - type: photo
+        file_name: History.jpg
+      - type: text
+        text: "Question 1️⃣ "
+    message: "Which event that took place on June 28, 1914, became the immediate catalyst for the outbreak of World War I?"
+    button_type: reply
+    buttons:
+      - label: "Assassination of Archduke Franz Ferdinand"
+        next: "history_q1_correct"
+      - label: "Signing of the Treaty of Versailles"
+        next: "history_q1_wrong"
+      - label: "German invasion of Belgium"
+        next: "history_q1_wrong"
+      - label: "Battle of the Somme"
+        next: "history_q1_wrong"
+
+  history_q1_correct:
+    message: "✅ Correct! The assassination of Archduke Franz Ferdinand in Sarajevo on June 28, 1914, triggered a chain of events that led to the start of World War I."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "history_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q1_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "history_q1"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q2:
+    content:
+      - type: text
+        text: "Question 2️⃣ "
+    message: "Who was the first President of the United States?"
+    button_type: reply
+    buttons:
+      - label: "Thomas Jefferson"
+        next: "history_q2_wrong"
+      - label: "Abraham Lincoln"
+        next: "history_q2_wrong"
+      - label: "George Washington"
+        next: "history_q2_correct"
+      - label: "John Adams"
+        next: "history_q2_wrong"
+
+  history_q2_correct:
+    message: "✅ Correct! George Washington was the first President of the United States from 1789 to 1797."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "history_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q2_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "history_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q3:
+    content:
+      - type: text
+        text: "Question 3️⃣ "
+    message: "When did the French Revolution take place?"
+    button_type: reply
+    buttons:
+      - label: "1789–1799"
+        next: "history_q3_correct"
+      - label: "1776–1783"
+        next: "history_q3_wrong"
+      - label: "1803–1815"
+        next: "history_q3_wrong"
+      - label: "1812–1815"
+        next: "history_q3_wrong"
+
+  history_q3_correct:
+    message: "✅ Correct! The French Revolution lasted from 1789 to 1799."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "history_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q3_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "history_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q4:
+    content:
+      - type: text
+        text: "Question 4️⃣ "
+    message: "Who was the founder of the Qing dynasty in China?"
+    button_type: reply
+    buttons:
+      - label: "Kunlun"
+        next: "history_q4_wrong"
+      - label: "Nurhaci"
+        next: "history_q4_correct"
+      - label: "Confucius"
+        next: "history_q4_wrong"
+      - label: "Qin Shi Huang"
+        next: "history_q4_wrong"
+
+  history_q4_correct:
+    message: "✅ Correct! Nurhaci founded the Qing dynasty in China in the early 17th century."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "history_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q4_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "history_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q5:
+    content:
+      - type: text
+        text: "Question 5️⃣ "
+    message: "Which event in 1648 marked the beginning of the largest Cossack uprising in the history of the Polish-Lithuanian Commonwealth?"
+    button_type: reply
+    buttons:
+      - label: "Koliivshchyna"
+        next: "history_q5_wrong"
+      - label: "Khmelnytsky Uprising"
+        next: "history_q5_correct"
+      - label: "Nalyvaiko Uprising"
+        next: "history_q5_wrong"
+      - label: "Kosynsky Uprising"
+        next: "history_q5_wrong"
+
+  history_q5_correct:
+    message: "✅ Correct! The Khmelnytsky Uprising (or the uprising led by Bohdan Khmelnytsky) began in 1648 and became the largest Cossack uprising against the Polish-Lithuanian Commonwealth."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "history_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q5_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "history_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q6:
+    content:
+      - type: text
+        text: "Question 6️⃣ "
+    message: "Which emperor began the construction of the Great Wall of China?"
+    button_type: reply
+    buttons:
+      - label: "Qin Shi Huang"
+        next: "history_q6_correct"
+      - label: "Confucius"
+        next: "history_q6_wrong"
+      - label: "Mao Zedong"
+        next: "history_q6_wrong"
+      - label: "Sun Yat-sen"
+        next: "history_q6_wrong"
+
+  history_q6_correct:
+    message: "✅ Correct! Qin Shi Huang was the first emperor of a unified China and initiated the construction of the Great Wall of China."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "history_end"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_q6_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "history_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  history_end:
+    message: "🎉 Congratulations! You have completed the history quiz! Would you like to try another topic?"
+    button_type: reply
+    buttons:
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  # SCIENCE
+  science_q1:
+    content:
+      - type: photo
+        file_name: Science.jpg
+      - type: text
+        text: "Question 1️⃣ "
+    message: "Which experiment conducted in 1887 disproved the existence of the luminiferous aether as a medium for the propagation of light?"
+    button_type: reply
+    buttons:
+      - label: "Rutherford experiment"
+        next: "science_q1_wrong"
+      - label: "Michelson–Morley experiment"
+        next: "science_q1_correct"
+      - label: "Thomson experiment"
+        next: "science_q1_wrong"
+      - label: "Millikan experiment"
+        next: "science_q1_wrong"
+
+  science_q1_correct:
+    message: "✅ Correct! The Michelson–Morley experiment in 1887 showed that the speed of light does not depend on motion through a hypothetical aether, paving the way for the theory of relativity."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "science_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q1_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "science_q1"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q2:
+    content:
+      - type: text
+        text: "Question 2️⃣ "
+    message: "Which chemical element was discovered on the Sun before it was found on Earth, thanks to spectral analysis?"
+    button_type: reply
+    buttons:
+      - label: "Hydrogen"
+        next: "science_q2_wrong"
+      - label: "Oxygen"
+        next: "science_q2_wrong"
+      - label: "Helium"
+        next: "science_q2_correct"
+      - label: "Nitrogen"
+        next: "science_q2_wrong"
+
+  science_q2_correct:
+    message: "✅ Correct! Helium was detected on the Sun in 1868 through spectral lines, and was only isolated on Earth in 1895."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "science_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q2_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "science_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q3:
+    content:
+      - type: text
+        text: "Question 3️⃣ "
+    message: "Which discovery made by Carl Anderson in 1932 confirmed the existence of antimatter?"
+    button_type: reply
+    buttons:
+      - label: "Discovery of the neutrino"
+        next: "science_q3_wrong"
+      - label: "Discovery of the proton"
+        next: "science_q3_wrong"
+      - label: "Discovery of the quark"
+        next: "science_q3_wrong"
+      - label: "Discovery of the positron"
+        next: "science_q3_correct"
+
+  science_q3_correct:
+    message: "✅ Correct! The discovery of the positron by Carl Anderson in 1932 provided the first evidence of antimatter, confirming Dirac’s theory."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "science_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q3_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "science_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q4:
+    content:
+      - type: text
+        text: "Question 4️⃣ "
+    message: "Which biological process, whose structure was revealed in 1953, underlies the copying of genetic information in cells?"
+    button_type: reply
+    buttons:
+      - label: "RNA transcription"
+        next: "science_q4_wrong"
+      - label: "Protein translation"
+        next: "science_q4_wrong"
+      - label: "DNA replication"
+        next: "science_q4_correct"
+      - label: "Meiosis"
+        next: "science_q4_wrong"
+
+  science_q4_correct:
+    message: "✅ Correct! DNA replication, whose double-helix model was proposed by Watson and Crick in 1953, ensures the copying of genetic information during cell division."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "science_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q4_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "science_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q5:
+    content:
+      - type: text
+        text: "Question 5️⃣ "
+    message: "Which cosmological model proposed by Georges Lemaître in 1927 describes the expansion of the Universe?"
+    button_type: reply
+    buttons:
+      - label: "Steady-state theory"
+        next: "science_q5_wrong"
+      - label: "String theory"
+        next: "science_q5_wrong"
+      - label: "Dark energy theory"
+        next: "science_q5_wrong"
+      - label: "Big Bang theory"
+        next: "science_q5_correct"
+
+  science_q5_correct:
+    message: "✅ Correct! The Big Bang theory, proposed by Georges Lemaître in 1927, explains the expansion of the Universe from an initial singularity."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "science_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q5_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "science_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q6:
+    content:
+      - type: text
+        text: "Question 6️⃣ "
+    message: "Which phenomenon predicted by Albert Einstein in 1915 was first confirmed by observations made by Arthur Eddington in 1919?"
+    button_type: reply
+    buttons:
+      - label: "Photoelectric effect"
+        next: "science_q6_wrong"
+      - label: "Doppler effect"
+        next: "science_q6_wrong"
+      - label: "Gravitational lensing"
+        next: "science_q6_correct"
+      - label: "Quantum entanglement"
+        next: "science_q6_wrong"
+
+  science_q6_correct:
+    message: "✅ Correct! Gravitational lensing, predicted by Einstein’s general theory of relativity, was confirmed by Eddington during the solar eclipse of 1919."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "science_end"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_q6_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "science_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  science_end:
+    message: "🎉 Congratulations! You have completed the science quiz! Would you like to try another topic?"
+    button_type: reply
+    buttons:
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  # GEOGRAPHY
+  geography_q1:
+    content:
+      - type: photo
+        file_name: Geography.jpeg
+      - type: text
+        text: "Question 1️⃣ "
+    message: "Which geographical feature is the deepest point in the World Ocean?"
+    button_type: reply
+    buttons:
+      - label: "Philippine Trench"
+        next: "geography_q1_wrong"
+      - label: "Mariana Trench"
+        next: "geography_q1_correct"
+      - label: "Puerto Rico Trench"
+        next: "geography_q1_wrong"
+      - label: "Java Trench"
+        next: "geography_q1_wrong"
+
+  geography_q1_correct:
+    message: "✅ Correct! The Mariana Trench, located in the Pacific Ocean, is the deepest point in the World Ocean, with a depth of about 11 km."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "geography_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q1_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "geography_q1"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q2:
+    content:
+      - type: text
+        text: "Question 2️⃣ "
+    message: "Which country has the largest number of freshwater lakes in the world?"
+    button_type: reply
+    buttons:
+      - label: "Finland"
+        next: "geography_q2_wrong"
+      - label: "Russia"
+        next: "geography_q2_wrong"
+      - label: "Canada"
+        next: "geography_q2_correct"
+      - label: "Brazil"
+        next: "geography_q2_wrong"
+
+  geography_q2_correct:
+    message: "✅ Correct! Canada has the largest number of freshwater lakes in the world, including the Great Lakes and numerous smaller ones."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "geography_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q2_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "geography_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q3:
+    content:
+      - type: text
+        text: "Question 3️⃣ "
+    message: "Which geological fault is the cause of frequent earthquakes in California?"
+    button_type: reply
+    buttons:
+      - label: "Alpine Fault"
+        next: "geography_q3_wrong"
+      - label: "San Andreas Fault"
+        next: "geography_q3_correct"
+      - label: "Himalayan Fault"
+        next: "geography_q3_wrong"
+      - label: "Mid-Ocean Ridge"
+        next: "geography_q3_wrong"
+
+  geography_q3_correct:
+    message: "✅ Correct! The San Andreas Fault is a tectonic fault that causes numerous earthquakes in California due to plate movement."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "geography_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q3_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "geography_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q4:
+    content:
+      - type: text
+        text: "Question 4️⃣ "
+    message: "Which sea, located between the Arabian Peninsula and Africa, is the saltiest in the world?"
+    button_type: reply
+    buttons:
+      - label: "Black Sea"
+        next: "geography_q4_wrong"
+      - label: "Dead Sea"
+        next: "geography_q4_wrong"
+      - label: "Red Sea"
+        next: "geography_q4_correct"
+      - label: "Caspian Sea"
+        next: "geography_q4_wrong"
+
+  geography_q4_correct:
+    message: "✅ Correct! The Red Sea has the highest salinity among the seas of the World Ocean due to high temperatures and evaporation."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "geography_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q4_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "geography_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q5:
+    content:
+      - type: text
+        text: "Question 5️⃣ "
+    message: "Which country is the world’s largest exporter of coffee?"
+    button_type: reply
+    buttons:
+      - label: "Colombia"
+        next: "geography_q5_wrong"
+      - label: "Ethiopia"
+        next: "geography_q5_wrong"
+      - label: "Vietnam"
+        next: "geography_q5_wrong"
+      - label: "Brazil"
+        next: "geography_q5_correct"
+
+  geography_q5_correct:
+    message: "✅ Correct! Brazil is the world’s largest exporter of coffee, producing about 40% of the global supply."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "geography_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q5_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "geography_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q6:
+    content:
+      - type: text
+        text: "Question 6️⃣ "
+    message: "Which archipelago, visited by Charles Darwin in 1835 (often associated with his 1831–1836 voyage), became key to his theory of evolution?"
+    button_type: reply
+    buttons:
+      - label: "Hawaiian Islands"
+        next: "geography_q6_wrong"
+      - label: "Philippine Islands"
+        next: "geography_q6_wrong"
+      - label: "Galápagos Islands"
+        next: "geography_q6_correct"
+      - label: "Maldives"
+        next: "geography_q6_wrong"
+
+  geography_q6_correct:
+    message: "✅ Correct! The Galápagos Islands, visited by Darwin during the voyage of the Beagle, provided unique evidence of speciation that formed the basis of his theory of evolution."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "geography_end"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_q6_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "geography_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  geography_end:
+    message: "🎉 Congratulations! You have completed the geography quiz! Would you like to try another topic?"
+    button_type: reply
+    buttons:
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  # CINEMA
+  cinema_q1:
+    content:
+      - type: photo
+        file_name: Movie.jpg
+      - type: text
+        text: "Question 1️⃣ "
+    message: "Which 1927 film is considered the first feature-length sound film in the history of cinema?"
+    button_type: reply
+    buttons:
+      - label: "Metropolis"
+        next: "cinema_q1_wrong"
+      - label: "The Jazz Singer"
+        next: "cinema_q1_correct"
+      - label: "Sunrise"
+        next: "cinema_q1_wrong"
+      - label: "The Big Parade"
+        next: "cinema_q1_wrong"
+
+  cinema_q1_correct:
+    message: "✅ Correct! The Jazz Singer (1927) became the first feature-length sound film and ushered in the era of talking pictures."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "cinema_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q1_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "cinema_q1"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q2:
+    content:
+      - type: text
+        text: "Question 2️⃣ "
+    message: "Which director received the first Academy Award for Best Director in history in 1929?"
+    button_type: reply
+    buttons:
+      - label: "Charlie Chaplin"
+        next: "cinema_q2_wrong"
+      - label: "D. W. Griffith"
+        next: "cinema_q2_wrong"
+      - label: "Frank Borzage"
+        next: "cinema_q2_correct"
+      - label: "Buster Keaton"
+        next: "cinema_q2_wrong"
+
+  cinema_q2_correct:
+    message: "✅ Correct! Frank Borzage received the first Academy Award for Best Director for the film 7th Heaven at the 1929 ceremony."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "cinema_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q2_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "cinema_q2"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q3:
+    content:
+      - type: text
+        text: "Question 3️⃣ "
+    message: "Which 1972 film set the standard for the modern gangster genre?"
+    button_type: reply
+    buttons:
+      - label: "Raging Bull"
+        next: "cinema_q3_wrong"
+      - label: "The Godfather"
+        next: "cinema_q3_correct"
+      - label: "Taxi Driver"
+        next: "cinema_q3_wrong"
+      - label: "Once Upon a Time in America"
+        next: "cinema_q3_wrong"
+
+  cinema_q3_correct:
+    message: "✅ Correct! The Godfather (1972) directed by Francis Ford Coppola became a landmark film that defined the modern gangster genre."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "cinema_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q3_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "cinema_q3"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q4:
+    content:
+      - type: text
+        text: "Question 4️⃣ "
+    message: "Which editing technique developed by Sergei Eisenstein was used to create emotional impact in the film Battleship Potemkin (1925)?"
+    button_type: reply
+    buttons:
+      - label: "Parallel editing"
+        next: "cinema_q4_wrong"
+      - label: "Montage of attractions"
+        next: "cinema_q4_correct"
+      - label: "Continuity editing"
+        next: "cinema_q4_wrong"
+      - label: "Non-linear editing"
+        next: "cinema_q4_wrong"
+
+  cinema_q4_correct:
+    message: "✅ Correct! The montage of attractions, developed by Eisenstein, used contrasting images to create emotional impact in Battleship Potemkin."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "cinema_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q4_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "cinema_q4"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q5:
+    content:
+      - type: text
+        text: "Question 5️⃣ "
+    message: "Which 1999 film popularized the concept of ‘bullet time’ in cinema?"
+    button_type: reply
+    buttons:
+      - label: "Terminator 2"
+        next: "cinema_q5_wrong"
+      - label: "The Matrix"
+        next: "cinema_q5_correct"
+      - label: "Fight Club"
+        next: "cinema_q5_wrong"
+      - label: "Speed"
+        next: "cinema_q5_wrong"
+
+  cinema_q5_correct:
+    message: "✅ Correct! The Matrix (1999) by the Wachowskis popularized the ‘bullet time’ technique, creating the effect of slowed-down motion."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "cinema_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q5_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "cinema_q5"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q6:
+    content:
+      - type: text
+        text: "Question 6️⃣ "
+    message: "Which director is the only one to have won the Palme d’Or at the Cannes Film Festival for two consecutive films?"
+    button_type: reply
+    buttons:
+      - label: "Quentin Tarantino"
+        next: "cinema_q6_wrong"
+      - label: "Martin Scorsese"
+        next: "cinema_q6_wrong"
+      - label: "Bille August"
+        next: "cinema_q6_correct"
+      - label: "Akira Kurosawa"
+        next: "cinema_q6_wrong"
+
+  cinema_q6_correct:
+    message: "✅ Correct! Bille August won the Palme d’Or for Pelle the Conqueror (1988) and The Best Intentions (1992) in consecutive years."
+    button_type: reply
+    buttons:
+      - label: "Next ➡️"
+        next: "cinema_end"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_q6_wrong:
+    message: "❌ Incorrect! Try again."
+    button_type: reply
+    buttons:
+      - label: "🔄 Try again"
+        next: "cinema_q6"
+      - label: "🔙 Back to main menu"
+        next: "/start"
+
+  cinema_end:
+    message: "🎉 Congratulations! You have completed the cinema quiz! Would you like to try another topic?"
+    button_type: reply
+    buttons:
+      - label: "🔙 Back to main menu"
+        next: "/start"

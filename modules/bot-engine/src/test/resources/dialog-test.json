@@ -3,7 +3,7 @@
     "content": [
       {
         "type": "text",
-        "text": "Перевірте свої знання та дізнайтесь більше про світ навколо!"
+        "text": "Test your knowledge and learn more about the world around you!"
       },
       {
         "type": "photo",
@@ -14,23 +14,23 @@
         "file_name": "start_quest.mp3"
       }
     ],
-    "message": "Почнемо нашу подорож. Оберіть тему: ",
+    "message": "Let's begin our journey. Choose a topic: ",
     "button_type": "inline",
     "buttons": [
       {
-        "label": "🏛️ Історія",
+        "label": "🏛️ History",
         "next": "history_q1"
       },
       {
-        "label": "🔬 Наука",
+        "label": "🔬 Science",
         "next": "science_q1"
       },
       {
-        "label": "🌎 Географія",
+        "label": "🌎 Geography",
         "next": "geography_q1"
       },
       {
-        "label": "🎬 Кіно",
+        "label": "🎬 Cinema",
         "next": "cinema_q1"
       },
       {

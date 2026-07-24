@@ -7,7 +7,7 @@ plugins {
 
 group = 'io.github.devexhale'
 version = '1.0.0'
-description = 'Telegram Infobot Engine Spring Boot Starter'
+description = 'Telegram InfoBot Engine Spring Boot Starter'
 
 java {
     toolchain {
@@ -130,6 +130,7 @@ publishing {
     publications {
         register("mavenJava", MavenPublication) {
             from components.java
+            artifactId = 'telegram-infobot-engine-spring-boot-starter'
         }
     }
     repositories {
