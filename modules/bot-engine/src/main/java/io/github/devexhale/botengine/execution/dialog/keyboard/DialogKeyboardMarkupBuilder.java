@@ -29,25 +29,6 @@ public class DialogKeyboardMarkupBuilder {
   private final DialogProperties dialogProperties;
 
   /**
-   * Builds a {@link ReplyKeyboardMarkup} from the provided buttons.
-   *
-   * @param buttons the list of buttons to include
-   * @return the configured reply keyboard markup
-   */
-  ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
-    List<KeyboardRow> rows =
-        splitButtons(
-            buttons, btn -> KeyboardButton.builder().text(btn.label()).build(), KeyboardRow::new);
-
-    return ReplyKeyboardMarkup.builder()
-        .keyboard(rows)
-        .resizeKeyboard(true)
-        .oneTimeKeyboard(true)
-        .isPersistent(true)
-        .build();
-  }
-
-  /**
    * Builds an {@link InlineKeyboardMarkup} from the provided buttons.
    *
    * @param buttons the list of buttons to include
@@ -66,6 +47,25 @@ public class DialogKeyboardMarkupBuilder {
             InlineKeyboardRow::new);
 
     return InlineKeyboardMarkup.builder().keyboard(rows).build();
+  }
+
+  /**
+   * Builds a {@link ReplyKeyboardMarkup} from the provided buttons.
+   *
+   * @param buttons the list of buttons to include
+   * @return the configured reply keyboard markup
+   */
+  ReplyKeyboardMarkup buildReplyKeyboard(List<Button> buttons) {
+    List<KeyboardRow> rows =
+        splitButtons(
+            buttons, btn -> KeyboardButton.builder().text(btn.label()).build(), KeyboardRow::new);
+
+    return ReplyKeyboardMarkup.builder()
+        .keyboard(rows)
+        .resizeKeyboard(true)
+        .oneTimeKeyboard(true)
+        .isPersistent(true)
+        .build();
   }
 
   /**

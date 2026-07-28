@@ -269,6 +269,51 @@ class DialogValidatorTest {
   }
 
   @Test
+  void validate_shouldThrowError_whenNullTypeButtonHasNeitherUrlNorNext() {
+    Button emptyButtonWithNullType = new Button(BUTTON_LABEL, null, null);
+    DialogNode nodeWithEmptyButtonAndNullType =
+        new DialogNode(List.of(), MESSAGE_TEXT, null, List.of(emptyButtonWithNullType));
+
+    Exception exception =
+        assertThrows(
+            Exception.class,
+            () ->
+                dialogValidator.validate(
+                    new DialogMap(Map.of(START_NODE_KEY, nodeWithEmptyButtonAndNullType)),
+                    FILE_NAME));
+
+    assertTrue(exception.getMessage().contains("must contain either 'next' or 'url'"));
+  }
+
+  @Test
+  void validate_shouldThrowError_whenNullTypeButtonHasBothUrlAndNext() {
+    Button overloadedButtonWithNullType = new Button(BUTTON_LABEL, NEXT_NODE_KEY, BUTTON_URL);
+    DialogNode nodeWithOverloadedButtonAndNullType =
+        new DialogNode(List.of(), MESSAGE_TEXT, null, List.of(overloadedButtonWithNullType));
+
+    Exception exception =
+        assertThrows(
+            Exception.class,
+            () ->
+                dialogValidator.validate(
+                    new DialogMap(Map.of(START_NODE_KEY, nodeWithOverloadedButtonAndNullType)),
+                    FILE_NAME));
+
+    assertTrue(exception.getMessage().contains("cannot contain both 'next' and 'url'"));
+  }
+
+  @Test
+  void validate_shouldNotThrow_whenNullTypeButtonContainsOnlyUrl() {
+    Button buttonWithNullTypeAndUrl = new Button(BUTTON_LABEL, null, BUTTON_URL);
+
+    DialogNode node =
+        new DialogNode(List.of(), MESSAGE_TEXT, null, List.of(buttonWithNullTypeAndUrl));
+
+    assertDoesNotThrow(
+        () -> dialogValidator.validate(new DialogMap(Map.of(START_NODE_KEY, node)), FILE_NAME));
+  }
+
+  @Test
   void validate_shouldLogWarning_whenDuplicateButtonLabelsExist() {
     String expectedWarning = "duplicate button label";
     Button duplicateButton1 = new Button(BUTTON_LABEL, "next1", null);

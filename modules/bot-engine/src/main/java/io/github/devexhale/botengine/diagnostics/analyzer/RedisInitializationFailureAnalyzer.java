@@ -1,6 +1,7 @@
 package io.github.devexhale.botengine.diagnostics.analyzer;
 
 import io.github.devexhale.botengine.diagnostics.exception.RedisInitializationException;
+import lombok.NonNull;
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
@@ -11,10 +12,11 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
  * @since 1.0
  */
 public class RedisInitializationFailureAnalyzer
-    extends AbstractFailureAnalyzer<RedisInitializationException> {
+    extends AbstractFailureAnalyzer<@NonNull RedisInitializationException> {
 
   @Override
-  protected FailureAnalysis analyze(Throwable rootFailure, RedisInitializationException cause) {
+  protected FailureAnalysis analyze(
+      @NonNull Throwable rootFailure, RedisInitializationException cause) {
     String action =
         """
         Ensure that:

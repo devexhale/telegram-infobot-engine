@@ -137,7 +137,7 @@ public class DialogValidator extends AbstractDefinitionValidator<DialogMap> {
       return;
     }
 
-    if (buttonType == ButtonType.INLINE) {
+    if (buttonType == null || buttonType == ButtonType.INLINE) {
       if (!hasUrl && !hasNext) {
         context.addError(
             "%s must contain either 'next' or 'url' for inline button".formatted(path(buttonPath)));

@@ -1,5 +1,5 @@
   /start:
-    conTent:
+    content:
       - type: text
         text: "Test your knowledge and learn more about the world around you!"
       - type: photo

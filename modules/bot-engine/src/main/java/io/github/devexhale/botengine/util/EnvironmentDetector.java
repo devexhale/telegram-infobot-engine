@@ -10,6 +10,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class EnvironmentDetector {
 
+  private static final String SPRING_TEST_CONTEXT_CLASS =
+      "org.springframework.test.context.TestContext";
+
   /**
    * Determines whether the application is running in a test environment by checking for the
    * presence of {@code spring-test} on the classpath.
@@ -18,7 +21,7 @@ public class EnvironmentDetector {
    */
   public static boolean isTestEnvironment() {
     try {
-      Class.forName("org.springframework.test.context.TestContext");
+      Class.forName(SPRING_TEST_CONTEXT_CLASS);
       return true;
     } catch (ClassNotFoundException e) {
       return false;
