@@ -94,7 +94,7 @@ dependency:
 </dependency>
 ```
 
-## ⚙️ Configuration Properties Reference
+## 🔧 Configuration Properties Reference
 
 ### Bot Identity
 
@@ -353,7 +353,7 @@ When broadcasting is enabled (`telegram.bot.broadcast.enabled=true`), an additio
 It works exactly like the broadcast [return button](#broadcast--dialog-interaction): it restores the user's current
 dialog node, giving them a second, manual way back to the dialog in addition to the return button itself.
 
-## 🗄️ Redis Setup
+## 🔴 Redis Setup
 
 Redis is a required piece of infrastructure for the starter — it backs dialog state, message cleanup, distributed rate
 limiting, and broadcast delivery (see [Key Features](../../README.md#-key-features) for details on each). The Redis
@@ -385,7 +385,7 @@ spring.data.redis.port=6379
 If the application can't reach Redis at startup, it fails fast with a clear error pointing to the connection issue —
 see [Validation & Startup Errors](#-validation--startup-errors) for details.
 
-## 🛡️ Validation & Startup Errors
+## 🔍 Validation & Startup Errors
 
 The starter performs three fail-fast validation stages, in order — each one fully validating its own domain before the
 next one runs:
@@ -499,7 +499,7 @@ For a complete, runnable dialog and broadcast configuration — tying together e
 can launch a fully working bot and see how everything works — see the [`bot-template`](../bot-template) module and
 its [README](../bot-template/README.md).
 
-## ⚖️ License
+## 📜 License
 
 This module is distributed under the same [Apache 2.0 License](./LICENSE) as the rest of the project.
 
